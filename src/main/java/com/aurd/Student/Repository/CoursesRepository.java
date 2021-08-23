@@ -5,6 +5,7 @@ import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Request.GetCoursesRequest;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import org.hibernate.query.criteria.internal.expression.function.CurrentDateFunction;
+import org.jboss.resteasy.annotations.Query;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.sql.Date;
@@ -55,7 +56,7 @@ public class CoursesRepository implements PanacheRepository<CourseModel> {
         map.put(2,sdf.format(now.getTime()));
         map.put(2,sdf.format(calendar.getTime()));
 
-        find("created_at between =?1 and =?2",sdf.format(now.getTime()),sdf.format(calendar.getTime())).list();
+        //        find("SELECT * FROM `courses` WHERE  created_at BETWEEN '2021-01-26 00:00:01' AND '2021-01-26 23:59:59' ").list();
 
         return new ArrayList();
     }
