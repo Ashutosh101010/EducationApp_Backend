@@ -53,9 +53,8 @@ public class GetSubjectsController {
 
         ArrayList<Map_Subject_SubSubject> subSubjectIDList =   mapSubject_subSubject_repository.getSubSubjectsID(arrayList.get(i).getId());
         for(Map_Subject_SubSubject subSubjectModel :subSubjectIDList){
-         ArrayList<SubSubjectModel> list =  subSubject_repository.getSubSubjects(subSubjectModel.getSubsubId(),request.getInstID());
-         subjectsEntity.setArrayList(list);
-
+         ArrayList list =  subSubject_repository.getSubSubjects(subSubjectModel.getSubsubId(),request.getInstID());
+         subjectsEntity.setSubjectList(list);
         }
 
            mainList.add(subjectsEntity);

@@ -3,10 +3,12 @@ package com.aurd.Student.Model.Entity;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "sub_subjects")
 public class SubSubjectModel {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
