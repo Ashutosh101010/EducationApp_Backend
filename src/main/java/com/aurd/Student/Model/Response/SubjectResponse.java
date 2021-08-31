@@ -12,6 +12,15 @@ public class SubjectResponse {
     int statusCode;
     ArrayList<SubjectsEntity> subjectsList = new ArrayList();
 
+    ArrayList list = new ArrayList();
+
+    public ArrayList getList() {
+        return list;
+    }
+
+    public void setList(ArrayList list) {
+        this.list = list;
+    }
 
     public String getMessage() {
         return message;

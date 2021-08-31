@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "blog")
+
 public class BlogModel {
 
     @Id

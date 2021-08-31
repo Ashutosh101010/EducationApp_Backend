@@ -22,6 +22,17 @@ public class SubSubjectModel {
     @Column(name = "inst_id",nullable = false)
     private int inst_id;
 
+    @Transient
+    ArrayList<TopicModel> topicList=new ArrayList<>();
+
+    public ArrayList<TopicModel> getTopicList() {
+        return topicList;
+    }
+
+    public void setTopicList(ArrayList<TopicModel> topicList) {
+        this.topicList = topicList;
+    }
+
     public long getId() {
         return id;
     }

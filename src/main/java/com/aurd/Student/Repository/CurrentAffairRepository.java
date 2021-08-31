@@ -15,7 +15,6 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
         ArrayList<CurrentAffairModel> arrayList = new ArrayList();
         List<CurrentAffairModel> list = list("inst_id",request.getInst_id());
         arrayList.addAll(list);
-
         return  arrayList;
     }
 

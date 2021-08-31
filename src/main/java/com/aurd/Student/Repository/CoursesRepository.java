@@ -35,31 +35,7 @@ public class CoursesRepository implements PanacheRepository<CourseModel> {
 
     }
 
-    public ArrayList getTodayUpdateData(int instid){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        Calendar now = Calendar.getInstance();
-        now.set(Calendar.HOUR, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.set(Calendar.HOUR_OF_DAY, 0);
-        System.out.println(sdf.format(now.getTime()));
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR ,23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59 );
-
-
-        Map<Integer, Object>  map = new HashMap<>();
-        map.put(1,instid);
-        map.put(2,sdf.format(now.getTime()));
-        map.put(2,sdf.format(calendar.getTime()));
-
-        //        find("SELECT * FROM `courses` WHERE  created_at BETWEEN '2021-01-26 00:00:01' AND '2021-01-26 23:59:59' ").list();
-
-        return new ArrayList();
-    }
 
 
 }

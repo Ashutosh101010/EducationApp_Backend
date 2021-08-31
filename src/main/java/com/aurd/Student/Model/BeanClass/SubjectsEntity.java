@@ -7,14 +7,18 @@ import java.util.ArrayList;
 public class SubjectsEntity {
     private String subject;
     private long id;
-    private ArrayList<SubSubjectEntity> subjectList = new ArrayList();
 
-    public ArrayList<SubSubjectEntity> getSubjectList() {
-        return subjectList;
+
+
+    private ArrayList<SubSubjectModel> subSubjectList = new ArrayList();
+
+
+    public ArrayList<SubSubjectModel> getSubSubjectList() {
+        return subSubjectList;
     }
 
-    public void setSubjectList(ArrayList<SubSubjectEntity> subjectList) {
-        this.subjectList = subjectList;
+    public void setSubSubjectList(ArrayList<SubSubjectModel> subSubjectList) {
+        this.subSubjectList = subSubjectList;
     }
 
     public String getSubject() {
@@ -32,4 +36,8 @@ public class SubjectsEntity {
     public void setId(long id) {
         this.id = id;
     }
+
+
+
+
 }
