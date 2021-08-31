@@ -1,15 +1,17 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.BookMarkModel;
+
+
+import com.aurd.Student.Model.Entity.CityModel;
 
 import java.util.ArrayList;
 
-public class GetBookMarkResponse {
+public class GetCityResponse {
+
     String message;
     boolean status;
     int statusCode;
-
-    ArrayList<BookMarkModel> book = new ArrayList();
+     ArrayList<CityModel> cities = new ArrayList();
 
 
     public String getMessage() {
@@ -36,11 +38,14 @@ public class GetBookMarkResponse {
         this.statusCode = statusCode;
     }
 
-    public ArrayList<BookMarkModel> getBook() {
-        return book;
+    public ArrayList<CityModel> getCities() {
+        return cities;
     }
 
-    public void setBook(ArrayList<BookMarkModel> book) {
-        this.book = book;
+    public void setCities(ArrayList<CityModel> cities) {
+        this.cities = cities;
     }
 }
+
+
+
