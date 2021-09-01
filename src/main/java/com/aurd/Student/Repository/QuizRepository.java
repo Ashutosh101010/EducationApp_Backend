@@ -42,12 +42,12 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
 
 
-    public ArrayList getMonthlyTest(GetQuizRequest request){
+    public ArrayList getMonthlyTest(long instID,String type){
 
         ArrayList<QuizModel> arrayList = new ArrayList();
 
         List<QuizModel> list =  find("inst_id=?1 and type =?2",
-                request.getInst_id(),request.getType()).list();
+               instID,type).list();
 
         arrayList.addAll(list);
 

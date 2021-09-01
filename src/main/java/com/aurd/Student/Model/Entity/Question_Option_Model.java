@@ -12,7 +12,7 @@ public class Question_Option_Model {
     private long option_id;
 
     @Column(name = "question_id",nullable = false)
-    private long question_id;
+    private Long question_id;
 
 
     @Column(name = "option_discription",nullable = false)
@@ -27,11 +27,11 @@ public class Question_Option_Model {
         this.option_id = option_id;
     }
 
-    public long getQuestion_id() {
+    public Long getQuestion_id() {
         return question_id;
     }
 
-    public void setQuestion_id(long question_id) {
+    public void setQuestion_id(Long question_id) {
         this.question_id = question_id;
     }
 

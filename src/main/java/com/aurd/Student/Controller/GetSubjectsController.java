@@ -77,7 +77,8 @@ public class GetSubjectsController {
        arrayList.forEach(o -> {
 
 
-          SubjectsEntity subjectsEntity= getSubject(subjectsList,Long.parseLong(o[0].toString()));
+          SubjectsEntity subjectsEntity= getSubject(subjectsList
+                  ,Long.parseLong(o[0].toString()));
           if(subjectsEntity==null)
           {
               subjectsEntity=new SubjectsEntity();
@@ -101,7 +102,8 @@ public class GetSubjectsController {
 
           }else{
 
-              SubSubjectModel subSubjectModel=getSubSubject(subjectsEntity.getSubSubjectList(),Long.parseLong(o[1].toString()));
+              SubSubjectModel subSubjectModel=getSubSubject(subjectsEntity.getSubSubjectList(),
+                      Long.parseLong(o[1].toString()));
 
               if(subSubjectModel==null)
               {

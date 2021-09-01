@@ -9,7 +9,14 @@ import javax.enterprise.context.ApplicationScoped;
 import java.util.ArrayList;
 
 @ApplicationScoped
-public class PractiseTestSeries_Repository implements PanacheRepository<TestSeriesModel> {
+public class TestSeries_Repository implements PanacheRepository<TestSeriesModel> {
+
+
+    public  ArrayList getAllTestSeries(long instID){
+        ArrayList<TestSeriesModel> arrayList = (ArrayList<TestSeriesModel>)
+                find("inst_id =?1",instID).list();
+        return  arrayList;
+    }
 
     public ArrayList getPractiseTest(long instID, long quizID){
      ArrayList<TestSeriesModel> arrayList = (ArrayList<TestSeriesModel>)

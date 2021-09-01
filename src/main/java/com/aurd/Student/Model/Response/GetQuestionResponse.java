@@ -4,7 +4,7 @@ import com.aurd.Student.Model.BeanClass.QuizQuestionEntity;
 
 import java.util.ArrayList;
 
-public class GetQuizQuestionResponse {
+public class GetQuestionResponse {
     String message;
     int errorCode;
     boolean status;

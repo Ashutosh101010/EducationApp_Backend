@@ -1,10 +1,7 @@
 package com.aurd.Student.Model.BeanClass;
 
 import com.aurd.Student.Model.Entity.Question_Option_Model;
-import com.aurd.Student.Model.Request.GetQuizQuestionRequest;
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
-import javax.persistence.Entity;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
@@ -22,6 +19,24 @@ public class QuizQuestionEntity {
     long quiz_id;
     ArrayList<Question_Option_Model> options = new ArrayList<>();
     long subject_id;
+    long option_id;
+    String option_discription;
+
+    public long getOption_id() {
+        return option_id;
+    }
+
+    public void setOption_id(long option_id) {
+        this.option_id = option_id;
+    }
+
+    public String getOption_discription() {
+        return option_discription;
+    }
+
+    public void setOption_discription(String option_discription) {
+        this.option_discription = option_discription;
+    }
 
     public ArrayList<Question_Option_Model> getOptions() {
         return options;

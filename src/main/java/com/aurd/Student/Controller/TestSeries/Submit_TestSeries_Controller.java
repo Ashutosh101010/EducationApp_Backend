@@ -2,7 +2,7 @@ package com.aurd.Student.Controller.TestSeries;
 
 import com.aurd.Student.Model.Request.testseries.Submit_PracticeTest_Request;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Repository.PractiseTestSeries_Repository;
+import com.aurd.Student.Repository.TestSeries_Repository;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -18,7 +18,7 @@ public class Submit_TestSeries_Controller {
 
 
     @Inject
-    PractiseTestSeries_Repository repository;
+    TestSeries_Repository repository;
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

@@ -1,15 +1,13 @@
 package com.aurd.Student.Controller.TestSeries;
 
-import com.aurd.Student.Model.BeanClass.QuizQuestionEntity;
 import com.aurd.Student.Model.BeanClass.ResultEntity;
 import com.aurd.Student.Model.Entity.Quiz_Question_Model;
 import com.aurd.Student.Model.Entity.Quiz_Submit_Model;
 import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.testseries.Get_PracticeTest_Result_Request;
-import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Model.Response.TestSeries.PracticeTest_Result_Response;
 import com.aurd.Student.Repository.Get_QuestionID_Repository;
-import com.aurd.Student.Repository.PractiseTestSeries_Repository;
+import com.aurd.Student.Repository.TestSeries_Repository;
 import com.aurd.Student.Repository.QuizQuestionRepository;
 import com.aurd.Student.Repository.Quiz_Submit_Repository;
 
@@ -29,7 +27,7 @@ public class GetPractiseTest_Result_Controller {
     Quiz_Submit_Repository repository;
 
     @Inject
-    PractiseTestSeries_Repository testSeries_repository;
+    TestSeries_Repository testSeries_repository;
 
     @Inject
     Get_QuestionID_Repository questionID_repository;

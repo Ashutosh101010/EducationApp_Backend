@@ -3,7 +3,7 @@ package com.aurd.Student.Controller.TestSeries;
 
 import com.aurd.Student.Model.Request.testseries.Get_PractiseTestSeries_Request;
 import com.aurd.Student.Model.Response.TestSeries.PractiseTestSeries_Response;
-import com.aurd.Student.Repository.PractiseTestSeries_Repository;
+import com.aurd.Student.Repository.TestSeries_Repository;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class Get_PractiseTestSeries_Controller {
 
     @Inject
-    PractiseTestSeries_Repository repository;
+    TestSeries_Repository repository;
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

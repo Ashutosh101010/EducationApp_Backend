@@ -1,6 +1,6 @@
 package com.aurd.Student.Model.Request;
 
-public class GetQuizQuestionRequest {
+public class GetQuestionRequest {
     long quiz_id;
 
     public long getQuiz_id() {

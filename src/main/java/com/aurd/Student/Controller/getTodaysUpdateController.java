@@ -1,11 +1,13 @@
 package com.aurd.Student.Controller;
 
+import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.Entity.BlogModel;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
 import com.aurd.Student.Model.Response.LatestUpdateResponse;
 import com.aurd.Student.Repository.BlogRepository;
 import com.aurd.Student.Repository.CoursesRepository;
 import com.aurd.Student.Repository.CurrentAffairRepository;
+import com.aurd.Student.Repository.NotesRepository;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
@@ -16,6 +18,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +35,9 @@ public class getTodaysUpdateController {
 
     @Inject
     CurrentAffairRepository currentAffairRepository;
+
+    @Inject
+    NotesRepository notesRepository;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -71,6 +77,25 @@ public class getTodaysUpdateController {
         ArrayList<CurrentAffairModel> caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 
 
+        String notesQuery = "SELECT notes.name, notes.file,notes.created_at, topics.topic, employees.fname, employees.id" +
+                " FROM notes INNER JOIN topics ON topics.id=notes.topicId INNER JOIN employees ON employees.id=notes.teacher_id" +
+                " WHERE notes.inst_id = ? AND notes.created_at BETWEEN ? AND ? ";
+        Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery);
+        notes.setParameter(1,54);
+        notes.setParameter(2,"2021-02-01 00:00:00");
+        notes.setParameter(3,"2021-02-01 23:59:59");
+        ArrayList<Object[]> tempList = (ArrayList<Object[]>) notes.getResultList();
+        ArrayList<NotesEntity> notesList = new ArrayList<>();
+        tempList.forEach(objects ->{
+            NotesEntity notesEntity = new NotesEntity();
+            notesEntity.setName(objects[0].toString());
+            notesEntity.setFile(objects[1].toString());
+            notesEntity.setTopic(objects[3].toString());
+            notesEntity.setTeacherName(objects[4].toString());
+            notesEntity.setTeacher_id(Integer.parseInt(objects[5].toString()));
+
+            notesList.add(notesEntity);
+        });
 //
 //        String query ="SELECT blog.title as blogTitle, blog.description as blogDescription , blog.id as blogID,blog.thumbnail as blogImage, blog.tags as blogTags, current_affairs.id as currentAffairID, current_affairs.title as currentAffairTitle, current_affairs.description as currentAffairDescription , current_affairs.thumbnail as currentAffairImage FROM `blog` INNER JOIN current_affairs ON current_affairs.inst_id = blog.inst_id WHERE created_on BETWEEN ? AND ? AND blog.inst_id = ? as TodaysUpdateModel;";
 //
@@ -99,6 +124,7 @@ public class getTodaysUpdateController {
     response.setErrorCode(0);
     response.setBlogList(blogList);
     response.setCurrentAffairList(caList);
+    response.setNotesList(notesList);
 
 
 
