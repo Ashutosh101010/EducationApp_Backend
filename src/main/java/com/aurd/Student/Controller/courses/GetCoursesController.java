@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.courses;
 
 import com.aurd.Student.Model.BeanClass.CourseEntity;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
@@ -23,7 +23,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
-@Path("/getCourses")
+@Path("/courses/getCourses")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class GetCoursesController {

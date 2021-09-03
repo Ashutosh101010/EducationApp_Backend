@@ -1,13 +1,12 @@
 package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.NotesEntity;
+import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.BlogModel;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
+import com.aurd.Student.Model.Entity.StudentPostModel;
 import com.aurd.Student.Model.Response.LatestUpdateResponse;
-import com.aurd.Student.Repository.BlogRepository;
-import com.aurd.Student.Repository.CoursesRepository;
-import com.aurd.Student.Repository.CurrentAffairRepository;
-import com.aurd.Student.Repository.NotesRepository;
+import com.aurd.Student.Repository.*;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
@@ -38,6 +37,15 @@ public class getTodaysUpdateController {
 
     @Inject
     NotesRepository notesRepository;
+
+    @Inject
+    StudentPostRepository postRepository;
+
+    @Inject
+    StudentPostCommentRepository commentRepository;
+
+    @Inject
+    StudentPostLikedRepository likedRepository;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
@@ -96,26 +104,42 @@ public class getTodaysUpdateController {
 
             notesList.add(notesEntity);
         });
-//
-//        String query ="SELECT blog.title as blogTitle, blog.description as blogDescription , blog.id as blogID,blog.thumbnail as blogImage, blog.tags as blogTags, current_affairs.id as currentAffairID, current_affairs.title as currentAffairTitle, current_affairs.description as currentAffairDescription , current_affairs.thumbnail as currentAffairImage FROM `blog` INNER JOIN current_affairs ON current_affairs.inst_id = blog.inst_id WHERE created_on BETWEEN ? AND ? AND blog.inst_id = ? as TodaysUpdateModel;";
-//
-//       Query q =  blogRepository.getEntityManager()
-//                .createNativeQuery(query);
-//       q.setParameter(1,sdf.format(now.getTime()));
-//       q.setParameter(2,sdf.format(calendar.getTime()));
-//        q.setParameter(1,"2021-03-13 00:00:01");
-//        q.setParameter(2,"2021-03-13 23:59:59");
-//       q.setParameter(3,instID);
-//
-//
-//     ArrayList<Object[]> arrayList = (ArrayList<Object[]>) q.getResultList();
-//
-//    arrayList.forEach(objects -> {
-//        TodaysUpdateModel todaysUpdateModel=new TodaysUpdateModel();
-//        todaysUpdateModel.setBlogTitle(objects[0].toString());
-//    });
 
 
+        String studentPostQuery = "SELECT student_posts.id,student_posts.discription,student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+                "student_posts.added_on, students.fname FROM `student_posts` INNER JOIN students ON students.id=student_posts.added_by " +
+                "WHERE student_posts.added_on BETWEEN ? and ? AND student_posts.inst_id = ?";
+        Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
+        studentPost.setParameter(1,"2021-05-25 00:00:00");
+        studentPost.setParameter(2,"2021-05-25 23:59:59");
+        studentPost.setParameter(3,53);
+      ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
+      ArrayList<StudentPostEntity> postList = new ArrayList<>();
+      tempPostList.forEach(objects -> {
+          StudentPostEntity postModel = new StudentPostEntity();
+          postModel.setId(Long.parseLong(objects[0].toString()));
+          postModel.setDescription(objects[1].toString());
+          postModel.setPic(objects[2].toString());
+          postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
+          postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
+          postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
+          postModel.setName(objects[6].toString());
+
+          String commentQuery = "SELECT COUNT(*) FROM `student_posts_commented` WHERE post_id =? ";
+       Query comment = commentRepository.getEntityManager().createNativeQuery(commentQuery);
+       comment.setParameter(1,12);
+      Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+      postModel.setComment(commentCount.longValue());
+
+
+          String likeQuery = "SELECT COUNT(*) FROM `student_posts_liked` WHERE post_id =? ";
+          Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
+          like.setParameter(1,13);
+          Integer likeCount = ((Number) like.getSingleResult()).intValue();
+          postModel.setLike(likeCount.longValue());
+
+         postList.add(postModel);
+      });
 
     LatestUpdateResponse response = new LatestUpdateResponse();
 
@@ -125,6 +149,7 @@ public class getTodaysUpdateController {
     response.setBlogList(blogList);
     response.setCurrentAffairList(caList);
     response.setNotesList(notesList);
+    response.setPostList(postList);
 
 
 

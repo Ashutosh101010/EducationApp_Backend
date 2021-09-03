@@ -1,16 +1,9 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.courses;
 
-
-import com.aurd.Student.Model.Entity.NotesModel;
-import com.aurd.Student.Model.Entity.TeacherModel;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
-import com.aurd.Student.Model.Entity.TopicModel;
 import com.aurd.Student.Model.Request.GetNotesRequest;
 import com.aurd.Student.Model.Response.GetNotesResponse;
 import com.aurd.Student.Repository.NotesRepository;
-import com.aurd.Student.Repository.TeacherRepository;
-import com.aurd.Student.Repository.TopicsRepository;
-import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -23,10 +16,8 @@ import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-@Path("/notes/getInsituteNotes")
-
-public class GetNotesController {
-
+@Path("/courses/getCourseNotes")
+public class GetCourseNotesController {
 
     @Inject
     NotesRepository repository;
@@ -47,10 +38,10 @@ public class GetNotesController {
         String string = "SELECT notes.name, notes.file , notes.teacher_id,notes.id,notes.created_at, " +
                 "employees.fname,topics.topic,notes.topicId FROM notes INNER JOIN employees ON " +
                 "employees.id= notes.teacher_id INNER JOIN topics ON topics.id= notes.topicId " +
-                "WHERE notes.inst_id = ?";
+                "WHERE notes.topicId = ?";
 
         Query query = repository.getEntityManager().createNativeQuery(string);
-        query.setParameter(1,request.getInst_id());
+        query.setParameter(1,request.getTopicId());
 
         ArrayList<Object[]> list = (ArrayList<Object[]>) query.getResultList();
         list.forEach(objects -> {

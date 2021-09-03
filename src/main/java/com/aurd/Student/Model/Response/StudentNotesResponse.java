@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.StudentNotesEntity;
 import com.aurd.Student.Model.Entity.CourseModel;
 import com.aurd.Student.Model.Entity.StudentNotesModel;
 
@@ -9,7 +10,7 @@ public class StudentNotesResponse {
     String message;
     boolean status;
     int statusCode;
-    ArrayList<StudentNotesModel> notes = new ArrayList();
+    ArrayList<StudentNotesEntity> notes = new ArrayList();
 
     public String getMessage() {
         return message;
@@ -35,11 +36,11 @@ public class StudentNotesResponse {
         this.statusCode = statusCode;
     }
 
-    public ArrayList<StudentNotesModel> getNotes() {
+    public ArrayList<StudentNotesEntity> getNotes() {
         return notes;
     }
 
-    public void setNotes(ArrayList<StudentNotesModel> notes) {
+    public void setNotes(ArrayList<StudentNotesEntity> notes) {
         this.notes = notes;
     }
 }

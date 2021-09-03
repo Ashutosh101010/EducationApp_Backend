@@ -27,9 +27,7 @@ import java.util.ArrayList;
 
             ArrayList<StateModel> arrayList = (ArrayList<StateModel>) repository.getState();
             ArrayList<String> states=new ArrayList<>();
-            arrayList.forEach(stateModel -> {states.add(stateModel.getName());
 
-            });
             arrayList.forEach(stateModel -> {
                 states.add(stateModel.getName());
             });

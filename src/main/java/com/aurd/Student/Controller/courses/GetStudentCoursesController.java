@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.courses;
 
 import com.aurd.Student.Model.BeanClass.StudentCourseEntity;
 import com.aurd.Student.Model.Entity.CourseModel;
@@ -18,7 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
-@Path("/getStudentCourse")
+@Path("/courses/getStudentCourse")
 public class GetStudentCoursesController {
 
     @Inject

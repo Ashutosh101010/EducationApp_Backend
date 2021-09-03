@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
@@ -56,6 +57,7 @@ public class StudentModel {
 
 
     @Column(name="dob", nullable = false)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
     private Date dob;
 
     @Column(name="gender", nullable = true)

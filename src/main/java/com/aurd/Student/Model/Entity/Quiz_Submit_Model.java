@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
@@ -40,6 +41,8 @@ public class Quiz_Submit_Model {
     private int is_marked;
 
     @Column(name = "added_on",nullable = false)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+
     private Timestamp added_on;
 
     @Column(name = "inst_id ",nullable = false)

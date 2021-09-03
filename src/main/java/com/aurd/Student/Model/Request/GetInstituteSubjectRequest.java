@@ -1,13 +1,13 @@
 package com.aurd.Student.Model.Request;
 
 public class GetInstituteSubjectRequest {
-    int instID;
+    int courseID;
 
-    public int getInstID() {
-        return instID;
+    public int getCourseID() {
+        return courseID;
     }
 
-    public void setInstID(int instID) {
-        this.instID = instID;
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
     }
 }

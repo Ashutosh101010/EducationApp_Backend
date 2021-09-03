@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.BeanClass.NotesEntity;
+import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.BlogModel;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
 
@@ -14,6 +15,15 @@ public class LatestUpdateResponse {
     ArrayList<BlogModel> blogList = new ArrayList<>();
     ArrayList<CurrentAffairModel> currentAffairList = new ArrayList<>();
     ArrayList<NotesEntity> notesList = new ArrayList<>();
+    ArrayList<StudentPostEntity> postList = new ArrayList<>();
+
+    public ArrayList<StudentPostEntity> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(ArrayList<StudentPostEntity> postList) {
+        this.postList = postList;
+    }
 
     public ArrayList<NotesEntity> getNotesList() {
         return notesList;

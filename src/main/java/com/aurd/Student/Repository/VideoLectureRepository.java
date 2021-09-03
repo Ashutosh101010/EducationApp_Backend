@@ -16,11 +16,14 @@ public class VideoLectureRepository implements PanacheRepository <VideoModel>{
 
 
     public ArrayList getVideoLectureList(long inst_id){
-
         ArrayList<VideoModel> arrayList = (ArrayList<VideoModel>) list("inst_id",inst_id);
         return  arrayList;
-
     }
 
+
+    public ArrayList getCourseVideoList(long topicId){
+        ArrayList<VideoModel> arrayList = (ArrayList<VideoModel>) list("topicId",topicId);
+        return  arrayList;
+    }
 
 }

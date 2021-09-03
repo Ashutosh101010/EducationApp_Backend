@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.courses;
 
 
 import com.aurd.Student.Model.BeanClass.SubjectsEntity;
@@ -22,7 +22,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
-@Path("/getInstituteSubjects")
+@Path("/courses/getCourseSubjects")
 public class GetSubjectsController {
 
 
@@ -61,10 +61,10 @@ public class GetSubjectsController {
                 " FROM subject_sub_subjects INNER JOIN subjects ON subjects.id=subject_sub_subjects.subjectId " +
                 "Inner JOIN sub_subjects ON subject_sub_subjects.subsubId=sub_subjects.id " +
                 "INNER JOIN subject_topics on subject_topics.subjectId=sub_subjects.id" +
-                " INNER JOIN topics ON topics.id=subject_topics.topicId where subjects.inst_id = ?";
+                " INNER JOIN topics ON topics.id=subject_topics.topicId where subjects.id in (select subjectId from course_subjects where course_subjects.courseId =? )";
 
         Query query = subjectRepository.getEntityManager().createNativeQuery(string);
-        query.setParameter(1,request.getInstID());
+        query.setParameter(1,request.getCourseID());
 
        ArrayList<Object[]> arrayList = (ArrayList<Object[]>) query.getResultList();
        ArrayList<SubjectsEntity> subjectsList = new ArrayList<>();
