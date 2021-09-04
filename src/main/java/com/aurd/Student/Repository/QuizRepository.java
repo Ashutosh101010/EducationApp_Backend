@@ -14,16 +14,20 @@ import java.util.List;
 public class QuizRepository implements PanacheRepository<QuizModel> {
 
     public ArrayList getQuizzes(GetQuizRequest request){
-        System.out.println(new Gson().toJson(request));
-
         ArrayList<QuizModel> arrayList = new ArrayList();
+        try {
+            System.out.println(new Gson().toJson(request));
 
-      List<QuizModel> list =  find("inst_id=?1 and type =?2",
-              request.getInst_id(),request.getType()).list();
+            List<QuizModel> list =  find("inst_id=?1 and type =?2",
+                    request.getInst_id(),request.getType()).list();
+            arrayList.addAll(list);
 
-      arrayList.addAll(list);
+            return  arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+            return arrayList;
+        }
 
-      return  arrayList;
 
     }
 

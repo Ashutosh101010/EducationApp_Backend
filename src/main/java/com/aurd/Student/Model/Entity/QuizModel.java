@@ -67,8 +67,8 @@ public class QuizModel {
     @Column(name = "test_duration",nullable = true)
     private Long test_duration;
 
-//    @Column(name = "added_on",nullable = false)
-//    private Timestamp added_on;
+    @Column(name = "added_on",nullable = false)
+    private Timestamp added_on;
 
     @Column(name = "added_by",nullable = false)
     private long added_by;

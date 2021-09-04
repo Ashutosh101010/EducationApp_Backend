@@ -36,10 +36,10 @@ public class StudentPostModel {
     @Null
     private Integer post_approved_by;
 
-    @Column(name = "post_approved_on",nullable = true)
-    @Nullable
-    @Null
-    private Timestamp post_approved_on;
+//    @Column(name = "post_approved_on",nullable = true)
+//    @Nullable
+//    @Null
+//    private Timestamp post_approved_on;
 
 
     public long getId() {
@@ -107,11 +107,7 @@ public class StudentPostModel {
         this.post_approved_by = post_approved_by;
     }
 
-    public Timestamp getPost_approved_on() {
-        return post_approved_on;
-    }
-
-    public void setPost_approved_on(Timestamp post_approved_on) {
-        this.post_approved_on = post_approved_on;
-    }
+//    public void setPost_approved_on(Timestamp post_approved_on) {
+//        this.post_approved_on = post_approved_on;
+//    }
 }

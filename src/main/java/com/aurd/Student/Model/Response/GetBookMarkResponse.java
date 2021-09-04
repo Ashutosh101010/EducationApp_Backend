@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.BookMarkEntity;
 import com.aurd.Student.Model.Entity.BookMarkModel;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ public class GetBookMarkResponse {
     boolean status;
     int statusCode;
 
-    ArrayList<BookMarkModel> book = new ArrayList();
+    ArrayList<BookMarkEntity> book = new ArrayList();
 
 
     public String getMessage() {
@@ -36,11 +37,11 @@ public class GetBookMarkResponse {
         this.statusCode = statusCode;
     }
 
-    public ArrayList<BookMarkModel> getBook() {
+    public ArrayList<BookMarkEntity> getBook() {
         return book;
     }
 
-    public void setBook(ArrayList<BookMarkModel> book) {
+    public void setBook(ArrayList<BookMarkEntity> book) {
         this.book = book;
     }
 }
