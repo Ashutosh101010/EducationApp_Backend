@@ -27,6 +27,9 @@ public class QuizSubmitController {
     @Transactional
 
     public GeneralResponse submitQuiz(QuizSubmitRequest request){
+
+        System.out.println(request);
+
         GeneralResponse response = new GeneralResponse();
        boolean value = repository.submitStudentQuizResponses(request);
         if(value){

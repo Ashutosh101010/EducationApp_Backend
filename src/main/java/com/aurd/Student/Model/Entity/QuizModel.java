@@ -93,6 +93,8 @@ public class QuizModel {
 
 
     @Column(name = "cutoff",nullable = true)
+    @Null
+    @Nullable
     private Long cutoff;
 
     @Column(name = "instruction",nullable = true)

@@ -1,14 +1,15 @@
-package com.aurd.Student.Controller.TestSeries;
+package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.ResultEntity;
+import com.aurd.Student.Model.Entity.QuizModel;
 import com.aurd.Student.Model.Entity.Quiz_Question_Model;
 import com.aurd.Student.Model.Entity.Quiz_Submit_Model;
 import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
-import com.aurd.Student.Model.Request.testseries.Get_PracticeTest_Result_Request;
+import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import com.aurd.Student.Model.Response.TestSeries.Result_Response;
 import com.aurd.Student.Repository.Get_QuestionID_Repository;
-import com.aurd.Student.Repository.TestSeries_Repository;
 import com.aurd.Student.Repository.QuizQuestionRepository;
+import com.aurd.Student.Repository.QuizRepository;
 import com.aurd.Student.Repository.Quiz_Submit_Repository;
 
 import javax.inject.Inject;
@@ -20,14 +21,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
-@Path("testSeries/getPracticeTestResult")
-public class GetPractiseTest_Result_Controller {
+@Path("/quiz/getQuizResult")
+public class GetQuizResultController {
 
     @Inject
-    Quiz_Submit_Repository repository;
-
-    @Inject
-    TestSeries_Repository testSeries_repository;
+    Quiz_Submit_Repository quiz_submit_repository;
 
     @Inject
     Get_QuestionID_Repository questionID_repository;
@@ -35,25 +33,26 @@ public class GetPractiseTest_Result_Controller {
     @Inject
     QuizQuestionRepository quizQuestionRepository;
 
-
+    @Inject
+    QuizRepository quizRepository;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
     @Transactional
-
-    public Result_Response getResult(Get_PracticeTest_Result_Request request){
-
+    public  Result_Response getResult(GetQuizResultRequest request){
         ResultEntity result = new ResultEntity();
-
         long totalMarks = 0;
         long marksObtained = 0;
         long correctAns =0;
         long wrongAns = 0;
+
+
+
 //        ArrayList<QuizQuestionEntity> arrayList = new ArrayList<>();
         ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
-                (ArrayList<Quiz_Question_Map_Model>) questionID_repository.getQuestionID(request.getQuiz_id());
+                (ArrayList<Quiz_Question_Map_Model>) questionID_repository.getQuestionID(request.getQuizID());
 
         System.out.println(quizQuestionIDList.size());
         Quiz_Question_Model quizQuestionModel;
@@ -61,10 +60,11 @@ public class GetPractiseTest_Result_Controller {
             totalMarks = totalMarks+model.getMarks();
         }
 
+
         result.setTotalMarks(totalMarks);
 
-        ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
-                (request.getInst_id(),request.getStud_id(),request.getQuiz_id());
+        ArrayList<Quiz_Submit_Model> arrayList = quiz_submit_repository.getStudentPracticeTestResult
+                (request.getInstID().intValue(),request.getStudID(),request.getQuizID());
         for(Quiz_Submit_Model quizSubmitModel :arrayList){
             marksObtained = marksObtained + quizSubmitModel.getMarks_ob();
 
@@ -79,26 +79,27 @@ public class GetPractiseTest_Result_Controller {
         }
         result.setMarksObtained(marksObtained);
 
-     long cutOff = testSeries_repository.getCutOff(request.getId());
-     result.setCutOff(cutOff);
-     result.setCorrectAnswered(correctAns);
-     result.setWrongAnswered(wrongAns);
-
-
+       QuizModel quizModel = quizRepository.find("quiz_id",request.getQuizID()).firstResult();
+       result.setCutOff(quizModel.getCutoff());
+        result.setCorrectAnswered(correctAns);
+        result.setWrongAnswered(wrongAns);
 
         Result_Response response = new Result_Response();
         if(result!=null){
             response.setErrorCode(0);
             response.setStatus(true);
-            response.setMessage("Get Practice Test Result Successfully");
+            response.setMessage("Get Quiz Result Successfully");
             response.setResultEntity(result);
         }else {
             response.setErrorCode(1);
             response.setStatus(false);
-            response.setMessage("Get Practice Test Result Fail");
+            response.setMessage("Get Quiz Result Fail");
 
         }
         return  response;
+
+
+
     }
 
 

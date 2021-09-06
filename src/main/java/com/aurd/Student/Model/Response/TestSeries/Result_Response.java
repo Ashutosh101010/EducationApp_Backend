@@ -4,7 +4,7 @@ import com.aurd.Student.Model.BeanClass.ResultEntity;
 
 import java.util.ArrayList;
 
-public class PracticeTest_Result_Response {
+public class Result_Response {
     String message;
     int errorCode;
     boolean status;

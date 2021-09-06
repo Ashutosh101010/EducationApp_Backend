@@ -3,7 +3,7 @@ package com.aurd.Student.Model.BeanClass;
 public class ResultEntity {
     private  long marksObtained;
     private  long totalMarks;
-    private long cutOff;
+    private Long cutOff;
     private long correctAnswered;
     private  long wrongAnswered;
 
@@ -23,11 +23,11 @@ public class ResultEntity {
         this.totalMarks = totalMarks;
     }
 
-    public long getCutOff() {
+    public Long getCutOff() {
         return cutOff;
     }
 
-    public void setCutOff(long cutOff) {
+    public void setCutOff(Long cutOff) {
         this.cutOff = cutOff;
     }
 

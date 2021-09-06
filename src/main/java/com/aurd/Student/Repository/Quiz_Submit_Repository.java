@@ -6,17 +6,25 @@ import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @ApplicationScoped
 public class Quiz_Submit_Repository implements PanacheRepository<Quiz_Submit_Model> {
 
     public boolean submitStudentQuizResponses(QuizSubmitRequest request){
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar now = Calendar.getInstance();
+        System.out.println(sdf.format(now.getTime()));
         for(int i=0;i<request.getArrayList().size();i++){
+
             Quiz_Submit_Model quiz_submit_model = new Gson().fromJson(
                     new Gson().toJson(request.getArrayList().get(i)),Quiz_Submit_Model.class);
 
+            quiz_submit_model.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
             persist(quiz_submit_model);
         }
 
