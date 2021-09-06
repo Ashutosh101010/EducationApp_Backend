@@ -37,9 +37,7 @@ public class GetSubjectsController {
     @Transactional
 
     public SubjectResponse getSubjects(GetInstituteSubjectRequest request){
-//       ArrayList<SubjectModel> arrayList = subjectRepository.getSubjects(request.getInstID());
-//       System.out.println(arrayList.size());
-//
+
        ArrayList<SubjectsEntity>  mainList = new ArrayList<>();
 //
 //       for(int i=0;i<arrayList.size();i++){

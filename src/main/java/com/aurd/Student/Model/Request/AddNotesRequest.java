@@ -9,6 +9,25 @@ public class AddNotesRequest
     long stud_id;
     long inst_id;
     Long vid_id;
+    Timestamp added_on;
+    Timestamp updated_on;
+
+
+    public Timestamp getUpdated_on() {
+        return updated_on;
+    }
+
+    public void setUpdated_on(Timestamp updated_on) {
+        this.updated_on = updated_on;
+    }
+
+    public Timestamp getAdded_on() {
+        return added_on;
+    }
+
+    public void setAdded_on(Timestamp added_on) {
+        this.added_on = added_on;
+    }
 
     public String getTitle() {
         return title;

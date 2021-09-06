@@ -24,7 +24,7 @@ import java.util.Calendar;
 
 
 @Path("/getTodaysUpdate")
-public class getTodaysUpdateController {
+public class GetTodaysUpdateController {
 
     @Inject
     CoursesRepository coursesRepository;

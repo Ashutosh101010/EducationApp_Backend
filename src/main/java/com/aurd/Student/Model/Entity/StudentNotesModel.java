@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
@@ -28,9 +29,11 @@ public class StudentNotesModel {
     private long inst_id;
 
     @Column(name ="updated_on",nullable = false)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp updated_on;
 
     @Column(name = "added_on",nullable = false)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp added_on;
 
     @Column(name = "vid_id",nullable = true)
