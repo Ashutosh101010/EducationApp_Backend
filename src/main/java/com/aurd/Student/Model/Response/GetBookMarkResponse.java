@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.Entity.BookMarkModel;
+import com.aurd.Student.Model.Entity.StudentModel;
 
 import java.util.ArrayList;
 
@@ -43,4 +44,6 @@ public class GetBookMarkResponse {
     public void setBook(ArrayList<BookMarkModel> book) {
         this.book = book;
     }
+
+
 }
