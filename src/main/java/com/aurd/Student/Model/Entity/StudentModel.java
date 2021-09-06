@@ -13,6 +13,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "students")
 
+
 public class StudentModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -186,7 +187,7 @@ public class StudentModel {
     }
 
     public void setDob(Date dob) {
-        this.dob = dob;
+        this.dob=dob;
     }
 
     public String getGender() {

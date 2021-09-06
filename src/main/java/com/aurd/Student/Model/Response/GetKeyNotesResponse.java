@@ -1,18 +1,15 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.BeanClass.BookMarkEntity;
-import com.aurd.Student.Model.Entity.BookMarkModel;
-import com.aurd.Student.Model.Entity.StudentModel;
-
+import com.aurd.Student.Model.Entity.KeyNotesModel;
 import java.util.ArrayList;
+public class GetKeyNotesResponse {
 
-public class GetBookMarkResponse {
+
+
     String message;
     boolean status;
     int statusCode;
-
-    ArrayList<BookMarkEntity> book = new ArrayList();
-
+    ArrayList<KeyNotesModel> keynotes = new ArrayList();
 
     public String getMessage() {
         return message;
@@ -38,13 +35,11 @@ public class GetBookMarkResponse {
         this.statusCode = statusCode;
     }
 
-    public ArrayList<BookMarkEntity> getBook() {
-        return book;
+    public ArrayList<KeyNotesModel> getKeynotes() {
+        return keynotes;
     }
 
-    public void setBook(ArrayList<BookMarkEntity> book) {
-        this.book = book;
+    public void setKeynotes(ArrayList<KeyNotesModel> keynotes) {
+        this.keynotes = keynotes;
     }
-
-
 }
