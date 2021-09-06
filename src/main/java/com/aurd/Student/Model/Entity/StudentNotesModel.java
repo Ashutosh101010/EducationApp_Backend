@@ -13,20 +13,21 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "student_notes")
 public class StudentNotesModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-
-    @Column(name = "note",nullable = false)
-    @NotBlank
-    private String note;
-
-    @Column(name = "stud_id",nullable = false)
-    private long stud_id;
-
+   @Id
     @Column(name = "inst_id",nullable = false)
-    private long inst_id;
+   private long inst_id;
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+            private long id;
+
+
+            @Column(name = "note",nullable = false)
+            @NotBlank
+            private String note;
+
+            @Column(name = "stud_id",nullable = false)
+            private long stud_id;
+
 
     @Column(name ="updated_on",nullable = false)
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
