@@ -7,10 +7,10 @@ public class BuyCoursesRequest {
 
     int id;
     long userId;
-    long coursesId;
+    long courseId;
     double actualFee;
     double discount;
-    double coursesFee;
+    double courseFee;
     double paidFee;
     double remainingFee;
     Date last_paid;
@@ -37,12 +37,12 @@ public class BuyCoursesRequest {
         this.userId = userId;
     }
 
-    public long getCoursesId() {
-        return coursesId;
+    public long getCourseId() {
+        return courseId;
     }
 
-    public void setCoursesId(long coursesId) {
-        this.coursesId = coursesId;
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
     }
 
     public double getActualFee() {
@@ -61,12 +61,12 @@ public class BuyCoursesRequest {
         this.discount = discount;
     }
 
-    public double getCoursesFee() {
-        return coursesFee;
+    public double getCourseFee() {
+        return courseFee;
     }
 
-    public void setCoursesFee(double coursesFee) {
-        this.coursesFee = coursesFee;
+    public void setCourseFee(double courseFee) {
+        this.courseFee = courseFee;
     }
 
     public double getPaidFee() {
@@ -140,4 +140,6 @@ public class BuyCoursesRequest {
     public void setTransaction_id(String transaction_id) {
         this.transaction_id = transaction_id;
     }
+
+
 }

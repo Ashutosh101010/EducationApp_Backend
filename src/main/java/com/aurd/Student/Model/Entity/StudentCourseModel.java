@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.Column;
@@ -55,8 +56,13 @@ public class StudentCourseModel {
     private String reason;
 
     @Column(name = "created_at",nullable = true)
-    @Nullable
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp created_at;
+
+
+    @Column(name="updated_at",nullable = true)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private  Timestamp updated_at;
 
     @Column(name = "transaction_id",nullable = true)
     @Nullable
@@ -162,6 +168,14 @@ public class StudentCourseModel {
 
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
+    }
+
+    public Timestamp getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
     }
 
     public String getTransaction_id() {
