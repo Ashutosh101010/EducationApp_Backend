@@ -45,10 +45,8 @@ public class StudentCourseModel {
     @Nullable
     private Date last_paid;
 
-    @Column(name = "due_date",nullable = true)
-    @Null
-    @Nullable
-    private Date due_date;
+    @Column(name = "due_date",nullable = false)
+    private java.sql.Date due_date;
 
     @Column(name = "reason",nullable = true)
     @Null

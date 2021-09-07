@@ -1,34 +1,89 @@
-package com.aurd.Student.Model.Request;
+package com.aurd.Student.Model.Entity;
 
+
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Date;
 
-public class EnquiryRequest {
+@Entity
+@Table(name = "enquiry")
 
-    int id;
-    String name;
-    String email;
-    String contact;
-    String description;
-    String address;
-    String status;
-    String reason;
-    String course;
-    String reference;
-    String demo;
-    String classDate;
-    String classTime;
-    String classTo;
-    Date reminder;
-    Timestamp created_at;
-    Timestamp updated_at;
-    int inst_id;
+public class EnquiryModel {
 
-    public int getId() {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(name="name", nullable = false)
+    @NotBlank
+    @Size(max = 256)
+    private String name;
+
+    @Column(name="email",nullable = false)
+    @NotBlank
+    private String email;
+
+
+    @Column(name="contact",nullable = true)
+    private  String contact;
+
+
+    @Column(name="description",nullable = false)
+    @NotBlank
+    @Size(max = 250)
+    private  String description;
+
+    @Column(name="status",nullable = true)
+    private  String status;
+
+    @Column(name="address",nullable = true)
+    private String address;
+
+
+    @Column(name="reason",nullable = true)
+    private String reason;
+
+
+    @Column(name="course",nullable = false)
+    @NotBlank
+    private String course;
+
+    @Column(name="reference",nullable = true)
+    private String reference;
+
+    @Column(name="demo",nullable = true)
+    private String demo;
+
+
+    @Column(name="classDate",nullable = true)
+    private String classDate;
+
+    @Column(name="classTime",nullable = true)
+    private String classTime;
+
+
+    @Column(name="classTo",nullable = true)
+    private String classTo;
+
+    @Column(name="reminder",nullable = false)
+    private java.sql.Date reminder;
+
+    @Column(name="created_at",nullable = false)
+    private Timestamp created_at;
+
+    @Column(name="updated_at",nullable = false)
+    private  Timestamp updated_at;
+
+    @Column(name="inst_id",nullable = false)
+    private int inst_id;
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -64,20 +119,20 @@ public class EnquiryRequest {
         this.description = description;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getReason() {
