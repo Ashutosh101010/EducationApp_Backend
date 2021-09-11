@@ -24,49 +24,28 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
     public StudentModel login(LoginRequest request){
         return  find("email=?1 and password = ?2",request.getEmail(),request.getPassword()).firstResult();
     }
-    // public int update(UpDateRequest request) {
-      //  return  update("name=' ' where id=?1" ,request.getStudent_id());
 
-   //  }
 
     @Transactional
     public Integer UpDateRequest(UpDateRequest request) {
 
-     //  SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        LocalDate date=LocalDate.now();
-
-        //LocalDate date = LocalDate.parse(string, formatter);
-        System.out.println(date);
 
 
-        //(
-       // String pattern = "MM/dd/yyyy";
-       // DateFormat df = new SimpleDateFormat(pattern);
-        //)
 
-
-   return update("fname=?1 , contact=?2   ,address=?3 ,stateId=?4   ,districtId=?5   where id=?6"
-        ,request.getFather_name()
+   return update("fname=?1 , contact=?2   ,address=?3 ,email=?4 , stateId=?5   ,districtId=?6 ,dob=?7  where id=?8"
+        ,request.getF_name()
         ,request.getMobile_no()
         ,request.getAddress()
+        ,request.getEmail()
         ,request.getState_id()
         ,request.getDistrict_id()
-
-       //  ,request.getDOB()
-//                , date
-                ,request.getStudent_id()
+         ,request.getDOB()
+            //   , date
+           ,request.getStudent_id()
 
         );
     }
 
-
-    public StudentModel profile(GetProfileRequest request)
-
-
-    {
-
-    return find("email =?1",request.getEmail()).firstResult();
-    }
 
 
 }

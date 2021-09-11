@@ -58,7 +58,7 @@ public class StudentModel {
 
 
     @Column(name="dob", nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-mm-dd")
     private Date dob;
 
     @Column(name="gender", nullable = true)
