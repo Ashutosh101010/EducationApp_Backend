@@ -4,11 +4,13 @@ package com.aurd.Student.Model.Request;
 import java.sql.Date;
 
 public class UpDateRequest {
+
+    String f_name;
     String mobile_no;
     String address;
+    String email;
     Integer state_id;
     String district_id;
-    String father_name;
     Date DOB;
     Long student_id;
 
@@ -26,6 +28,14 @@ public class UpDateRequest {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Integer getState_id() {
@@ -60,11 +70,11 @@ public class UpDateRequest {
         this.DOB = DOB;
     }
 
-    public String getFather_name() {
-        return father_name;
+    public String getF_name() {
+        return f_name;
     }
 
-    public void setFather_name(String father_name) {
-        this.father_name = father_name;
+    public void setF_name(String f_name) {
+        this.f_name = f_name;
     }
 }

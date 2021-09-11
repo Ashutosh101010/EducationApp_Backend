@@ -11,13 +11,13 @@ public class GetStudentCourseResponse {
     boolean status;
     String message;
 
-    public ArrayList<StudentCourseEntity> getCourseList() {
-        return courseList;
-    }
+   public ArrayList<StudentCourseEntity> getCourseList() {
+      return courseList;
+   }
 
-    public void setCourseList(ArrayList<StudentCourseEntity> courseList) {
-        this.courseList = courseList;
-    }
+   public void setCourseList(ArrayList<StudentCourseEntity> courseList) {
+       this.courseList = courseList;
+   }
 
     public int getErrorCode() {
         return errorCode;
@@ -42,4 +42,8 @@ public class GetStudentCourseResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
+
+
 }

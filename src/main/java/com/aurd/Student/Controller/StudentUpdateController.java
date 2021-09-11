@@ -11,6 +11,12 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 @Path("/updateStudents")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -26,7 +32,15 @@ public class StudentUpdateController {
 
     public UpdateResponse update(UpDateRequest request) {
 
-      // repository.findById(request.getStudent_id());
+
+
+
+       SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+       System.out.println((sdf.format(new Date())).toString());
+
+
+
+
         Integer studentModel  = repository.UpDateRequest(request);
         System.out.println(studentModel);
         UpdateResponse response = new UpdateResponse();
