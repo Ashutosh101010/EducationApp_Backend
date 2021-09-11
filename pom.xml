@@ -84,6 +84,25 @@
       <version>2.8.6</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+      <artifactId>resteasy-multipart-provider</artifactId>
+      <version>4.7.0.Final</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-s3</artifactId>
+      <version>1.12.30</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-iam -->
+    <dependency>
+      <groupId>com.amazonaws</groupId>
+      <artifactId>aws-java-sdk-iam</artifactId>
+      <version>1.12.30</version>
+    </dependency>
 
 
 

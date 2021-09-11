@@ -20,11 +20,11 @@ import java.util.ArrayList;
 
 import static org.hibernate.loader.Loader.SELECT;
 
-@Path("/StudentPostComment")
+@Path("/getStudentPostComment")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 
-public class StudentPostCommentController {
+public class GetStudentPostCommentController {
 
     @Inject
     StudentPostCommentRepository repository;

@@ -1,16 +1,49 @@
 package com.aurd.Student.Model.Request;
 
+import org.jboss.resteasy.annotations.jaxrs.FormParam;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
+
+import javax.ws.rs.core.MediaType;
+import java.io.InputStream;
 import java.sql.Timestamp;
 
 public class AddStudentPostRequest {
-    private String discription;
-    private String pic;
+    @FormParam("pic")
+    @PartType(MediaType.APPLICATION_OCTET_STREAM)
+    public InputStream pic;
+
+    @FormParam("description")
+    @PartType(MediaType.TEXT_PLAIN)
+    public String discription;
+
+
+    @FormParam("post_status")
+    @PartType(MediaType.TEXT_PLAIN)
     private int post_status;
+
+    @FormParam("added_by")
+    @PartType(MediaType.TEXT_PLAIN)
     private  int added_by;
+
     private Timestamp added_on;
+
+    @FormParam("inst_id")
+    @PartType(MediaType.TEXT_PLAIN)
     private  int inst_id;
+
     private int post_approved_by;
+
     private Timestamp post_approved_on;
+
+
+    public InputStream getPic() {
+        return pic;
+    }
+
+    public void setPic(InputStream pic) {
+        this.pic = pic;
+    }
+
 
     public String getDiscription() {
         return discription;
@@ -18,14 +51,6 @@ public class AddStudentPostRequest {
 
     public void setDiscription(String discription) {
         this.discription = discription;
-    }
-
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
     }
 
     public int getPost_status() {

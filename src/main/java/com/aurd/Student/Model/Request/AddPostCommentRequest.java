@@ -7,7 +7,7 @@ public class AddPostCommentRequest {
 
     String comment;
     int post_id;
-    String added_by;
+    long added_by;
     Timestamp added_on;
 
 
@@ -28,11 +28,11 @@ public class AddPostCommentRequest {
         this.post_id = post_id;
     }
 
-    public String getAdded_by() {
+    public long getAdded_by() {
         return added_by;
     }
 
-    public void setAdded_by(String added_by) {
+    public void setAdded_by(long added_by) {
         this.added_by = added_by;
     }
 

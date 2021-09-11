@@ -30,35 +30,34 @@ public class GetStudentNotesController {
 
     public StudentNotesResponse getStudNotes(GetStudentNotesRequest request){
 
-
-
+        System.out.println(request);
 
         ArrayList<StudentNotesEntity> arrayList =new ArrayList<>();
 
         String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
-                "student_notes.vid_id, videos.name,videos.thumb,videos.video_type,videos.video,videos.topicId," +
-                "videos.description,topics.topic FROM student_notes INNER JOIN " +
-                "videos ON videos.id =student_notes.vid_id INNER JOIN topics on topics.id=videos.topicId" +
-                " WHERE student_notes.stud_id=?";
+                "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? and student_notes.inst_id = ?";
 
         Query query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getStud_id());
+        query.setParameter(2,request.getInst_id());
 
         ArrayList<Object[]> objList = (ArrayList<Object[]>) query.getResultList();
+        System.out.println(objList.size());
         objList.forEach(objects -> {
+
             StudentNotesEntity model = new StudentNotesEntity();
             model.setId(Long.parseLong(objects[0].toString()));
             model.setNote(objects[1].toString());
             model.setAdded_on(Timestamp.valueOf(objects[2].toString()));
             model.setTitle(objects[3].toString());
-            model.setVid_id(Long.parseLong(objects[4].toString()));
-            model.setName(objects[5].toString());
-            model.setThumb(objects[6].toString());
-            model.setVideo_type(objects[7].toString());
-            model.setVideo(objects[8].toString());
-            model.setTopic_id(Long.parseLong(objects[9].toString()));
-            model.setDescription(objects[10].toString());
-            model.setTopic(objects[11].toString());
+//            model.setVid_id(Long.parseLong(objects[4].toString()));
+//            model.setName(objects[5].toString());
+//            model.setThumb(objects[6].toString());
+//            model.setVideo_type(objects[7].toString());
+//            model.setVideo(objects[8].toString());
+//            model.setTopic_id(Long.parseLong(objects[9].toString()));
+//            model.setDescription(objects[10].toString());
+//            model.setTopic(objects[11].toString());
 
             arrayList.add(model);
 

@@ -4,6 +4,7 @@ import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.Null;
+import java.io.InputStream;
 import java.sql.Timestamp;
 
 @Entity

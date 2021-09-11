@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 
-@Path("/Addpostcomment")
+@Path("/addPostComment")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 
@@ -37,7 +37,8 @@ public class AddPostCommentController {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Calendar calendar = Calendar.getInstance();
             request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
-System.out.println(request);
+
+            System.out.println(request);
 
             GeneralResponse response = new GeneralResponse();
 

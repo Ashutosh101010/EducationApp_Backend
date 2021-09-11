@@ -5,6 +5,7 @@ import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.BlogModel;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
 import com.aurd.Student.Model.Entity.StudentPostModel;
+import com.aurd.Student.Model.Entity.Student_Posts_Liked_Model;
 import com.aurd.Student.Model.Response.LatestUpdateResponse;
 import com.aurd.Student.Repository.*;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
@@ -17,6 +18,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,9 +56,13 @@ public class GetTodaysUpdateController {
 
 
     @Transactional
-    public LatestUpdateResponse getTodayUpdate(@QueryParam ("instID") long instID){
+    public LatestUpdateResponse getTodayUpdate(@QueryParam ("instID") long instID,
+                                               @QueryParam ("studId") long studId){
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        System.out.println(instID);
+        System.out.println(studId);
 
         Calendar now = Calendar.getInstance();
         now.set(Calendar.HOUR, 0);
@@ -125,18 +131,31 @@ public class GetTodaysUpdateController {
           postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
           postModel.setName(objects[6].toString());
 
-          String commentQuery = "SELECT COUNT(*) FROM `student_posts_commented` WHERE post_id =? ";
+          String commentQuery = "SELECT COUNT(*) FROM `student_posts_commented` WHERE post_id =?";
        Query comment = commentRepository.getEntityManager().createNativeQuery(commentQuery);
        comment.setParameter(1,12);
       Integer commentCount = ((Number) comment.getSingleResult()).intValue();
       postModel.setComment(commentCount.longValue());
 
 
-          String likeQuery = "SELECT COUNT(*) FROM `student_posts_liked` WHERE post_id =? ";
+
+          String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
           Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
           like.setParameter(1,13);
-          Integer likeCount = ((Number) like.getSingleResult()).intValue();
+          ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+          likeList.forEach(likeObject -> {
+               if(studId == Long.parseLong(likeObject[1].toString())){
+                  System.out.println("Liked");
+                  postModel.setLiked(true);
+              }
+          });
+
+          Integer likeCount =  likeList.size();
           postModel.setLike(likeCount.longValue());
+
+
+//      getLikes(postModel,Long.parseLong(objects[0].toString()),studId);
+
 
          postList.add(postModel);
       });
@@ -155,6 +174,28 @@ public class GetTodaysUpdateController {
 
         return  response;
 
+
+    }
+
+
+    private void getLikes(StudentPostEntity postEntity,long postId,long studId){
+        String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
+        Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
+        like.setParameter(1,13);
+        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+        System.out.println(likeList);
+        likeList.forEach(likeObject -> {
+             System.out.println(likeObject[0].toString());
+             System.out.println(likeObject[1].toString());
+             System.out.println(likeObject[2].toString());
+             if(studId == Long.parseLong(likeObject[1].toString())){
+                 System.out.println("Liked");
+                 postEntity.setLiked(true);
+             }
+        });
+
+        Integer likeCount =  likeList.size();
+        postEntity.setLike(likeCount.longValue());
 
     }
 

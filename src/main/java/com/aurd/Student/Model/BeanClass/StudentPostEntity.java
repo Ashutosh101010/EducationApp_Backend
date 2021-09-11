@@ -12,6 +12,24 @@ public class StudentPostEntity {
     String name;
     Long comment;
     Long like;
+    boolean isLiked;
+    boolean disLiked;
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
+
+    public boolean isDisLiked() {
+        return disLiked;
+    }
+
+    public void setDisLiked(boolean disLiked) {
+        this.disLiked = disLiked;
+    }
 
     public Long getComment() {
         return comment;
