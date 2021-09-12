@@ -112,12 +112,14 @@ public class GetTodaysUpdateController {
         });
 
 
-        String studentPostQuery = "SELECT student_posts.id,student_posts.discription,student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
-                "student_posts.added_on, students.fname FROM `student_posts` INNER JOIN students ON students.id=student_posts.added_by " +
-                "WHERE student_posts.added_on BETWEEN ? and ? AND student_posts.inst_id = ?";
+        String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
+                "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
+                "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
+                "INNER JOIN students ON students.id=student_post_demo.added_by " +
+                "WHERE student_post_demo.added_on BETWEEN ? and ? AND student_post_demo.inst_id = ?";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
-        studentPost.setParameter(1,"2021-05-25 00:00:00");
-        studentPost.setParameter(2,"2021-05-25 23:59:59");
+        studentPost.setParameter(1,"2021-09-11 00:00:00");
+        studentPost.setParameter(2,"2021-09-11 23:59:59");
         studentPost.setParameter(3,53);
       ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
       ArrayList<StudentPostEntity> postList = new ArrayList<>();

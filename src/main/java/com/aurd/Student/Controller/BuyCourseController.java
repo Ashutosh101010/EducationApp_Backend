@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.text.ParseException;
 import java.sql.Date;
 
-@Path("/BuyCourse")
+@Path("/buyCourse")
 
 public class BuyCourseController {
 
