@@ -1,9 +1,11 @@
 package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.Entity.CityModel;
+import com.aurd.Student.Model.Entity.StudentNotesModel;
 import com.aurd.Student.Model.Request.GetCityRequest;
 import com.aurd.Student.Model.Response.GetCityResponse;
 import com.aurd.Student.Repository.CityRepository;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -23,7 +25,9 @@ import java.util.ArrayList;
 
 
         @Inject
+
         CityRepository repository;
+
         @Transactional
         @POST
 

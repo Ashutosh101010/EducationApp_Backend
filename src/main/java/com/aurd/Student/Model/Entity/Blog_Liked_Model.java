@@ -1,13 +1,15 @@
 package com.aurd.Student.Model.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "student_blog_liked")
 
-public class Student_Blog_Liked_Model {
+public class Blog_Liked_Model {
 
 
     @Id
@@ -22,6 +24,7 @@ public class Student_Blog_Liked_Model {
     private int added_by;
 
     @Column(name = "added_on",nullable = false)
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp added_on;
 
     public int getId() {
@@ -55,4 +58,5 @@ public class Student_Blog_Liked_Model {
     public void setAdded_on(Timestamp added_on) {
         this.added_on = added_on;
     }
+
 }

@@ -11,4 +11,6 @@ public class StudentPostCommentRequest {
     public void setPost_id(int post_id) {
         this.post_id = post_id;
     }
+
+
 }

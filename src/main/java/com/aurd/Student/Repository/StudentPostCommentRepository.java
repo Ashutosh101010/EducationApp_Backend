@@ -1,11 +1,7 @@
 package com.aurd.Student.Repository;
 
-import com.aurd.Student.Model.BeanClass.StudentCommentPostEntity;
-import com.aurd.Student.Model.Entity.BookMarkModel;
-import com.aurd.Student.Model.Entity.StudentNotesModel;
 import com.aurd.Student.Model.Entity.Student_Posts_Commented;
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
-import com.aurd.Student.Model.Request.GetBookMarkRequest;
 import com.aurd.Student.Model.Request.StudentPostCommentRequest;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -16,11 +12,11 @@ import java.util.ArrayList;
 @ApplicationScoped
 public class StudentPostCommentRepository implements PanacheRepository<Student_Posts_Commented> {
 
-
     public ArrayList getComment(StudentPostCommentRequest request){
 
-        ArrayList<Student_Posts_Commented> arrayList = (ArrayList<Student_Posts_Commented>) list("post_id =?1 " ,request.getPost_id());
-        return  arrayList;
+      ArrayList<Student_Posts_Commented> arrayList = (ArrayList<Student_Posts_Commented>) list("post_id =?1 " ,request.getPost_id());
+
+            return  arrayList;
     }
 
     public boolean addPostCommentRequest(AddPostCommentRequest request) {
@@ -29,4 +25,6 @@ public class StudentPostCommentRepository implements PanacheRepository<Student_P
         return true;
 
     }
+
+
 }

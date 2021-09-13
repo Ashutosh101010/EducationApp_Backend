@@ -2,9 +2,9 @@ package com.aurd.Student.Controller;
 
 
 
-import com.aurd.Student.Model.Request.AddStudentBlogCommentRequest;
+import com.aurd.Student.Model.Request.AddBlogCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Repository.StudentBlogCommentRepository;
+import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -22,22 +22,22 @@ import java.util.Calendar;
 @Produces(MediaType.APPLICATION_JSON)
 
 
-public class AddStudentBlogCommentController {
+public class AddBlogCommentController {
 
     @Inject
-    StudentBlogCommentRepository repository;
+    Blog_Comment_Repository repository;
 
     @POST
 
     @Transactional
-
-    public GeneralResponse addStudentBlogs(AddStudentBlogCommentRequest request) {
+    public GeneralResponse addComment(AddBlogCommentRequest request) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
         System.out.println(request);
 
         GeneralResponse response = new GeneralResponse();
+
 
         boolean value = repository.addStudentBlogCommentRequest(request);
         if (value) {

@@ -1,9 +1,9 @@
 package com.aurd.Student.Controller;
 
 
-import com.aurd.Student.Model.Request.AddStudentBlogLikedRequest;
+import com.aurd.Student.Model.Request.AddCurrentAffairsCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Repository.StudentBlogLikedRepository;
+import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
 
 
 import javax.inject.Inject;
@@ -17,23 +17,24 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Path("/addBlogLiked")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/addComment")
 
 
-public class AddBlogLikedController {
-
+public class AddCurrentAffairCommentController {
 
 
     @Inject
-    StudentBlogLikedRepository repository;
+    Current_Affair_Comment_Repository repository;
+
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
 
     @Transactional
 
-    public GeneralResponse addStudentLike(AddStudentBlogLikedRequest request) {
+    public GeneralResponse currentAffairComment(AddCurrentAffairsCommentRequest request){
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
@@ -41,18 +42,29 @@ public class AddBlogLikedController {
 
         GeneralResponse response = new GeneralResponse();
 
-        boolean value = repository.addStudentBlogLikedRequest(request);
+        boolean value = repository.addCurrentAffairCommentRequest(request);
         if (value) {
             response.setStatusCode(0);
             response.setStatus(true);
-            response.setMessage("Likes Added");
+            response.setMessage("Comment Added");
         } else {
             response.setStatusCode(1);
             response.setStatus(false);
-            response.setMessage("Likes Not Added");
+            response.setMessage("Comments Not Added");
         }
 
-        return response;
-    }
+        return  response;
 
     }
+
+
+
+
+
+
+
+
+
+
+
+}

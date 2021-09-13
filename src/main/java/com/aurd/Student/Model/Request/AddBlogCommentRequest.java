@@ -1,12 +1,24 @@
 package com.aurd.Student.Model.Request;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
-public class AddStudentBlogLikedRequest {
+public class AddBlogCommentRequest {
 
+
+    String comment;
     int blog_id;
     int added_by;
     Timestamp added_on;
+
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 
     public int getBlog_id() {
         return blog_id;

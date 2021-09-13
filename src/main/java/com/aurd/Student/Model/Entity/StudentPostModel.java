@@ -29,6 +29,9 @@ public class StudentPostModel {
     @Column(name = "added_on",nullable = false)
     private Timestamp added_on;
 
+    @Column(name="updated_on",nullable = false)
+    private  Timestamp updated_on;
+
     @Column(name = "inst_id",nullable = false)
     private  int inst_id;
 
@@ -37,10 +40,10 @@ public class StudentPostModel {
     @Null
     private Integer post_approved_by;
 
-//    @Column(name = "post_approved_on",nullable = true)
-//    @Nullable
-//    @Null
-//    private Timestamp post_approved_on;
+   @Column(name = "post_approved_on",nullable = true)
+   @Nullable
+    @Null
+   private Timestamp post_approved_on;
 
 
     public long getId() {
@@ -91,6 +94,15 @@ public class StudentPostModel {
         this.added_on = added_on;
     }
 
+
+    public Timestamp getUpdated_on() {
+        return updated_on;
+    }
+
+    public void setUpdated_on(Timestamp updated_on) {
+        this.updated_on = updated_on;
+    }
+
     public int getInst_id() {
         return inst_id;
     }
@@ -108,7 +120,9 @@ public class StudentPostModel {
         this.post_approved_by = post_approved_by;
     }
 
-//    public void setPost_approved_on(Timestamp post_approved_on) {
-//        this.post_approved_on = post_approved_on;
-//    }
+
+
+   public void setPost_approved_on(Timestamp post_approved_on) {
+       this.post_approved_on = post_approved_on;
+    }
 }
