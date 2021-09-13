@@ -16,19 +16,15 @@ import java.util.ArrayList;
 @ApplicationScoped
 public class StudentPostRepository implements PanacheRepository<StudentPostModel> {
 
-    public void addStudentPost(AddStudentPostRequest request) throws IOException {
-        StudentPostModel studentPostModel = new StudentPostModel();
-        studentPostModel.setAdded_on(request.getAdded_on());
-        studentPostModel.setAdded_by(request.getAdded_by());
-        String myString = IOUtils.toString(request.getPic(), "utf8mb4_unicode_ci");
-        System.out.println(myString);
-        studentPostModel.setPic(myString);
-        studentPostModel.setDiscription(request.getDiscription());
-        studentPostModel.setPost_status(request.getPost_status());
-        studentPostModel.setPost_approved_by(0);
+    public void addStudentPost(StudentPostModel model) {
+        System.out.println("Repository Class Call");
 
-        persist(studentPostModel);
-        System.out.println(new Gson().toJson(studentPostModel));
+        System.out.println(new Gson().toJson(model));
+      try{
+          persist(model);
+      }catch (Exception e){
+          System.out.println(e);
+      }
     }
 
     public ArrayList getStudentPosts(GetStudentPostRequest request){

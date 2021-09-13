@@ -8,14 +8,14 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "student_posts")
+@Table(name = "student_post_demo")
 public class StudentPostModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long id;
 
-    @Column(name = "discription",nullable = false)
-    private String discription;
+    @Column(name = "description",nullable = false)
+    private String description;
 
     @Column(name = "pic",nullable = false)
     private String pic;
@@ -54,12 +54,12 @@ public class StudentPostModel {
         this.id = id;
     }
 
-    public String getDiscription() {
-        return discription;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscription(String discription) {
-        this.discription = discription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getPic() {

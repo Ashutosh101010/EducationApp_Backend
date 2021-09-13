@@ -48,7 +48,8 @@ public class GetExploreDataController {
 
     @Transactional
 
-    public GetExploreDataResponse getData(@QueryParam("instID") Long id){
+    public GetExploreDataResponse getData(@QueryParam("instID") Long id,
+                                          @QueryParam("studId") long studId){
 
 
         String blogQuery = "SELECT * from `blog` where inst_id = ? ;";
@@ -63,9 +64,11 @@ public class GetExploreDataController {
         ArrayList<CurrentAffairModel> caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 
 
-        String studentPostQuery = "SELECT student_posts.id,student_posts.discription,student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
-                "student_posts.added_on, students.fname FROM `student_posts` INNER JOIN students ON students.id=student_posts.added_by " +
-                "WHERE student_posts.inst_id = ?";
+        String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
+                "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
+                "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
+                "INNER JOIN students ON students.id=student_post_demo.added_by " +
+                "WHERE student_post_demo.inst_id = ?";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
        studentPost.setParameter(1,id);
 
@@ -88,10 +91,18 @@ public class GetExploreDataController {
             postModel.setComment(commentCount.longValue());
 
 
-            String likeQuery = "SELECT COUNT(*) FROM `student_posts_liked` WHERE post_id =? ";
+            String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
             Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
             like.setParameter(1,13);
-            Integer likeCount = ((Number) like.getSingleResult()).intValue();
+            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            likeList.forEach(likeObject -> {
+                if(studId == Long.parseLong(likeObject[1].toString())){
+                    System.out.println("Liked");
+                    postModel.setLiked(true);
+                }
+            });
+
+            Integer likeCount =  likeList.size();
             postModel.setLike(likeCount.longValue());
 
             postList.add(postModel);
