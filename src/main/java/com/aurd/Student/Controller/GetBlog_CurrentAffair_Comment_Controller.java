@@ -56,7 +56,6 @@ public class GetBlog_CurrentAffair_Comment_Controller {
                 response.setMessage("Get comment Success");
             }
 
-
         } else if (request.getType().equals("currentAffair")) {
             ArrayList<Current_AffairsCommented_Model> arrayList1 = ca_repository.getComment(request);
             System.out.println(arrayList1.size());

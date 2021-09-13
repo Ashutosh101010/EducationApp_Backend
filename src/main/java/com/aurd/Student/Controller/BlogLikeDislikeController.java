@@ -67,7 +67,6 @@ public class BlogLikeDislikeController {
 
         return response;
 
-
     }
 
     }

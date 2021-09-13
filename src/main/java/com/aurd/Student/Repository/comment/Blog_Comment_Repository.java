@@ -19,17 +19,17 @@ public class Blog_Comment_Repository implements PanacheRepository<Student_Blog_C
         persist(student_blog_commented_model);
         return true;
 
-    }
+       }
 
     public ArrayList getComment(GetBlogAndCurrentAffairCommentRequest request){
 
         ArrayList<Student_Blog_Commented_Model> arrayList = (ArrayList<Student_Blog_Commented_Model>) find("blog_id" ,request.getId()).list();
 
         return  arrayList;
-    }
+      }
 
 
-}
+     }
 
 
 

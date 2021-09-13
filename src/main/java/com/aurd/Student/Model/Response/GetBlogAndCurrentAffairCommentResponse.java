@@ -14,7 +14,6 @@ public class GetBlogAndCurrentAffairCommentResponse {
     ArrayList<Student_Blog_Commented_Model> blogCommentList=new ArrayList();
     ArrayList<Current_AffairsCommented_Model> caList =new ArrayList();
 
-
     public String getMessage() {
         return message;
     }

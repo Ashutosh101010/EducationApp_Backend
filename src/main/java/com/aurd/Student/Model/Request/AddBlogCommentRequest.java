@@ -6,19 +6,11 @@ import java.sql.Timestamp;
 public class AddBlogCommentRequest {
 
 
-    String type;
     String comment;
     int blog_id;
     int added_by;
     Timestamp added_on;
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getComment() {
         return comment;

@@ -20,4 +20,5 @@ public class GetBlogAndCurrentAffairCommentRequest {
     public void setId(int id) {
         this.id = id;
     }
-}
+
+     }

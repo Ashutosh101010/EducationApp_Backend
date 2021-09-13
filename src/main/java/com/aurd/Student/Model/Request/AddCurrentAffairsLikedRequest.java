@@ -32,4 +32,5 @@ public class AddCurrentAffairsLikedRequest {
     public void setAdded_on(Timestamp added_on) {
         this.added_on = added_on;
     }
+
 }

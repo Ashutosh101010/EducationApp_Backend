@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 
 public class Current_AffairsCommented_Model {
 
-
     @Id
     @PrimaryKeyJoinColumn
     @GeneratedValue(strategy = GenerationType.IDENTITY)

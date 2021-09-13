@@ -27,19 +27,12 @@ public class Current_Affair_Comment_Repository implements PanacheRepository<Curr
 
         return new ArrayList();
 
-
-    }
+      }
 
     public boolean addCurrentAffairCommentRequest(AddCurrentAffairsCommentRequest request) {
         Current_AffairsCommented_Model current_affairsCommented_model = new Gson().fromJson(new Gson().toJson(request),Current_AffairsCommented_Model.class);
         persist(current_affairsCommented_model);
         return true;
 
-    }
-
-
-
-
-
-
-}
+          }
+       }

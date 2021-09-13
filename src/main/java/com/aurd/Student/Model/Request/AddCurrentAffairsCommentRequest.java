@@ -11,7 +11,6 @@ public class AddCurrentAffairsCommentRequest {
     Timestamp added_on;
 
 
-
     public String getComment() {
         return comment;
     }

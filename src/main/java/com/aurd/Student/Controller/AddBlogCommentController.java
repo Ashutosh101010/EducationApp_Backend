@@ -30,7 +30,6 @@ public class AddBlogCommentController {
     @POST
 
     @Transactional
-
     public GeneralResponse addComment(AddBlogCommentRequest request) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();

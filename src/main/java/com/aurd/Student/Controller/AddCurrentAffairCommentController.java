@@ -42,8 +42,6 @@ public class AddCurrentAffairCommentController {
 
         GeneralResponse response = new GeneralResponse();
 
-
-
         boolean value = repository.addCurrentAffairCommentRequest(request);
         if (value) {
             response.setStatusCode(0);
