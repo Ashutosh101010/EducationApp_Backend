@@ -1,10 +1,10 @@
 package com.aurd.Student.Controller;
 
 
-
-import com.aurd.Student.Model.Request.AddStudentBlogCommentRequest;
+import com.aurd.Student.Model.Request.AddCurrentAffairsCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Repository.StudentBlogCommentRepository;
+import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
+
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -17,21 +17,24 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Path("/addBlogComment")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/addComment")
 
 
-public class AddStudentBlogCommentController {
+public class AddCurrentAffairCommentController {
+
 
     @Inject
-    StudentBlogCommentRepository repository;
+    Current_Affair_Comment_Repository repository;
+
 
     @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
 
     @Transactional
 
-    public GeneralResponse addStudentBlogs(AddStudentBlogCommentRequest request) {
+    public GeneralResponse currentAffairComment(AddCurrentAffairsCommentRequest request){
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
@@ -39,7 +42,9 @@ public class AddStudentBlogCommentController {
 
         GeneralResponse response = new GeneralResponse();
 
-        boolean value = repository.addStudentBlogCommentRequest(request);
+
+
+        boolean value = repository.addCurrentAffairCommentRequest(request);
         if (value) {
             response.setStatusCode(0);
             response.setStatus(true);
@@ -50,7 +55,18 @@ public class AddStudentBlogCommentController {
             response.setMessage("Comments Not Added");
         }
 
-        return response;
+        return  response;
 
     }
+
+
+
+
+
+
+
+
+
+
+
 }

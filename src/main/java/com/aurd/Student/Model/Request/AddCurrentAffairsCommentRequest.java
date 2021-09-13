@@ -1,15 +1,16 @@
 package com.aurd.Student.Model.Request;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
-public class AddStudentBlogCommentRequest {
+public class AddCurrentAffairsCommentRequest {
 
 
     String comment;
-    int blog_id;
+    int current_affair_id;
     int added_by;
     Timestamp added_on;
+
+
 
     public String getComment() {
         return comment;
@@ -19,12 +20,12 @@ public class AddStudentBlogCommentRequest {
         this.comment = comment;
     }
 
-    public int getBlog_id() {
-        return blog_id;
+    public int getCurrent_affair_id() {
+        return current_affair_id;
     }
 
-    public void setBlog_id(int blog_id) {
-        this.blog_id = blog_id;
+    public void setCurrent_affair_id(int current_affair_id) {
+        this.current_affair_id = current_affair_id;
     }
 
     public int getAdded_by() {
@@ -42,4 +43,7 @@ public class AddStudentBlogCommentRequest {
     public void setAdded_on(Timestamp added_on) {
         this.added_on = added_on;
     }
+
+
+
 }
