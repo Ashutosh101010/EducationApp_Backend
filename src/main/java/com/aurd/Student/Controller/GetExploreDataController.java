@@ -86,14 +86,14 @@ public class GetExploreDataController {
 
             String commentQuery = "SELECT COUNT(*) FROM `student_posts_commented` WHERE post_id =? ";
             Query comment = commentRepository.getEntityManager().createNativeQuery(commentQuery);
-            comment.setParameter(1,12);
+            comment.setParameter(1,postModel.getId());
             Integer commentCount = ((Number) comment.getSingleResult()).intValue();
             postModel.setComment(commentCount.longValue());
 
 
             String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
             Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
-            like.setParameter(1,13);
+            like.setParameter(1,postModel.getId());
             ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
             likeList.forEach(likeObject -> {
                 if(studId == Long.parseLong(likeObject[1].toString())){
@@ -108,12 +108,14 @@ public class GetExploreDataController {
             postList.add(postModel);
         });
 
-        ArrayList<NotesModel> notesList = (ArrayList<NotesModel>) notesRepository.find("inst_id",id.intValue()).list();
+        ArrayList<NotesModel> notesList = notesRepository.getNotesList(id.intValue());
+
 
         GetQuizRequest request = new GetQuizRequest();
         request.setInst_id(id);
         request.setType("Quiz");
         ArrayList<QuizModel> quizList = quizRepository.getQuizzes(request);
+
 
         GetExploreDataResponse response = new GetExploreDataResponse();
         response.setBlogList(blogList);
