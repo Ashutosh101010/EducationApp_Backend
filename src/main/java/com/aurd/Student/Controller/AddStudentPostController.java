@@ -1,11 +1,5 @@
 package com.aurd.Student.Controller;
 
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.aurd.Student.Model.Entity.StudentPostModel;
 import com.aurd.Student.Model.Request.AddStudentPostRequest;
@@ -30,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import static  com.aurd.Service.s3;
 
 @Path("/addStudentPost")
 public class AddStudentPostController
@@ -45,18 +40,7 @@ public class AddStudentPostController
     public GeneralResponse  addStudentPost(@MultipartForm MultipartFormDataInput inputRequest) throws IOException {
 
 
- AmazonS3 s3;
-    final String s3Endpoint = "https://s3.wasabisys.com";
-    final String region = "us-east-1";
 
-    AWSCredentialsProvider credentials =
-            new AWSStaticCredentialsProvider(
-                    new BasicAWSCredentials("RO3PDA6CRJSQC4JH65QH", "dtB4aV9tharNtWaW2eaZMK08zCzqHlleBMvlmRof"));
-
-    s3 = AmazonS3ClientBuilder.standard()
-            .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region))
-            .withCredentials(credentials)
-                .build();
 
         final String bucketName = "educationapp";
 

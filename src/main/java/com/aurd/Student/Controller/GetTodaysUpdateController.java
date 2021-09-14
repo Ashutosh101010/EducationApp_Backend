@@ -76,16 +76,17 @@ public class GetTodaysUpdateController {
 
         String blogQuery = "SELECT * from `blog` where created_on BETWEEN ? AND ? AND inst_id = ? ;";
         Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
-        blog.setParameter(1,"2021-03-13 00:00:01");
+        blog.setParameter(1,"2021-03-13 00:00:00");
         blog.setParameter(2,"2021-03-13 23:59:59");
         blog.setParameter(3,instID);
         ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) blog.getResultList();
+        System.out.println(blogList.size());
 
 
         String caQuery = "SELECT * from `current_affairs` where created_at BETWEEN ? AND ? AND inst_id = ? ;";
         Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
                 CurrentAffairModel.class);
-        currentAffair.setParameter(1,"2021-03-13 00:00:01");
+        currentAffair.setParameter(1,"2021-03-13 00:00:00");
         currentAffair.setParameter(2,"2021-03-13 23:59:59");
         currentAffair.setParameter(3,instID);
         ArrayList<CurrentAffairModel> caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
@@ -95,21 +96,30 @@ public class GetTodaysUpdateController {
                 " FROM notes INNER JOIN topics ON topics.id=notes.topicId INNER JOIN employees ON employees.id=notes.teacher_id" +
                 " WHERE notes.inst_id = ? AND notes.created_at BETWEEN ? AND ? ";
         Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery);
-        notes.setParameter(1,54);
-        notes.setParameter(2,"2021-02-01 00:00:00");
-        notes.setParameter(3,"2021-02-01 23:59:59");
-        ArrayList<Object[]> tempList = (ArrayList<Object[]>) notes.getResultList();
+        notes.setParameter(1,instID);
+        notes.setParameter(2,"2021-09-13 00:00:00");
+        notes.setParameter(3,"2021-09-13 23:59:59");
         ArrayList<NotesEntity> notesList = new ArrayList<>();
-        tempList.forEach(objects ->{
-            NotesEntity notesEntity = new NotesEntity();
-            notesEntity.setName(objects[0].toString());
-            notesEntity.setFile(objects[1].toString());
-            notesEntity.setTopic(objects[3].toString());
-            notesEntity.setTeacherName(objects[4].toString());
-            notesEntity.setTeacher_id(Integer.parseInt(objects[5].toString()));
+//        try{
+//            ArrayList<Object[]> tempList = (ArrayList<Object[]>) notes.getResultList();
+//
+//            if(!tempList.isEmpty()){
+//                tempList.forEach(objects ->{
+//                    NotesEntity notesEntity = new NotesEntity();
+//                    notesEntity.setName(objects[0].toString());
+//                    notesEntity.setFile(objects[1].toString());
+//                    notesEntity.setTopic(objects[3].toString());
+//                    notesEntity.setTeacherName(objects[4].toString());
+//                    notesEntity.setTeacher_id(Integer.parseInt(objects[5].toString()));
+//
+//                    notesList.add(notesEntity);
+//                });
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
-            notesList.add(notesEntity);
-        });
+
 
 
         String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
@@ -118,49 +128,57 @@ public class GetTodaysUpdateController {
                 "INNER JOIN students ON students.id=student_post_demo.added_by " +
                 "WHERE student_post_demo.added_on BETWEEN ? and ? AND student_post_demo.inst_id = ?";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
-        studentPost.setParameter(1,"2021-09-11 00:00:00");
-        studentPost.setParameter(2,"2021-09-11 23:59:59");
-        studentPost.setParameter(3,53);
-      ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
-      ArrayList<StudentPostEntity> postList = new ArrayList<>();
-      tempPostList.forEach(objects -> {
-          StudentPostEntity postModel = new StudentPostEntity();
-          postModel.setId(Long.parseLong(objects[0].toString()));
-          postModel.setDescription(objects[1].toString());
-          postModel.setPic(objects[2].toString());
-          postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
-          postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
-          postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
-          postModel.setName(objects[6].toString());
+        studentPost.setParameter(1,"2021-09-13 00:00:00");
+        studentPost.setParameter(2,"2021-09-13 23:59:59");
+        studentPost.setParameter(3,instID);
+        ArrayList<StudentPostEntity> postList = new ArrayList<>();
 
-          String commentQuery = "SELECT COUNT(*) FROM `student_posts_commented` WHERE post_id =?";
-       Query comment = commentRepository.getEntityManager().createNativeQuery(commentQuery);
-       comment.setParameter(1,12);
-      Integer commentCount = ((Number) comment.getSingleResult()).intValue();
-      postModel.setComment(commentCount.longValue());
+        try{
+            ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
+
+            tempPostList.forEach(objects -> {
+                StudentPostEntity postModel = new StudentPostEntity();
+                postModel.setId(Long.parseLong(objects[0].toString()));
+                postModel.setDescription(objects[1].toString());
+                postModel.setPic(objects[2].toString());
+                postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
+                postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
+                postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
+                postModel.setName(objects[6].toString());
+
+                String commentQuery = "SELECT COUNT(*) FROM `student_posts_commented` WHERE post_id =?";
+                Query comment = commentRepository.getEntityManager().createNativeQuery(commentQuery);
+                comment.setParameter(1,postModel.getId());
+                Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+                postModel.setComment(commentCount.longValue());
 
 
 
-          String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
-          Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
-          like.setParameter(1,13);
-          ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-          likeList.forEach(likeObject -> {
-               if(studId == Long.parseLong(likeObject[1].toString())){
-                  System.out.println("Liked");
-                  postModel.setLiked(true);
-              }
-          });
+                String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
+                Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
+                like.setParameter(1,postModel.getId());
+                ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+                likeList.forEach(likeObject -> {
+                    if(studId == Long.parseLong(likeObject[1].toString())){
+                        System.out.println("Liked");
+                        postModel.setLiked(true);
+                    }
+                });
 
-          Integer likeCount =  likeList.size();
-          postModel.setLike(likeCount.longValue());
+                Integer likeCount =  likeList.size();
+                postModel.setLike(likeCount.longValue());
 
 
 //      getLikes(postModel,Long.parseLong(objects[0].toString()),studId);
 
 
-         postList.add(postModel);
-      });
+                postList.add(postModel);
+            });
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
     LatestUpdateResponse response = new LatestUpdateResponse();
 

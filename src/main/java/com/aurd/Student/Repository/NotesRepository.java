@@ -17,9 +17,17 @@ public class NotesRepository implements PanacheRepository<NotesModel>
 
 
     public ArrayList getNotesList(int instID){
-        ArrayList<NotesModel> arrayList = (ArrayList<NotesModel>) list("inst_id",instID);
-        System.out.println("----------------------------------"+arrayList.size());
-        return  arrayList;
+        ArrayList<NotesModel> arrayList = new ArrayList<>();
+        try{
+            arrayList = (ArrayList<NotesModel>) list("inst_id",instID);
+
+            System.out.println("----------------------------------"+arrayList.size());
+            return  arrayList;
+        }catch (Exception e){
+              return  arrayList;
+        }
+
+
     }
 
 

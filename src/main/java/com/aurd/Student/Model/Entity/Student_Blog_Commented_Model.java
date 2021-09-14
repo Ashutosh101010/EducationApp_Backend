@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "student_blogs_commented")
+@Table(name = "blog_commented")
 
 public class Student_Blog_Commented_Model {
 

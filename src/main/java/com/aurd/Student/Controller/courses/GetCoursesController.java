@@ -44,7 +44,7 @@ public class GetCoursesController {
     @POST
     @Transactional
     public GetCoursesResponse getCourses(GetCoursesRequest request){
-
+        GetCoursesResponse getCoursesResponse = new GetCoursesResponse();
       ArrayList<CourseModel> courseModelArrayList = repository.getCourses(request.getInst_id());
       ArrayList<CourseEntity> courses = new ArrayList<>();
 
@@ -59,17 +59,21 @@ public class GetCoursesController {
 
           courses.add(courseEntity);
       }
+
         ArrayList<NotesModel>notesList = notesRepository.getNotesList(request.getInst_id());
-        int videoLectureCount =  videoLectureRepository.getVideoLectureCount(request.getInst_id());
+        if(!notesList.isEmpty()){
+            int videoLectureCount =  videoLectureRepository.getVideoLectureCount(request.getInst_id());
+            getCoursesResponse.setNotesCount(notesList.size());
+            getCoursesResponse.setVideoLectureCount(videoLectureCount);
+
+        }
 
 
-        GetCoursesResponse getCoursesResponse = new GetCoursesResponse();
+
         getCoursesResponse.setCourses(courses);
         getCoursesResponse.setMessage("Get Course Success");
         getCoursesResponse.setStatus(true);
         getCoursesResponse.setStatusCode(0);
-        getCoursesResponse.setNotesCount(notesList.size());
-        getCoursesResponse.setVideoLectureCount(videoLectureCount);
 
 
         return getCoursesResponse;

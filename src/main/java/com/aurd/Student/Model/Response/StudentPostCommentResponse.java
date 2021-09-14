@@ -1,7 +1,6 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.BeanClass.StudentCommentPostEntity;
-import com.aurd.Student.Model.Entity.Student_Posts_Commented;
+import com.aurd.Student.Model.BeanClass.CommentEntity;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ public class StudentPostCommentResponse {
     int statusCode;
     boolean status;
 
-    ArrayList<StudentCommentPostEntity>comments=new ArrayList();
+    ArrayList<CommentEntity>comments=new ArrayList();
 
 
 
@@ -38,11 +37,11 @@ public class StudentPostCommentResponse {
         this.status = status;
     }
 
-    public ArrayList<StudentCommentPostEntity> getComments() {
+    public ArrayList<CommentEntity> getComments() {
         return comments;
     }
 
-    public void setComments(ArrayList<StudentCommentPostEntity> comments) {
+    public void setComments(ArrayList<CommentEntity> comments) {
         this.comments = comments;
     }
 

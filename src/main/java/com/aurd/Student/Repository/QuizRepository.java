@@ -18,9 +18,8 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
         try {
             System.out.println(new Gson().toJson(request));
 
-            List<QuizModel> list =  find("inst_id=?1 and type =?2",
+           arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2",
                     request.getInst_id(),request.getType()).list();
-            arrayList.addAll(list);
 
             return  arrayList;
         }catch (Exception e){
