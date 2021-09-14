@@ -38,8 +38,6 @@ public class GetTestSeriesController {
             response.setMessage("Get test series success");
         }
 
-
-
        return response;
 
     }

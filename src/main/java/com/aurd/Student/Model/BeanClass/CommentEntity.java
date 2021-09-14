@@ -2,7 +2,7 @@ package com.aurd.Student.Model.BeanClass;
 
 import java.sql.Timestamp;
 
-public class StudentCommentPostEntity {
+public class CommentEntity {
 
     int comment_id;
     String comment;

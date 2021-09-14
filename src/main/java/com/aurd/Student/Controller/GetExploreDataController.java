@@ -122,7 +122,7 @@ public class GetExploreDataController {
         response.setNotesList(notesList);
         response.setPostList(postList);
         response.setCurrentAffairArrayList(caList);
-        response.setQuizList(quizList);
+//        response.setQuizList(quizList);
         response.setErrorCode(0);
         response.setStatus(true);
         response.setMessage("Fetch Explore Data Success");

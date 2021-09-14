@@ -1,7 +1,6 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.Current_AffairsCommented_Model;
-import com.aurd.Student.Model.Entity.Student_Blog_Commented_Model;
+import com.aurd.Student.Model.BeanClass.CommentEntity;
 
 import java.util.ArrayList;
 
@@ -11,8 +10,7 @@ public class GetBlogAndCurrentAffairCommentResponse {
     String message;
     int statusCode;
     boolean status;
-    ArrayList<Student_Blog_Commented_Model> blogCommentList=new ArrayList();
-    ArrayList<Current_AffairsCommented_Model> caList =new ArrayList();
+    ArrayList<CommentEntity> commentList = new ArrayList<>();
 
     public String getMessage() {
         return message;
@@ -38,19 +36,11 @@ public class GetBlogAndCurrentAffairCommentResponse {
         this.status = status;
     }
 
-    public ArrayList<Student_Blog_Commented_Model> getBlogCommentList() {
-        return blogCommentList;
+    public ArrayList<CommentEntity> getCommentList() {
+        return commentList;
     }
 
-    public void setBlogCommentList(ArrayList<Student_Blog_Commented_Model> blogCommentList) {
-        this.blogCommentList = blogCommentList;
-    }
-
-    public ArrayList<Current_AffairsCommented_Model> getCaList() {
-        return caList;
-    }
-
-    public void setCaList(ArrayList<Current_AffairsCommented_Model> caList) {
-        this.caList = caList;
+    public void setCommentList(ArrayList<CommentEntity> commentList) {
+        this.commentList = commentList;
     }
 }

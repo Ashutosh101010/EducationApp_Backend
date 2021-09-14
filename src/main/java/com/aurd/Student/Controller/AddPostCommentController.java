@@ -23,9 +23,6 @@ import java.util.Calendar;
 @Produces(MediaType.APPLICATION_JSON)
 
 public class AddPostCommentController {
-
-
-
         @Inject
         StudentPostCommentRepository repository;
 
