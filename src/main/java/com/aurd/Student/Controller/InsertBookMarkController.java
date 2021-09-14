@@ -1,9 +1,9 @@
 package com.aurd.Student.Controller;
 
 
-import com.aurd.Student.Model.Request.AddCurrentAffairsCommentRequest;
+import com.aurd.Student.Model.Request.InsertBookMarkRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
+import com.aurd.Student.Repository.BookMarkRepository;
 
 
 import javax.inject.Inject;
@@ -17,24 +17,20 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-@Path("/addCurrentAffairComment")
+@Path("/addBookMark")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 
 
-public class AddCurrentAffairCommentController {
-
+public class InsertBookMarkController {
 
     @Inject
-    Current_Affair_Comment_Repository repository;
-
+    BookMarkRepository repository;
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
 
     @Transactional
-
-    public GeneralResponse currentAffairComment(AddCurrentAffairsCommentRequest request){
-
+    public GeneralResponse addBookMark(InsertBookMarkRequest request) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
@@ -42,25 +38,21 @@ public class AddCurrentAffairCommentController {
 
         GeneralResponse response = new GeneralResponse();
 
-        boolean value = repository.addCurrentAffairCommentRequest(request);
+
+        boolean value = repository.addInsertBookMarkRequest(request);
         if (value) {
             response.setStatusCode(0);
             response.setStatus(true);
-            response.setMessage("Comment Added");
+            response.setMessage("BookMark Added");
         } else {
             response.setStatusCode(1);
             response.setStatus(false);
-            response.setMessage("Comments Not Added");
+            response.setMessage("BookMark Not Added");
         }
 
-        return  response;
+        return response;
 
     }
-
-
-
-
-
 
 
 

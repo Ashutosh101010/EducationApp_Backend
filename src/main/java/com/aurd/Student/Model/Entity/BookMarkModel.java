@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
@@ -12,12 +13,8 @@ import java.sql.Timestamp;
 @Table(name = "student_posts_saved")
 
 public class BookMarkModel {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Id
 
-    @Column(name = "id",nullable = false)
-    @NotBlank
-    private long id;
 
   @Column(name = "post_id",nullable = false)
   @NotNull
@@ -28,18 +25,9 @@ public class BookMarkModel {
   private long added_by;
 
   @Column(name = "added_on",nullable = true)
-  @Null
-  @Nullable
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+
   private  Timestamp added_on;
-
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
 
   public long getPost_id() {
     return post_id;

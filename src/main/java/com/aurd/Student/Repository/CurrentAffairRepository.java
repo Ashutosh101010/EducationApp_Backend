@@ -19,4 +19,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
     }
 
 
+
+
+
 }
