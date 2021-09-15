@@ -17,8 +17,8 @@ public class Comment_Reply_Model {
 
     @Id
 
-    @Column(name = "reply_id",nullable = false)
-    private int reply_id;
+    @Column(name = "comment_id",nullable = false)
+    private int comment_id;
 
 
     @Column(name = "post_id",nullable = false)
@@ -37,12 +37,11 @@ public class Comment_Reply_Model {
     @Column(name = "type",nullable = false)
     private String type;
 
-    public int getReply_id() {
-        return reply_id;
-    }
+    @Column(name = "fname",nullable = false)
+    private  String fname;
 
-    public void setReply_id(int comment_id) {
-        this.reply_id = comment_id;
+    public int getComment_id() {
+        return comment_id;
     }
 
     public int getPost_id() {
@@ -52,6 +51,7 @@ public class Comment_Reply_Model {
     public void setPost_id(int post_id) {
         this.post_id = post_id;
     }
+
 
     public int getUser_id() {
         return user_id;
@@ -83,5 +83,17 @@ public class Comment_Reply_Model {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public void setComment_id(int comment_id) {
+        this.comment_id=comment_id;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
     }
 }

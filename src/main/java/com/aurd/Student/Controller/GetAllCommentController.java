@@ -88,11 +88,11 @@ public class GetAllCommentController {
         }else if (request.getType().equals("blog")) {
 
             String string = "SELECT blog_commented.comment ,blog_commented.comment_id,blog_commented.blog_id," +
-                    " blog_commented.added_on,students.fname,comment_reply.reply_id,comment_reply.post_id,comment_reply.user_id," +
-                    " comment_reply.added_on AS reply_date,comment_reply.comment_reply,comment_reply.type FROM blog_commented " +
-                    "INNER JOIN students ON students.id = blog_commented.added_by " +
-                    "INNER JOIN comment_reply ON comment_reply.reply_id=blog_commented.comment_id " +
-                    "WHERE blog_commented.blog_id =?";
+                    " blog_commented.added_on,students.fname,comment_reply.comment_id AS reply_id ," +
+                    "comment_reply.post_id,comment_reply.user_id, comment_reply.added_on AS reply_date,comment_reply.comment_reply," +
+                    "comment_reply.type, students.fname as stud_name FROM blog_commented " +
+                    "INNER JOIN comment_reply ON comment_reply.comment_id=blog_commented.comment_id " +
+                    "INNER JOIN students ON students.id = blog_commented.added_by AND students.id = comment_reply.user_id WHERE blog_commented.blog_id =?";
 
 
             Query query = blog_repository.getEntityManager().createNativeQuery(string);
@@ -119,12 +119,14 @@ public class GetAllCommentController {
                    ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
                    if(model==null){
                        model = new Comment_Reply_Model();
-                       model.setReply_id(Integer.parseInt(objects[5].toString()));
+                       model.setComment_id(Integer.parseInt(objects[5].toString()));
                        model.setPost_id(Integer.parseInt(objects[6].toString()));
                        model.setUser_id(Integer.parseInt(objects[7].toString()));
                        model.setAdded_on(Timestamp.valueOf(objects[8].toString()));
                        model.setComment_reply(objects[9].toString());
                        model.setType(objects[10].toString());
+                       model.setFname(objects[11].toString());
+
                        rList.add(model);
                    }
                    commentEntity.setReplyList(rList);
@@ -141,12 +143,14 @@ public class GetAllCommentController {
         } else if (request.getType().equals("currentAffair"))
         {
 
-            String string = "SELECT current_affairs_comments.comment ,current_affairs_comments.comment_id,\n" +
-                    "                current_affairs_comments.current_affair_id," +
-                    " current_affairs_comments.added_on, students.fname \n" +
-                    "        FROM current_affairs_comments INNER JOIN students ON students.id =" +
-                    " current_affairs_comments.added_by \n" +
-                    "        WHERE current_affairs_comments.current_affair_id = ?";
+            String string = "SELECT current_affairs_comments.comment ,current_affairs_comments.comment_id, " +
+                    "current_affairs_comments.current_affair_id, current_affairs_comments.added_on, " +
+                    "students.fname, comment_reply.comment_id AS reply_id ,comment_reply.post_id,comment_reply.user_id, " +
+                    "comment_reply.added_on AS reply_date,comment_reply.comment_reply,comment_reply.type ," +
+                    "students.fname as stud_name FROM current_affairs_comments " +
+                    "INNER JOIN students ON students.id = current_affairs_comments.added_by " +
+                    "INNER JOIN comment_reply ON comment_reply.comment_id=current_affairs_comments.comment_id " +
+                    "AND students.id = comment_reply.user_id WHERE current_affairs_comments.current_affair_id =?";
 
             Query query = ca_repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getPost_id());
@@ -165,6 +169,22 @@ public class GetAllCommentController {
                     commentEntity.setPost_id(Integer.parseInt(objects[2].toString()));
                     commentEntity.setAdded_on(Timestamp.valueOf(objects[3].toString()));
                     commentEntity.setFname(objects[4].toString());
+
+                    Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
+
+                    ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
+                    if(model==null){
+                        model = new Comment_Reply_Model();
+                        model.setComment_id(Integer.parseInt(objects[5].toString()));
+                        model.setPost_id(Integer.parseInt(objects[6].toString()));
+                        model.setUser_id(Integer.parseInt(objects[7].toString()));
+                        model.setAdded_on(Timestamp.valueOf(objects[8].toString()));
+                        model.setComment_reply(objects[9].toString());
+                        model.setType(objects[10].toString());
+                        model.setFname(objects[11].toString());
+                        rList.add(model);
+                    }
+                    commentEntity.setReplyList(rList);
 
                     arrayList.add(commentEntity);
                 });

@@ -4,20 +4,20 @@ import java.sql.Timestamp;
 
 public class CommentReplyRequest {
 
-    int comment_id;
+    int reply_id;
     int post_id;
     int user_id;
     Timestamp added_on;
-    String comment;
+    String comment_reply;
     String type;
 
 
-    public int getComment_id() {
-        return comment_id;
+    public int getReply_id() {
+        return reply_id;
     }
 
-    public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+    public void setReply_id(int reply_id) {
+        this.reply_id = reply_id;
     }
 
     public int getPost_id() {
@@ -44,12 +44,12 @@ public class CommentReplyRequest {
         this.added_on = added_on;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComment_reply() {
+        return comment_reply;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComment_reply(String comment_reply) {
+        this.comment_reply = comment_reply;
     }
 
     public String getType() {
