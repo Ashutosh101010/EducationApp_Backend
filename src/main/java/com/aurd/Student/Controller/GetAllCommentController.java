@@ -2,6 +2,7 @@ package com.aurd.Student.Controller;
 
 
 import com.aurd.Student.Model.BeanClass.CommentEntity;
+import com.aurd.Student.Model.Entity.Comment_Reply_Model;
 import com.aurd.Student.Model.Entity.Current_AffairsCommented_Model;
 import com.aurd.Student.Model.Entity.Student_Blog_Commented_Model;
 import com.aurd.Student.Model.Request.GetCommentRequest;
@@ -9,6 +10,7 @@ import com.aurd.Student.Model.Response.StudentPostCommentResponse;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -42,6 +44,8 @@ public class GetAllCommentController {
 
 
     public StudentPostCommentResponse getComment(GetCommentRequest request) {
+
+        System.out.println(new Gson().toJson(request));
         ArrayList<CommentEntity> arrayList = new ArrayList();
 
 
@@ -83,12 +87,14 @@ public class GetAllCommentController {
 
         }else if (request.getType().equals("blog")) {
 
-            String string = "SELECT blog_commented.comment ,blog_commented.comment_id,\n" +
-                    "                blog_commented.blog_id, blog_commented.added_on,students.fname \n" +
-                    "        FROM blog_commented INNER JOIN students ON students.id = blog_commented.added_by \n" +
-                    "        WHERE blog_commented.blog_id =?";
+            String string = "SELECT blog_commented.comment ,blog_commented.comment_id,blog_commented.blog_id," +
+                    " blog_commented.added_on,students.fname,comment_reply.reply_id,comment_reply.post_id,comment_reply.user_id," +
+                    " comment_reply.added_on AS reply_date,comment_reply.comment_reply,comment_reply.type FROM blog_commented " +
+                    "INNER JOIN students ON students.id = blog_commented.added_by " +
+                    "INNER JOIN comment_reply ON comment_reply.reply_id=blog_commented.comment_id " +
+                    "WHERE blog_commented.blog_id =?";
 
-//            ArrayList<Student_Blog_Commented_Model> blogCommentList = blog_repository.getComment(request);
+
             Query query = blog_repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getPost_id());
             ArrayList<Object[]> blogCommentList = (ArrayList<Object[]>) query.getResultList();
@@ -108,6 +114,21 @@ public class GetAllCommentController {
                     commentEntity.setAdded_on(Timestamp.valueOf(objects[3].toString()));
                     commentEntity.setFname(objects[4].toString());
 
+                   Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
+
+                   ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
+                   if(model==null){
+                       model = new Comment_Reply_Model();
+                       model.setReply_id(Integer.parseInt(objects[5].toString()));
+                       model.setPost_id(Integer.parseInt(objects[6].toString()));
+                       model.setUser_id(Integer.parseInt(objects[7].toString()));
+                       model.setAdded_on(Timestamp.valueOf(objects[8].toString()));
+                       model.setComment_reply(objects[9].toString());
+                       model.setType(objects[10].toString());
+                       rList.add(model);
+                   }
+                   commentEntity.setReplyList(rList);
+                   // commentEntity.setReplyList();
                     arrayList.add(commentEntity);
                 });
 
@@ -117,7 +138,8 @@ public class GetAllCommentController {
                 response.setMessage("Get comment Success");
             }
 
-        } else if (request.getType().equals("currentAffair")) {
+        } else if (request.getType().equals("currentAffair"))
+        {
 
             String string = "SELECT current_affairs_comments.comment ,current_affairs_comments.comment_id,\n" +
                     "                current_affairs_comments.current_affair_id," +
@@ -155,8 +177,16 @@ public class GetAllCommentController {
 
         }
 
-
-
         return response;
     }
+
+    Comment_Reply_Model getReply(long postID,CommentEntity entity){
+        Comment_Reply_Model model = null;
+        if(entity.getPost_id()==postID){
+            model = new Comment_Reply_Model();
+          return  model;
+        }
+        return  model;
+    }
+
 }

@@ -25,7 +25,7 @@ public class Blog_Comment_Repository implements PanacheRepository<Student_Blog_C
     public ArrayList getComment(GetCommentRequest request){
 
         ArrayList<Student_Blog_Commented_Model> arrayList = (ArrayList<Student_Blog_Commented_Model>)
-                find("blog_id" ,request.getPost_id()).list();
+                find("blog_id",request.getPost_id()).list();
 
         return  arrayList;
       }

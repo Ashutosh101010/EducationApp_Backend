@@ -1,6 +1,9 @@
 package com.aurd.Student.Model.BeanClass;
 
+import com.aurd.Student.Model.Entity.Comment_Reply_Model;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class CommentEntity {
 
@@ -9,6 +12,13 @@ public class CommentEntity {
     int post_id;
     Timestamp added_on;
     String fname;
+
+    ArrayList<Comment_Reply_Model> ReplyList = new ArrayList<>();
+    int reply_id;
+    int user_id;
+    String comment_reply;
+    String type;
+
 
     public int getComment_id() {
         return comment_id;
@@ -48,5 +58,45 @@ public class CommentEntity {
 
     public void setFname(String fname) {
         this.fname = fname;
+    }
+
+    public ArrayList<Comment_Reply_Model> getReplyList() {
+        return ReplyList;
+    }
+
+    public void setReplyList(ArrayList<Comment_Reply_Model> replyList) {
+        ReplyList = replyList;
+    }
+
+    public int getReply_id() {
+        return reply_id;
+    }
+
+    public void setReply_id(int reply_id) {
+        this.reply_id = reply_id;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getComment_reply() {
+        return comment_reply;
+    }
+
+    public void setComment_reply(String comment_reply) {
+        this.comment_reply = comment_reply;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
