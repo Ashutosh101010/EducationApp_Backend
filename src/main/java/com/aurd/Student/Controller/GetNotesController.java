@@ -44,9 +44,9 @@ public class GetNotesController {
         ArrayList<NotesEntity> notesList = new ArrayList();
 
 
-        String string = "SELECT notes.name, notes.file , notes.teacher_id,notes.id,notes.created_at, " +
+        String string = "SELECT notes.name, notes.file , notes.created_by,notes.id,notes.created_at, " +
                 "employees.fname,topics.topic,notes.topicId FROM notes INNER JOIN employees ON " +
-                "employees.id= notes.teacher_id INNER JOIN topics ON topics.id= notes.topicId " +
+                "employees.id= notes.created_by INNER JOIN topics ON topics.id= notes.topicId " +
                 "WHERE notes.inst_id = ?";
 
         Query query = repository.getEntityManager().createNativeQuery(string);
