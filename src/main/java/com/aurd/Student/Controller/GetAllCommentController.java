@@ -52,10 +52,13 @@ public class GetAllCommentController {
         StudentPostCommentResponse response = new StudentPostCommentResponse();
 
         if(request.getType().equals("studentPost")){
-            String string ="SELECT student_posts_commented.comment ,student_posts_commented.comment_id,\n" +
-                    "                student_posts_commented.post_id, student_posts_commented.added_on,students.fname \n" +
-                    "        FROM student_posts_commented INNER JOIN students ON students.id = student_posts_commented.added_by \n" +
-                    "        WHERE student_posts_commented.post_id =?";
+            String string ="SELECT student_posts_commented.comment ,student_posts_commented.comment_id, " +
+                    "student_posts_commented.post_id As stud_postId, student_posts_commented.added_on, students.fname, comment_reply.comment_id" +
+                    " AS reply_id ,comment_reply.post_id,comment_reply.user_id, comment_reply.added_on AS reply_date,comment_reply.comment_reply," +
+                    "comment_reply.type , students.fname as stud_name FROM student_posts_commented INNER JOIN students " +
+                    "ON students.id = student_posts_commented.added_by INNER JOIN comment_reply " +
+                    "ON comment_reply.comment_id=student_posts_commented.comment_id AND students.id = comment_reply.user_id " +
+                    "WHERE student_posts_commented.post_id =?";
 
             Query query = repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getPost_id());
@@ -73,6 +76,23 @@ public class GetAllCommentController {
                     commentEntity.setPost_id(Integer.parseInt(objects[2].toString()));
                     commentEntity.setAdded_on(Timestamp.valueOf(objects[3].toString()));
                     commentEntity.setFname(objects[4].toString());
+
+                    Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
+
+                    ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
+                    if(model==null){
+                        model = new Comment_Reply_Model();
+                        model.setComment_id(Integer.parseInt(objects[5].toString()));
+                        model.setPost_id(Integer.parseInt(objects[6].toString()));
+                        model.setUser_id(Integer.parseInt(objects[7].toString()));
+                        model.setAdded_on(Timestamp.valueOf(objects[8].toString()));
+                        model.setComment_reply(objects[9].toString());
+                        model.setType(objects[10].toString());
+                        model.setFname(objects[11].toString());
+
+                        rList.add(model);
+                    }
+                    commentEntity.setReplyList(rList);
 
                     arrayList.add(commentEntity);
 
@@ -130,7 +150,7 @@ public class GetAllCommentController {
                        rList.add(model);
                    }
                    commentEntity.setReplyList(rList);
-                   // commentEntity.setReplyList();
+
                     arrayList.add(commentEntity);
                 });
 
@@ -172,8 +192,15 @@ public class GetAllCommentController {
 
                     Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
 
+
+                   // System.out.println(objects[11].toString());
+                   // System.out.println(objects[9].toString());
+
                     ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
                     if(model==null){
+
+                        System.out.println("In Reply Model Class");
+
                         model = new Comment_Reply_Model();
                         model.setComment_id(Integer.parseInt(objects[5].toString()));
                         model.setPost_id(Integer.parseInt(objects[6].toString()));
@@ -183,6 +210,16 @@ public class GetAllCommentController {
                         model.setType(objects[10].toString());
                         model.setFname(objects[11].toString());
                         rList.add(model);
+                    }else{
+                        Comment_Reply_Model   model1 = new Comment_Reply_Model();
+                        model1.setComment_id(Integer.parseInt(objects[5].toString()));
+                        model1.setPost_id(Integer.parseInt(objects[6].toString()));
+                        model1.setUser_id(Integer.parseInt(objects[7].toString()));
+                        model1.setAdded_on(Timestamp.valueOf(objects[8].toString()));
+                        model1.setComment_reply(objects[9].toString());
+                        model1.setType(objects[10].toString());
+                        model1.setFname(objects[11].toString());
+                        rList.add(model1);
                     }
                     commentEntity.setReplyList(rList);
 
@@ -196,7 +233,6 @@ public class GetAllCommentController {
             }
 
         }
-
         return response;
     }
 
