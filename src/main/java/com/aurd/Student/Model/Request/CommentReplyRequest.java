@@ -10,7 +10,15 @@ public class CommentReplyRequest {
     Timestamp added_on;
     String comment_reply;
     String type;
+    String fname;
 
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
 
     public int getComment_id() {
         return comment_id;
