@@ -2,9 +2,7 @@ package com.aurd.Student.Repository.comment;
 
 import com.aurd.Student.Model.Entity.Current_AffairsCommented_Model;
 
-import com.aurd.Student.Model.Request.AddCurrentAffairsCommentRequest;
-
-import com.aurd.Student.Model.Request.GetBlogAndCurrentAffairCommentRequest;
+import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Request.GetCommentRequest;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -31,8 +29,9 @@ public class Current_Affair_Comment_Repository implements PanacheRepository<Curr
 
       }
 
-    public boolean addCurrentAffairCommentRequest(AddCurrentAffairsCommentRequest request) {
-        Current_AffairsCommented_Model current_affairsCommented_model = new Gson().fromJson(new Gson().toJson(request),Current_AffairsCommented_Model.class);
+    public boolean addCurrentAffairCommentRequest(AddPostCommentRequest request) {
+        Current_AffairsCommented_Model current_affairsCommented_model =
+                new Gson().fromJson(new Gson().toJson(request),Current_AffairsCommented_Model.class);
         persist(current_affairsCommented_model);
         return true;
 

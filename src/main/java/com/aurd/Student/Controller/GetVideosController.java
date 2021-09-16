@@ -6,25 +6,25 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+
 import java.io.IOException;
-import java.io.InputStream;
+
 import static com.aurd.Service.s3;
 
-@Path("/image")
-public class ImageController {
+@Path("/videos")
+public class GetVideosController {
 
     @Path("/{id}")
     @GET
-    @Produces({"image/png", "image/jpg", "image/gif"})
-    public Response getImage(@PathParam("id") String imageId) throws IOException {
-
-        System.out.println(imageId);
+    @Produces({"video/mp4"})
+    public Response getVideos(@PathParam("id") String videoId) throws IOException {
+        System.out.println(videoId);
         final String bucketName = "educationapp";
-
-
-        byte[] data = s3.getObject(bucketName,imageId).getObjectContent().readAllBytes();
+        byte[] data = s3.getObject(bucketName,videoId).getObjectContent().readAllBytes();
 
         return Response.ok(data).build();
     }
+
+
 
 }

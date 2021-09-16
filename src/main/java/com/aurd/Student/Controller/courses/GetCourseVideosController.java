@@ -28,7 +28,8 @@ public class GetCourseVideosController {
 
     public GetVideoLectureResponse getVideos(GetVideoLectureRequest request){
 
-        ArrayList<VideoModel> arrayList= videoLectureRepository.getCourseVideoList(request.getTopicID());
+        ArrayList<VideoModel> arrayList= videoLectureRepository.getCourseVideoList(request.getTopicID(),
+                request.getInstID());
         GetVideoLectureResponse response = new GetVideoLectureResponse();
         response.setErrorCode(0);
         response.setMessage("Get videos success");

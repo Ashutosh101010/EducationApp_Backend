@@ -1,10 +1,10 @@
 package com.aurd.Student.Controller;
 
 
-import com.aurd.Student.Model.Request.AddCurrentAffairsCommentRequest;
 import com.aurd.Student.Model.Request.CommentReplyRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.CommentReplyRepository;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -32,6 +32,8 @@ public class CommentReplyController {
 
 
     public GeneralResponse CommentReply(CommentReplyRequest request) {
+
+        System.out.println(new Gson().toJson(request));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();

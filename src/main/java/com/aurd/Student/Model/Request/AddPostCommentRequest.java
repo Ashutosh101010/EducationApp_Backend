@@ -9,8 +9,15 @@ public class AddPostCommentRequest {
     int post_id;
     long added_by;
     Timestamp added_on;
+    String type;
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getComment() {
         return comment;
