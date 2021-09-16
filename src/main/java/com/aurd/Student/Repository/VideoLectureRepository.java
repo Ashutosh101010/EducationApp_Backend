@@ -21,8 +21,9 @@ public class VideoLectureRepository implements PanacheRepository <VideoModel>{
     }
 
 
-    public ArrayList getCourseVideoList(long topicId){
-        ArrayList<VideoModel> arrayList = (ArrayList<VideoModel>) list("topicId",topicId);
+    public ArrayList getCourseVideoList(long topicId,long instId){
+        ArrayList<VideoModel> arrayList = (ArrayList<VideoModel>) list("topicId=?1 and inst_id=?2",
+                topicId,instId);
         return  arrayList;
     }
 

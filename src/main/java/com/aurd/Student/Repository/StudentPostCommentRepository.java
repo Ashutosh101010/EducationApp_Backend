@@ -20,7 +20,8 @@ public class StudentPostCommentRepository implements PanacheRepository<Student_P
     }
 
     public boolean addPostCommentRequest(AddPostCommentRequest request) {
-        Student_Posts_Commented studentPostsCommented = new Gson().fromJson(new Gson().toJson(request),Student_Posts_Commented.class);
+        Student_Posts_Commented studentPostsCommented = new Gson().fromJson(new Gson().toJson(request),
+                Student_Posts_Commented.class);
         persist(studentPostsCommented);
         return true;
 

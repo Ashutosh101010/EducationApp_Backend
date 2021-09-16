@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public class CommentReplyRequest {
 
-    int reply_id;
+    int comment_id;
     int post_id;
     int user_id;
     Timestamp added_on;
@@ -12,12 +12,12 @@ public class CommentReplyRequest {
     String type;
 
 
-    public int getReply_id() {
-        return reply_id;
+    public int getComment_id() {
+        return comment_id;
     }
 
-    public void setReply_id(int reply_id) {
-        this.reply_id = reply_id;
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
     }
 
     public int getPost_id() {

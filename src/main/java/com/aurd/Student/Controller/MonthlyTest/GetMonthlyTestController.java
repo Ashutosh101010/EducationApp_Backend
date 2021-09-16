@@ -12,7 +12,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 
-@Path("/getMonthlyTest")
+@Path("/getPractiseTest")
 public class GetMonthlyTestController {
 
     @Inject
@@ -20,7 +20,8 @@ public class GetMonthlyTestController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
 
-    public MonthlytestSeriesResponse getMonthlyTestSeries(@QueryParam("instID") long instID, @QueryParam("type") String type){
+    public MonthlytestSeriesResponse getMonthlyTestSeries(@QueryParam("instID") long instID,
+                                                          @QueryParam("type") String type){
         ArrayList<QuizModel> testList = repository.getMonthlyTest(instID,type);
 
         MonthlytestSeriesResponse response = new MonthlytestSeriesResponse();

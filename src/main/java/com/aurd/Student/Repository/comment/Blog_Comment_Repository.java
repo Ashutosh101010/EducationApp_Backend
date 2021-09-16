@@ -1,8 +1,7 @@
 package com.aurd.Student.Repository.comment;
 
 import com.aurd.Student.Model.Entity.Student_Blog_Commented_Model;
-import com.aurd.Student.Model.Request.AddBlogCommentRequest;
-import com.aurd.Student.Model.Request.GetBlogAndCurrentAffairCommentRequest;
+import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Request.GetCommentRequest;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 
 public class Blog_Comment_Repository implements PanacheRepository<Student_Blog_Commented_Model> {
 
-    public boolean addStudentBlogCommentRequest (AddBlogCommentRequest request) {
+    public boolean addStudentBlogCommentRequest (AddPostCommentRequest request) {
 
         Student_Blog_Commented_Model student_blog_commented_model = new Gson().fromJson(new Gson().toJson(request),Student_Blog_Commented_Model.class);
         persist(student_blog_commented_model);

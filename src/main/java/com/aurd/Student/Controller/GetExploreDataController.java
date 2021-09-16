@@ -114,7 +114,7 @@ public class GetExploreDataController {
         GetQuizRequest request = new GetQuizRequest();
         request.setInst_id(id);
         request.setType("Quiz");
-        ArrayList<QuizModel> quizList = quizRepository.getQuizzes(request);
+//        ArrayList<QuizModel> quizList = quizRepository.getQuizzes(request);
 
 
         GetExploreDataResponse response = new GetExploreDataResponse();
