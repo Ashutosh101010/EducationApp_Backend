@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class TestSeries_Repository implements PanacheRepository<TestSeriesModel> {
 
 
-    public  ArrayList getAllTestSeries(long instID){
+    public  ArrayList getAllTestSeries(long inst_id){
         ArrayList<TestSeriesModel> arrayList = (ArrayList<TestSeriesModel>)
-                find("inst_id =?1",instID).list();
+                find("inst_id =?1",inst_id).list();
         return  arrayList;
     }
 
@@ -26,7 +26,7 @@ public class TestSeries_Repository implements PanacheRepository<TestSeriesModel>
 
 
     public  void addPracticeTest(Submit_PracticeTest_Request request){
-        TestSeriesModel testSeriesModel = new Gson().fromJson(new Gson().toJson(request),TestSeriesModel.class);
+        TestSeriesModel testSeriesModel = new Gson().fromJson(new Gson().toJson(request), TestSeriesModel.class);
         persist(testSeriesModel);
     }
 
@@ -34,6 +34,7 @@ public class TestSeries_Repository implements PanacheRepository<TestSeriesModel>
       TestSeriesModel testSeriesModel = find("id",id).firstResult();
       return  testSeriesModel.getCutoff();
     }
+
 
 
 }

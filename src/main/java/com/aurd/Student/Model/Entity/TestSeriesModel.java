@@ -13,9 +13,10 @@ import java.sql.Timestamp;
 @Table(name = "testseries")
 public class TestSeriesModel {
     @Id
-    @PrimaryKeyJoinColumn
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
 
     @Column(name = "name",nullable = false)
     private String name;
@@ -71,6 +72,14 @@ public class TestSeriesModel {
     @Column(name = "quiz_id",nullable = false)
     private  long quiz_id;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setInst_id(long inst_id) {
         this.inst_id = inst_id;
     }
@@ -83,13 +92,7 @@ public class TestSeriesModel {
         this.subject_id = subject_id;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
