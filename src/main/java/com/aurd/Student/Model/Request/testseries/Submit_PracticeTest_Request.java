@@ -1,7 +1,5 @@
 package com.aurd.Student.Model.Request.testseries;
 
-import com.aurd.Student.Model.Entity.TestSeriesModel;
-
 import java.sql.Timestamp;
 
 public class Submit_PracticeTest_Request {

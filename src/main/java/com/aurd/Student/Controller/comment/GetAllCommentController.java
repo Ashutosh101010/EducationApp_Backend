@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.comment;
 
 
 import com.aurd.Student.Model.BeanClass.CommentEntity;

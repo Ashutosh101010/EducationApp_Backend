@@ -3,6 +3,7 @@ package com.aurd.Student.Controller.TestSeries;
 
 import com.aurd.Student.Model.Request.testseries.Get_PractiseTestSeries_Request;
 import com.aurd.Student.Model.Response.TestSeries.PractiseTestSeries_Response;
+import com.aurd.Student.Repository.PractiseTestSeriesRepository;
 import com.aurd.Student.Repository.TestSeries_Repository;
 
 import javax.inject.Inject;
@@ -18,15 +19,17 @@ import java.util.ArrayList;
 public class Get_PractiseTestSeries_Controller {
 
     @Inject
-    TestSeries_Repository repository;
+    PractiseTestSeriesRepository repository;
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 
     @Transactional
     public PractiseTestSeries_Response getPractiseTest(Get_PractiseTestSeries_Request request){
+
         PractiseTestSeries_Response response = new PractiseTestSeries_Response();
-       ArrayList arrayList =  repository.getPractiseTest(request.getInst_id(),request.getQuiz_id());
+
+       ArrayList arrayList =  repository.getPractiseTest(request.getInst_id(),request.getTopic_id());
        if(arrayList.isEmpty()){
           response.setErrorCode(1);
           response.setStatus(false);

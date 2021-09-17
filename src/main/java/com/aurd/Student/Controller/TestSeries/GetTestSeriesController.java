@@ -1,11 +1,10 @@
 package com.aurd.Student.Controller.TestSeries;
 
-import com.aurd.Student.Model.Entity.QuizModel;
 import com.aurd.Student.Model.Entity.TestSeriesModel;
 import com.aurd.Student.Model.Request.GetQuizRequest;
-import com.aurd.Student.Model.Response.GetQuizResponse;
+import com.aurd.Student.Model.Request.testseries.Get_TestSeries_Request;
+import com.aurd.Student.Model.Response.TestSeries.PractiseTestSeries_Response;
 import com.aurd.Student.Model.Response.TestSeries.TestSeriesResponse;
-import com.aurd.Student.Repository.QuizRepository;
 import com.aurd.Student.Repository.TestSeries_Repository;
 
 import javax.inject.Inject;
@@ -22,11 +21,15 @@ public class GetTestSeriesController {
     @POST
     @Transactional
 
-    public TestSeriesResponse getTestSeries(GetQuizRequest request){
 
-    ArrayList<TestSeriesModel> testSeries = repository.getAllTestSeries(request.getInst_id());
+       public TestSeriesResponse getTestSeries(Get_TestSeries_Request request){
 
         TestSeriesResponse response = new TestSeriesResponse();
+
+
+        ArrayList<TestSeriesModel>testSeries= repository.getAllTestSeries(request.getInst_id());
+
+
         if(testSeries.isEmpty()){
             response.setStatus(false);
             response.setErrorCode(1);
