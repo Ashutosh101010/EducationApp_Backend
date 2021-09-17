@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller.comment;
+package com.aurd.Student.Controller;
 
 
 import com.aurd.Student.Model.BeanClass.CommentEntity;
@@ -7,7 +7,6 @@ import com.aurd.Student.Model.Entity.Current_AffairsCommented_Model;
 import com.aurd.Student.Model.Entity.Student_Blog_Commented_Model;
 import com.aurd.Student.Model.Request.GetCommentRequest;
 import com.aurd.Student.Model.Response.StudentPostCommentResponse;
-import com.aurd.Student.Repository.CommentReplyRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -40,9 +39,6 @@ public class GetAllCommentController {
     Current_Affair_Comment_Repository ca_repository;
 
 
-    @Inject
-    CommentReplyRepository replyRepository;
-
     @Transactional
     @POST
 
@@ -57,10 +53,12 @@ public class GetAllCommentController {
 
         if(request.getType().equals("studentPost")){
             String string ="SELECT student_posts_commented.comment ,student_posts_commented.comment_id, " +
-                    "student_posts_commented.post_id, student_posts_commented.added_on,students.fname " +
-                    "FROM student_posts_commented " +
-                    "INNER JOIN students ON students.id = student_posts_commented.added_by " +
-                    " WHERE student_posts_commented.post_id =?";
+                    "student_posts_commented.post_id As stud_postId, student_posts_commented.added_on, students.fname, comment_reply.comment_id" +
+                    " AS reply_id ,comment_reply.post_id,comment_reply.user_id, comment_reply.added_on AS reply_date,comment_reply.comment_reply," +
+                    "comment_reply.type , students.fname as stud_name FROM student_posts_commented INNER JOIN students " +
+                    "ON students.id = student_posts_commented.added_by INNER JOIN comment_reply " +
+                    "ON comment_reply.comment_id=student_posts_commented.comment_id AND students.id = comment_reply.user_id " +
+                    "WHERE student_posts_commented.post_id =?";
 
             Query query = repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getPost_id());
@@ -79,44 +77,22 @@ public class GetAllCommentController {
                     commentEntity.setAdded_on(Timestamp.valueOf(objects[3].toString()));
                     commentEntity.setFname(objects[4].toString());
 
+                    Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
 
-                   ArrayList<Comment_Reply_Model> replyList = getCommentReply(Integer.parseInt(objects[1].toString()));
-                   if(!replyList.isEmpty()){
-                       commentEntity.setReplyList(replyList);
-                   }
+                    ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
+                    if(model==null){
+                        model = new Comment_Reply_Model();
+                        model.setComment_id(Integer.parseInt(objects[5].toString()));
+                        model.setPost_id(Integer.parseInt(objects[6].toString()));
+                        model.setUser_id(Integer.parseInt(objects[7].toString()));
+                        model.setAdded_on(Timestamp.valueOf(objects[8].toString()));
+                        model.setComment_reply(objects[9].toString());
+                        model.setType(objects[10].toString());
+                        model.setFname(objects[11].toString());
 
-
-
-//                    Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
-//
-//                    ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
-//                    if(model==null){
-//                        model = new Comment_Reply_Model();
-//                        model.setComment_id(Integer.parseInt(objects[5].toString()));
-////                        model.setPost_id(Integer.parseInt(objects[6].toString()));
-//                        model.setUser_id(Integer.parseInt(objects[6].toString()));
-//                        model.setAdded_on(Timestamp.valueOf(objects[7].toString()));
-//                        model.setComment_reply(objects[8].toString());
-//                        model.setType(objects[9].toString());
-//                        model.setFname(objects[10].toString());
-//
-//                        rList.add(model);
-//                    }
-//                    else{
-//                        Comment_Reply_Model  model1 = new Comment_Reply_Model();
-//                        model1.setComment_id(Integer.parseInt(objects[5].toString()));
-////                        model.setPost_id(Integer.parseInt(objects[6].toString()));
-//                        model1.setUser_id(Integer.parseInt(objects[6].toString()));
-//                        model1.setAdded_on(Timestamp.valueOf(objects[7].toString()));
-//                        model1.setComment_reply(objects[8].toString());
-//                        model1.setType(objects[9].toString());
-//                        model1.setFname(objects[10].toString());
-//
-//                        rList.add(model1);
-//
-//                    }
-//                    commentEntity.setReplyList(rList);
-
+                        rList.add(model);
+                    }
+                    commentEntity.setReplyList(rList);
 
                     arrayList.add(commentEntity);
 
@@ -136,8 +112,7 @@ public class GetAllCommentController {
                     "comment_reply.post_id,comment_reply.user_id, comment_reply.added_on AS reply_date,comment_reply.comment_reply," +
                     "comment_reply.type, students.fname as stud_name FROM blog_commented " +
                     "INNER JOIN comment_reply ON comment_reply.comment_id=blog_commented.comment_id " +
-                    "INNER JOIN students ON students.id = blog_commented.added_by " +
-                    "AND students.id = comment_reply.user_id WHERE blog_commented.blog_id =?";
+                    "INNER JOIN students ON students.id = blog_commented.added_by AND students.id = comment_reply.user_id WHERE blog_commented.blog_id =?";
 
 
             Query query = blog_repository.getEntityManager().createNativeQuery(string);
@@ -173,21 +148,9 @@ public class GetAllCommentController {
                        model.setFname(objects[11].toString());
 
                        rList.add(model);
-                   }else{
-                       Comment_Reply_Model  model1 = new Comment_Reply_Model();
-                       model1.setComment_id(Integer.parseInt(objects[5].toString()));
-                       model1.setPost_id(Integer.parseInt(objects[6].toString()));
-                       model1.setUser_id(Integer.parseInt(objects[7].toString()));
-                       model1.setAdded_on(Timestamp.valueOf(objects[8].toString()));
-                       model1.setComment_reply(objects[9].toString());
-                       model1.setType(objects[10].toString());
-                       model1.setFname(objects[11].toString());
-
-                       rList.add(model1);
-
                    }
                    commentEntity.setReplyList(rList);
-                   // commentEntity.setReplyList();
+
                     arrayList.add(commentEntity);
                 });
 
@@ -229,8 +192,15 @@ public class GetAllCommentController {
 
                     Comment_Reply_Model model= getReply(Integer.parseInt(objects[5].toString()),commentEntity);
 
+
+                   // System.out.println(objects[11].toString());
+                   // System.out.println(objects[9].toString());
+
                     ArrayList<Comment_Reply_Model> rList = new ArrayList<>();
                     if(model==null){
+
+                        System.out.println("In Reply Model Class");
+
                         model = new Comment_Reply_Model();
                         model.setComment_id(Integer.parseInt(objects[5].toString()));
                         model.setPost_id(Integer.parseInt(objects[6].toString()));
@@ -241,7 +211,7 @@ public class GetAllCommentController {
                         model.setFname(objects[11].toString());
                         rList.add(model);
                     }else{
-                        Comment_Reply_Model  model1 = new Comment_Reply_Model();
+                        Comment_Reply_Model   model1 = new Comment_Reply_Model();
                         model1.setComment_id(Integer.parseInt(objects[5].toString()));
                         model1.setPost_id(Integer.parseInt(objects[6].toString()));
                         model1.setUser_id(Integer.parseInt(objects[7].toString()));
@@ -249,9 +219,7 @@ public class GetAllCommentController {
                         model1.setComment_reply(objects[9].toString());
                         model1.setType(objects[10].toString());
                         model1.setFname(objects[11].toString());
-
                         rList.add(model1);
-
                     }
                     commentEntity.setReplyList(rList);
 
@@ -265,7 +233,6 @@ public class GetAllCommentController {
             }
 
         }
-
         return response;
     }
 
@@ -278,20 +245,4 @@ public class GetAllCommentController {
         return  model;
     }
 
-
-
-    ArrayList getCommentReply(int commentID){
-
-        ArrayList<Comment_Reply_Model> replyList = new ArrayList<>();
-        try
-        {
-            replyList  = (ArrayList<Comment_Reply_Model>) replyRepository
-                .list("comment_id",commentID);
-            return  replyList;
-        }catch (Exception e){
-            return  replyList;
-        }
-
-
-    }
 }
