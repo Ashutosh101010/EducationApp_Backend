@@ -12,9 +12,46 @@ public class NotesEntity
     private Timestamp created_at;
     private Integer topicId;
     private int inst_id;
-    private int teacher_id;
+    private Integer created_by;
     private String topic;
 
+    private Long comment;
+    Long like;
+    boolean isLiked;
+
+    String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getComment() {
+        return comment;
+    }
+
+    public void setComment(Long comment) {
+        this.comment = comment;
+    }
+
+    public Long getLike() {
+        return like;
+    }
+
+    public void setLike(Long like) {
+        this.like = like;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
 
     public String getTopic() {
         return topic;
@@ -80,11 +117,12 @@ public class NotesEntity
         this.inst_id = inst_id;
     }
 
-    public int getTeacher_id() {
-        return teacher_id;
+
+    public Integer getCreated_by() {
+        return created_by;
     }
 
-    public void setTeacher_id(int teacher_id) {
-        this.teacher_id = teacher_id;
+    public void setCreated_by(Integer created_by) {
+        this.created_by = created_by;
     }
 }

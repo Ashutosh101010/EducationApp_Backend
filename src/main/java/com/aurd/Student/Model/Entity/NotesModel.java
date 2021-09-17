@@ -36,15 +36,23 @@ public class NotesModel {
     @Max(12)
     private int inst_id;
 
-    @Column(name = "teacher_id",nullable = false)
+    @Column(name = "created_by",nullable = false)
     @Max(12)
-    private int teacher_id;
+    private int created_by;
 
 
+    @Column(name = "description",nullable = false)
+    private  String description;
 
+    public String getDescription() {
+        return description;
+    }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-//    private  String teacherName;
+    //    private  String teacherName;
 //
 //    public String getTeacherName() {
 //        return teacherName;
@@ -105,11 +113,11 @@ public class NotesModel {
         this.inst_id = inst_id;
     }
 
-    public int getTeacher_id() {
-        return teacher_id;
+    public int getCreated_by() {
+        return created_by;
     }
 
-    public void setTeacher_id(int teacher_id) {
-        this.teacher_id = teacher_id;
+    public void setCreated_by(int created_by) {
+        this.created_by = created_by;
     }
 }

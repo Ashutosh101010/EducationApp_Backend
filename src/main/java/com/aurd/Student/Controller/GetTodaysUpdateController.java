@@ -1,13 +1,15 @@
 package com.aurd.Student.Controller;
 
+import com.aurd.Student.Model.BeanClass.BlogEntity;
+import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
-import com.aurd.Student.Model.Entity.BlogModel;
-import com.aurd.Student.Model.Entity.CurrentAffairModel;
-import com.aurd.Student.Model.Entity.StudentPostModel;
-import com.aurd.Student.Model.Entity.Student_Posts_Liked_Model;
+import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Response.LatestUpdateResponse;
 import com.aurd.Student.Repository.*;
+import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
+import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
+import com.google.gson.Gson;
 import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 
 import javax.inject.Inject;
@@ -49,8 +51,23 @@ public class GetTodaysUpdateController {
     @Inject
     StudentPostLikedRepository likedRepository;
 
+
+    @Inject
+    Blog_Comment_Repository blogCommentRepository;
+
+    @Inject
+    Current_Affair_Comment_Repository caCommentRepository;
+
+    @Inject
+    CurrentAffairLikeDislikeRepository currentAffairLikeDislikeRepository;
+
+    @Inject
+    TeacherRepository teacherRepository;
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+
+
 
 
 
@@ -74,53 +91,135 @@ public class GetTodaysUpdateController {
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59 );
 
+
+       ArrayList<BlogEntity> blogList= getBlog(instID,studId,
+               sdf.format(now.getTime()),sdf.format(calendar.getTime()));
+
+        ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(instID,studId,
+                sdf.format(now.getTime()),sdf.format(calendar.getTime()));
+
+        ArrayList<StudentPostEntity> postList = getStudentPost(instID,studId, sdf.format(now.getTime()),
+                sdf.format(calendar.getTime()));
+
+
+
+
+    LatestUpdateResponse response = new LatestUpdateResponse();
+
+    response.setMessage("Get Latest Updates Successful");
+    response.setStatus(true);
+    response.setErrorCode(0);
+    response.setBlogList(blogList);
+    response.setCurrentAffairArrayList(currentAffairList);
+//    response.setNotesList(notesList);
+    response.setPostList(postList);
+
+
+
+        return  response;
+
+
+    }
+
+
+
+
+    ArrayList getBlog(long id,long studId,String start,String end){
+        ArrayList<BlogEntity> arrayList = new ArrayList<>();
         String blogQuery = "SELECT * from `blog` where created_on BETWEEN ? AND ? AND inst_id = ? ;";
         Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
-        blog.setParameter(1,"2021-03-13 00:00:00");
-        blog.setParameter(2,"2021-03-13 23:59:59");
-        blog.setParameter(3,instID);
+        blog.setParameter(1,start);
+        blog.setParameter(2,end);
+        blog.setParameter(3,id);
         ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) blog.getResultList();
-        System.out.println(blogList.size());
+        blogList.forEach(blogModel -> {
+            BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(blogModel),BlogEntity.class);
+          TeacherModel teacherModel = teacherRepository.find("id",blogModel.getAdded_by()).firstResult();
+          blogEntity.setName(teacherModel.getFname());
+
+
+            String commentQuery = "SELECT COUNT(*) FROM `blog_commented` WHERE blog_id =? ";
+            Query comment = blogCommentRepository.getEntityManager().createNativeQuery(commentQuery);
+            comment.setParameter(1,blogModel.getId());
+            Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+
+            blogEntity.setComment(commentCount.longValue());
+
+
+
+            String likeQuery = "SELECT * FROM `blog_liked` WHERE blog_id =?";
+            Query like = currentAffairLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+            like.setParameter(1,blogModel.getId());
+            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            likeList.forEach(likeObject -> {
+                if(studId == Long.parseLong(likeObject[1].toString())){
+                    System.out.println("Liked");
+                    blogEntity.setLiked(true);
+                }
+            });
+
+            Integer likeCount =  likeList.size();
+            blogEntity.setLike(likeCount.longValue());
+
+
+
+            arrayList.add(blogEntity);
+
+        });
+
+
+        return  arrayList;
+    }
+
+    ArrayList getCurrentAffair(long id,long studId,String start,String end){
+
+        ArrayList<CurrentAffairEntity> currentAffairList =  new ArrayList<>();
 
 
         String caQuery = "SELECT * from `current_affairs` where created_at BETWEEN ? AND ? AND inst_id = ? ;";
         Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
                 CurrentAffairModel.class);
-        currentAffair.setParameter(1,"2021-03-13 00:00:00");
-        currentAffair.setParameter(2,"2021-03-13 23:59:59");
-        currentAffair.setParameter(3,instID);
+        currentAffair.setParameter(1,start);
+        currentAffair.setParameter(2,end);
+        currentAffair.setParameter(3,id);
         ArrayList<CurrentAffairModel> caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 
 
-        String notesQuery = "SELECT notes.name, notes.file,notes.created_at, topics.topic, employees.fname, employees.id" +
-                " FROM notes INNER JOIN topics ON topics.id=notes.topicId INNER JOIN employees ON employees.id=notes.teacher_id" +
-                " WHERE notes.inst_id = ? AND notes.created_at BETWEEN ? AND ? ";
-        Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery);
-        notes.setParameter(1,instID);
-        notes.setParameter(2,"2021-09-13 00:00:00");
-        notes.setParameter(3,"2021-09-13 23:59:59");
-        ArrayList<NotesEntity> notesList = new ArrayList<>();
-//        try{
-//            ArrayList<Object[]> tempList = (ArrayList<Object[]>) notes.getResultList();
-//
-//            if(!tempList.isEmpty()){
-//                tempList.forEach(objects ->{
-//                    NotesEntity notesEntity = new NotesEntity();
-//                    notesEntity.setName(objects[0].toString());
-//                    notesEntity.setFile(objects[1].toString());
-//                    notesEntity.setTopic(objects[3].toString());
-//                    notesEntity.setTeacherName(objects[4].toString());
-//                    notesEntity.setTeacher_id(Integer.parseInt(objects[5].toString()));
-//
-//                    notesList.add(notesEntity);
-//                });
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+        caList.forEach(currentAffairModel -> {
+            CurrentAffairEntity entity = new Gson().fromJson(new Gson().toJson(currentAffairModel),CurrentAffairEntity.class);
+
+            String commentQuery = "SELECT COUNT(*) FROM `current_affairs_comments` WHERE current_affair_id =? ";
+            Query comment = caCommentRepository.getEntityManager().createNativeQuery(commentQuery);
+            comment.setParameter(1,currentAffairModel.getId());
+            Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+            entity.setComment(commentCount.longValue());
 
 
+            String likeQuery = "SELECT * FROM `current_affairs_liked` WHERE current_affair_id =?";
+            Query like = currentAffairLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+            like.setParameter(1,currentAffairModel.getId());
+            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            likeList.forEach(likeObject -> {
+                if(studId == Long.parseLong(likeObject[1].toString())){
+                    System.out.println("Liked");
+                    entity.setLiked(true);
+                }
+            });
 
+            Integer likeCount =  likeList.size();
+            entity.setLike(likeCount.longValue());
+
+
+            currentAffairList.add(entity);
+
+
+        });
+
+        return  currentAffairList;
+    }
+
+
+    ArrayList getStudentPost(long id,long studId,String start,String end){
 
         String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
                 "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
@@ -128,9 +227,9 @@ public class GetTodaysUpdateController {
                 "INNER JOIN students ON students.id=student_post_demo.added_by " +
                 "WHERE student_post_demo.added_on BETWEEN ? and ? AND student_post_demo.inst_id = ?";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
-        studentPost.setParameter(1,"2021-09-13 00:00:00");
-        studentPost.setParameter(2,"2021-09-13 23:59:59");
-        studentPost.setParameter(3,instID);
+        studentPost.setParameter(1,start);
+        studentPost.setParameter(2,end);
+        studentPost.setParameter(3,id);
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
 
         try{
@@ -179,45 +278,10 @@ public class GetTodaysUpdateController {
             e.printStackTrace();
         }
 
-
-    LatestUpdateResponse response = new LatestUpdateResponse();
-
-    response.setMessage("Get Latest Updates Successful");
-    response.setStatus(true);
-    response.setErrorCode(0);
-    response.setBlogList(blogList);
-    response.setCurrentAffairList(caList);
-    response.setNotesList(notesList);
-    response.setPostList(postList);
-
-
-
-        return  response;
-
+        return  postList;
 
     }
 
-
-    private void getLikes(StudentPostEntity postEntity,long postId,long studId){
-        String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
-        Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
-        like.setParameter(1,13);
-        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-        System.out.println(likeList);
-        likeList.forEach(likeObject -> {
-             System.out.println(likeObject[0].toString());
-             System.out.println(likeObject[1].toString());
-             System.out.println(likeObject[2].toString());
-             if(studId == Long.parseLong(likeObject[1].toString())){
-                 System.out.println("Liked");
-                 postEntity.setLiked(true);
-             }
-        });
-
-        Integer likeCount =  likeList.size();
-        postEntity.setLike(likeCount.longValue());
-
-    }
 
 
 }

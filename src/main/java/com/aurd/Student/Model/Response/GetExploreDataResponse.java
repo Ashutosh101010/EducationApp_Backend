@@ -1,19 +1,31 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.BlogEntity;
+import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
+import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.*;
 
 import java.util.ArrayList;
 
 public class GetExploreDataResponse {
-    ArrayList<BlogModel> blogList = new ArrayList<>();
-    ArrayList<CurrentAffairModel> currentAffairArrayList =new ArrayList<>();
+    ArrayList<BlogEntity> blogList = new ArrayList<>();
+    ArrayList<CurrentAffairEntity> currentAffairArrayList =new ArrayList<>();
     ArrayList<StudentPostEntity> postList = new ArrayList<>();
-    ArrayList<NotesModel> notesList = new ArrayList<>();
+    ArrayList<NotesEntity> notesList = new ArrayList<>();
     ArrayList<QuizModel> quizList = new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
+
+
+    public ArrayList<NotesEntity> getNotesList() {
+        return notesList;
+    }
+
+    public void setNotesList(ArrayList<NotesEntity> notesList) {
+        this.notesList = notesList;
+    }
 
     public ArrayList<QuizModel> getQuizList() {
         return quizList;
@@ -23,19 +35,19 @@ public class GetExploreDataResponse {
         this.quizList = quizList;
     }
 
-    public ArrayList<BlogModel> getBlogList() {
+    public ArrayList<BlogEntity> getBlogList() {
         return blogList;
     }
 
-    public void setBlogList(ArrayList<BlogModel> blogList) {
+    public void setBlogList(ArrayList<BlogEntity> blogList) {
         this.blogList = blogList;
     }
 
-    public ArrayList<CurrentAffairModel> getCurrentAffairArrayList() {
+    public ArrayList<CurrentAffairEntity> getCurrentAffairArrayList() {
         return currentAffairArrayList;
     }
 
-    public void setCurrentAffairArrayList(ArrayList<CurrentAffairModel> currentAffairArrayList) {
+    public void setCurrentAffairArrayList(ArrayList<CurrentAffairEntity> currentAffairArrayList) {
         this.currentAffairArrayList = currentAffairArrayList;
     }
 
@@ -47,13 +59,7 @@ public class GetExploreDataResponse {
         this.postList = postList;
     }
 
-    public ArrayList<NotesModel> getNotesList() {
-        return notesList;
-    }
 
-    public void setNotesList(ArrayList<NotesModel> notesList) {
-        this.notesList = notesList;
-    }
 
     public String getMessage() {
         return message;

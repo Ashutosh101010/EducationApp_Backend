@@ -1,21 +1,41 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.BlogEntity;
+import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.BlogModel;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
+import com.aurd.Student.Model.Entity.NotesModel;
+import com.aurd.Student.Model.Entity.QuizModel;
 
 import java.util.ArrayList;
 
 public class LatestUpdateResponse {
+    ArrayList<BlogEntity> blogList = new ArrayList<>();
+    ArrayList<CurrentAffairEntity> currentAffairArrayList =new ArrayList<>();
+    ArrayList<StudentPostEntity> postList = new ArrayList<>();
+    ArrayList<NotesModel> notesList = new ArrayList<>();
+    ArrayList<QuizModel> quizList = new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
 
-    ArrayList<BlogModel> blogList = new ArrayList<>();
-    ArrayList<CurrentAffairModel> currentAffairList = new ArrayList<>();
-    ArrayList<NotesEntity> notesList = new ArrayList<>();
-    ArrayList<StudentPostEntity> postList = new ArrayList<>();
+    public ArrayList<BlogEntity> getBlogList() {
+        return blogList;
+    }
+
+    public void setBlogList(ArrayList<BlogEntity> blogList) {
+        this.blogList = blogList;
+    }
+
+    public ArrayList<CurrentAffairEntity> getCurrentAffairArrayList() {
+        return currentAffairArrayList;
+    }
+
+    public void setCurrentAffairArrayList(ArrayList<CurrentAffairEntity> currentAffairArrayList) {
+        this.currentAffairArrayList = currentAffairArrayList;
+    }
 
     public ArrayList<StudentPostEntity> getPostList() {
         return postList;
@@ -25,28 +45,20 @@ public class LatestUpdateResponse {
         this.postList = postList;
     }
 
-    public ArrayList<NotesEntity> getNotesList() {
+    public ArrayList<NotesModel> getNotesList() {
         return notesList;
     }
 
-    public void setNotesList(ArrayList<NotesEntity> notesList) {
+    public void setNotesList(ArrayList<NotesModel> notesList) {
         this.notesList = notesList;
     }
 
-    public ArrayList<CurrentAffairModel> getCurrentAffairList() {
-        return currentAffairList;
+    public ArrayList<QuizModel> getQuizList() {
+        return quizList;
     }
 
-    public void setCurrentAffairList(ArrayList<CurrentAffairModel> currentAffairList) {
-        this.currentAffairList = currentAffairList;
-    }
-
-    public ArrayList<BlogModel> getBlogList() {
-        return blogList;
-    }
-
-    public void setBlogList(ArrayList<BlogModel> blogList) {
-        this.blogList = blogList;
+    public void setQuizList(ArrayList<QuizModel> quizList) {
+        this.quizList = quizList;
     }
 
     public String getMessage() {
@@ -72,6 +84,4 @@ public class LatestUpdateResponse {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
-
 }
