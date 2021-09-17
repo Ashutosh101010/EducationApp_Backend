@@ -37,7 +37,6 @@ public class CurrentAffairModel {
     private Timestamp time;
 
 
-
     public long getId() {
         return id;
     }

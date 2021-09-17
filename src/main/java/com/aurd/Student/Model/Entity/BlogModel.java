@@ -51,7 +51,6 @@ public class BlogModel {
 //    @Column(name = "time",nullable = false)
 //    private Long time;
 
-
     public long getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response.TestSeries;
 
+import com.aurd.Student.Model.Entity.QuizModel;
 import com.aurd.Student.Model.Entity.TestSeriesModel;
 
 import java.util.ArrayList;

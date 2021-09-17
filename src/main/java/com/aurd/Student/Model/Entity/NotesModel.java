@@ -36,28 +36,28 @@ public class NotesModel {
     @Max(12)
     private int inst_id;
 
-    @Column(name = "subject_id",nullable = false)
+    @Column(name = "teacher_id",nullable = false)
     @Max(12)
-    private int subject_id;
+    private int teacher_id;
 
-    @Column(name = "course_id",nullable = false)
-    private  String course_id;
 
-    @Column(name = "sub_subject_id",nullable = true)
-    private String cub_subject_id;
 
-    @Column(name = "description",nullable = false)
-    private String description;
 
-    @Column(name = "fee_type",nullable = false)
-    private  String fee_type;
 
-    @Column(name = "created_by",nullable = false)
-    private  String created_by;
+//    private  String teacherName;
+//
+//    public String getTeacherName() {
+//        return teacherName;
+//    }
+//
+//    public void setTeacherName(String teacherName) {
+//        this.teacherName = teacherName;
+//    }
 
     public Timestamp getCreated_at() {
         return created_at;
     }
+
 
     public long getId() {
         return id;
@@ -105,51 +105,11 @@ public class NotesModel {
         this.inst_id = inst_id;
     }
 
-    public int getSubject_id() {
-        return subject_id;
+    public int getTeacher_id() {
+        return teacher_id;
     }
 
-    public void setSubject_id(int subject_id) {
-        this.subject_id = subject_id;
-    }
-
-    public String getCourse_id() {
-        return course_id;
-    }
-
-    public void setCourse_id(String course_id) {
-        this.course_id = course_id;
-    }
-
-    public String getCub_subject_id() {
-        return cub_subject_id;
-    }
-
-    public void setCub_subject_id(String cub_subject_id) {
-        this.cub_subject_id = cub_subject_id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getFee_type() {
-        return fee_type;
-    }
-
-    public void setFee_type(String fee_type) {
-        this.fee_type = fee_type;
-    }
-
-    public String getCreated_by() {
-        return created_by;
-    }
-
-    public void setCreated_by(String created_by) {
-        this.created_by = created_by;
+    public void setTeacher_id(int teacher_id) {
+        this.teacher_id = teacher_id;
     }
 }

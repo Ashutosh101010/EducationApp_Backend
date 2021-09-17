@@ -6,7 +6,6 @@ import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
-import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -38,7 +37,6 @@ public class AddCommentController {
     @Transactional
 
     public GeneralResponse addComment(AddPostCommentRequest request){
-        System.out.println(new Gson().fromJson(new Gson().toJson(request),AddPostCommentRequest.class));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar calendar = Calendar.getInstance();
         request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
@@ -58,7 +56,6 @@ public class AddCommentController {
                 response.setStatus(true);
             }
         }else if(request.getType().equals("currentAffair")){
-
            boolean val= affair_comment_repository.addCurrentAffairCommentRequest(request);
             if(val==true){
                 response.setStatusCode(0);
