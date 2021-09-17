@@ -3,10 +3,7 @@ package com.aurd.Student.Model.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,8 +11,10 @@ import java.sql.Timestamp;
 
 public class Comment_Reply_Model {
 
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
 
     @Column(name = "comment_id",nullable = false)
     private int comment_id;
@@ -95,5 +94,13 @@ public class Comment_Reply_Model {
 
     public void setFname(String fname) {
         this.fname = fname;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

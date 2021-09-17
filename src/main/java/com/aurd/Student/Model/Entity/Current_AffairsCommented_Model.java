@@ -1,6 +1,9 @@
 package com.aurd.Student.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 
@@ -17,14 +20,29 @@ public class Current_AffairsCommented_Model {
     @Column(name = "comment",nullable = false)
     private String comment;
 
-     @Column(name = "current_affair_id",nullable = false)
+    @Column(name = "current_affair_id",nullable = false)
     private int current_affair_id;
 
-     @Column(name = "added_by",nullable = false)
+    @Column(name = "added_on",nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd HH:mm:ss")
+    private Timestamp added_on;
+
+    @Column(name = "added_by",nullable = false)
     private int added_by;
 
-    @Column(name = "added_on",nullable = false)
-    private Timestamp added_on;
+    @Column(name = "stud_name",nullable = false)
+    @NotBlank
+    private String stud_name;
+
+
+
+    public String getStud_name() {
+        return stud_name;
+    }
+
+    public void setStud_name(String stud_name) {
+        this.stud_name = stud_name;
+    }
 
     public int getComment_id() {
         return comment_id;

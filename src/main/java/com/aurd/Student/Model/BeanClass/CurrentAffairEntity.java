@@ -1,42 +1,35 @@
-package com.aurd.Student.Model.Entity;
+package com.aurd.Student.Model.BeanClass;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "current_affairs")
-public class CurrentAffairModel {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CurrentAffairEntity {
     private long id;
-
-    @Column(name = "title",nullable = false)
-    @NotBlank
-    @Max(100)
     private String title;
-
-
-    @Column(name = "description",nullable = true)
-    @Max(16777215)
     private String description;
-
-    @Column(name = "added_by",nullable = false)
     private Integer added_by;
-
-    @Column(name = "inst_id",nullable = false)
     private Integer inst_id;
-
-    @Column(name = "thumbnail", nullable = false)
     private String thumbnail;
-
-    @Column(name = "time", nullable = false)
     private Timestamp time;
+    private Long comment;
+    Long like;
+    boolean isLiked;
 
 
+    public Long getLike() {
+        return like;
+    }
+
+    public void setLike(Long like) {
+        this.like = like;
+    }
+
+    public boolean isLiked() {
+        return isLiked;
+    }
+
+    public void setLiked(boolean liked) {
+        isLiked = liked;
+    }
 
     public long getId() {
         return id;
@@ -92,5 +85,13 @@ public class CurrentAffairModel {
 
     public void setTime(Timestamp time) {
         this.time = time;
+    }
+
+    public Long getComment() {
+        return comment;
+    }
+
+    public void setComment(Long comment) {
+        this.comment = comment;
     }
 }

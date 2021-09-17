@@ -4,12 +4,13 @@ package com.aurd.Student.Model.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "blog_commented")
 
-public class Student_Blog_Commented_Model {
+public class Blog_Comment_Model {
 
     @Id
     @PrimaryKeyJoinColumn
@@ -28,6 +29,19 @@ public class Student_Blog_Commented_Model {
 
     @Column(name = "added_by",nullable = false)
     private int added_by;
+
+    @Column(name = "stud_name",nullable = false)
+    @NotBlank
+    private String stud_name;
+
+
+    public String getStud_name() {
+        return stud_name;
+    }
+
+    public void setStud_name(String stud_name) {
+        this.stud_name = stud_name;
+    }
 
     public int getComment_id() {
         return comment_id;

@@ -1,16 +1,11 @@
 package com.aurd.Student.Repository;
 
 import com.aurd.Student.Model.Entity.StudentPostModel;
-import com.aurd.Student.Model.Entity.Student_Blog_Commented_Model;
-import com.aurd.Student.Model.Request.AddStudentPostRequest;
-import com.aurd.Student.Model.Request.GetStudentBlogCommentRequest;
 import com.aurd.Student.Model.Request.GetStudentPostRequest;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import org.apache.commons.io.IOUtils;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.io.IOException;
 import java.util.ArrayList;
 
 @ApplicationScoped
