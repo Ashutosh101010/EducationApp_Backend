@@ -3,6 +3,15 @@ package com.aurd.Student.Model.Request;
 public class GetNotesRequest {
     int inst_id;
     int topicId;
+    int studId;
+
+    public int getStudId() {
+        return studId;
+    }
+
+    public void setStudId(int studId) {
+        this.studId = studId;
+    }
 
     public int getTopicId() {
         return topicId;

@@ -86,6 +86,7 @@ public class GetTodaysUpdateController {
         now.set(Calendar.MINUTE, 0);
         now.set(Calendar.SECOND, 0);
         now.set(Calendar.HOUR_OF_DAY, 0);
+
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR ,23);
         calendar.set(Calendar.MINUTE, 59);
@@ -133,6 +134,7 @@ public class GetTodaysUpdateController {
         blog.setParameter(3,id);
         ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) blog.getResultList();
         blogList.forEach(blogModel -> {
+            System.out.println("Blog model add by="+blogModel.getAdded_by());
             BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(blogModel),BlogEntity.class);
           TeacherModel teacherModel = teacherRepository.find("id",blogModel.getAdded_by()).firstResult();
           blogEntity.setName(teacherModel.getFname());
