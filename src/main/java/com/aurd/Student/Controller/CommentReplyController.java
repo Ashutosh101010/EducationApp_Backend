@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller.comment;
+package com.aurd.Student.Controller;
 
 
 import com.aurd.Student.Model.Request.CommentReplyRequest;

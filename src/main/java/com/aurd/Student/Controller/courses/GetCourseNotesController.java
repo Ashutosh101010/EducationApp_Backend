@@ -48,7 +48,7 @@ public class GetCourseNotesController {
             NotesEntity notesEntity = new NotesEntity();
             notesEntity.setName(objects[0].toString());
             notesEntity.setFile(objects[1].toString());
-            notesEntity.setCreated_by(Integer.parseInt(objects[2].toString()));
+//            notesEntity.setTeacher_id(Integer.parseInt(objects[2].toString()));
             notesEntity.setId(Long.parseLong(objects[3].toString()));
             notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
             notesEntity.setTeacherName(objects[5].toString());

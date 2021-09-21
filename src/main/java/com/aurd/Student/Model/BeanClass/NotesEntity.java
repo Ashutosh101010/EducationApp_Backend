@@ -125,4 +125,6 @@ public class NotesEntity
     public void setCreated_by(Integer created_by) {
         this.created_by = created_by;
     }
+
+
 }

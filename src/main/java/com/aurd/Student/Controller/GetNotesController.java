@@ -23,7 +23,7 @@ import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-@Path("/notes/getInsituteNotes")
+@Path("/notes/getInstituteNotes")
 
 public class GetNotesController {
 
@@ -44,9 +44,9 @@ public class GetNotesController {
         ArrayList<NotesEntity> notesList = new ArrayList();
 
 
-        String string = "SELECT notes.name, notes.file , notes.created_by,notes.id,notes.created_at, " +
+        String string = "SELECT notes.name, notes.file , notes.subject_id,notes.id,notes.created_at, " +
                 "employees.fname,topics.topic,notes.topicId FROM notes INNER JOIN employees ON " +
-                "employees.id= notes.created_by INNER JOIN topics ON topics.id= notes.topicId " +
+                "employees.id= notes.subject_id INNER JOIN topics ON topics.id= notes.topicId " +
                 "WHERE notes.inst_id = ?";
 
         Query query = repository.getEntityManager().createNativeQuery(string);
@@ -57,7 +57,7 @@ public class GetNotesController {
             NotesEntity notesEntity = new NotesEntity();
             notesEntity.setName(objects[0].toString());
             notesEntity.setFile(objects[1].toString());
-            notesEntity.setCreated_by(Integer.parseInt(objects[2].toString()));
+//            notesEntity.setTeacher_id(Integer.parseInt(objects[2].toString()));
             notesEntity.setId(Long.parseLong(objects[3].toString()));
             notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
             notesEntity.setTeacherName(objects[5].toString());
@@ -67,7 +67,6 @@ public class GetNotesController {
             notesList.add(notesEntity);
         });
 
-
         GetNotesResponse getNotesResponse = new GetNotesResponse();
         getNotesResponse.setNotes(notesList);
         getNotesResponse.setErrorCode(0);
@@ -75,8 +74,6 @@ public class GetNotesController {
         getNotesResponse.setStatus(true);
 
         return  getNotesResponse;
-
-
 
     }
 

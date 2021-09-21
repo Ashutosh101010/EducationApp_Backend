@@ -7,7 +7,6 @@ import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.GetQuizRequest;
 import com.aurd.Student.Model.Response.GetExploreDataResponse;
-import com.aurd.Student.Model.Response.LatestUpdateResponse;
 import com.aurd.Student.Repository.*;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -20,7 +19,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 @Path("/getExploreData")
 public class GetExploreDataController {
@@ -66,7 +64,7 @@ public class GetExploreDataController {
     TeacherRepository teacherRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesCommentRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -81,7 +79,6 @@ public class GetExploreDataController {
 
 
         ArrayList<BlogEntity> blogList = getBlog(id.intValue(),studId);
-
 
         ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(id.intValue(),studId);
         ArrayList<StudentPostEntity> postList = getPost(studId,id.intValue());
@@ -263,41 +260,41 @@ public class GetExploreDataController {
         Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
         notes.setParameter(1,id);
 
-      ArrayList<NotesModel> notesList = (ArrayList<NotesModel>) notes.getResultList();
-      notesList.forEach(notesModel -> {
-          NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
+        ArrayList<NotesModel> notesList = (ArrayList<NotesModel>) notes.getResultList();
+        notesList.forEach(notesModel -> {
+            NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
 
-          TeacherModel teacherModel = teacherRepository.find("id",
-                  entity.getCreated_by().longValue()).firstResult();
+            TeacherModel teacherModel = teacherRepository.find("id",
+                    entity.getCreated_by().longValue()).firstResult();
 
-          entity.setTeacherName(teacherModel.getFname());
+            entity.setTeacherName(teacherModel.getFname());
 
-          String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
-          Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);
-          comment.setParameter(1,notesModel.getId());
-          Integer commentCount = ((Number) comment.getSingleResult()).intValue();
-          entity.setComment(commentCount.longValue());
-
-
-          String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
-          Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
-          like.setParameter(1,notesModel.getId());
-          ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-          likeList.forEach(likeObject -> {
-              if(studId == Long.parseLong(likeObject[1].toString())){
-                  System.out.println("Liked");
-                  entity.setLiked(true);
-              }
-          });
-
-          Integer likeCount =  likeList.size();
-          entity.setLike(likeCount.longValue());
+            String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
+            Query comment = notesCommentRepository.getEntityManager().createNativeQuery(commentQuery);
+            comment.setParameter(1,notesModel.getId());
+            Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+            entity.setComment(commentCount.longValue());
 
 
-          arrayList.add(entity);
+            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
+            Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+            like.setParameter(1,notesModel.getId());
+            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            likeList.forEach(likeObject -> {
+                if(studId == Long.parseLong(likeObject[1].toString())){
+                    System.out.println("Liked");
+                    entity.setLiked(true);
+                }
+            });
+
+            Integer likeCount =  likeList.size();
+            entity.setLike(likeCount.longValue());
 
 
-      });
+            arrayList.add(entity);
+
+
+        });
 
         return  arrayList;
 

@@ -65,7 +65,7 @@ public class QuizModel {
 //    private Timestamp test_end;
 
     @Column(name = "test_duration",nullable = true)
-    private Long test_duration;
+    private String test_duration;
 
     @Column(name = "added_on",nullable = false)
     private Timestamp added_on;
@@ -187,11 +187,11 @@ public class QuizModel {
     }
 
 
-    public Long getTest_duration() {
+    public String getTest_duration() {
         return test_duration;
     }
 
-    public void setTest_duration(Long test_duration) {
+    public void setTest_duration(String test_duration) {
         this.test_duration = test_duration;
     }
 

@@ -20,7 +20,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,45 +63,38 @@ public class GetTodaysUpdateController {
     @Inject
     TeacherRepository teacherRepository;
 
+    @Inject
+    NotesCommentRepository notesCommentRepository;
+
+    @Inject
+    NotesLikeDislikeRepository notesLikeDislikeRepository;
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-
-
-
-
 
 
     @Transactional
     public LatestUpdateResponse getTodayUpdate(@QueryParam ("instID") long instID,
                                                @QueryParam ("studId") long studId){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         System.out.println(instID);
         System.out.println(studId);
 
         Calendar now = Calendar.getInstance();
-        now.set(Calendar.HOUR, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.set(Calendar.HOUR_OF_DAY, 0);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR ,23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59 );
+        String date = sdf.format(now.getTime());
+        String start = date+" 00:00:00";
+        String end = date+" 23:59:59";
 
 
-       ArrayList<BlogEntity> blogList= getBlog(instID,studId,
-               sdf.format(now.getTime()),sdf.format(calendar.getTime()));
+       ArrayList<BlogEntity> blogList= getBlog(instID,studId, start,end);
 
-        ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(instID,studId,
-                sdf.format(now.getTime()),sdf.format(calendar.getTime()));
+        ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(instID,studId, start,end);
 
-        ArrayList<StudentPostEntity> postList = getStudentPost(instID,studId, sdf.format(now.getTime()),
-                sdf.format(calendar.getTime()));
+        ArrayList<StudentPostEntity> postList = getStudentPost(instID,studId,start,end);
 
-
-
+        ArrayList<NotesEntity> notesList = getNotes(instID,studId,start,end) ;
 
     LatestUpdateResponse response = new LatestUpdateResponse();
 
@@ -111,20 +103,18 @@ public class GetTodaysUpdateController {
     response.setErrorCode(0);
     response.setBlogList(blogList);
     response.setCurrentAffairArrayList(currentAffairList);
-//    response.setNotesList(notesList);
+    response.setNotesList(notesList);
     response.setPostList(postList);
 
-
-
         return  response;
-
 
     }
 
 
-
-
     ArrayList getBlog(long id,long studId,String start,String end){
+
+        System.out.println(start);
+        System.out.println(end);
         ArrayList<BlogEntity> arrayList = new ArrayList<>();
         String blogQuery = "SELECT * from `blog` where created_on BETWEEN ? AND ? AND inst_id = ? ;";
         Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
@@ -134,7 +124,7 @@ public class GetTodaysUpdateController {
         ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) blog.getResultList();
         blogList.forEach(blogModel -> {
             BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(blogModel),BlogEntity.class);
-          TeacherModel teacherModel = teacherRepository.find("id",blogModel.getAdded_by()).firstResult();
+          TeacherModel teacherModel = teacherRepository.find("id",blogEntity.getAdded_by()).firstResult();
           blogEntity.setName(teacherModel.getFname());
 
 
@@ -161,8 +151,6 @@ public class GetTodaysUpdateController {
             Integer likeCount =  likeList.size();
             blogEntity.setLike(likeCount.longValue());
 
-
-
             arrayList.add(blogEntity);
 
         });
@@ -176,7 +164,7 @@ public class GetTodaysUpdateController {
         ArrayList<CurrentAffairEntity> currentAffairList =  new ArrayList<>();
 
 
-        String caQuery = "SELECT * from `current_affairs` where created_at BETWEEN ? AND ? AND inst_id = ? ;";
+        String caQuery = "SELECT * from `current_affairs` where created_at BETWEEN ? AND ? AND inst_id = ? ";
         Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
                 CurrentAffairModel.class);
         currentAffair.setParameter(1,start);
@@ -282,6 +270,111 @@ public class GetTodaysUpdateController {
 
     }
 
+   // ArrayList getNotes(long studId,long id,String start, String end){
+    //    System.out.println("Notes called");
+     //   System.out.println(start);
+      //  System.out.println(end);
+
+      //  ArrayList<NotesEntity> arrayList = new ArrayList<>();
+     //   String notesQuery = "SELECT * from `notes` where created_at BETWEEN ? AND  ? AND inst_id = ? ";
+      //  Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
+     //   notes.setParameter(1,start);
+     //   notes.setParameter(2,end);
+     //   notes.setParameter(3,id);
+
+
+       // ArrayList<NotesModel> notesList = (ArrayList<NotesModel>) notes.getResultList();
+      //  System.out.println(notesList.size());
+       // notesList.forEach(notesModel -> {
+        //    NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
+
+         //   TeacherModel teacherModel = teacherRepository.find("id",
+         //           entity.getCreated_by().longValue()).firstResult();
+
+           // entity.setTeacherName(teacherModel.getFname());
+
+         //   String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
+          //  Query comment = notesCommentRepository.getEntityManager().createNativeQuery(commentQuery);
+           // comment.setParameter(1,notesModel.getId());
+           // Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+           // entity.setComment(commentCount.longValue());
+
+
+          //  String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
+           // Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+           // like.setParameter(1,notesModel.getId());
+           // ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            //likeList.forEach(likeObject -> {
+            //    if(studId == Long.parseLong(likeObject[1].toString())){
+             //       System.out.println("Liked");
+             //       entity.setLiked(true);
+              //  }
+           // });
+
+          //  Integer likeCount =  likeList.size();
+         //   entity.setLike(likeCount.longValue());
+
+          //  System.out.println(arrayList.size());
+
+         //   arrayList.add(entity);
+
+        //});
+
+     //   return  arrayList;
+
+    ArrayList getNotes(long studId,long id,String start,String end){
+        ArrayList<NotesEntity> arrayList = new ArrayList<>();
+        String notesQuery = "SELECT * from `notes` where created_at BETWEEN ? AND  ? AND inst_id = ? ";
+        Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery);
+        notes.setParameter(1,start);
+        notes.setParameter(2,end);
+        notes.setParameter(3,id);
+
+        System.out.println(notes.getResultList().size());
+
+        ArrayList<NotesModel> notesList = (ArrayList<NotesModel>) notes.getResultList();
+        System.out.println(notesList);
+
+        notesList.forEach(notesModel -> {
+            NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
+
+            TeacherModel teacherModel = teacherRepository.find("id",
+                    entity.getCreated_by().longValue()).firstResult();
+
+            entity.setTeacherName(teacherModel.getFname());
+
+            String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
+            Query comment = notesCommentRepository.getEntityManager().createNativeQuery(commentQuery);
+            comment.setParameter(1,notesModel.getId());
+            Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+            entity.setComment(commentCount.longValue());
+
+
+            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
+            Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+            like.setParameter(1,notesModel.getId());
+            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            likeList.forEach(likeObject -> {
+                if(studId == Long.parseLong(likeObject[1].toString())){
+                    System.out.println("Liked");
+                    entity.setLiked(true);
+                }
+            });
+
+            Integer likeCount =  likeList.size();
+            entity.setLike(likeCount.longValue());
+
+
+            arrayList.add(entity);
+
+
+        });
+
+        return  arrayList;
+
+    }
 
 
 }
+
+

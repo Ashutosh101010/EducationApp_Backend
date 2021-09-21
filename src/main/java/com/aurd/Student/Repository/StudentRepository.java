@@ -4,6 +4,7 @@ package com.aurd.Student.Repository;
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Request.GetProfileRequest;
 import com.aurd.Student.Model.Request.LoginRequest;
+import com.aurd.Student.Model.Request.SignUpRequest;
 import com.aurd.Student.Model.Request.UpDateRequest;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -46,6 +47,8 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
         );
     }
 
+    public StudentModel SingUp(SignUpRequest request) {
 
-
+        return  find("fname=?1 ,address=?2 ,username=?3,contact=?4,  email=?5,  password=?",request.getEmail(),request.getPassword()).firstResult();
+    }
 }

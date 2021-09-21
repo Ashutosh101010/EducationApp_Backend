@@ -1,5 +1,6 @@
 package com.aurd.Student.Repository.comment;
 
+
 import com.aurd.Student.Model.Entity.Blog_Comment_Model;
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Request.GetCommentRequest;
@@ -15,10 +16,8 @@ public class Blog_Comment_Repository implements PanacheRepository<Blog_Comment_M
 
     public boolean addStudentBlogCommentRequest (AddPostCommentRequest request) {
 
-        Blog_Comment_Model _blog_comment_model = new Gson().
-                fromJson(new Gson().toJson(request), Blog_Comment_Model.class);
-        _blog_comment_model.setBlog_id(request.getPost_id());
-        persist(_blog_comment_model);
+        Blog_Comment_Model student_blog_commented_model = new Gson().fromJson(new Gson().toJson(request),Blog_Comment_Model.class);
+        persist(student_blog_commented_model);
         return true;
 
        }
@@ -27,8 +26,6 @@ public class Blog_Comment_Repository implements PanacheRepository<Blog_Comment_M
 
         ArrayList<Blog_Comment_Model> arrayList = (ArrayList<Blog_Comment_Model>)
                 find("blog_id",request.getPost_id()).list();
-
-        System.out.println(arrayList.size());
 
         return  arrayList;
       }

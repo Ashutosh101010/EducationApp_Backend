@@ -32,7 +32,6 @@ public class Current_Affair_Comment_Repository implements PanacheRepository<Curr
     public boolean addCurrentAffairCommentRequest(AddPostCommentRequest request) {
         Current_AffairsCommented_Model current_affairsCommented_model =
                 new Gson().fromJson(new Gson().toJson(request),Current_AffairsCommented_Model.class);
-        current_affairsCommented_model.setCurrent_affair_id(request.getPost_id());
         persist(current_affairsCommented_model);
         return true;
 

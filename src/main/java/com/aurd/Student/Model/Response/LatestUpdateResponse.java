@@ -15,11 +15,13 @@ public class LatestUpdateResponse {
     ArrayList<BlogEntity> blogList = new ArrayList<>();
     ArrayList<CurrentAffairEntity> currentAffairArrayList =new ArrayList<>();
     ArrayList<StudentPostEntity> postList = new ArrayList<>();
-    ArrayList<NotesModel> notesList = new ArrayList<>();
+    ArrayList<NotesEntity> notesList = new ArrayList<>();
     ArrayList<QuizModel> quizList = new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
+
+
 
     public ArrayList<BlogEntity> getBlogList() {
         return blogList;
@@ -45,11 +47,11 @@ public class LatestUpdateResponse {
         this.postList = postList;
     }
 
-    public ArrayList<NotesModel> getNotesList() {
+    public ArrayList<NotesEntity> getNotesList() {
         return notesList;
     }
 
-    public void setNotesList(ArrayList<NotesModel> notesList) {
+    public void setNotesList(ArrayList<NotesEntity> notesList) {
         this.notesList = notesList;
     }
 

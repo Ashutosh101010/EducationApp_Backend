@@ -33,7 +33,6 @@ public class GetQuizController {
      getQuizResponse.setMessage("Get Quiz");
      getQuizResponse.setStatus(true);
 
-
      return  getQuizResponse;
 
     }
