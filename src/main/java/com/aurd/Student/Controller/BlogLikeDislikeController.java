@@ -36,9 +36,7 @@ public class BlogLikeDislikeController {
         System.out.println(request);
 
 
-
         GeneralResponse response = new GeneralResponse();
-
         Blog_Liked_Model model = new Blog_Liked_Model();
 
         if (request.getOperation() == 1) {

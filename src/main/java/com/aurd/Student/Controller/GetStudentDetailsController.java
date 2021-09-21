@@ -25,11 +25,20 @@ public class GetStudentDetailsController {
 
         try{
          StudentModel model =  repository.getDetails(request);
+         if(model!=null){
+             response.setStudent(model);
+             response.setMessage("Fetch student details success");
+             response.setStatusCode(0);
+             response.setStatus(true);
 
-         response.setStudent(model);
-         response.setMessage("efffd");
-         response.setStatusCode(0);
-         response.setStatus(true);
+         }else{
+             response.setMessage("Unable to fetch details");
+             response.setStatusCode(1);
+             response.setStatus(false);
+         }
+
+
+
 
         }catch (Exception e){
             System.out.println(e);

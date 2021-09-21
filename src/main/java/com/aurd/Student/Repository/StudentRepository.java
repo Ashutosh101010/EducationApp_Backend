@@ -28,7 +28,6 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
     public Integer UpDateRequest(UpDateRequest request) {
 
-
    return update("fname=?1 , contact=?2   ,address=?3 ,email=?4 , stateId=?5   ,districtId=?6 ,dob=?7  where id=?8"
         ,request.getF_name()
         ,request.getMobile_no()
