@@ -1,20 +1,21 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.StudentPostModel;
 
 import java.util.ArrayList;
 
 public class GetStudentPostResponse {
-    ArrayList<StudentPostModel> posts = new ArrayList<>();
+    ArrayList<StudentPostEntity> posts = new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
 
-    public ArrayList<StudentPostModel> getPosts() {
+    public ArrayList<StudentPostEntity> getPosts() {
         return posts;
     }
 
-    public void setPosts(ArrayList<StudentPostModel> posts) {
+    public void setPosts(ArrayList<StudentPostEntity> posts) {
         this.posts = posts;
     }
 

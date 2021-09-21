@@ -8,14 +8,16 @@ public class RegisterRequest {
     String address;String username;String password;
     String email;String contact;String profile;
     Date dob; String gender;
-    int townId;
-    int stateId;
+    Integer townId;
+    Integer stateId;
     String districtId;
     String reg_status;
     int email_verify;
     int phone_verify;
     int inst_id;
-    int login_status;int library;int hostel; int coursecheck;String password_salt;
+    int login_status;
+    int library;
+    int hostel; int coursecheck;String password_salt;
 
 
     public String getFname() {
@@ -98,19 +100,20 @@ public class RegisterRequest {
         this.gender = gender;
     }
 
-    public int getTownId() {
+
+    public Integer getTownId() {
         return townId;
     }
 
-    public void setTownId(int townId) {
+    public void setTownId(Integer townId) {
         this.townId = townId;
     }
 
-    public int getStateId() {
+    public Integer getStateId() {
         return stateId;
     }
 
-    public void setStateId(int stateId) {
+    public void setStateId(Integer stateId) {
         this.stateId = stateId;
     }
 

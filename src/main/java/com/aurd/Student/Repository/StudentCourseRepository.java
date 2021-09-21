@@ -11,10 +11,20 @@ import java.util.ArrayList;
 public class StudentCourseRepository implements PanacheRepository<StudentCourseModel> {
 
     public ArrayList getStudentCourses(GetStudentCourseRequest request){
-        ArrayList<StudentCourseModel> arrayList = (ArrayList<StudentCourseModel>) list("inst_id =?1 and userId=?2",
-                request.getInst_id(),request.getUserId());
+        try {
+            ArrayList<StudentCourseModel> arrayList = (ArrayList<StudentCourseModel>)
+                    list("inst_id =?1 and userId=?2",
+                            request.getInst_id(),request.getUserId());
 
-        return  arrayList;
+            System.out.println(arrayList.size());
+
+            return  arrayList;
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new ArrayList();
+
+        }
+
 
     }
 

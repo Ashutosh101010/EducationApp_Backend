@@ -3,8 +3,8 @@ package com.aurd.Student.Repository;
 
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Request.GetProfileRequest;
+import com.aurd.Student.Model.Request.GetStudentDetailRequest;
 import com.aurd.Student.Model.Request.LoginRequest;
-import com.aurd.Student.Model.Request.SignUpRequest;
 import com.aurd.Student.Model.Request.UpDateRequest;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -26,12 +26,7 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
         return  find("email=?1 and password = ?2",request.getEmail(),request.getPassword()).firstResult();
     }
 
-
-    @Transactional
     public Integer UpDateRequest(UpDateRequest request) {
-
-
-
 
    return update("fname=?1 , contact=?2   ,address=?3 ,email=?4 , stateId=?5   ,districtId=?6 ,dob=?7  where id=?8"
         ,request.getF_name()
@@ -47,8 +42,12 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
         );
     }
 
-    public StudentModel SingUp(SignUpRequest request) {
 
-        return  find("fname=?1 ,address=?2 ,username=?3,contact=?4,  email=?5,  password=?",request.getEmail(),request.getPassword()).firstResult();
+    public StudentModel getDetails(GetStudentDetailRequest request){
+        StudentModel model = find("id =?1 and username = ?2",request.getId(),request.getUsername()).firstResult();
+        return  model;
     }
+
+
+
 }

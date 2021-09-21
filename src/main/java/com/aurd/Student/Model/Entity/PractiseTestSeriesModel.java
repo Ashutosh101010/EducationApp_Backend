@@ -1,6 +1,4 @@
 package com.aurd.Student.Model.Entity;
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,8 +7,6 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "test_series_practice_test")
-
-
 public class PractiseTestSeriesModel {
     @Id
 
