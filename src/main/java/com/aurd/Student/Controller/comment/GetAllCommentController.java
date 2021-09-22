@@ -1,13 +1,11 @@
 package com.aurd.Student.Controller.comment;
 
 import com.aurd.Student.Model.BeanClass.CommentEntity;
-import com.aurd.Student.Model.Entity.Comment_Reply_Model;
-import com.aurd.Student.Model.Entity.Blog_Comment_Model;
-import com.aurd.Student.Model.Entity.Current_AffairsCommented_Model;
-import com.aurd.Student.Model.Entity.Student_Posts_Commented;
+import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.GetCommentRequest;
 import com.aurd.Student.Model.Response.StudentPostCommentResponse;
 import com.aurd.Student.Repository.CommentReplyRepository;
+import com.aurd.Student.Repository.NotesComentRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -40,6 +38,9 @@ public class GetAllCommentController {
 
     @Inject
     CommentReplyRepository replyRepository;
+
+    @Inject
+    NotesComentRepository notesComentRepository;
 
     @Transactional
     @POST
@@ -154,8 +155,39 @@ public class GetAllCommentController {
 
 
 
+        else  if(request.getType().equals("notes")){
 
+            ArrayList<NotesCommentModel> commentList = (ArrayList<NotesCommentModel>)
+                    notesComentRepository.list("notes_id",request.getPost_id());
+            commentList.forEach(model -> {
+                CommentEntity entity = new CommentEntity();
+                entity.setComment(model.getComment());
+                entity.setComment_id(model.getComment_id());
+                entity.setFname(model.getStud_name());
+                entity.setPost_id(model.getNotes_id());
+                Integer integer = Math.toIntExact(model.getAdded_by());
+                entity.setUser_id(integer);
+                entity.setAdded_on(model.getAdded_on());
 
+                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
+                entity.setReplyList(rList);
+
+                arrayList.add(entity);
+
+            });
+
+            if(arrayList.isEmpty()){
+
+                response.setComments(arrayList);
+                response.setStatus(false);
+                response.setStatusCode(1);
+            }else{
+                response.setComments(arrayList);
+                response.setStatus(true);
+                response.setStatusCode(0);
+            }
+
+        }
 
 
 

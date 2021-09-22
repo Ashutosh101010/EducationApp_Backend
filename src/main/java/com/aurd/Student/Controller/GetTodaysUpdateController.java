@@ -5,6 +5,7 @@ import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.*;
+import com.aurd.Student.Model.Request.GetTodaysUpdateRequest;
 import com.aurd.Student.Model.Response.LatestUpdateResponse;
 import com.aurd.Student.Repository.*;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
@@ -17,6 +18,7 @@ import javax.inject.Inject;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -70,8 +72,17 @@ public class GetTodaysUpdateController {
     @Inject
     NotesLikeDislikeRepository notesLikeDislikeRepository;
 
+    @Inject
+    SubjectRepository subjectRepository;
 
-    @GET
+    @Inject
+    SubSubject_Repository subSubject_repository;
+
+@Inject TopicsRepository topicsRepository;
+
+
+
+    @POST
     @Produces({MediaType.APPLICATION_JSON})
 
 
@@ -80,45 +91,49 @@ public class GetTodaysUpdateController {
 
 
     @Transactional
-    public LatestUpdateResponse getTodayUpdate(@QueryParam ("instID") long instID,
-                                               @QueryParam ("studId") long studId){
+    public LatestUpdateResponse getTodayUpdate(GetTodaysUpdateRequest request){
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        System.out.println(instID);
-        System.out.println(studId);
 
         Calendar now = Calendar.getInstance();
-//        System.out.println(now.getTime());
-        now.set(Calendar.HOUR, 0);
-        now.set(Calendar.MINUTE, 0);
-        now.set(Calendar.SECOND, 0);
-        now.set(Calendar.HOUR_OF_DAY,0);
-//        now.set(Calendar.MILLISECOND, 0);
+        String date = sdf.format(now.getTime());
+        String start = date + " 00:00:00";
+        String end = date + " 23:59:59";
+
+//
+//        Calendar now = Calendar.getInstance();
+////        System.out.println(now.getTime());
+//        now.set(Calendar.HOUR, 0);
+//        now.set(Calendar.MINUTE, 0);
+//        now.set(Calendar.SECOND, 0);
+//        now.set(Calendar.HOUR_OF_DAY,0);
+////        now.set(Calendar.MILLISECOND, 0);
+//
+//
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.set(Calendar.HOUR ,23);
+//        calendar.set(Calendar.MINUTE, 59);
+//        calendar.set(Calendar.SECOND, 59);
+//        calendar.set(Calendar.MILLISECOND, 999);
+//
+//        System.out.println(sdf.format(now.getTime()));
+//        System.out.println(sdf.format(calendar.getTime()));
 
 
+       ArrayList<BlogEntity> blogList= getBlog(request.getInstID(),request.getStudId(),start,end
+               );
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR ,23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.MILLISECOND, 999);
+        ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(request.getInstID(),request.getStudId(),
+                start,end);
 
-        System.out.println(sdf.format(now.getTime()));
-        System.out.println(sdf.format(calendar.getTime()));
-
-
-       ArrayList<BlogEntity> blogList= getBlog(instID,studId,
-               sdf.format(now.getTime()),sdf.format(calendar.getTime()));
-
-        ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(instID,studId,
-                sdf.format(now.getTime()),sdf.format(calendar.getTime()));
-
-        ArrayList<StudentPostEntity> postList = getStudentPost(instID,studId, sdf.format(now.getTime()),
-                sdf.format(calendar.getTime()));
+        ArrayList<StudentPostEntity> postList = getStudentPost(request.getInstID(),request.getStudId(),
+                start,end);
 
 
-        ArrayList<NotesEntity>  notesList = getBlog(instID,studId,sdf.format(now.getTime()),sdf.format(calendar.getTime()));
+        ArrayList<NotesEntity>  notesList = getNotes(request.getInstID(),request.getStudId(),
+                start,end);
 
 
 
@@ -153,7 +168,7 @@ public class GetTodaysUpdateController {
         blogList.forEach(blogModel -> {
             System.out.println("Blog model add by="+blogModel.getAdded_by());
             BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(blogModel),BlogEntity.class);
-          TeacherModel teacherModel = teacherRepository.find("id",blogModel.getAdded_by()).firstResult();
+          TeacherModel teacherModel = teacherRepository.find("id",blogEntity.getAdded_by().longValue()).firstResult();
           blogEntity.setName(teacherModel.getFname());
 
 
@@ -305,7 +320,10 @@ public class GetTodaysUpdateController {
     ArrayList getNotes(long id,long studId,String start,String end){
 
         ArrayList<NotesEntity> arrayList = new ArrayList<>();
-        String notesQuery = "SELECT * from `notes` where inst_id = ? AND notes.created_at BETWEEN ? AND ? ;";
+
+
+
+        String notesQuery = "SELECT * from `notes` where inst_id = ? and notes.created_at between ? and ?;";
         Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
         notes.setParameter(1,id);
         notes.setParameter(2,start);
@@ -315,6 +333,19 @@ public class GetTodaysUpdateController {
         notesList.forEach(notesModel -> {
             NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
 
+           SubjectModel subjectModel = (SubjectModel) subjectRepository.
+                   find("id",notesModel.getSubject_id().longValue()).firstResult();
+
+           entity.setSubject(subjectModel.getSubject());
+
+
+//           SubSubjectModel subSubjectModel = subSubject_repository.find("id",
+//                   Long.parseLong(notesModel.getSub_subject_id())).firstResult();
+//           entity.setSubSubject(subSubjectModel.getSub_subject());
+
+           TopicModel topicModel = topicsRepository.find("id",
+                   notesModel.getTopicId().longValue()).firstResult();
+           entity.setTopic(topicModel.getTopic());
             TeacherModel teacherModel = teacherRepository.find("id",
                     entity.getCreated_by().longValue()).firstResult();
 
@@ -340,6 +371,10 @@ public class GetTodaysUpdateController {
 
             Integer likeCount =  likeList.size();
             entity.setLike(likeCount.longValue());
+
+
+
+
 
 
             arrayList.add(entity);

@@ -14,12 +14,47 @@ public class NotesEntity
     private int inst_id;
     private Integer created_by;
     private String topic;
-
     private Long comment;
     Long like;
     boolean isLiked;
+    String fee_type;
 
     String description;
+    String subject;
+    String course;
+    String subSubject ;
+
+    public String getSubSubject() {
+        return subSubject;
+    }
+
+    public void setSubSubject(String subSubject) {
+        this.subSubject = subSubject;
+    }
+
+    public String getFee_type() {
+        return fee_type;
+    }
+
+    public void setFee_type(String fee_type) {
+        this.fee_type = fee_type;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public String getDescription() {
         return description;
