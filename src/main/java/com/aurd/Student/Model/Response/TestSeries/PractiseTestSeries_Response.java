@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response.TestSeries;
 
+import com.aurd.Student.Model.Entity.PractiseTestSeriesModel;
 import com.aurd.Student.Model.Entity.TestSeriesModel;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public class PractiseTestSeries_Response {
     String message;
     int errorCode;
     boolean status;
-    ArrayList<TestSeriesModel> practiseTestList = new ArrayList();
+    ArrayList<PractiseTestSeriesModel> practiseTestList = new ArrayList();
 
     public String getMessage() {
         return message;
@@ -34,11 +35,12 @@ public class PractiseTestSeries_Response {
         this.status = status;
     }
 
-    public ArrayList<TestSeriesModel> getPractiseTestList() {
+    public ArrayList<PractiseTestSeriesModel> getPractiseTestList() {
         return practiseTestList;
     }
 
-    public void setPractiseTestList(ArrayList<TestSeriesModel> practiseTestList) {
+    public void setPractiseTestList(ArrayList<PractiseTestSeriesModel> practiseTestList) {
         this.practiseTestList = practiseTestList;
     }
 }
+

@@ -18,20 +18,14 @@ public class QuizModel {
     private long quiz_id;
 
     @Column(name = "subject_id",nullable = true)
-    @Max(11)
-    @Nullable
-    @Null
-    private Long subject_id;
+    private Integer subject_id;
 
     @Column(name = "sub_subject_id",nullable = true)
-    @Max(11)
-    @Null
-    @Nullable
-    private Long sub_subject_id;
+
+    private Integer sub_subject_id;
 
 
     @Column(name = "course_id",nullable = false)
-    @Max(11)
     private Long course_id;
 
 
@@ -56,7 +50,7 @@ public class QuizModel {
     private String pic;
 
     @Column(name = "price",nullable = false)
-    private double price;
+    private int price;
 
     @Column(name = "test_start",nullable = false)
     private Timestamp test_start;
@@ -114,20 +108,29 @@ public class QuizModel {
         this.quiz_id = quiz_id;
     }
 
-    public Long getSubject_id() {
+
+    public Integer getSubject_id() {
         return subject_id;
     }
 
-    public void setSubject_id(Long subject_id) {
+    public void setSubject_id(Integer subject_id) {
         this.subject_id = subject_id;
     }
 
-    public Long getSub_subject_id() {
+    public Integer getSub_subject_id() {
         return sub_subject_id;
     }
 
-    public void setSub_subject_id(Long sub_subject_id) {
+    public void setSub_subject_id(Integer sub_subject_id) {
         this.sub_subject_id = sub_subject_id;
+    }
+
+    public Timestamp getAdded_on() {
+        return added_on;
+    }
+
+    public void setAdded_on(Timestamp added_on) {
+        this.added_on = added_on;
     }
 
     public Long getCourse_id() {
@@ -170,11 +173,12 @@ public class QuizModel {
         this.pic = pic;
     }
 
-    public double getPrice() {
+
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

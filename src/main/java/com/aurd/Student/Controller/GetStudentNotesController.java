@@ -50,6 +50,7 @@ public class GetStudentNotesController {
             model.setNote(objects[1].toString());
             model.setAdded_on(Timestamp.valueOf(objects[2].toString()));
             model.setTitle(objects[3].toString());
+
 //            model.setVid_id(Long.parseLong(objects[4].toString()));
 //            model.setName(objects[5].toString());
 //            model.setThumb(objects[6].toString());

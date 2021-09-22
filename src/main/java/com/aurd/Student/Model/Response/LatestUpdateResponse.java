@@ -21,6 +21,8 @@ public class LatestUpdateResponse {
     int errorCode;
     boolean status;
 
+
+
     public ArrayList<BlogEntity> getBlogList() {
         return blogList;
     }

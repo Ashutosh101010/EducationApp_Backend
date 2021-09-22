@@ -26,13 +26,14 @@ public class GetQuizController {
     @Transactional
     public GetQuizResponse getQuizzes(GetQuizRequest request){
 
+
+
      ArrayList<QuizModel> arrayList =   repository.getQuizzes(request);
      GetQuizResponse getQuizResponse = new GetQuizResponse();
      getQuizResponse.setQuizList(arrayList);
      getQuizResponse.setErrorCode(0);
      getQuizResponse.setMessage("Get Quiz");
      getQuizResponse.setStatus(true);
-
 
      return  getQuizResponse;
 

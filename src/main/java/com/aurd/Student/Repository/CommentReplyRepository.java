@@ -16,8 +16,7 @@ public class CommentReplyRepository implements PanacheRepository<Comment_Reply_M
 
    public boolean addCommentReplyRequest(CommentReplyRequest  request){
 
-      Comment_Reply_Model comment_reply_model = new Gson().fromJson(new Gson().toJson(request),
-              Comment_Reply_Model.class);
+      Comment_Reply_Model comment_reply_model = new Gson().fromJson(new Gson().toJson(request),Comment_Reply_Model.class);
       persist(comment_reply_model);
 
       return true;
