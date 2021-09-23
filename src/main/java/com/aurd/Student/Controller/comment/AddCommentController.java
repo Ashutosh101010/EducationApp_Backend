@@ -3,6 +3,7 @@ package com.aurd.Student.Controller.comment;
 
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
+import com.aurd.Student.Repository.NotesComentRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -29,6 +30,9 @@ public class AddCommentController {
 
     @Inject
     StudentPostCommentRepository postCommentRepository;
+
+    @Inject
+    NotesComentRepository notesComentRepository;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -78,7 +82,16 @@ public class AddCommentController {
                 response.setStatus(true);
             }
         }else if(request.getType().equals("notes")){
-
+            boolean val =  notesComentRepository.addNotesCommentRequest(request);
+            if(val==true){
+                response.setStatusCode(0);
+                response.setMessage("Comment added");
+                response.setStatus(true);
+            }else{
+                response.setStatusCode(1);
+                response.setMessage("Unable to add commment");
+                response.setStatus(true);
+            }
         }
         return response;
 

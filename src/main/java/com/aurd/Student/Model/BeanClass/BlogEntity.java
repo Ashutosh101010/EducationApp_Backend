@@ -13,17 +13,17 @@ public class BlogEntity {
     private String tags;
     private long inst_id;
     private  String name;
-    private  long added_by;
+    private  Integer added_by;
 
 
 
     Long like;
 
-    public long getAdded_by() {
+    public Integer getAdded_by() {
         return added_by;
     }
 
-    public void setAdded_by(long added_by) {
+    public void setAdded_by(Integer added_by) {
         this.added_by = added_by;
     }
 

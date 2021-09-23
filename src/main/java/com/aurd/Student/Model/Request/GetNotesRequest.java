@@ -4,6 +4,15 @@ public class GetNotesRequest {
     int inst_id;
     int topicId;
     int studId;
+    String filter;
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
 
     public int getStudId() {
         return studId;

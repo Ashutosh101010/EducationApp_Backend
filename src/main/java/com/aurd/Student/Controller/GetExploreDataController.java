@@ -5,8 +5,10 @@ import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.*;
+import com.aurd.Student.Model.Request.GetExploreRequest;
 import com.aurd.Student.Model.Request.GetQuizRequest;
 import com.aurd.Student.Model.Response.GetExploreDataResponse;
+import com.aurd.Student.Model.Response.LatestUpdateResponse;
 import com.aurd.Student.Repository.*;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -19,6 +21,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 @Path("/getExploreData")
 public class GetExploreDataController {
@@ -64,32 +67,95 @@ public class GetExploreDataController {
     TeacherRepository teacherRepository;
 
     @Inject
-    NotesCommentRepository notesCommentRepository;
+    NotesComentRepository notesComentRepository;
 
-    @GET
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
 
 
 
     @Transactional
 
-    public GetExploreDataResponse getData(@QueryParam("instID") Long id,
-                                          @QueryParam("studId") long studId){
+    public GetExploreDataResponse getData(GetExploreRequest request){
+
+        System.out.println(request.getFilter());
+        System.out.println(request.getDate());
+        ArrayList<BlogEntity> blogList = new ArrayList<>();
+        ArrayList<CurrentAffairEntity> currentAffairList = new ArrayList<>();
+        ArrayList<StudentPostEntity> postList = new ArrayList<>();
+        ArrayList<NotesEntity> notesList = new ArrayList<>();
+
+
+        if(!request.getFilter().isEmpty()){
+            System.out.println(request.getFilter());
+            System.out.println("Some filter entry");
+
+            if(request.getFilter().equals("blogs")){
+                blogList = getBlog(request.getInstId().intValue(),request.getStudId(),"","");
+            }else if(request.getFilter().equals("currentAffair")){
+                currentAffairList = getCurrentAffair(request.getInstId().intValue(),
+                        request.getStudId(),"","");
+            }else if(request.getFilter().equals("studentPost")){
+                postList = getPost(request.getStudId(),request.getInstId().intValue(),"","");
+            }else if(request.getFilter().equals("notes")){
+                notesList = getNotes(request.getStudId(),request.getInstId().intValue(),"","");
+            }
+        }else if(!request.getDate().isEmpty()){
+            System.out.println(request.getDate());
+            System.out.println("Some date entry");
+            String start = request.getDate()+" 00:00:00";
+            String end = request.getDate()+" 23:59:59";
+            blogList = getBlog(request.getInstId().intValue(),request.getStudId(),start,end);
+            currentAffairList = getCurrentAffair(request.getInstId().intValue(),
+                    request.getStudId(),start,end);
+            postList = getPost(request.getStudId(),request.getInstId().intValue(),start,end);
+            notesList = getNotes(request.getStudId(),request.getInstId().intValue(),start,end);
+
+        }else{
+            System.out.println("Everything is empty");
+
+            blogList = getBlog(request.getInstId().intValue(),request.getStudId(),"","");
+
+            currentAffairList = getCurrentAffair(request.getInstId().intValue(),request.getStudId(),"","");
+            postList = getPost(request.getStudId(),request.getInstId().intValue(),"","");
+
+            notesList = getNotes(request.getStudId(),request.getInstId().intValue(),"","");
+
+        }
+
+
+//
+//        if(request.getFilter().equals("all")||request.getFilter().isEmpty()||
+//                request.getFilter().equals("")
+//            ||  request.getDate().isEmpty()||request.getDate().equals("")){
+//
+//           }else {
+//
+//            System.out.println("Some filter entry");
+//
+//            if(request.getDate()!=null ||!request.getDate().equals("")||!request.getDate().isEmpty()){
+//
+//
+//            }
+//            if(request.getFilter()!=null ||!request.getFilter().equals("")||
+//                    !request.getFilter().isEmpty()){
+//
+//            }
+//
+//
+//
+//
+//
+//
+//        }
 
 
 
-        ArrayList<BlogEntity> blogList = getBlog(id.intValue(),studId);
 
-        ArrayList<CurrentAffairEntity> currentAffairList = getCurrentAffair(id.intValue(),studId);
-        ArrayList<StudentPostEntity> postList = getPost(studId,id.intValue());
-
-        ArrayList<NotesEntity> notesList = getNotes(studId,id);
-
-
-
-        GetQuizRequest request = new GetQuizRequest();
-        request.setInst_id(id);
-        request.setType("Quiz");
+//        GetQuizRequest request = new GetQuizRequest();
+//        request.setInst_id(id);
+//        request.setType("Quiz");
 //        ArrayList<QuizModel> quizList = quizRepository.getQuizzes(request);
 
 
@@ -110,19 +176,32 @@ public class GetExploreDataController {
 
 
 
-    ArrayList getBlog(int id,long studId){
+    ArrayList getBlog(int id,long studId,String start,String end){
 
         ArrayList<BlogEntity> arrayList = new ArrayList<>();
-        String blogQuery = "SELECT * from `blog` where inst_id = ? ;";
-        Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
-        blog.setParameter(1,id);
-        ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) blog.getResultList();
+        ArrayList<BlogModel> blogList;
+        if(start.equals("")&&end.equals("")){
+            String blogQuery = "SELECT * from `blog` where inst_id = ? ;";
+            Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
+            blog.setParameter(1,id);
+            blogList = (ArrayList<BlogModel>) blog.getResultList();
+        }else{
+            String blogQuery = "SELECT * from `blog` where inst_id = ? and  blog.created_on between ? and ?;";
+            Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
+            blog.setParameter(1,id);
+            blog.setParameter(2,start);
+            blog.setParameter(3,end);
+            blogList = (ArrayList<BlogModel>) blog.getResultList();
+        }
+
+
+
         blogList.forEach(blogModel -> {
 
             BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(blogModel),BlogEntity.class);
 
             TeacherModel teacherModel = teacherRepository.find("id",
-                    blogEntity.getAdded_by()).firstResult();
+                    blogEntity.getAdded_by().longValue()).firstResult();
             blogEntity.setName(teacherModel.getFname());
 
 
@@ -159,14 +238,30 @@ public class GetExploreDataController {
         return  arrayList;
     }
 
-    ArrayList getCurrentAffair(int id,long studId){
-        String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ;";
-        Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
-                CurrentAffairModel.class);
-        currentAffair.setParameter(1,id);
+    ArrayList getCurrentAffair(int id,long studId,String start,String end){
         ArrayList<CurrentAffairEntity> currentAffairList =  new ArrayList<>();
+        ArrayList<CurrentAffairModel> caList;
+        if(start.equals("") &&end.equals("")){
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ;";
+            Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
+                    CurrentAffairModel.class);
+            currentAffair.setParameter(1,id);
 
-        ArrayList<CurrentAffairModel> caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+            caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+
+        }else{
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and  created_at between ? and ?;";
+            Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
+                    CurrentAffairModel.class);
+            currentAffair.setParameter(1,id);
+            currentAffair.setParameter(2,start);
+            currentAffair.setParameter(3,end);
+
+            caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+
+        }
+
+
         caList.forEach(currentAffairModel -> {
             CurrentAffairEntity entity = new Gson().fromJson(new Gson().toJson(currentAffairModel),CurrentAffairEntity.class);
             TeacherModel teacherModel = teacherRepository.find("id",
@@ -204,18 +299,35 @@ public class GetExploreDataController {
         return  currentAffairList;
     }
 
-    ArrayList getPost(long studId,int id){
+    ArrayList getPost(long studId,int id,String start,String end){
 
-        String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
-                "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
-                "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
-                "INNER JOIN students ON students.id=student_post_demo.added_by " +
-                "WHERE student_post_demo.inst_id = ?";
-        Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
-        studentPost.setParameter(1,id);
-
-        ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
+        ArrayList<Object[]> tempPostList;
+        if(start.equals("")&&end.equals("")){
+            String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
+                    "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
+                    "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
+                    "INNER JOIN students ON students.id=student_post_demo.added_by " +
+                    "WHERE student_post_demo.inst_id = ?";
+            Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
+            studentPost.setParameter(1,id);
+
+           tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
+        }else{
+            String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
+                    "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
+                    "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
+                    "INNER JOIN students ON students.id=student_post_demo.added_by " +
+                    "WHERE student_post_demo.inst_id =? and  student_post_demo.added_on between ? and ?";
+            Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
+            studentPost.setParameter(1,id);
+            studentPost.setParameter(2,start);
+            studentPost.setParameter(3,end);
+
+            tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
+        }
+
+
         tempPostList.forEach(objects -> {
             StudentPostEntity postModel = new StudentPostEntity();
             postModel.setId(Long.parseLong(objects[0].toString()));
@@ -254,47 +366,61 @@ public class GetExploreDataController {
     }
 
 
-    ArrayList getNotes(long studId,long id){
+    ArrayList getNotes(long studId,long id,String start,String end){
         ArrayList<NotesEntity> arrayList = new ArrayList<>();
-        String notesQuery = "SELECT * from `notes` where inst_id = ? ;";
-        Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
-        notes.setParameter(1,id);
+        ArrayList<NotesModel> notesList;
+        if(start.equals("") && end.equals("")){
+            String notesQuery = "SELECT * from `notes` where inst_id = ? ;";
+            Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
+            notes.setParameter(1,id);
 
-        ArrayList<NotesModel> notesList = (ArrayList<NotesModel>) notes.getResultList();
-        notesList.forEach(notesModel -> {
-            NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
+            notesList  = (ArrayList<NotesModel>) notes.getResultList();
+        }else{
+            String notesQuery = "SELECT * from `notes` where inst_id = ? and created_at between ? and ?;";
+            Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
+            notes.setParameter(1,id);
+            notes.setParameter(2,start);
+            notes.setParameter(3,end);
 
-            TeacherModel teacherModel = teacherRepository.find("id",
-                    entity.getCreated_by().longValue()).firstResult();
-
-            entity.setTeacherName(teacherModel.getFname());
-
-            String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
-            Query comment = notesCommentRepository.getEntityManager().createNativeQuery(commentQuery);
-            comment.setParameter(1,notesModel.getId());
-            Integer commentCount = ((Number) comment.getSingleResult()).intValue();
-            entity.setComment(commentCount.longValue());
+            notesList  = (ArrayList<NotesModel>) notes.getResultList();
+        }
 
 
-            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
-            Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
-            like.setParameter(1,notesModel.getId());
-            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-            likeList.forEach(likeObject -> {
-                if(studId == Long.parseLong(likeObject[1].toString())){
-                    System.out.println("Liked");
-                    entity.setLiked(true);
-                }
-            });
 
-            Integer likeCount =  likeList.size();
-            entity.setLike(likeCount.longValue());
+      notesList.forEach(notesModel -> {
+          NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
 
+          TeacherModel teacherModel = teacherRepository.find("id",
+                  entity.getCreated_by().longValue()).firstResult();
 
-            arrayList.add(entity);
+          entity.setTeacherName(teacherModel.getFname());
+
+          String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
+          Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);
+          comment.setParameter(1,notesModel.getId());
+          Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+          entity.setComment(commentCount.longValue());
 
 
-        });
+          String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
+          Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+          like.setParameter(1,notesModel.getId());
+          ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+          likeList.forEach(likeObject -> {
+              if(studId == Long.parseLong(likeObject[1].toString())){
+                  System.out.println("Liked");
+                  entity.setLiked(true);
+              }
+          });
+
+          Integer likeCount =  likeList.size();
+          entity.setLike(likeCount.longValue());
+
+
+          arrayList.add(entity);
+
+
+      });
 
         return  arrayList;
 

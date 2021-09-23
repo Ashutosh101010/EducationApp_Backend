@@ -44,6 +44,40 @@ public class NotesModel {
     @Column(name = "description",nullable = false)
     private  String description;
 
+
+    @Column(name = "subject_id",nullable = false)
+    private  Integer subject_id;
+
+    @Column(name = "course_id",nullable = true)
+    private  String course_id;
+
+    @Column(name = "sub_subject_id",nullable = true)
+    private  String sub_subject_id;
+
+    public Integer getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(Integer subject_id) {
+        this.subject_id = subject_id;
+    }
+
+    public String getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(String course_id) {
+        this.course_id = course_id;
+    }
+
+    public String getSub_subject_id() {
+        return sub_subject_id;
+    }
+
+    public void setSub_subject_id(String sub_subject_id) {
+        this.sub_subject_id = sub_subject_id;
+    }
+
     public String getDescription() {
         return description;
     }

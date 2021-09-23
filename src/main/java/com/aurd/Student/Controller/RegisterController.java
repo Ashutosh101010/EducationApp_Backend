@@ -34,14 +34,15 @@ public class RegisterController {
         GeneralResponse generalResponse = new GeneralResponse();
         Gson gson = new Gson();
         StudentModel studentModel = gson.fromJson(gson.toJson(request),StudentModel.class);
+        studentModel.setPassword_salt(request.getPassword());
 
-
-        String passwordToHash =request.getPassword();
-        byte[] salt = getSalt();
-        System.out.println(salt.toString());
-
-        String securePassword = get_SHA_1_SecurePassword(passwordToHash, salt);
-        System.out.println(securePassword);
+//
+//        String passwordToHash =request.getPassword();
+//        byte[] salt = getSalt();
+//        System.out.println(salt.toString());
+//
+//        String securePassword = get_SHA_1_SecurePassword(passwordToHash, salt);
+//        System.out.println(securePassword);
 
 //            System.out.println(pass);
 //            SecureRandom secureRandom = new SecureRandom();
@@ -59,8 +60,8 @@ public class RegisterController {
 ////            System.out.println("salt ========"+ Integer.toHexString(Integer.parseInt(request.getPassword())));
 ////            Integer.toHexString(Integer.parseInt(request.getPassword()));
 
-        studentModel.setPassword_salt(salt.toString());
-        studentModel.setPassword(securePassword);
+//        studentModel.setPassword_salt(salt.toString());
+//        studentModel.setPassword(securePassword);
         repository.persist(studentModel);
 
         generalResponse.setMessage("Register Success");
