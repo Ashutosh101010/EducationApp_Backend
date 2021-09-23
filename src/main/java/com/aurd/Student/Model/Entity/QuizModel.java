@@ -26,7 +26,7 @@ public class QuizModel {
 
 
     @Column(name = "course_id",nullable = false)
-    private Long course_id;
+    private Integer course_id;
 
 
     @Column(name = "type",nullable = false)
@@ -133,11 +133,11 @@ public class QuizModel {
         this.added_on = added_on;
     }
 
-    public Long getCourse_id() {
+    public Integer getCourse_id() {
         return course_id;
     }
 
-    public void setCourse_id(Long course_id) {
+    public void setCourse_id(Integer course_id) {
         this.course_id = course_id;
     }
 

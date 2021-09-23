@@ -1,17 +1,13 @@
 package com.aurd.Student.Model.Request;
 
+import javax.persistence.criteria.CriteriaBuilder;
+
 public class GetQuizRequest {
     long inst_id;
     String type;
-    String filter;
 
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
+    Integer subject_id;
+    Integer course_id;
 
     public long getInst_id() {
         return inst_id;
@@ -27,5 +23,21 @@ public class GetQuizRequest {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Integer getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(Integer subject_id) {
+        this.subject_id = subject_id;
+    }
+
+    public Integer getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(Integer course_id) {
+        this.course_id = course_id;
     }
 }
