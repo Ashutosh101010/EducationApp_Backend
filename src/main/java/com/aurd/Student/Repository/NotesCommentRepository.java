@@ -9,7 +9,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class NotesComentRepository implements PanacheRepository<NotesCommentModel> {
+public class NotesCommentRepository implements PanacheRepository<NotesCommentModel> {
 
 
     public boolean addNotesCommentRequest(AddPostCommentRequest request) {

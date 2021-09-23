@@ -2,7 +2,7 @@ package com.aurd.Student.Model.Request;
 
 public class GetNotesRequest {
     int inst_id;
-    int topicId;
+    long topicId;
     int studId;
     String filter;
 
@@ -22,11 +22,20 @@ public class GetNotesRequest {
         this.studId = studId;
     }
 
-    public int getTopicId() {
+//    public int getTopicId() {
+//        return topicId;
+//    }
+//
+//    public void setTopicId(int topicId) {
+//        this.topicId = topicId;
+//    }
+
+
+    public long getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(int topicId) {
+    public void setTopicId(long topicId) {
         this.topicId = topicId;
     }
 

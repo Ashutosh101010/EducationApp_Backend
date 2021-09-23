@@ -1,11 +1,12 @@
 package com.aurd.Student.Controller.courses;
 
 import com.aurd.Student.Model.BeanClass.NotesEntity;
+import com.aurd.Student.Model.Entity.CourseModel;
+import com.aurd.Student.Model.Entity.TeacherModel;
+import com.aurd.Student.Model.Entity.TopicModel;
 import com.aurd.Student.Model.Request.GetNotesRequest;
 import com.aurd.Student.Model.Response.GetNotesResponse;
-import com.aurd.Student.Repository.NotesComentRepository;
-import com.aurd.Student.Repository.NotesLikeDislikeRepository;
-import com.aurd.Student.Repository.NotesRepository;
+import com.aurd.Student.Repository.*;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -28,7 +29,24 @@ public class GetCourseNotesController {
     NotesLikeDislikeRepository notesLikeDislikeRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
+
+
+    @Inject
+    SubjectRepository subjectRepository;
+
+    @Inject
+    SubSubject_Repository subSubject_repository;
+
+    @Inject
+    TopicsRepository topicsRepository;
+
+    @Inject
+    CoursesRepository coursesRepository;
+    @Inject
+    TeacherRepository teacherRepository;
+
+
 
 
     @POST
@@ -45,7 +63,8 @@ public class GetCourseNotesController {
 
 
         String string = "SELECT notes.name, notes.file , notes.created_by,notes.id,notes.created_at," +
-                "employees.fname,topics.topic,notes.topicId FROM notes " +
+                "employees.fname,topics.topic,notes.topicId, notes.description,notes.course_id," +
+                " notes.subject_id FROM notes " +
                 "INNER JOIN employees ON employees.id= notes.created_by " +
                 "INNER JOIN topics ON topics.id= notes.topicId WHERE notes.topicId = ? AND notes.inst_id =?";
 
@@ -64,7 +83,27 @@ public class GetCourseNotesController {
             notesEntity.setTeacherName(objects[5].toString());
             notesEntity.setTopic(objects[6].toString());
             notesEntity.setTopicId(Integer.parseInt(objects[7].toString()));
+            notesEntity.setDescription(objects[8].toString());
 
+
+
+
+            CourseModel courseModel = coursesRepository.find("id",
+                    Long.parseLong(objects[9].toString())).firstResult();
+            notesEntity.setCourse(courseModel.getCourse());
+
+//           SubSubjectModel subSubjectModel = subSubject_repository.find("id",
+//                   Long.parseLong(notesModel.getSub_subject_id())).firstResult();
+//           entity.setSubSubject(subSubjectModel.getSub_subject());
+
+            TopicModel topicModel = topicsRepository.find("id",
+                    request.getTopicId()).firstResult();
+            notesEntity.setTopic(topicModel.getTopic());
+
+            TeacherModel teacherModel = teacherRepository.find("id",
+                    Long.parseLong(objects[2].toString())).firstResult();
+
+            notesEntity.setTeacherName(teacherModel.getFname());
 
             String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
             Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);

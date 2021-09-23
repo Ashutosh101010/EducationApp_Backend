@@ -67,7 +67,7 @@ public class GetTodaysUpdateController {
     TeacherRepository teacherRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
 
     @Inject
     NotesLikeDislikeRepository notesLikeDislikeRepository;
@@ -78,7 +78,10 @@ public class GetTodaysUpdateController {
     @Inject
     SubSubject_Repository subSubject_repository;
 
-@Inject TopicsRepository topicsRepository;
+    @Inject
+    TopicsRepository topicsRepository;
+
+
 
 
 
@@ -338,6 +341,8 @@ public class GetTodaysUpdateController {
 
            entity.setSubject(subjectModel.getSubject());
 
+           CourseModel courseModel = coursesRepository.find("id",Long.parseLong(notesModel.getCourse_id())).firstResult();
+           entity.setCourse(courseModel.getCourse());
 
 //           SubSubjectModel subSubjectModel = subSubject_repository.find("id",
 //                   Long.parseLong(notesModel.getSub_subject_id())).firstResult();

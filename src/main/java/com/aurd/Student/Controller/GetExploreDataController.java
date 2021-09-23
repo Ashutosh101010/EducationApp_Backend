@@ -67,7 +67,20 @@ public class GetExploreDataController {
     TeacherRepository teacherRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
+
+    @Inject
+    SubjectRepository subjectRepository;
+
+    @Inject
+    SubSubject_Repository subSubject_repository;
+
+    @Inject
+    TopicsRepository topicsRepository;
+
+    @Inject
+    CoursesRepository coursesRepository;
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -390,10 +403,20 @@ public class GetExploreDataController {
       notesList.forEach(notesModel -> {
           NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
 
+          SubjectModel subjectModel = (SubjectModel) subjectRepository.
+                  find("id",notesModel.getSubject_id().longValue()).firstResult();
+          entity.setSubject(subjectModel.getSubject());
+
+          CourseModel courseModel = coursesRepository.find("id",Long.parseLong(notesModel.getCourse_id())).firstResult();
+          entity.setCourse(courseModel.getCourse());
+
           TeacherModel teacherModel = teacherRepository.find("id",
                   entity.getCreated_by().longValue()).firstResult();
-
           entity.setTeacherName(teacherModel.getFname());
+
+          TopicModel topicModel = topicsRepository.find("id",
+                  notesModel.getTopicId().longValue()).firstResult();
+          entity.setTopic(topicModel.getTopic());
 
           String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
           Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);

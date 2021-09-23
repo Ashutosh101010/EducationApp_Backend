@@ -3,7 +3,7 @@ package com.aurd.Student.Controller.comment;
 
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Repository.NotesComentRepository;
+import com.aurd.Student.Repository.NotesCommentRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -32,7 +32,7 @@ public class AddCommentController {
     StudentPostCommentRepository postCommentRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

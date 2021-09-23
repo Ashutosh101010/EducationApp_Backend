@@ -45,6 +45,28 @@ public class KeyNotesModel {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp added_on;
 
+    @Column(name = "subject_id",nullable = false)
+    private int subject_id;
+
+    @Column(name = "course_id",nullable = false)
+    private int course_id;
+
+    public int getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(int subject_id) {
+        this.subject_id = subject_id;
+    }
+
+    public int getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(int course_id) {
+        this.course_id = course_id;
+    }
+
     public long getId() {
         return id;
     }

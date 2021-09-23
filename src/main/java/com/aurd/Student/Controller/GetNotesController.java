@@ -6,7 +6,7 @@ import com.aurd.Student.Model.Entity.TeacherModel;
 import com.aurd.Student.Model.Entity.TopicModel;
 import com.aurd.Student.Model.Request.GetNotesRequest;
 import com.aurd.Student.Model.Response.GetNotesResponse;
-import com.aurd.Student.Repository.NotesComentRepository;
+import com.aurd.Student.Repository.NotesCommentRepository;
 import com.aurd.Student.Repository.NotesLikeDislikeRepository;
 import com.aurd.Student.Repository.NotesRepository;
 import com.aurd.Student.Repository.TeacherRepository;
@@ -37,7 +37,7 @@ public class GetNotesController {
     TeacherRepository teacherRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -94,12 +94,13 @@ public class GetNotesController {
             notesEntity.setDescription(objects[8].toString());
             notesEntity.setSubject(objects[12].toString());
             notesEntity.setCourse(objects[13].toString());
+            notesEntity.setFee_type("free");
 
-            if(objects[14].equals(null)){
-                notesEntity.setFee_type(null);
-            }else{
-                notesEntity.setFee_type(objects[14].toString());
-            }
+//            if(objects[14].equals(null)){
+//                notesEntity.setFee_type(null);
+//            }else{
+//                notesEntity.setFee_type(objects[14].toString());
+//            }
 
 
 

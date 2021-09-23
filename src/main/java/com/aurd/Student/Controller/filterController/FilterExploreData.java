@@ -67,7 +67,7 @@ public class FilterExploreData {
     TeacherRepository teacherRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

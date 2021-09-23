@@ -19,8 +19,25 @@ public class GetKeyNotesRepository implements PanacheRepository<KeyNotesModel>
 
     public ArrayList getKeyNotesList(GetKeyNotesRequest request){
         ArrayList<KeyNotesModel> arrayList = new ArrayList();
-        List<KeyNotesModel> list = list("student_id",request.getStudent_id());
-        arrayList.addAll(list);
+        if(request.getSubjectId().equals(0) && request.getCourseId().equals(0)){
+
+            List<KeyNotesModel> list = list("student_id",request.getStudent_id());
+            arrayList.addAll(list);
+
+        } else if(!request.getCourseId().equals(0)&&! request.getSubjectId().equals(0)){
+         arrayList  = (ArrayList<KeyNotesModel>)
+                    list("student_id=?1 and course_id =?2 and subject_id = ?3",request.getStudent_id(),request.getCourseId(),request.getSubjectId());
+
+        } else if(!request.getSubjectId().equals(0) && request.getCourseId().equals(0)){
+             arrayList  = (ArrayList<KeyNotesModel>)
+                    list("student_id=?1 and subject_id =?2",request.getStudent_id(),request.getSubjectId());
+
+        }else if(!request.getCourseId().equals(0) &&request.getSubjectId().equals(0)){
+            arrayList  = (ArrayList<KeyNotesModel>)
+                    list("student_id=?1 and course_id =?2",request.getStudent_id(),request.getCourseId());
+
+        }
+
         return  arrayList;
     }
 
