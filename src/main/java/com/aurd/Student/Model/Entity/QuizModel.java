@@ -3,6 +3,7 @@ package com.aurd.Student.Model.Entity;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
@@ -73,17 +74,19 @@ public class QuizModel {
     @Column(name = "inst_id",nullable = true)
     @Null
     @Nullable
-    private Long inst_id;
+    private Integer inst_id;
 
 
     @Column(name = "is_active",nullable = false)
     private  int is_active;
 
-    @Column(name = "marks_per_ques",nullable = false)
-    private long marks_per_ques;
+    @Column(name = "marks_per_ques",nullable = true)
+    @Null
+    @Nullable
+    private Integer marks_per_ques;
 
     @Column(name = "total_ques",nullable = false)
-    private  int total_ques;
+    private  Integer total_ques;
 
 
     @Column(name = "cutoff",nullable = true)
@@ -210,11 +213,11 @@ public class QuizModel {
         this.updated_by = updated_by;
     }
 
-    public Long getInst_id() {
+    public Integer getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(Long inst_id) {
+    public void setInst_id(Integer inst_id) {
         this.inst_id = inst_id;
     }
 
@@ -226,14 +229,13 @@ public class QuizModel {
         this.is_active = is_active;
     }
 
-    public long getMarks_per_ques() {
+    public Integer getMarks_per_ques() {
         return marks_per_ques;
     }
 
-    public void setMarks_per_ques(long marks_per_ques) {
+    public void setMarks_per_ques(Integer marks_per_ques) {
         this.marks_per_ques = marks_per_ques;
     }
-
 
     public String getPrice() {
         return price;
@@ -243,11 +245,11 @@ public class QuizModel {
         this.price = price;
     }
 
-    public int getTotal_ques() {
+    public Integer getTotal_ques() {
         return total_ques;
     }
 
-    public void setTotal_ques(int total_ques) {
+    public void setTotal_ques(Integer total_ques) {
         this.total_ques = total_ques;
     }
 

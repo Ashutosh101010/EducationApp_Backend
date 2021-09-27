@@ -29,7 +29,7 @@ public class GetCourseNotesController {
     NotesLikeDislikeRepository notesLikeDislikeRepository;
 
     @Inject
-    NotesCommentRepository notesComentRepository;
+    NotesCommentRepository notesCommentRepository;
 
 
     @Inject
@@ -183,7 +183,7 @@ public class GetCourseNotesController {
             notesEntity.setTeacherName(teacherModel.getFname());
 
             String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
-            Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);
+            Query comment = notesCommentRepository.getEntityManager().createNativeQuery(commentQuery);
             comment.setParameter(1,notesEntity.getId());
             Integer commentCount = ((Number) comment.getSingleResult()).intValue();
             notesEntity.setComment(commentCount.longValue());

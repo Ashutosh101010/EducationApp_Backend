@@ -5,7 +5,7 @@ import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.GetCommentRequest;
 import com.aurd.Student.Model.Response.StudentPostCommentResponse;
 import com.aurd.Student.Repository.CommentReplyRepository;
-import com.aurd.Student.Repository.NotesComentRepository;
+import com.aurd.Student.Repository.NotesCommentRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -40,7 +40,7 @@ public class GetAllCommentController {
     CommentReplyRepository replyRepository;
 
     @Inject
-    NotesComentRepository notesComentRepository;
+    NotesCommentRepository notesComentRepository;
 
     @Transactional
     @POST
