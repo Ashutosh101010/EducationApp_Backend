@@ -1,6 +1,7 @@
 package com.aurd.Student.Repository;
 
 import com.aurd.Student.Model.Entity.PractiseTestSeriesModel;
+import com.aurd.Student.Model.Request.testseries.Get_PractiseTestSeries_Request;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 
@@ -11,10 +12,13 @@ import java.util.ArrayList;
 @ApplicationScoped
 
 public class PractiseTestSeriesRepository  implements PanacheRepository<PractiseTestSeriesModel>{
-    public ArrayList getPractiseTest(int instID, int testID){
-        ArrayList<PractiseTestSeriesModel> arrayList = (ArrayList<PractiseTestSeriesModel>)
-                find("inst_id =?1 and topic_id = ?2",instID,testID).list();
-        return  arrayList;
+
+
+    public ArrayList getTestSeries_PractiseTest(Get_PractiseTestSeries_Request request){
+        ArrayList<PractiseTestSeriesModel> list = (ArrayList<PractiseTestSeriesModel>)
+                find("test_series_id",request.getTest_series_id()).list();
+        return list;
+
     }
 
 

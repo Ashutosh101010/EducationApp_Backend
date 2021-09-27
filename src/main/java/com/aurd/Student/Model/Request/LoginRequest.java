@@ -4,13 +4,13 @@ public class LoginRequest {
     String password;
     String contact;
 
-    long inst_id;
+    int inst_id;
 
-    public long getInst_id() {
+    public int getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(long inst_id) {
+    public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
     }
 
