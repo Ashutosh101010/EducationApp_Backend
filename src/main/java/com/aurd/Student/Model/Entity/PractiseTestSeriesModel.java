@@ -1,8 +1,11 @@
 package com.aurd.Student.Model.Entity;
+import io.smallrye.common.constraint.Nullable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 
 @Entity
@@ -13,17 +16,25 @@ public class PractiseTestSeriesModel {
     @Column(name = "test_series_id",nullable = false)
     private  int test_series_id;
 
-    @Column(name = "topic_id",nullable = false)
-    private  int topic_id;
+    @Column(name = "topic_id",nullable = true)
+    @Nullable
+    @Null
+    private  Integer topic_id;
 
-    @Column(name = "subject_id",nullable = false)
-    private  int subject_id;
+    @Column(name = "subject_id",nullable = true)
+    @Nullable
+    @Null
+    private  Integer subject_id;
 
-    @Column(name = "sub_subject_id",nullable = false)
-    private  int getSubject_id;
+    @Column(name = "sub_subject_id",nullable = true)
+    @Nullable
+    @Null
+    private  Integer getSubject_id;
 
-    @Column(name = "course_id",nullable = false)
-    private  int course_id;
+    @Column(name = "course_id",nullable = true)
+    @Nullable
+    @Null
+    private  Integer course_id;
 
     @Column(name = "title",nullable = false)
     private  String title;
@@ -52,16 +63,19 @@ public class PractiseTestSeriesModel {
     @Column(name = "updated_by",nullable = false)
     private  int updated_by;
 
-    @Column(name = "inst_id",nullable = false)
-    private  int inst_id;
+    @Column(name = "inst_id",nullable = true)
+    @Nullable
+    @Null
+    private  Integer inst_id;
+
     @Column(name = "is_active",nullable = false)
     private  int is_active;
 
     @Column(name = "marks_per_ques",nullable = true)
-    private int marks_per_ques;
+    private Integer marks_per_ques;
 
-    @Column(name = "total_ques",nullable = false)
-    private  int total_ques;
+    @Column(name = "total_ques",nullable = true)
+    private  Integer total_ques;
 
     @Column(name = "cutoff",nullable = true)
     private  int cutoff;
@@ -90,35 +104,36 @@ public class PractiseTestSeriesModel {
         this.test_series_id = test_series_id;
     }
 
-    public int getTopic_id() {
+
+    public Integer getTopic_id() {
         return topic_id;
     }
 
-    public void setTopic_id(int topic_id) {
+    public void setTopic_id(Integer topic_id) {
         this.topic_id = topic_id;
     }
 
-    public int getSubject_id() {
+    public Integer getSubject_id() {
         return subject_id;
     }
 
-    public void setSubject_id(int subject_id) {
+    public void setSubject_id(Integer subject_id) {
         this.subject_id = subject_id;
     }
 
-    public int getGetSubject_id() {
+    public Integer getGetSubject_id() {
         return getSubject_id;
     }
 
-    public void setGetSubject_id(int getSubject_id) {
+    public void setGetSubject_id(Integer getSubject_id) {
         this.getSubject_id = getSubject_id;
     }
 
-    public int getCourse_id() {
+    public Integer getCourse_id() {
         return course_id;
     }
 
-    public void setCourse_id(int course_id) {
+    public void setCourse_id(Integer course_id) {
         this.course_id = course_id;
     }
 
@@ -194,13 +209,6 @@ public class PractiseTestSeriesModel {
         this.updated_by = updated_by;
     }
 
-    public int getInst_id() {
-        return inst_id;
-    }
-
-    public void setInst_id(int inst_id) {
-        this.inst_id = inst_id;
-    }
 
     public int getIs_active() {
         return is_active;
@@ -210,21 +218,6 @@ public class PractiseTestSeriesModel {
         this.is_active = is_active;
     }
 
-    public int getMarks_per_ques() {
-        return marks_per_ques;
-    }
-
-    public void setMarks_per_ques(int marks_per_ques) {
-        this.marks_per_ques = marks_per_ques;
-    }
-
-    public int getTotal_ques() {
-        return total_ques;
-    }
-
-    public void setTotal_ques(int total_ques) {
-        this.total_ques = total_ques;
-    }
 
     public int getCutoff() {
         return cutoff;
@@ -272,5 +265,29 @@ public class PractiseTestSeriesModel {
 
     public void setTest_end(String test_end) {
         this.test_end = test_end;
+    }
+
+    public Integer getInst_id() {
+        return inst_id;
+    }
+
+    public void setInst_id(Integer inst_id) {
+        this.inst_id = inst_id;
+    }
+
+    public Integer getMarks_per_ques() {
+        return marks_per_ques;
+    }
+
+    public void setMarks_per_ques(Integer marks_per_ques) {
+        this.marks_per_ques = marks_per_ques;
+    }
+
+    public Integer getTotal_ques() {
+        return total_ques;
+    }
+
+    public void setTotal_ques(Integer total_ques) {
+        this.total_ques = total_ques;
     }
 }
