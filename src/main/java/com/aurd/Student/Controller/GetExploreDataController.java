@@ -23,6 +23,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.quarkus.hibernate.orm.panache.PanacheEntityBase.list;
+
 @Path("/getExploreData")
 public class GetExploreDataController {
 
@@ -82,6 +84,10 @@ public class GetExploreDataController {
     CoursesRepository coursesRepository;
 
 
+    @Inject
+    VideoLectureRepository videoLectureRepository;
+
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -98,6 +104,8 @@ public class GetExploreDataController {
         ArrayList<CurrentAffairEntity> currentAffairList = new ArrayList<>();
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
         ArrayList<NotesEntity> notesList = new ArrayList<>();
+        ArrayList<QuizModel> quizList= new ArrayList<>();
+        ArrayList<VideoModel> videoList=new ArrayList<>();
 
 
         if(!request.getFilter().isEmpty()){
@@ -113,6 +121,9 @@ public class GetExploreDataController {
                 postList = getPost(request.getStudId(),request.getInstId().intValue(),"","");
             }else if(request.getFilter().equals("notes")){
                 notesList = getNotes(request.getStudId(),request.getInstId().intValue(),"","");
+            }else if(request.getFilter().equals("video")){
+                videoList = getVideoLectureList(request.getInstId(),request.getStudId(),"","");
+
             }
         }else if(!request.getDate().isEmpty()){
             System.out.println(request.getDate());
@@ -124,6 +135,7 @@ public class GetExploreDataController {
                     request.getStudId(),start,end);
             postList = getPost(request.getStudId(),request.getInstId().intValue(),start,end);
             notesList = getNotes(request.getStudId(),request.getInstId().intValue(),start,end);
+            videoList = getVideoLectureList(request.getInstId(),request.getStudId(),start,end);
 
         }else{
             System.out.println("Everything is empty");
@@ -134,7 +146,7 @@ public class GetExploreDataController {
             postList = getPost(request.getStudId(),request.getInstId().intValue(),"","");
 
             notesList = getNotes(request.getStudId(),request.getInstId().intValue(),"","");
-
+            videoList = getVideoLectureList(request.getInstId(),request.getStudId(),"","");
         }
 
 
@@ -177,7 +189,9 @@ public class GetExploreDataController {
         response.setNotesList(notesList);
         response.setPostList(postList);
         response.setCurrentAffairArrayList(currentAffairList);
-//        response.setQuizList(quizList);
+        response.setQuizList(quizList);
+        response.setVideoModels(videoList);
+
         response.setErrorCode(0);
         response.setStatus(true);
         response.setMessage("Fetch Explore Data Success");
@@ -185,7 +199,6 @@ public class GetExploreDataController {
 
         return response;
     }
-
 
 
 
@@ -241,8 +254,6 @@ public class GetExploreDataController {
 
             Integer likeCount =  likeList.size();
             blogEntity.setLike(likeCount.longValue());
-
-
 
             arrayList.add(blogEntity);
 
@@ -450,5 +461,24 @@ public class GetExploreDataController {
         return  arrayList;
 
     }
+    public ArrayList getVideoLectureList(long inst_id,long stud_id,String start,String end){
+        ArrayList<VideoModel> arrayList = null;
+
+        if(start.equals("")&& end.equals("")){
+            arrayList = (ArrayList<VideoModel>) videoLectureRepository.list("inst_id",inst_id);
+        }else{
+
+            String string = "SELECT * from `videos` where inst_id = ? and created_at between ? and ?;";
+            Query query  = notesRepository.getEntityManager().createNativeQuery(string, VideoModel.class);
+            query.setParameter(1,inst_id);
+            query.setParameter(2,start);
+            query.setParameter(3,end);
+
+            arrayList = (ArrayList<VideoModel>) query.getResultList();
+        }
+        return  arrayList;
+    }
+
+
 
 }

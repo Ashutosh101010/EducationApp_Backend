@@ -14,6 +14,7 @@ public class GetExploreDataResponse {
     ArrayList<StudentPostEntity> postList = new ArrayList<>();
     ArrayList<NotesEntity> notesList = new ArrayList<>();
     ArrayList<QuizModel> quizList = new ArrayList<>();
+    ArrayList<VideoModel> videoModels=new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
@@ -83,5 +84,14 @@ public class GetExploreDataResponse {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+
+    public ArrayList<VideoModel> getVideoModels() {
+        return videoModels;
+    }
+
+    public void setVideoModels(ArrayList<VideoModel> videoModels) {
+        this.videoModels = videoModels;
     }
 }
