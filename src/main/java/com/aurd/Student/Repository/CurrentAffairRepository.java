@@ -38,6 +38,11 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
 
     }
 
+    public CurrentAffairModel getBookmarkCurrentAffair(long id){
+        CurrentAffairModel currentAffairModel = find("id",id).firstResult();
+        return  currentAffairModel;
+    }
+
 
 
 

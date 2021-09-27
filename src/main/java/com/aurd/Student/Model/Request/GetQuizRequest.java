@@ -8,6 +8,15 @@ public class GetQuizRequest {
 
     Integer subject_id;
     Integer course_id;
+    String filter;
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
 
     public long getInst_id() {
         return inst_id;

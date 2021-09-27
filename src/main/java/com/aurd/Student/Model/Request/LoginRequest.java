@@ -2,7 +2,17 @@ package com.aurd.Student.Model.Request;
 
 public class LoginRequest {
     String password;
-    String email;
+    String contact;
+
+    long inst_id;
+
+    public long getInst_id() {
+        return inst_id;
+    }
+
+    public void setInst_id(long inst_id) {
+        this.inst_id = inst_id;
+    }
 
     public String getPassword() {
         return password;
@@ -12,11 +22,11 @@ public class LoginRequest {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
+    public String getContact() {
+        return contact;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }

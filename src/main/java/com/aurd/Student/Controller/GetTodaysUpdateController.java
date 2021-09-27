@@ -81,12 +81,16 @@ public class GetTodaysUpdateController {
     @Inject
     TopicsRepository topicsRepository;
 
+    @Inject
+    BannerImageRepository imageRepository;
+
 
 
 
 
     @POST
     @Produces({MediaType.APPLICATION_JSON})
+
 
 
 
@@ -139,6 +143,10 @@ public class GetTodaysUpdateController {
                 start,end);
 
 
+        ArrayList<Banners> bannerList = (ArrayList<Banners>)
+                imageRepository.list("inst_id",request.getInstID());
+
+
 
     LatestUpdateResponse response = new LatestUpdateResponse();
 
@@ -149,6 +157,7 @@ public class GetTodaysUpdateController {
     response.setCurrentAffairArrayList(currentAffairList);
     response.setNotesList(notesList);
     response.setPostList(postList);
+    response.setImageList(bannerList);
 
 
 
@@ -257,11 +266,12 @@ public class GetTodaysUpdateController {
 
 
     ArrayList getStudentPost(long id,long studId,String start,String end){
-        String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
-                "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
-                "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
-                "INNER JOIN students ON students.id=student_post_demo.added_by " +
-                "WHERE student_post_demo.added_on BETWEEN ? and ? AND student_post_demo.inst_id = ?";
+        String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
+                "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+                "student_posts.added_on, students.fname FROM `student_posts` " +
+                "INNER JOIN students ON students.id=student_posts.added_by " +
+                "WHERE student_posts.added_on BETWEEN ? and ? AND " +
+                "student_posts.inst_id = ? and  student_posts.post_status=1";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,start);
         studentPost.setParameter(2,end);

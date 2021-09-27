@@ -13,6 +13,24 @@ public class UpDateRequest {
     String district_id;
     Date DOB;
     Long student_id;
+    String bio;
+    String gender;
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public String getMobile_no() {
         return mobile_no;

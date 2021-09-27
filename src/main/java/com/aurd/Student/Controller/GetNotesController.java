@@ -68,7 +68,8 @@ public class GetNotesController {
         }else{
             String  string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
                     " employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
-                    " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course, notes.fee_type " +
+                    " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course," +
+                    " notes.fee_type " +
                     "FROM notes INNER JOIN employees ON employees.id= notes.created_by INNER JOIN" +
                     " topics ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                     "INNER JOIN courses ON courses.id = notes.course_id " +
@@ -94,7 +95,8 @@ public class GetNotesController {
             notesEntity.setDescription(objects[8].toString());
             notesEntity.setSubject(objects[12].toString());
             notesEntity.setCourse(objects[13].toString());
-            notesEntity.setFee_type("free");
+            notesEntity.setFee_type(objects[14].toString());
+
 
 //            if(objects[14].equals(null)){
 //                notesEntity.setFee_type(null);

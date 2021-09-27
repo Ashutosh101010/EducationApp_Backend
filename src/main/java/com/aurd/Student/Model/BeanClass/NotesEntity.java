@@ -19,6 +19,7 @@ public class NotesEntity
     boolean isLiked;
     String fee_type;
 
+
     String description;
     String subject;
     String course;

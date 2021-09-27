@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "student_post_demo")
+@Table(name = "student_posts")
 public class StudentPostModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +29,6 @@ public class StudentPostModel {
     @Column(name = "added_on",nullable = false)
     private Timestamp added_on;
 
-    @Column(name="updated_on",nullable = false)
-    private  Timestamp updated_on;
 
     @Column(name = "inst_id",nullable = false)
     private  int inst_id;
@@ -94,13 +92,8 @@ public class StudentPostModel {
         this.added_on = added_on;
     }
 
-
-    public Timestamp getUpdated_on() {
-        return updated_on;
-    }
-
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    public Timestamp getPost_approved_on() {
+        return post_approved_on;
     }
 
     public int getInst_id() {

@@ -60,61 +60,138 @@ public class GetCourseNotesController {
 
 
         ArrayList<NotesEntity> notesList = new ArrayList();
+        ArrayList<Object[]> list = null;
+
+        System.out.println(request);
 
 
-        String string = "SELECT notes.name, notes.file , notes.created_by,notes.id,notes.created_at," +
-                "employees.fname,topics.topic,notes.topicId, notes.description,notes.course_id," +
-                " notes.subject_id FROM notes " +
-                "INNER JOIN employees ON employees.id= notes.created_by " +
-                "INNER JOIN topics ON topics.id= notes.topicId WHERE notes.topicId = ? AND notes.inst_id =?";
+        if(request.getFilter()==null ||request.getFilter().isEmpty() || request.getFilter().equals("")) {
 
-        Query query = repository.getEntityManager().createNativeQuery(string);
-        query.setParameter(1,request.getTopicId());
-        query.setParameter(2,request.getInst_id());
+            String string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
+                    "employees.fname,topics.topic, notes.topicId, notes.description," +
+                    " notes.subject_id,notes.sub_subject_id, notes.course_id," +
+                    " subjects.subject, courses.course, notes.fee_type" +
+                    " FROM notes INNER JOIN employees ON employees.id= notes.created_by " +
+                    "INNER JOIN topics ON topics.id= notes.topicId INNER JOIN subjects ON " +
+                    "subjects.id = notes.subject_id INNER JOIN courses ON courses.id = notes.course_id" +
+                    " WHERE notes.inst_id = ? and notes.topicId = ? ";
 
-        ArrayList<Object[]> list = (ArrayList<Object[]>) query.getResultList();
+            Query query = repository.getEntityManager().createNativeQuery(string);
+            query.setParameter(1,request.getInst_id());
+            query.setParameter(2,request.getTopicId());
+
+            list = (ArrayList<Object[]>) query.getResultList();
+        }else{
+            String string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
+                    "employees.fname,topics.topic, notes.topicId, notes.description," +
+                    " notes.subject_id,notes.sub_subject_id, notes.course_id," +
+                    " subjects.subject, courses.course, notes.fee_type" +
+                    " FROM notes INNER JOIN employees ON employees.id= notes.created_by " +
+                    "INNER JOIN topics ON topics.id= notes.topicId INNER JOIN subjects ON " +
+                    "subjects.id = notes.subject_id INNER JOIN courses ON courses.id = notes.course_id" +
+                    " WHERE notes.inst_id = ? and notes.topicId = ? and notes.fee_type=?";
+
+            Query query = repository.getEntityManager().createNativeQuery(string);
+            query.setParameter(1,request.getInst_id());
+            query.setParameter(2,request.getTopicId());
+            if(request.getFilter().equals("free")){
+
+                query.setParameter(3,"free");
+            }else{
+                query.setParameter(3,"paid");
+            }
+
+
+            list = (ArrayList<Object[]>) query.getResultList();
+        }
+
+
+
         list.forEach(objects -> {
             NotesEntity notesEntity = new NotesEntity();
+//            notesEntity.setName(objects[0].toString());
+//            notesEntity.setFile(objects[1].toString());
+//            notesEntity.setId(Long.parseLong(objects[3].toString()));
+//            notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
+//            notesEntity.setTeacherName(objects[5].toString());
+//            notesEntity.setTopic(objects[6].toString());
+//            notesEntity.setTopicId(Integer.parseInt(objects[7].toString()));
+//            notesEntity.setDescription(objects[8].toString());
+//
+//
+//
+//
+//            CourseModel courseModel = coursesRepository.find("id",
+//                    Long.parseLong(objects[9].toString())).firstResult();
+//            notesEntity.setCourse(courseModel.getCourse());
+//
+//
+//            TopicModel topicModel = topicsRepository.find("id",
+//                    request.getTopicId()).firstResult();
+//            notesEntity.setTopic(topicModel.getTopic());
+//
+//            TeacherModel teacherModel = teacherRepository.find("id",
+//                    Long.parseLong(objects[2].toString())).firstResult();
+//
+//            notesEntity.setTeacherName(teacherModel.getFname());
+//
+//            String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
+//            Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);
+//            comment.setParameter(1,Long.parseLong(objects[3].toString()));
+//            Integer commentCount = ((Number) comment.getSingleResult()).intValue();
+//            notesEntity.setComment(commentCount.longValue());
+//
+//
+//            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
+//            Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+//            like.setParameter(1,Long.parseLong(objects[3].toString()));
+//            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+//            likeList.forEach(likeObject -> {
+//                if(request.getStudId() == Long.parseLong(likeObject[1].toString())){
+//                    System.out.println("Liked");
+//                    notesEntity.setLiked(true);
+//                }
+//            });
+//
+//            Integer likeCount =  likeList.size();
+//            notesEntity.setLike(likeCount.longValue());
+
             notesEntity.setName(objects[0].toString());
             notesEntity.setFile(objects[1].toString());
-//            notesEntity.setTeacher_id(Integer.parseInt(objects[2].toString()));
+            notesEntity.setCreated_by(Integer.parseInt(objects[2].toString()));
             notesEntity.setId(Long.parseLong(objects[3].toString()));
             notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
             notesEntity.setTeacherName(objects[5].toString());
             notesEntity.setTopic(objects[6].toString());
             notesEntity.setTopicId(Integer.parseInt(objects[7].toString()));
             notesEntity.setDescription(objects[8].toString());
+            notesEntity.setSubject(objects[12].toString());
+            notesEntity.setCourse(objects[13].toString());
+            notesEntity.setFee_type(objects[14].toString());
+
+//            if(objects[14].equals(null)){
+//                notesEntity.setFee_type(null);
+//            }else{
+//                notesEntity.setFee_type(objects[14].toString());
+//            }
 
 
-
-
-            CourseModel courseModel = coursesRepository.find("id",
-                    Long.parseLong(objects[9].toString())).firstResult();
-            notesEntity.setCourse(courseModel.getCourse());
-
-//           SubSubjectModel subSubjectModel = subSubject_repository.find("id",
-//                   Long.parseLong(notesModel.getSub_subject_id())).firstResult();
-//           entity.setSubSubject(subSubjectModel.getSub_subject());
-
-            TopicModel topicModel = topicsRepository.find("id",
-                    request.getTopicId()).firstResult();
-            notesEntity.setTopic(topicModel.getTopic());
 
             TeacherModel teacherModel = teacherRepository.find("id",
-                    Long.parseLong(objects[2].toString())).firstResult();
+                    notesEntity.getCreated_by().longValue()).firstResult();
 
             notesEntity.setTeacherName(teacherModel.getFname());
 
             String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
             Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);
-            comment.setParameter(1,Long.parseLong(objects[3].toString()));
+            comment.setParameter(1,notesEntity.getId());
             Integer commentCount = ((Number) comment.getSingleResult()).intValue();
             notesEntity.setComment(commentCount.longValue());
 
 
             String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
             Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
-            like.setParameter(1,Long.parseLong(objects[3].toString()));
+            like.setParameter(1,notesEntity.getId());
             ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
             likeList.forEach(likeObject -> {
                 if(request.getStudId() == Long.parseLong(likeObject[1].toString())){
@@ -125,6 +202,8 @@ public class GetCourseNotesController {
 
             Integer likeCount =  likeList.size();
             notesEntity.setLike(likeCount.longValue());
+
+
 
 
             notesList.add(notesEntity);

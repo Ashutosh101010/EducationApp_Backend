@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.bucketController;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 

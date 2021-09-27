@@ -54,6 +54,17 @@ public class NotesModel {
     @Column(name = "sub_subject_id",nullable = true)
     private  String sub_subject_id;
 
+    @Column(name = "fee_type",nullable = true)
+    private String fee_type;
+
+    public String getFee_type() {
+        return fee_type;
+    }
+
+    public void setFee_type(String fee_type) {
+        this.fee_type = fee_type;
+    }
+
     public Integer getSubject_id() {
         return subject_id;
     }

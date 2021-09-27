@@ -317,21 +317,21 @@ public class GetExploreDataController {
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
         ArrayList<Object[]> tempPostList;
         if(start.equals("")&&end.equals("")){
-            String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
-                    "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
-                    "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
-                    "INNER JOIN students ON students.id=student_post_demo.added_by " +
-                    "WHERE student_post_demo.inst_id = ?";
+            String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
+                    "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+                    "student_posts.added_on, students.fname FROM `student_posts` " +
+                    "INNER JOIN students ON students.id=student_posts.added_by " +
+                    "WHERE student_posts.inst_id = ?";
             Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
             studentPost.setParameter(1,id);
 
            tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         }else{
-            String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
-                    "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
-                    "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
-                    "INNER JOIN students ON students.id=student_post_demo.added_by " +
-                    "WHERE student_post_demo.inst_id =? and  student_post_demo.added_on between ? and ?";
+            String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
+                    "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+                    "student_posts.added_on, students.fname FROM `student_posts` " +
+                    "INNER JOIN students ON students.id=student_posts.added_by " +
+                    "WHERE student_posts.inst_id =? and  student_posts.added_on between ? and ?";
             Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
             studentPost.setParameter(1,id);
             studentPost.setParameter(2,start);
@@ -401,6 +401,8 @@ public class GetExploreDataController {
 
 
       notesList.forEach(notesModel -> {
+
+
           NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
 
           SubjectModel subjectModel = (SubjectModel) subjectRepository.

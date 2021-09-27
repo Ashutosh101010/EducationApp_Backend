@@ -167,7 +167,7 @@ public class GetQuestionController {
                 response.setMessage("Get question success");
                 response.setStatus(true);
                 // response.setArrayList(arrayList);
-                response.setArrayList(arrayList);
+                response.setArrayList(questionList);
 
 
             }

@@ -39,8 +39,6 @@ public class StudentUpdateController {
        System.out.println((sdf.format(new Date())).toString());
 
 
-
-
         Integer studentModel  = repository.UpDateRequest(request);
         System.out.println(studentModel);
         UpdateResponse response = new UpdateResponse();

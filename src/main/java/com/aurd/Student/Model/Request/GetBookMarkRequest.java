@@ -1,14 +1,15 @@
 package com.aurd.Student.Model.Request;
 
 public class GetBookMarkRequest {
-    int student_id;
+    long student_id;
     long inst_id;
 
-    public int getStudent_id() {
+
+    public long getStudent_id() {
         return student_id;
     }
 
-    public void setStudent_id(int student_id) {
+    public void setStudent_id(long student_id) {
         this.student_id = student_id;
     }
 

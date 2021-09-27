@@ -4,6 +4,17 @@ public class GetVideoLectureRequest {
     long instID;
     long topicID;
 
+    String filter;
+
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
     public long getTopicID() {
         return topicID;
     }

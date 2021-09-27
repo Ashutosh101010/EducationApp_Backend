@@ -4,10 +4,7 @@ import com.aurd.Student.Model.BeanClass.BlogEntity;
 import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
-import com.aurd.Student.Model.Entity.BlogModel;
-import com.aurd.Student.Model.Entity.CurrentAffairModel;
-import com.aurd.Student.Model.Entity.NotesModel;
-import com.aurd.Student.Model.Entity.QuizModel;
+import com.aurd.Student.Model.Entity.*;
 
 import java.util.ArrayList;
 
@@ -21,7 +18,15 @@ public class LatestUpdateResponse {
     int errorCode;
     boolean status;
 
+    ArrayList<Banners> imageList = new ArrayList<>();
 
+    public ArrayList<Banners> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(ArrayList<Banners> imageList) {
+        this.imageList = imageList;
+    }
 
     public ArrayList<BlogEntity> getBlogList() {
         return blogList;

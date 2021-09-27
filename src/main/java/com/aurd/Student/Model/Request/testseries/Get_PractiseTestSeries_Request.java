@@ -4,6 +4,10 @@ public class Get_PractiseTestSeries_Request {
     int topic_id;
     int inst_id;
 
+    long course_id;
+
+
+
     public int getTopic_id() {
         return topic_id;
     }

@@ -5,9 +5,14 @@ import java.sql.Date;
 public class RegisterRequest {
     String fname;
     String lastName;
-    String address;String username;String password;
-    String email;String contact;String profile;
-    Date dob; String gender;
+    String address;
+    String username;
+    String password;
+    String email;
+    String contact;
+    String profile;
+    Date dob;
+    String gender;
     Integer townId;
     Integer stateId;
     String districtId;
@@ -17,8 +22,26 @@ public class RegisterRequest {
     int inst_id;
     int login_status;
     int library;
-    int hostel; int coursecheck;String password_salt;
+    int hostel; int coursecheck;
+    String password_salt;
+    String bio;
+    String created_at;
 
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public String getFname() {
         return fname;
@@ -196,4 +219,6 @@ public class RegisterRequest {
     public void setPassword_salt(String password_salt) {
         this.password_salt = password_salt;
     }
+
+
 }

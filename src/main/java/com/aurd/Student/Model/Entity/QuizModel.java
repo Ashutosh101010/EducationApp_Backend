@@ -50,7 +50,7 @@ public class QuizModel {
     private String pic;
 
     @Column(name = "price",nullable = false)
-    private int price;
+    private String price;
 
     @Column(name = "test_start",nullable = false)
     private Timestamp test_start;
@@ -83,7 +83,7 @@ public class QuizModel {
     private long marks_per_ques;
 
     @Column(name = "total_ques",nullable = false)
-    private  long total_ques;
+    private  int total_ques;
 
 
     @Column(name = "cutoff",nullable = true)
@@ -174,13 +174,6 @@ public class QuizModel {
     }
 
 
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public Timestamp getTest_start() {
         return test_start;
@@ -241,11 +234,20 @@ public class QuizModel {
         this.marks_per_ques = marks_per_ques;
     }
 
-    public long getTotal_ques() {
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public int getTotal_ques() {
         return total_ques;
     }
 
-    public void setTotal_ques(long total_ques) {
+    public void setTotal_ques(int total_ques) {
         this.total_ques = total_ques;
     }
 

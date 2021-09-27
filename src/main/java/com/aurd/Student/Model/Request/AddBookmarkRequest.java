@@ -1,12 +1,18 @@
 package com.aurd.Student.Model.Request;
 
-import java.sql.Timestamp;
-
-public class InsertBookMarkRequest {
-
+public class AddBookmarkRequest {
     int post_id;
+    String type;
     int added_by;
-    Timestamp added_on;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public int getPost_id() {
         return post_id;
@@ -22,13 +28,5 @@ public class InsertBookMarkRequest {
 
     public void setAdded_by(int added_by) {
         this.added_by = added_by;
-    }
-
-    public Timestamp getAdded_on() {
-        return added_on;
-    }
-
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
     }
 }

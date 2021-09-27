@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import static  com.aurd.Service.s3;
@@ -85,8 +87,12 @@ public class AddStudentPostController
             studentPostModel.setDescription(request.getDiscription());
             studentPostModel.setAdded_by(request.getAdded_by());
             studentPostModel.setInst_id(request.getInst_id());
-            studentPostModel.setAdded_on(request.getAdded_on());
             studentPostModel.setPic(ImageId);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar calendar = Calendar.getInstance();
+            studentPostModel.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
+//            studentPostModel.setUpdated_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
 
             System.out.println(new Gson().toJson(studentPostModel));
 

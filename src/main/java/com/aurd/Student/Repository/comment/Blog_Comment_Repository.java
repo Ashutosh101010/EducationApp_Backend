@@ -17,6 +17,7 @@ public class Blog_Comment_Repository implements PanacheRepository<Blog_Comment_M
     public boolean addStudentBlogCommentRequest (AddPostCommentRequest request) {
 
         Blog_Comment_Model student_blog_commented_model = new Gson().fromJson(new Gson().toJson(request),Blog_Comment_Model.class);
+        student_blog_commented_model.setBlog_id(request.getPost_id());
         persist(student_blog_commented_model);
         return true;
 

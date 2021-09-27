@@ -13,8 +13,9 @@ import java.sql.Timestamp;
 @Table(name = "student_posts_saved")
 
 public class BookMarkModel {
-   @Id
-
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long id;
 
   @Column(name = "post_id",nullable = false)
   @NotNull
@@ -26,8 +27,26 @@ public class BookMarkModel {
 
   @Column(name = "added_on",nullable = true)
   @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
-
   private  Timestamp added_on;
+
+  @Column(name = "type",nullable = false)
+  private String type;
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
 
   public long getPost_id() {
     return post_id;

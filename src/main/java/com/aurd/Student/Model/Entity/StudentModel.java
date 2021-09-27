@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "students")
@@ -109,6 +110,27 @@ public class StudentModel {
     @Column(name="password_salt", nullable = false)
     private String password_salt;
 
+    @Column(name = "bio",nullable = true)
+    private  String bio;
+
+    @Column(name = "created_at",nullable = true)
+    private Timestamp created_at;
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 
     public long getId() {
         return id;

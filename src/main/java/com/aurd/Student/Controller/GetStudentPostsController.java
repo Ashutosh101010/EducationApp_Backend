@@ -51,11 +51,11 @@ public class GetStudentPostsController {
 //        }
 
 
-        String studentPostQuery = "SELECT student_post_demo.id,student_post_demo.description," +
-                "student_post_demo.pic,student_post_demo.post_status,student_post_demo.added_by,\n" +
-                "student_post_demo.added_on, students.fname FROM `student_post_demo` " +
-                "INNER JOIN students ON students.id=student_post_demo.added_by " +
-                "WHERE student_post_demo.inst_id = ? and student_post_demo.added_by = ?";
+        String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
+                "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+                "student_posts.added_on, students.fname FROM `student_posts` " +
+                "INNER JOIN students ON students.id=student_posts.added_by " +
+                "WHERE student_posts.inst_id = ? and student_posts.added_by = ?";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,request.getInst_id());
         studentPost.setParameter(2,request.getStud_id());

@@ -1,8 +1,12 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.BeanClass.BookMarkEntity;
+import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
+import com.aurd.Student.Model.BeanClass.StudentPostEntity;
 import com.aurd.Student.Model.Entity.BookMarkModel;
+import com.aurd.Student.Model.Entity.CurrentAffairModel;
 import com.aurd.Student.Model.Entity.StudentModel;
+import com.aurd.Student.Model.Entity.StudentPostModel;
 
 import java.util.ArrayList;
 
@@ -11,8 +15,35 @@ public class GetBookMarkResponse {
     boolean status;
     int statusCode;
 
-    ArrayList<BookMarkEntity> book = new ArrayList();
+//    ArrayList<BookMarkEntity> book = new ArrayList();
 
+    ArrayList<StudentPostEntity> postList = new ArrayList<>();
+    ArrayList<CurrentAffairEntity> caList = new ArrayList<>();
+    ArrayList<StudentPostEntity> pList = new ArrayList<>();
+
+    public ArrayList<StudentPostEntity> getpList() {
+        return pList;
+    }
+
+    public void setpList(ArrayList<StudentPostEntity> pList) {
+        this.pList = pList;
+    }
+
+    public ArrayList<CurrentAffairEntity> getCaList() {
+        return caList;
+    }
+
+    public void setCaList(ArrayList<CurrentAffairEntity> caList) {
+        this.caList = caList;
+    }
+
+    public ArrayList<StudentPostEntity> getPostList() {
+        return postList;
+    }
+
+    public void setPostList(ArrayList<StudentPostEntity> postList) {
+        this.postList = postList;
+    }
 
     public String getMessage() {
         return message;
@@ -36,14 +67,6 @@ public class GetBookMarkResponse {
 
     public void setStatusCode(int statusCode) {
         this.statusCode = statusCode;
-    }
-
-    public ArrayList<BookMarkEntity> getBook() {
-        return book;
-    }
-
-    public void setBook(ArrayList<BookMarkEntity> book) {
-        this.book = book;
     }
 
 
