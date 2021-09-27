@@ -8,6 +8,7 @@ public class CurrentAffairLikeDislikeRequest {
     int current_affair_id;
     int added_by;
     Timestamp added_on;
+    int id;
 
     public int getOperation() {
         return operation;
@@ -39,5 +40,13 @@ public class CurrentAffairLikeDislikeRequest {
 
     public void setAdded_on(Timestamp added_on) {
         this.added_on = added_on;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

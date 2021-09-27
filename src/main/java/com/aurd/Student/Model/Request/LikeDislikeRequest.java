@@ -4,6 +4,15 @@ public class LikeDislikeRequest {
     int operation;
     int postId;
     int stud_id;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getOperation() {
         return operation;
@@ -28,4 +37,6 @@ public class LikeDislikeRequest {
     public void setStud_id(int stud_id) {
         this.stud_id = stud_id;
     }
+
+
 }

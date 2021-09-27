@@ -8,6 +8,15 @@ public class NotesLikeDislikeRequest {
     int notes_id;
     int added_by;
     Timestamp added_on;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getOperation() {
         return operation;
@@ -40,4 +49,6 @@ public class NotesLikeDislikeRequest {
     public void setAdded_on(Timestamp added_on) {
         this.added_on = added_on;
     }
+
+
 }

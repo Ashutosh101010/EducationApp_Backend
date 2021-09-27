@@ -6,12 +6,15 @@ import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.StudentPostLikedRepository;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
+import static io.quarkus.hibernate.orm.panache.Panache.getEntityManager;
 
 @Path("/likeDislike")
 public class LikeDislikeController {
@@ -39,9 +42,13 @@ public class LikeDislikeController {
             response.setStatusCode(0);
 
         }else if(request.getOperation()==2){
-            model.setAdded_by(request.getStud_id());
-            model.setPost_id(request.getPostId());
-            likedRepository.delete(model);
+            String dislike = "DELETE FROM student_posts_liked WHERE id=?";
+
+            Query query = getEntityManager().createNativeQuery(dislike);
+            query.setParameter(1,request.getId());
+
+            query.executeUpdate();
+
 
             response.setMessage("Post Dislike");
             response.setStatus(true);
