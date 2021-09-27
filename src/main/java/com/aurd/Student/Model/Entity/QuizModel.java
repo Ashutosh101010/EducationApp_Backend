@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 @Entity
@@ -97,6 +98,9 @@ public class QuizModel {
     @Column(name = "instruction",nullable = true)
     @Max(429496729)
     private String instruction;
+
+    @Column(name = "time",nullable = false)
+    private Timestamp time;
 
 //
 //    @Column(name = "time",nullable = false)

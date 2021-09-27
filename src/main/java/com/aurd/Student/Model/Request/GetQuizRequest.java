@@ -3,7 +3,7 @@ package com.aurd.Student.Model.Request;
 import javax.persistence.criteria.CriteriaBuilder;
 
 public class GetQuizRequest {
-    long inst_id;
+    int inst_id;
     String type;
 
     Integer subject_id;
@@ -18,11 +18,11 @@ public class GetQuizRequest {
         this.filter = filter;
     }
 
-    public long getInst_id() {
+    public int getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(long inst_id) {
+    public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
     }
 

@@ -27,7 +27,8 @@ public class TestSeries_PractiseTestController {
     @Transactional
     public PractiseTestSeries_Response getPractiseTet(Get_PractiseTestSeries_Request request){
 
-       ArrayList<PractiseTestSeriesModel> arrayList =  repository.getTestSeries_PractiseTest(request);
+       ArrayList<PractiseTestSeriesModel> arrayList =
+               repository.getTestSeries_PractiseTest(request);
 
 
        PractiseTestSeries_Response response = new PractiseTestSeries_Response();

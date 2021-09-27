@@ -3,7 +3,6 @@ package com.aurd.Student.Model.Request.testseries;
 public class Get_PractiseTestSeries_Request {
     int topic_id;
     int inst_id;
-
     long course_id;
 
     int test_series_id;

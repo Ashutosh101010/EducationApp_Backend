@@ -1,10 +1,23 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.Entity.QuizModel;
+
+import java.util.ArrayList;
+
 public class GetCourse_PractiseTest_Response
 {
     String message;
     int errorCode;
     boolean status;
+    ArrayList<QuizModel> practiseTestList  = new ArrayList<>();
+
+    public ArrayList<QuizModel> getPractiseTestList() {
+        return practiseTestList;
+    }
+
+    public void setPractiseTestList(ArrayList<QuizModel> practiseTestList) {
+        this.practiseTestList = practiseTestList;
+    }
 
     public String getMessage() {
         return message;

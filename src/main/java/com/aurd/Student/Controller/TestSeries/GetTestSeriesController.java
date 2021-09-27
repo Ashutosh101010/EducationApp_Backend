@@ -31,7 +31,8 @@ public class GetTestSeriesController {
         TestSeriesResponse response = new TestSeriesResponse();
 
 
-        ArrayList<QuizModel>testSeries= quizRepository.getAllTestSeries(request.getInst_id(),request.getType());
+        ArrayList<QuizModel>testSeries= quizRepository.
+                getAllTestSeries(request.getInst_id(),request.getType());
 
 
         if(testSeries.isEmpty()){
