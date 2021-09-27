@@ -2,6 +2,7 @@ package com.aurd.Student.Repository;
 
 import com.aurd.Student.Model.BeanClass.BookMarkEntity;
 import com.aurd.Student.Model.Entity.QuizModel;
+import com.aurd.Student.Model.Entity.TestSeriesModel;
 import com.aurd.Student.Model.Request.GetQuizRequest;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -134,6 +135,13 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
     public ArrayList getAllUpdates(long instID){
         ArrayList<QuizModel> arrayList = (ArrayList<QuizModel>) list("inst_id",instID);
+        return  arrayList;
+    }
+
+    public ArrayList<QuizModel> getAllTestSeries(Integer inst_id,String type) {
+
+        ArrayList<QuizModel>arrayList=(ArrayList<QuizModel>)
+                find("inst_id=?1 and type=?2",inst_id,type).list();
         return  arrayList;
     }
 }

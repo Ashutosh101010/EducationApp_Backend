@@ -3,15 +3,23 @@ package com.aurd.Student.Model.Request.testseries;
 
 public class Get_TestSeries_Request {
 
-    long inst_id;
+    int inst_id;
+     String type;
 
 
-    public long getInst_id() {
+    public int getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(long inst_id) {
+    public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
