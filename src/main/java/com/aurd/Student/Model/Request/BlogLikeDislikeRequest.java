@@ -8,6 +8,15 @@ public class BlogLikeDislikeRequest {
     int blog_id;
     int added_by;
     Timestamp added_on;
+    int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getOperation() {
         return operation;

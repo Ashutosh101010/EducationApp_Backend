@@ -7,6 +7,7 @@ import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.NotesLikeDislikeRepository;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -16,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import static io.quarkus.hibernate.orm.panache.Panache.getEntityManager;
 
 @Path("/addNotesLikeDislike")
 
@@ -52,9 +55,14 @@ public class NotesLikeDislikeController {
             response.setStatusCode(0);
 
         } else if (request.getOperation() == 2) {
-            model.setAdded_by(request.getAdded_by());
-            model.setNotes_id(request.getNotes_id());
-            repository.delete(model);
+
+            String dislike = "DELETE FROM notes_liked WHERE id=?";
+
+            Query query = getEntityManager().createNativeQuery(dislike);
+            query.setParameter(1,request.getId());
+
+            query.executeUpdate();
+
 
             response.setMessage("Post Dislike");
             response.setStatus(true);
