@@ -15,6 +15,7 @@ public class GetExploreDataResponse {
     ArrayList<NotesEntity> notesList = new ArrayList<>();
     ArrayList<QuizModel> quizList = new ArrayList<>();
     ArrayList<VideoModel> videoModels=new ArrayList<>();
+    ArrayList<QuizModel>practiseList = new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
@@ -93,5 +94,13 @@ public class GetExploreDataResponse {
 
     public void setVideoModels(ArrayList<VideoModel> videoModels) {
         this.videoModels = videoModels;
+    }
+
+    public ArrayList<QuizModel> getPractiseList() {
+        return practiseList;
+    }
+
+    public void setPractiseList(ArrayList<QuizModel> practiseList) {
+        this.practiseList = practiseList;
     }
 }

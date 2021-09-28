@@ -84,6 +84,9 @@ public class GetTodaysUpdateController {
     @Inject
     BannerImageRepository imageRepository;
 
+    @Inject
+    QuizRepository quizRepository;
+
 
 
 
@@ -142,6 +145,8 @@ public class GetTodaysUpdateController {
         ArrayList<NotesEntity>  notesList = getNotes(request.getInstID(),request.getStudId(),
                 start,end);
 
+        ArrayList<QuizModel> quizList = getQuiz(request.getInstID(),request.getStudId(),start,end);
+
 
         ArrayList<Banners> bannerList = (ArrayList<Banners>)
                 imageRepository.list("inst_id",request.getInstID());
@@ -158,6 +163,7 @@ public class GetTodaysUpdateController {
     response.setNotesList(notesList);
     response.setPostList(postList);
     response.setImageList(bannerList);
+    response.setQuizList(quizList);
 
 
 
@@ -165,8 +171,6 @@ public class GetTodaysUpdateController {
 
 
     }
-
-
 
 
     ArrayList getBlog(long id,long studId,String start,String end){
@@ -401,6 +405,27 @@ public class GetTodaysUpdateController {
 
     }
 
+    private ArrayList<QuizModel> getQuiz(long instID, long studId, String start, String end) {
 
+        ArrayList<QuizModel> quizList =  new ArrayList<>();
+
+        String string = "SELECT * from quiz_master where inst_id = ? and added_on between ? and ? ";
+
+        Query query = quizRepository.getEntityManager().createNativeQuery(string, QuizModel.class);
+        query.setParameter(1, instID);
+        query.setParameter(2, start);
+        query.setParameter(3, end);
+        quizList = (ArrayList<QuizModel>) query.getResultList();
+
+
+        return quizList;
 
 }
+    }
+
+
+
+
+
+
+
