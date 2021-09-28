@@ -19,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import static io.quarkus.hibernate.orm.panache.PanacheEntityBase.list;
 
@@ -160,6 +161,21 @@ public class GetExploreDataController {
         }
 
 
+//        blogList.sort((a,b) => new Date(a.updated_at).getTime() - new Date(b.updated_at).getTime());
+     //   var data = [
+     //   {date: new Date(2000)},
+    //    {date: new Date(1000)}
+    //];
+
+     //   function sortByDateAscending(a, b) {
+     //       Dates will be cast to numbers automagically:
+     //       return a.date - b.date;
+     //   }
+
+      //  data = data.sort(sortByDateAscending);
+
+
+
 //
 //        if(request.getFilter().equals("all")||request.getFilter().isEmpty()||
 //                request.getFilter().equals("")
@@ -214,12 +230,12 @@ public class GetExploreDataController {
         ArrayList<BlogEntity> arrayList = new ArrayList<>();
         ArrayList<BlogModel> blogList;
         if (start.equals("") && end.equals("")) {
-            String blogQuery = "SELECT * from `blog` where inst_id = ? ;";
+            String blogQuery = "SELECT * from `blog` where inst_id = ? ORDER BY created_on DESC";
             Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
             blog.setParameter(1, id);
             blogList = (ArrayList<BlogModel>) blog.getResultList();
         } else {
-            String blogQuery = "SELECT * from `blog` where inst_id = ? and  blog.created_on between ? and ?;";
+            String blogQuery = "SELECT * from `blog` where inst_id = ? and  blog.created_on between ? and ? ";
             Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
             blog.setParameter(1, id);
             blog.setParameter(2, start);
@@ -237,7 +253,7 @@ public class GetExploreDataController {
             blogEntity.setName(teacherModel.getFname());
 
 
-            String commentQuery = "SELECT COUNT(*) FROM `blog_commented` WHERE blog_id =? ";
+            String commentQuery = "SELECT COUNT(*) FROM `blog_commented` WHERE blog_id =?" ;
             Query comment = blogCommentRepository.getEntityManager().createNativeQuery(commentQuery);
             comment.setParameter(1, blogModel.getId());
             Integer commentCount = ((Number) comment.getSingleResult()).intValue();
@@ -245,7 +261,7 @@ public class GetExploreDataController {
             blogEntity.setComment(commentCount.longValue());
 
 
-            String likeQuery = "SELECT * FROM `blog_liked` WHERE blog_id =?";
+            String likeQuery = "SELECT * FROM `blog_liked` WHERE blog_id =? ";
             Query like = blogLikedRepository.getEntityManager().createNativeQuery(likeQuery);
             like.setParameter(1, blogModel.getId());
             ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
@@ -270,7 +286,7 @@ public class GetExploreDataController {
         ArrayList<CurrentAffairEntity> currentAffairList = new ArrayList<>();
         ArrayList<CurrentAffairModel> caList;
         if (start.equals("") && end.equals("")) {
-            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ;";
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ORDER BY created_at DESC;";
             Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1, id);
@@ -278,7 +294,7 @@ public class GetExploreDataController {
             caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 
         } else {
-            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and  created_at between ? and ?;";
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and  created_at between ? and ? ;";
             Query currentAffair = currentAffairRepository.getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1, id);
@@ -304,7 +320,7 @@ public class GetExploreDataController {
             entity.setComment(commentCount.longValue());
 
 
-            String likeQuery = "SELECT * FROM `current_affairs_liked` WHERE current_affair_id =?";
+            String likeQuery = "SELECT * FROM `current_affairs_liked` WHERE current_affair_id =? ";
             Query like = currentAffairLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
             like.setParameter(1, currentAffairModel.getId());
             ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
@@ -336,7 +352,7 @@ public class GetExploreDataController {
                     "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                     "student_posts.added_on, students.fname FROM `student_posts` " +
                     "INNER JOIN students ON students.id=student_posts.added_by " +
-                    "WHERE student_posts.inst_id = ?";
+                    "WHERE student_posts.inst_id = ? ORDER BY added_on DESC";
             Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
             studentPost.setParameter(1, id);
 
@@ -346,7 +362,7 @@ public class GetExploreDataController {
                     "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                     "student_posts.added_on, students.fname FROM `student_posts` " +
                     "INNER JOIN students ON students.id=student_posts.added_by " +
-                    "WHERE student_posts.inst_id =? and  student_posts.added_on between ? and ?";
+                    "WHERE student_posts.inst_id =? and  student_posts.added_on between ? and ? ORDER BY added_on DESC";
             Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
             studentPost.setParameter(1, id);
             studentPost.setParameter(2, start);
@@ -398,13 +414,13 @@ public class GetExploreDataController {
         ArrayList<NotesEntity> arrayList = new ArrayList<>();
         ArrayList<NotesModel> notesList;
         if (start.equals("") && end.equals("")) {
-            String notesQuery = "SELECT * from `notes` where inst_id = ? ;";
+            String notesQuery = "SELECT * from `notes` where inst_id = ? ORDER BY created_at DESC";
             Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
             notes.setParameter(1, id);
 
             notesList = (ArrayList<NotesModel>) notes.getResultList();
         } else {
-            String notesQuery = "SELECT * from `notes` where inst_id = ? and created_at between ? and ?;";
+            String notesQuery = "SELECT * from `notes` where inst_id = ? and created_at between ? and ? ";
             Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery, NotesModel.class);
             notes.setParameter(1, id);
             notes.setParameter(2, start);
@@ -434,14 +450,14 @@ public class GetExploreDataController {
                     notesModel.getTopicId().longValue()).firstResult();
             entity.setTopic(topicModel.getTopic());
 
-            String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
+            String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =?";
             Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);
             comment.setParameter(1, notesModel.getId());
             Integer commentCount = ((Number) comment.getSingleResult()).intValue();
             entity.setComment(commentCount.longValue());
 
 
-            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =?";
+            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =? ";
             Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
             like.setParameter(1, notesModel.getId());
             ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
@@ -472,7 +488,7 @@ public class GetExploreDataController {
             arrayList = (ArrayList<VideoModel>) videoLectureRepository.list("inst_id", inst_id);
         } else {
 
-            String string = "SELECT * from `videos` where inst_id = ? and created_at between ? and ?;";
+            String string = "SELECT * from `videos` where inst_id = ? and created_at between ? and ? ";
             Query query = notesRepository.getEntityManager().createNativeQuery(string, VideoModel.class);
             query.setParameter(1, inst_id);
             query.setParameter(2, start);
@@ -490,7 +506,7 @@ public class GetExploreDataController {
             arrayList = (ArrayList<QuizModel>) quizRepository.list("inst_id", instId.intValue());
         } else {
 
-            String string = "SELECT * from quiz_master where inst_id = ? and created_on between ? and ?";
+            String string = "SELECT * from quiz_master where inst_id = ? and created_on between ? and ? ";
 
             Query query = quizRepository.getEntityManager().createNativeQuery(string, QuizModel.class);
             query.setParameter(1, instId);
