@@ -6,20 +6,20 @@ public class GetExploreRequest {
     String date;
     String filter;
 
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
-    }
-
     public Long getInstId() {
         return instId;
     }
 
     public void setInstId(Long instId) {
         this.instId = instId;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 
     public long getStudId() {
