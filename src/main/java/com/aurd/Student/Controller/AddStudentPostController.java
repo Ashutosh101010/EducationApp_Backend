@@ -42,7 +42,7 @@ public class AddStudentPostController
     public GeneralResponse  addStudentPost(@MultipartForm MultipartFormDataInput inputRequest) throws IOException {
 
 
-
+        StudentPostModel studentPostModel = new StudentPostModel();
 
         final String bucketName = "educationapp";
 
@@ -57,37 +57,54 @@ public class AddStudentPostController
             request.setAdded_on(timestamp);
             request.setPost_approved_on(timestamp);
             request.setPost_approved_by(0);
-            request.setDiscription(input.get("description").get(0).getBodyAsString());
+            if(input.get("description").get(0).getBodyAsString().equals("")||
+                    input.get("description").get(0).getBodyAsString()==null)
+            {
+                request.setDiscription(null);
+
+            }else{
+                request.setDiscription(input.get("description").get(0).getBodyAsString());
+                studentPostModel.setDescription(request.getDiscription());
+            }
             request.setInst_id(Integer.parseInt(input.get("inst_id").get(0).getBodyAsString()));
             request.setAdded_by(Integer.parseInt(input.get("added_by").get(0).getBodyAsString()));
             request.setPost_status(Integer.parseInt(input.get("post_status").get(0).getBodyAsString()));
+            String ImageId = null;
+            if(input.get("pic").get(0).getBody(InputStream.class,null).equals("")){
+                System.out.println("No image data");
+                studentPostModel.setPic(null);
+            }else{
+                request.setPic(input.get("pic").get(0).getBody(InputStream.class,null));
+                System.out.println(request);
+                byte imageBytes[] = request.getPic().readAllBytes();
+                System.out.println(imageBytes);
+                System.out.println(imageBytes.length);
 
-            request.setPic(input.get("pic").get(0).getBody(InputStream.class,null));
-            System.out.println(request);
-        byte imageBytes[] = request.getPic().readAllBytes();
-        System.out.println(imageBytes);
-        System.out.println(imageBytes.length);
+                InputStream inputStream = new ByteArrayInputStream(imageBytes);
+                ObjectMetadata metadata = new ObjectMetadata();
+                metadata.setContentLength(imageBytes.length);
 
-        InputStream inputStream = new ByteArrayInputStream(imageBytes);
-        ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentLength(imageBytes.length);
+              ImageId = String.valueOf(System.currentTimeMillis());
+                s3.putObject(bucketName, ImageId, inputStream,metadata );
 
-            String ImageId = String.valueOf(System.currentTimeMillis());
-            s3.putObject(bucketName, ImageId, inputStream,metadata );
+                System.out.println(ImageId);
 
-            System.out.println(ImageId);
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                studentPostModel.setPic(ImageId);
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            StudentPostModel studentPostModel = new StudentPostModel();
+
+
 //            studentPostModel.setPost_approved_by(request.getPost_approved_by());
             studentPostModel.setPost_status(request.getPost_status());
-            studentPostModel.setDescription(request.getDiscription());
+
             studentPostModel.setAdded_by(request.getAdded_by());
             studentPostModel.setInst_id(request.getInst_id());
-            studentPostModel.setPic(ImageId);
+
+
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Calendar calendar = Calendar.getInstance();

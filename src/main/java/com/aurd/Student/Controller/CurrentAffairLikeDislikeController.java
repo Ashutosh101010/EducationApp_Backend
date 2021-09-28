@@ -57,10 +57,11 @@ public class CurrentAffairLikeDislikeController {
 
         } else if (request.getOperation() == 2) {
 
-            String dislike = "DELETE FROM current_affairs_liked WHERE id=?";
+            String dislike = "DELETE FROM current_affairs_liked WHERE current_affair_id=? and added_by =?";
 
             Query query = getEntityManager().createNativeQuery(dislike);
-            query.setParameter(1,request.getId());
+            query.setParameter(1,request.getCurrent_affair_id());
+            query.setParameter(2,request.getAdded_by());
 
             query.executeUpdate();
 

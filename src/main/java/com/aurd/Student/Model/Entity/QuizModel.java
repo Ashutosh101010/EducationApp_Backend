@@ -102,7 +102,48 @@ public class QuizModel {
     @Column(name = "time",nullable = false)
     private Timestamp time;
 
-//
+    @Column(name = "negative_marking",nullable = true)
+    private String negative_marking;
+
+    @Column(name = "quiz_type",nullable = true)
+    private String quiz_type;
+
+    @Column(name = "test_end",nullable = true)
+    private String test_end;
+
+    public String getTest_end() {
+        return test_end;
+    }
+
+    public void setTest_end(String test_end) {
+        this.test_end = test_end;
+    }
+
+    public Timestamp getTime() {
+        return time;
+    }
+
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+
+    public String getNegative_marking() {
+        return negative_marking;
+    }
+
+    public void setNegative_marking(String negative_marking) {
+        this.negative_marking = negative_marking;
+    }
+
+    public String getQuiz_type() {
+        return quiz_type;
+    }
+
+    public void setQuiz_type(String quiz_type) {
+        this.quiz_type = quiz_type;
+    }
+
+    //
 //    @Column(name = "time",nullable = false)
 //    private Long time;
 

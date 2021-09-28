@@ -54,10 +54,11 @@ public class BlogLikeDislikeController {
 
         } else if (request.getOperation() == 2) {
 
-            String dislike = "DELETE FROM blog_liked WHERE id=?";
+            String dislike = "DELETE FROM blog_liked WHERE blog_id=? and added_by=?";
 
             Query query = getEntityManager().createNativeQuery(dislike);
-            query.setParameter(1,request.getId());
+            query.setParameter(1,request.getBlog_id());
+            query.setParameter(2,request.getAdded_by());
 
             query.executeUpdate();
 

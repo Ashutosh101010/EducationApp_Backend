@@ -6,6 +6,24 @@ public class Get_PractiseTestSeries_Request {
     long course_id;
 
     int test_series_id;
+    int subject_id;
+    String filter;
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
+    public int getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(int subject_id) {
+        this.subject_id = subject_id;
+    }
 
     public int getTest_series_id() {
         return test_series_id;

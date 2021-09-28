@@ -139,6 +139,7 @@ public class GetExploreDataController {
 
         }else{
             System.out.println("Everything is empty");
+            System.out.println(new Gson().toJson(request));
 
             blogList = getBlog(request.getInstId().intValue(),request.getStudId(),"","");
 

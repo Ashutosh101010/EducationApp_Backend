@@ -56,10 +56,11 @@ public class NotesLikeDislikeController {
 
         } else if (request.getOperation() == 2) {
 
-            String dislike = "DELETE FROM notes_liked WHERE id=?";
+            String dislike = "DELETE FROM notes_liked WHERE notes_id=? and added_by=?";
 
             Query query = getEntityManager().createNativeQuery(dislike);
-            query.setParameter(1,request.getId());
+            query.setParameter(1,request.getNotes_id());
+            query.setParameter(2,request.getAdded_by());
 
             query.executeUpdate();
 
