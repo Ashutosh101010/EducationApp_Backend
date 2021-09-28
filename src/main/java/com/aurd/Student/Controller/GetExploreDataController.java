@@ -503,30 +503,6 @@ public class GetExploreDataController {
 
     }
 
-  //  private ArrayList<PractiseTestSeriesModel> getPractiseTest(Long instId, long studId, String start, String end) {
-  //      ArrayList<PractiseTestSeriesModel> arrayList = null;
-  //      if (start.equals("") && end.equals("")) {
-  //          arrayList = (ArrayList<PractiseTestSeriesModel>) repository.list("inst_id", instId.intValue());
-  //      } else {
-  //          String string = "SELECT * from test_series_practice_test where inst_id =?and added_on between ? and ?";
-
-  //          Query query = repository.getEntityManager().createNativeQuery(string, PractiseTestSeriesModel.class);
-  //          query.setParameter(1, instId);
-  //          query.setParameter(2, start);
-  //          query.setParameter(3, end);
-  //          arrayList = (ArrayList<PractiseTestSeriesModel>) query.getResultList();
-
-
-  //      }
-  //      return arrayList;
-  //  }
-
-
-    //// public ArrayList<QuizModel> getAllTestSeries(Integer inst_id, String type) {
-    //   ArrayList<QuizModel> arrayList = (ArrayList<QuizModel>)
-    //           find("inst_id=?1 and type=?2", inst_id, type).list();
-     //   return arrayList;
-   // }
     private ArrayList<QuizModel> getAllTestSeries(Long instId, long studId, String start, String end ) {
         ArrayList<QuizModel> arrayList = null;
         if (start.equals("") && end.equals("")) {
