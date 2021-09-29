@@ -46,4 +46,6 @@ public class ResultEntity {
     public void setWrongAnswered(long wrongAnswered) {
         this.wrongAnswered = wrongAnswered;
     }
+
+
 }
