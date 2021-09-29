@@ -14,6 +14,10 @@ public class LatestUpdateResponse {
     ArrayList<StudentPostEntity> postList = new ArrayList<>();
     ArrayList<NotesEntity> notesList = new ArrayList<>();
     ArrayList<QuizModel> quizList = new ArrayList<>();
+    ArrayList<VideoModel> videoList = new ArrayList<>();
+    ArrayList<QuizModel> practiseList = new ArrayList<>();
+
+
     String message;
     int errorCode;
     boolean status;
@@ -90,5 +94,21 @@ public class LatestUpdateResponse {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public ArrayList<VideoModel> getVideoList() {
+        return videoList;
+    }
+
+    public void setVideoList(ArrayList<VideoModel> videoList) {
+        this.videoList = videoList;
+    }
+
+    public ArrayList<QuizModel> getPractiseList() {
+        return practiseList;
+    }
+
+    public void setPractiseList(ArrayList<QuizModel> practiseList) {
+        this.practiseList = practiseList;
     }
 }
