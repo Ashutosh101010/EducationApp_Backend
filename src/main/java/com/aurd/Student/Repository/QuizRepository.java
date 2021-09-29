@@ -39,43 +39,6 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
                   return arrayList;
 
-
-
-          //         String string = "SELECT quiz_id,type,title,discription," + "pic,price ,inst_id FROM `quiz_master` " +
-           //            "WHERE type =? and inst_id = ? and subject_id=? ";
-
-           //     Query query = getEntityManager().createNativeQuery(string);
-           //     query.setParameter(1,request.getType());
-           //     query.setParameter(2,request.getInst_id());
-           //    query.setParameter(3,request.getSubject_id());
-
-
-
-
-         //      ArrayList<Object[]> objectList = (ArrayList<Object[]>) query.getResultList();
-         //       ArrayList<QuizModel> tempList = new ArrayList<>();
-
-
-          //      objectList.forEach(objects -> {
-
-          //                 QuizModel quizModel = new QuizModel();
-          //                 quizModel.setQuiz_id(Integer.parseInt(objects[0].toString()));
-          //                  quizModel.setType(objects[1].toString());
-          //                  quizModel.setTitle(objects[2].toString());
-          //                 quizModel.setDiscription(objects[3].toString());
-          //                  quizModel.setPic(objects[4].toString());
-          //                  quizModel.setPrice(Integer.parseInt(objects[5].toString()));
-
-           //                quizModel.setInst_id(Long.parseLong(objects[6].toString()));
-
-
-           //                 tempList.add(quizModel);
-           //             });
-
-
-
-           //     return  tempList;
-
             }else if(request.getCourse_id()!=0 && request.getSubject_id()!=0){
                 arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 and course_id = ?4",
                         request.getInst_id(),request.getType(),request.getSubject_id(),request.getCourse_id()).list();

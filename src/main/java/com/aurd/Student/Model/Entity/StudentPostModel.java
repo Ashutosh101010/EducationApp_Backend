@@ -15,13 +15,9 @@ public class StudentPostModel {
     private  long id;
 
     @Column(name = "description",nullable = true)
-    @Nullable
-    @Null
     private String description;
 
     @Column(name = "pic",nullable = true)
-    @Null
-    @Nullable
     private String pic;
 
     @Column(name = "post_status",nullable = false)

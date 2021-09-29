@@ -25,6 +25,7 @@ public class GetStudentDetailsController {
 
         try{
          StudentModel model =  repository.getDetails(request);
+
          if(model!=null){
              response.setStudent(model);
              response.setMessage("Fetch student details success");

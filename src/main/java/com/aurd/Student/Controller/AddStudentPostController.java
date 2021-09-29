@@ -42,13 +42,13 @@ public class AddStudentPostController
     public GeneralResponse  addStudentPost(@MultipartForm MultipartFormDataInput inputRequest) throws IOException {
 
 
-        StudentPostModel studentPostModel = new StudentPostModel();
+
 
         final String bucketName = "educationapp";
 
         GeneralResponse response = new GeneralResponse();
         try {
-
+            StudentPostModel studentPostModel = new StudentPostModel();
             System.out.println(inputRequest.getFormDataMap());
             Map<String, List<InputPart>> input = inputRequest.getFormDataMap();
             java.util.Date date = new java.util.Date();
@@ -57,21 +57,14 @@ public class AddStudentPostController
             request.setAdded_on(timestamp);
             request.setPost_approved_on(timestamp);
             request.setPost_approved_by(0);
-            if(input.get("description").get(0).getBodyAsString().equals("")||
-                    input.get("description").get(0).getBodyAsString()==null)
-            {
-                request.setDiscription(null);
-
-            }else{
-                request.setDiscription(input.get("description").get(0).getBodyAsString());
-                studentPostModel.setDescription(request.getDiscription());
-            }
             request.setInst_id(Integer.parseInt(input.get("inst_id").get(0).getBodyAsString()));
             request.setAdded_by(Integer.parseInt(input.get("added_by").get(0).getBodyAsString()));
             request.setPost_status(Integer.parseInt(input.get("post_status").get(0).getBodyAsString()));
-            String ImageId = null;
-            if(input.get("pic").get(0).getBody(InputStream.class,null).equals("")){
-                System.out.println("No image data");
+//            request.setPic(input.get("pic").get(0).getBody(InputStream.class,null));
+//
+
+            if(input.get("pic")==null){
+                request.setPic(null);
                 studentPostModel.setPic(null);
             }else{
                 request.setPic(input.get("pic").get(0).getBody(InputStream.class,null));
@@ -84,26 +77,35 @@ public class AddStudentPostController
                 ObjectMetadata metadata = new ObjectMetadata();
                 metadata.setContentLength(imageBytes.length);
 
-              ImageId = String.valueOf(System.currentTimeMillis());
+                String ImageId = String.valueOf(System.currentTimeMillis());
                 s3.putObject(bucketName, ImageId, inputStream,metadata );
 
                 System.out.println(ImageId);
-
-                studentPostModel.setPic(ImageId);
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+
+                studentPostModel.setPic(ImageId);
             }
+
+            if(input.get("description")!=null){
+                request.setDiscription(input.get("description").get(0).getBodyAsString());
+                studentPostModel.setDescription(request.getDiscription());
+            }else{
+                studentPostModel.setDescription(null);
+            }
+
+
+
+
 
 
 //            studentPostModel.setPost_approved_by(request.getPost_approved_by());
             studentPostModel.setPost_status(request.getPost_status());
-
             studentPostModel.setAdded_by(request.getAdded_by());
             studentPostModel.setInst_id(request.getInst_id());
-
 
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -42,6 +42,18 @@ public class VideoModel {
     @Column(name = "video_type",nullable = false)
     private String video_type;
 
+
+    @Column(name = "fee_type",nullable = true)
+    private String fee_type;
+
+    public String getFee_type() {
+        return fee_type;
+    }
+
+    public void setFee_type(String fee_type) {
+        this.fee_type = fee_type;
+    }
+
     public long getId() {
         return id;
     }
