@@ -87,6 +87,9 @@ public class GetTodaysUpdateController {
     @Inject
     QuizRepository quizRepository;
 
+    @Inject
+    VideoLectureRepository videoLectureRepository;
+
 
 
 
@@ -147,10 +150,17 @@ public class GetTodaysUpdateController {
 
         ArrayList<QuizModel> quizList = getQuiz(request.getInstID(),request.getStudId(),start,end);
 
+        ArrayList<VideoModel> videoList  =getVideoLectureList(request.getInstID(),request.getStudId(),start,end);
+
+        ArrayList<QuizModel> practiseList = getAllTestSeries(request.getInstID(),request.getStudId(),start,end);
+
+
+        System.out.println(start);
+        System.out.println(end);
+
 
         ArrayList<Banners> bannerList = (ArrayList<Banners>)
                 imageRepository.list("inst_id",request.getInstID());
-
 
 
     LatestUpdateResponse response = new LatestUpdateResponse();
@@ -164,11 +174,10 @@ public class GetTodaysUpdateController {
     response.setPostList(postList);
     response.setImageList(bannerList);
     response.setQuizList(quizList);
-
-
+    response.setVideoList(videoList);
+    response.setPractiseList(practiseList);
 
         return  response;
-
 
     }
 
@@ -185,7 +194,7 @@ public class GetTodaysUpdateController {
             System.out.println("Blog model add by="+blogModel.getAdded_by());
             BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(blogModel),BlogEntity.class);
           TeacherModel teacherModel = teacherRepository.find("id",blogEntity.getAdded_by().longValue()).firstResult();
-          blogEntity.setName(teacherModel.getFname());
+        //  blogEntity.setName(teacherModel.getFname());
 
 
             String commentQuery = "SELECT COUNT(*) FROM `blog_commented` WHERE blog_id =? ";
@@ -194,7 +203,6 @@ public class GetTodaysUpdateController {
             Integer commentCount = ((Number) comment.getSingleResult()).intValue();
 
             blogEntity.setComment(commentCount.longValue());
-
 
 
             String likeQuery = "SELECT * FROM `blog_liked` WHERE blog_id =?";
@@ -211,14 +219,13 @@ public class GetTodaysUpdateController {
             Integer likeCount =  likeList.size();
             blogEntity.setLike(likeCount.longValue());
 
-
-
             arrayList.add(blogEntity);
 
         });
-
-
+       System.out.println(arrayList);
+       System.out.println(arrayList.size());
         return  arrayList;
+
     }
 
     ArrayList getCurrentAffair(long id,long studId,String start,String end){
@@ -261,7 +268,6 @@ public class GetTodaysUpdateController {
 
 
             currentAffairList.add(entity);
-
 
         });
 
@@ -391,11 +397,6 @@ public class GetTodaysUpdateController {
             Integer likeCount =  likeList.size();
             entity.setLike(likeCount.longValue());
 
-
-
-
-
-
             arrayList.add(entity);
 
 
@@ -420,7 +421,41 @@ public class GetTodaysUpdateController {
 
         return quizList;
 
-}
+    }
+    private ArrayList<VideoModel> getVideoLectureList(long instID, long studId, String start, String end) {
+
+        ArrayList<VideoModel> videoList =new ArrayList<>();
+
+        String string = "SELECT * from `videos` where inst_id = ? and created_at between ? and ? ";
+        Query query = videoLectureRepository.getEntityManager().createNativeQuery(string, VideoModel.class);
+        query.setParameter(1, instID);
+        query.setParameter(2, start);
+        query.setParameter(3, end);
+
+        videoList = (ArrayList<VideoModel>) query.getResultList();
+
+        return videoList;
+
+
+    }
+
+    private ArrayList<QuizModel> getAllTestSeries(long instID, long studId, String start, String end) {
+
+        ArrayList<QuizModel> practiseList = new ArrayList<>();
+
+        String string = "SELECT * from quiz_master where inst_id=? and added_on between ? and ? and type=?";
+        Query query = quizRepository.getEntityManager().createNativeQuery(string, QuizModel.class);
+        query.setParameter(1, instID);
+        query.setParameter(2, start);
+        query.setParameter(3, end);
+        query.setParameter(4,"Monthly Test");
+
+
+        practiseList=(ArrayList<QuizModel>) query.getResultList();
+
+        return practiseList;
+    }
+
     }
 
 
