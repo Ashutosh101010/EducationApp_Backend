@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.QuizEntity;
 import com.aurd.Student.Model.Entity.QuizModel;
 
 import java.util.ArrayList;
@@ -9,6 +10,15 @@ public class GetQuizResponse {
     int errorCode;
     boolean status;
     ArrayList<QuizModel> quizList = new ArrayList<>();
+    ArrayList<QuizEntity>  arrayList = new ArrayList<>();
+
+    public ArrayList<QuizEntity> getArrayList() {
+        return arrayList;
+    }
+
+    public void setArrayList(ArrayList<QuizEntity> arrayList) {
+        this.arrayList = arrayList;
+    }
 
     public String getMessage() {
         return message;

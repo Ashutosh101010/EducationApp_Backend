@@ -91,7 +91,7 @@ public class GetPractiseTest_Result_Controller {
             response.setErrorCode(0);
             response.setStatus(true);
             response.setMessage("Get Practice Test Result Successfully");
-            response.setResultEntity(result);
+//            response.setResultEntity(result);
         }else {
             response.setErrorCode(1);
             response.setStatus(false);

@@ -3,7 +3,7 @@ package com.aurd.Student.Model.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "quiz_result_saved")
+@Table(name = "result")
 
 public class SaveResultModel {
 
@@ -13,13 +13,13 @@ public class SaveResultModel {
     private int id;
 
     @Column(name = "stud_id",nullable = false)
-    private int stud_id;
+    private long stud_id;
 
     @Column(name = "inst_id",nullable = false)
-    private int inst_id;
+    private long inst_id;
 
     @Column(name = "quiz_id",nullable = false)
-    private  int quiz_id;
+    private  long quiz_id;
 
 
     @Column(name = "total_marks",nullable = false)
@@ -32,7 +32,7 @@ public class SaveResultModel {
     private  long correct_ans;
 
     @Column(name = "wrong_ans",nullable = false)
-    private  int wrong_ans;
+    private  long wrong_ans;
 
     @Column(name = "cut_off",nullable = false)
     private  long cut_off;
@@ -40,6 +40,16 @@ public class SaveResultModel {
    @Column(name = "negative_marking",nullable = false)
     private  int negative_marking;
 
+   @Column(name = "status",nullable = false)
+   private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getId() {
         return id;
@@ -49,28 +59,32 @@ public class SaveResultModel {
         this.id = id;
     }
 
-    public int getStud_id() {
+    public long getStud_id() {
         return stud_id;
     }
 
-    public void setStud_id(int stud_id) {
+    public void setStud_id(long stud_id) {
         this.stud_id = stud_id;
     }
 
-    public int getInst_id() {
+    public long getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(int inst_id) {
+    public void setInst_id(long inst_id) {
         this.inst_id = inst_id;
     }
 
-    public int getQuiz_id() {
+    public long getQuiz_id() {
         return quiz_id;
     }
 
-    public void setQuiz_id(int quiz_id) {
+    public void setQuiz_id(long quiz_id) {
         this.quiz_id = quiz_id;
+    }
+
+    public void setMarks_obtained(int marks_obtained) {
+        this.marks_obtained = marks_obtained;
     }
 
     public long getTotal_marks() {
@@ -97,11 +111,12 @@ public class SaveResultModel {
         this.correct_ans = correct_ans;
     }
 
-    public int getWrong_ans() {
+
+    public long getWrong_ans() {
         return wrong_ans;
     }
 
-    public void setWrong_ans(int wrong_ans) {
+    public void setWrong_ans(long wrong_ans) {
         this.wrong_ans = wrong_ans;
     }
 

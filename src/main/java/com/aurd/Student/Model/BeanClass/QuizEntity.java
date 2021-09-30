@@ -1,158 +1,48 @@
-package com.aurd.Student.Model.Entity;
+package com.aurd.Student.Model.BeanClass;
 
-import io.smallrye.common.constraint.Nullable;
-
-import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
-import java.sql.Time;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "quiz_master")
-public class QuizModel {
-
-    @Id
-    @PrimaryKeyJoinColumn
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quiz_id;
-
-    @Column(name = "subject_id",nullable = true)
+public class QuizEntity
+{
+    private long quiz_id;
     private Integer subject_id;
-
-    @Column(name = "sub_subject_id",nullable = true)
-
     private Integer sub_subject_id;
-
-
-    @Column(name = "course_id",nullable = false)
     private Integer course_id;
-
-
-    @Column(name = "type",nullable = false)
-    @NotBlank
     private String type;
-
-    @Column(name = "title",nullable = false)
-    @NotBlank
-    @Max(100)
     private String title;
-
-    @Column(name = "discription",nullable = false)
-    @NotBlank
-    @Max(2000)
     private  String discription;
-
-
-    @Column(name = "pic",nullable = true)
-    @Null
-    @Nullable
     private String pic;
-
-    @Column(name = "price",nullable = false)
     private String price;
-
-    @Column(name = "test_start",nullable = false)
     private Timestamp test_start;
-
-//    @Column(name = "test_end",nullable = false)
-//    private Timestamp test_end;
-
-    @Column(name = "test_duration",nullable = true)
     private String test_duration;
-
-    @Column(name = "added_on",nullable = false)
     private Timestamp added_on;
-
-    @Column(name = "added_by",nullable = false)
     private long added_by;
-
-    @Column(name = "updated_by",nullable = false)
     private long updated_by;
-
-    @Column(name = "inst_id",nullable = true)
-    @Null
-    @Nullable
     private Integer inst_id;
-
-
-    @Column(name = "is_active",nullable = false)
     private  int is_active;
-
-    @Column(name = "marks_per_ques",nullable = true)
-    @Null
-    @Nullable
     private Integer marks_per_ques;
-
-    @Column(name = "total_ques",nullable = false)
     private  Integer total_ques;
-
-
-    @Column(name = "cutoff",nullable = true)
-    @Null
-    @Nullable
     private Long cutoff;
-
-    @Column(name = "instruction",nullable = true)
-    @Max(429496729)
     private String instruction;
-
-    @Column(name = "time",nullable = false)
     private Timestamp time;
-
-    @Column(name = "negative_marking",nullable = true)
     private String negative_marking;
-
-    @Column(name = "quiz_type",nullable = true)
     private String quiz_type;
-
-    @Column(name = "test_end",nullable = true)
     private String test_end;
+    private  boolean attempt;
 
-    public String getTest_end() {
-        return test_end;
+    public boolean isAttempt() {
+        return attempt;
     }
 
-    public void setTest_end(String test_end) {
-        this.test_end = test_end;
+    public void setAttempt(boolean attempt) {
+        this.attempt = attempt;
     }
 
-    public Timestamp getTime() {
-        return time;
-    }
-
-    public void setTime(Timestamp time) {
-        this.time = time;
-    }
-
-    public String getNegative_marking() {
-        return negative_marking;
-    }
-
-    public void setNegative_marking(String negative_marking) {
-        this.negative_marking = negative_marking;
-    }
-
-    public String getQuiz_type() {
-        return quiz_type;
-    }
-
-    public void setQuiz_type(String quiz_type) {
-        this.quiz_type = quiz_type;
-    }
-
-    //
-//    @Column(name = "time",nullable = false)
-//    private Long time;
-
-
-    public Long getQuiz_id() {
+    public long getQuiz_id() {
         return quiz_id;
     }
 
-    public void setQuiz_id(Long quiz_id) {
+    public void setQuiz_id(long quiz_id) {
         this.quiz_id = quiz_id;
     }
 
@@ -170,14 +60,6 @@ public class QuizModel {
 
     public void setSub_subject_id(Integer sub_subject_id) {
         this.sub_subject_id = sub_subject_id;
-    }
-
-    public Timestamp getAdded_on() {
-        return added_on;
-    }
-
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
     }
 
     public Integer getCourse_id() {
@@ -220,7 +102,13 @@ public class QuizModel {
         this.pic = pic;
     }
 
+    public String getPrice() {
+        return price;
+    }
 
+    public void setPrice(String price) {
+        this.price = price;
+    }
 
     public Timestamp getTest_start() {
         return test_start;
@@ -230,7 +118,6 @@ public class QuizModel {
         this.test_start = test_start;
     }
 
-
     public String getTest_duration() {
         return test_duration;
     }
@@ -239,7 +126,13 @@ public class QuizModel {
         this.test_duration = test_duration;
     }
 
+    public Timestamp getAdded_on() {
+        return added_on;
+    }
 
+    public void setAdded_on(Timestamp added_on) {
+        this.added_on = added_on;
+    }
 
     public long getAdded_by() {
         return added_by;
@@ -281,14 +174,6 @@ public class QuizModel {
         this.marks_per_ques = marks_per_ques;
     }
 
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
     public Integer getTotal_ques() {
         return total_ques;
     }
@@ -313,7 +198,35 @@ public class QuizModel {
         this.instruction = instruction;
     }
 
+    public Timestamp getTime() {
+        return time;
+    }
 
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
 
+    public String getNegative_marking() {
+        return negative_marking;
+    }
 
+    public void setNegative_marking(String negative_marking) {
+        this.negative_marking = negative_marking;
+    }
+
+    public String getQuiz_type() {
+        return quiz_type;
+    }
+
+    public void setQuiz_type(String quiz_type) {
+        this.quiz_type = quiz_type;
+    }
+
+    public String getTest_end() {
+        return test_end;
+    }
+
+    public void setTest_end(String test_end) {
+        this.test_end = test_end;
+    }
 }

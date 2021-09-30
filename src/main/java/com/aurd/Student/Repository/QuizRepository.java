@@ -8,11 +8,13 @@ import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 
 @ApplicationScoped
@@ -31,6 +33,9 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
                      request.getInst_id(),request.getType(),request.getCourse_id()).list();
 
 
+
+
+
                 return  arrayList;
 
             }else if(request.getSubject_id()!=0 && request.getCourse_id() ==0){
@@ -45,9 +50,10 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
                 return arrayList;
 
-            }else {
+            }
+               else{
                    arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 ",
-                           request.getInst_id(),request.getType()).list();
+                           request.getInst_id().intValue(),request.getType()).list();
 
                    return arrayList;
                }

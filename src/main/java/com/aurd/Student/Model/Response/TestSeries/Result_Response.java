@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.Response.TestSeries;
 
 import com.aurd.Student.Model.BeanClass.ResultEntity;
+import com.aurd.Student.Model.BeanClass.SolutionEntity;
+import com.aurd.Student.Model.Entity.SaveResultModel;
 
 import java.util.ArrayList;
 
@@ -8,14 +10,23 @@ public class Result_Response {
     String message;
     int errorCode;
     boolean status;
-    ResultEntity resultEntity;
+    SaveResultModel result;
+    ArrayList<SolutionEntity> solutions = new ArrayList<>();
 
-    public ResultEntity getResultEntity() {
-        return resultEntity;
+    public ArrayList<SolutionEntity> getSolutions() {
+        return solutions;
     }
 
-    public void setResultEntity(ResultEntity resultEntity) {
-        this.resultEntity = resultEntity;
+    public void setSolutions(ArrayList<SolutionEntity> solutions) {
+        this.solutions = solutions;
+    }
+
+    public SaveResultModel getResult() {
+        return result;
+    }
+
+    public void setResult(SaveResultModel result) {
+        this.result = result;
     }
 
     public String getMessage() {

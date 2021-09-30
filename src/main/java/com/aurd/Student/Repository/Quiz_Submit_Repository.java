@@ -16,19 +16,25 @@ public class Quiz_Submit_Repository implements PanacheRepository<Quiz_Submit_Mod
 
     public boolean submitStudentQuizResponses(QuizSubmitRequest request){
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar now = Calendar.getInstance();
-        System.out.println(sdf.format(now.getTime()));
-        for(int i=0;i<request.getArrayList().size();i++){
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar now = Calendar.getInstance();
+            System.out.println(sdf.format(now.getTime()));
+            for(int i=0;i<request.getArrayList().size();i++){
 
-            Quiz_Submit_Model quiz_submit_model = new Gson().fromJson(
-                    new Gson().toJson(request.getArrayList().get(i)),Quiz_Submit_Model.class);
+                Quiz_Submit_Model quiz_submit_model = new Gson().fromJson(
+                        new Gson().toJson(request.getArrayList().get(i)),Quiz_Submit_Model.class);
 
-            quiz_submit_model.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
-            persist(quiz_submit_model);
+                quiz_submit_model.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
+                persist(quiz_submit_model);
+            }
+
+            return  true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return  false;
         }
 
-        return  true;
 
     }
 

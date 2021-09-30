@@ -3,12 +3,22 @@ package com.aurd.Student.Model.Request;
 import javax.persistence.criteria.CriteriaBuilder;
 
 public class GetQuizRequest {
-    int inst_id;
+    Integer inst_id;
     String type;
 
     Integer subject_id;
     Integer course_id;
     String filter;
+
+    long stud_id;
+
+    public long getStud_id() {
+        return stud_id;
+    }
+
+    public void setStud_id(long stud_id) {
+        this.stud_id = stud_id;
+    }
 
     public String getFilter() {
         return filter;
@@ -18,11 +28,11 @@ public class GetQuizRequest {
         this.filter = filter;
     }
 
-    public int getInst_id() {
+    public Integer getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(int inst_id) {
+    public void setInst_id(Integer inst_id) {
         this.inst_id = inst_id;
     }
 
