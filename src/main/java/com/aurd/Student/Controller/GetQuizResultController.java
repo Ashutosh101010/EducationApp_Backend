@@ -4,13 +4,12 @@ import com.aurd.Student.Model.BeanClass.ResultEntity;
 import com.aurd.Student.Model.Entity.QuizModel;
 import com.aurd.Student.Model.Entity.Quiz_Question_Model;
 import com.aurd.Student.Model.Entity.Quiz_Submit_Model;
+import com.aurd.Student.Model.Entity.SaveResultModel;
 import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import com.aurd.Student.Model.Response.TestSeries.Result_Response;
-import com.aurd.Student.Repository.Get_QuestionID_Repository;
-import com.aurd.Student.Repository.QuizQuestionRepository;
-import com.aurd.Student.Repository.QuizRepository;
-import com.aurd.Student.Repository.Quiz_Submit_Repository;
+import com.aurd.Student.Repository.*;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -35,6 +34,9 @@ public class GetQuizResultController {
 
     @Inject
     QuizRepository quizRepository;
+
+    @Inject
+    SaveQuizResultRepository resultRepository;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -84,8 +86,34 @@ public class GetQuizResultController {
         result.setCorrectAnswered(correctAns);
         result.setWrongAnswered(wrongAns);
 
+        System.out.println(new Gson().toJson(quizModel));
+
         Result_Response response = new Result_Response();
         if(result!=null){
+
+            SaveResultModel resultModel = new SaveResultModel();
+            resultModel.setCorrect_ans(result.getCorrectAnswered());
+            resultModel.setTotal_marks(result.getTotalMarks());
+            resultModel.setMarks_obtained(result.getMarksObtained());
+            if(quizModel.getCutoff()==null|| quizModel.getCutoff()==0){
+                resultModel.setCut_off(0);
+            }else {
+                System.out.println(quizModel.getCutoff());
+
+                resultModel.setCut_off(quizModel.getCutoff());
+            }
+
+            resultModel.setWrong_ans((int) result.getWrongAnswered());
+            resultModel.setQuiz_id((int) quizModel.getQuiz_id());
+            resultModel.setInst_id(quizModel.getInst_id());
+            resultModel.setStud_id(request.getStudID().intValue());
+         //   resultModel.setNegative_marking(result.);
+
+
+
+            resultRepository.persist(resultModel);
+
+
             response.setErrorCode(0);
             response.setStatus(true);
             response.setMessage("Get Quiz Result Successfully");
@@ -97,7 +125,6 @@ public class GetQuizResultController {
 
         }
         return  response;
-
 
 
     }
