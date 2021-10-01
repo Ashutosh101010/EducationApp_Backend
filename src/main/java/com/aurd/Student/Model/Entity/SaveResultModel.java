@@ -43,6 +43,17 @@ public class SaveResultModel {
    @Column(name = "status",nullable = false)
    private String status;
 
+   @Column(name = "name",nullable = false)
+   private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getStatus() {
         return status;
     }

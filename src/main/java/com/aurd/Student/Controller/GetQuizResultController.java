@@ -33,9 +33,25 @@ public class GetQuizResultController {
     public  Result_Response getResult(GetQuizResultRequest request){
 
 
-     SaveResultModel saveResultModel  =
+        ArrayList<SaveResultModel> arrayList1=
+                (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and" +
+                                " inst_id =?2 order by marks_obtained DESC",
+                       request.getQuizID(),request.getInstID());
+
+
+        arrayList1.forEach(saveResultModel -> {
+
+        });
+
+
+
+        SaveResultModel saveResultModel  =
              resultRepository.find("quiz_id=?1 and stud_id=?2 and inst_id =?3",
                      request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
+
+
+
+
         Result_Response response = new Result_Response();
      if(saveResultModel==null){
          response.setStatus(false);
@@ -46,6 +62,7 @@ public class GetQuizResultController {
          response.setMessage("Get Result Success");
          response.setErrorCode(0);
          response.setResult(saveResultModel);
+         response.setResultList(arrayList1);
      }
 
 

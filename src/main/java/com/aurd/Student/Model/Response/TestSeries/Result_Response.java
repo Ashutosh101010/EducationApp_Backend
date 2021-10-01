@@ -12,6 +12,15 @@ public class Result_Response {
     boolean status;
     SaveResultModel result;
     ArrayList<SolutionEntity> solutions = new ArrayList<>();
+    ArrayList<SaveResultModel> resultList = new ArrayList<>();
+
+    public ArrayList<SaveResultModel> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(ArrayList<SaveResultModel> resultList) {
+        this.resultList = resultList;
+    }
 
     public ArrayList<SolutionEntity> getSolutions() {
         return solutions;
