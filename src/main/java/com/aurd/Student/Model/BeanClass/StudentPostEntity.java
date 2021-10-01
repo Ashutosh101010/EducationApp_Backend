@@ -8,7 +8,7 @@ public class StudentPostEntity {
     Long id;
     String pic;
     int postStatus;
-    int added_by;
+    Integer added_by;
     String name;
     Long comment;
     Long like;
@@ -87,11 +87,11 @@ public class StudentPostEntity {
         this.postStatus = postStatus;
     }
 
-    public int getAdded_by() {
+    public Integer getAdded_by() {
         return added_by;
     }
 
-    public void setAdded_by(int added_by) {
+    public void setAdded_by(Integer added_by) {
         this.added_by = added_by;
     }
 

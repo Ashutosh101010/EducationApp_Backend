@@ -38,6 +38,9 @@ public class GetStudentCoursesController {
 
         ArrayList<StudentCourseEntity> mainList = new ArrayList<>();
         ArrayList<StudentCourseModel> arrayList = studentCourseRepository.getStudentCourses(request);
+
+        System.out.println(arrayList.size());
+
         arrayList.forEach(studentCourseModel -> {
             Gson gson = new Gson();
             StudentCourseEntity studentCourseEntity = gson.fromJson(new Gson().toJson(studentCourseModel),
@@ -45,8 +48,6 @@ public class GetStudentCoursesController {
 
             CourseModel courseModel = repository.getCourseDetails
                     (studentCourseModel.getInst_id(),studentCourseModel.getCourseId());
-
-
 
             studentCourseEntity.setCourse(courseModel.getCourse());
             studentCourseEntity.setDescription(courseModel.getDescription());
