@@ -129,7 +129,6 @@ public class QuizSubmitController {
 //                marksObtained = marksObtained *(num%den)*wrongAns;
                 marksObtained = marksObtained *neg_mark *wrongAns;
                 System.out.println("========"+marksObtained);
-//                System.out.println("*********"+marksObtained);
             }
 
 

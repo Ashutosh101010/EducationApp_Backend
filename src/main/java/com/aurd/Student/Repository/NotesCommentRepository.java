@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 @ApplicationScoped
 public class NotesCommentRepository implements PanacheRepository<NotesCommentModel> {
@@ -15,6 +18,10 @@ public class NotesCommentRepository implements PanacheRepository<NotesCommentMod
     public boolean addNotesCommentRequest(AddPostCommentRequest request) {
         NotesCommentModel commentModel  = new Gson().fromJson(new Gson().toJson(request),
                 NotesCommentModel.class);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+
+        commentModel.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
         commentModel.setNotes_id(request.getPost_id());
         persist(commentModel);
         return true;

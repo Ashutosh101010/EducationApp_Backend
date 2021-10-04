@@ -65,6 +65,7 @@ public class GetAllCommentController {
               entity.setPost_id(model.getBlog_id_id());
               entity.setUser_id(model.getAdded_by());
               entity.setAdded_on(model.getAdded_on());
+              entity.setTime(model.getAdded_on().toString());
 
               ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
               entity.setReplyList(rList);
@@ -101,6 +102,7 @@ public class GetAllCommentController {
                 entity.setPost_id(model.getCurrent_affair_id());
                 entity.setUser_id(model.getAdded_by());
                 entity.setAdded_on(model.getAdded_on());
+                entity.setTime(model.getAdded_on().toString());
 
                 ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
                 entity.setReplyList(rList);
@@ -133,6 +135,7 @@ public class GetAllCommentController {
                Integer integer = Math.toIntExact(model.getAdded_by());
                 entity.setUser_id(integer);
                 entity.setAdded_on(model.getAdded_on());
+                entity.setTime(model.getAdded_on().toString());
 
                 ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
                 entity.setReplyList(rList);
