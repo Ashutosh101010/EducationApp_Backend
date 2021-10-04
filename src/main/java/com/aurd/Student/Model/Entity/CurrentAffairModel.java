@@ -24,6 +24,9 @@ public class CurrentAffairModel {
     @Max(16777215)
     private String description;
 
+    @Column(name = "created_at",nullable = false)
+    private Timestamp created_at;
+
     @Column(name = "added_by",nullable = false)
     private Integer added_by;
 
@@ -59,6 +62,14 @@ public class CurrentAffairModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
     public Integer getAdded_by() {

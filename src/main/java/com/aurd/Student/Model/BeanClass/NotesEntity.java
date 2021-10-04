@@ -18,12 +18,22 @@ public class NotesEntity
     Long like;
     boolean isLiked;
     String fee_type;
+    String type;
 
 
     String description;
     String subject;
     String course;
     String subSubject ;
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getSubSubject() {
         return subSubject;

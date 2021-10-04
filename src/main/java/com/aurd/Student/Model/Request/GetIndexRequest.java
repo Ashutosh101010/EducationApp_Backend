@@ -4,15 +4,36 @@ public class GetIndexRequest {
 
 
     int  inst_id;
-    String type;
 
-    public String getType() {
-        return type;
+
+    long studId;
+    String date;
+    String filter;
+
+    public long getStudId() {
+        return studId;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setStudId(long studId) {
+        this.studId = studId;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
+    }
+
 
     public int getInst_id() {
         return inst_id;
