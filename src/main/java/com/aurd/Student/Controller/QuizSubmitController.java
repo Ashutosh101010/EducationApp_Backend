@@ -16,7 +16,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Path("/submitQuiz")
 public class QuizSubmitController {
@@ -52,12 +55,14 @@ public class QuizSubmitController {
         Result_Response response = new Result_Response();
 
        boolean value = repository.submitStudentQuizResponses(request);
+
         if(value==true){
 
             long totalMarks = 0;
             Double marksObtained = 0.0;
             long correctAns =0;
             long wrongAns = 0;
+            int skippedAns = 0;
 
 
             ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
@@ -66,14 +71,13 @@ public class QuizSubmitController {
 
             System.out.println(quizQuestionIDList.size());
             Quiz_Question_Model quizQuestionModel;
-            for(Quiz_Question_Map_Model model :quizQuestionIDList){
-                System.out.println("Total Marks"+ model.getMarks());
 
+            for(Quiz_Question_Map_Model model :quizQuestionIDList){
+
+                System.out.println("Total Marks"+ model.getMarks());
 
                 totalMarks = totalMarks+model.getMarks();
             }
-
-
 
 
             ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
@@ -83,14 +87,24 @@ public class QuizSubmitController {
             for(Quiz_Submit_Model quizSubmitModel :arrayList){
                 marksObtained = marksObtained + quizSubmitModel.getMarks_ob();
 
-                quizQuestionModel = quizQuestionRepository.getQuestions(quizSubmitModel.getQues_id());
+                quizQuestionModel = quizQuestionRepository.
+                        getQuestions(quizSubmitModel.getQues_id());
                 if(quizQuestionModel.getQuestion_id()==quizSubmitModel.getQues_id()){
                     if(quizQuestionModel.getAnswer().equals(quizSubmitModel.getAns())){
                         correctAns = correctAns+1;
                     }else{
                         wrongAns = wrongAns+1;
+                        skippedAns = skippedAns+1;
                     }
                 }
+
+                if(quizQuestionModel.getQuestion_id()!=quizSubmitModel.getQues_id()){
+                    skippedAns = skippedAns+1;
+                }
+
+
+
+
             }
 
 
@@ -108,7 +122,8 @@ public class QuizSubmitController {
             resultModel.setStud_id(request.getArrayList().get(0).getStud_id());
             resultModel.setInst_id(request.getArrayList().get(0).getInst_id());
             resultModel.setQuiz_id(request.getArrayList().get(0).getQuiz_id());
-
+            resultModel.setSkipped(skippedAns);
+            resultModel.setTime(request.getTime());
 
 
 
@@ -141,6 +156,10 @@ public class QuizSubmitController {
             resultModel.setWrong_ans(wrongAns);
             resultModel.setCorrect_ans(correctAns);
 
+            double  percent = (marksObtained *100)/totalMarks;
+            resultModel.setPercent(percent);
+
+
             if(quizModel.getCutoff()!=null){
                 resultModel.setCut_off(quizModel.getCutoff());
 
@@ -155,12 +174,13 @@ public class QuizSubmitController {
             }
 
 
+
          StudentModel model =  studentRepository.find("id",resultModel.getStud_id()).firstResult();
 
             resultModel.setName(model.getFname());
             resultRepository.persist(resultModel);
 
-            ArrayList<SaveResultModel> arrayList1=
+            ArrayList<SaveResultModel> arrayList1 =
                     (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and inst_id =?2" +
                                     " order by marks_obtained DESC",
                             quizModel.getQuiz_id(),quizModel.getInst_id().longValue());

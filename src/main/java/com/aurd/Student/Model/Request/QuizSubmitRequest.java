@@ -7,6 +7,15 @@ import java.util.ArrayList;
 
 public class QuizSubmitRequest {
     ArrayList<Quiz_Submit_Model> arrayList = new ArrayList();
+    String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public ArrayList<Quiz_Submit_Model> getArrayList() {
         return arrayList;

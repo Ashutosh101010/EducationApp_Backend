@@ -46,6 +46,39 @@ public class SaveResultModel {
    @Column(name = "name",nullable = false)
    private String name;
 
+   @Column(name = "skipped",nullable = false)
+   private int skipped;
+
+   @Column(name = "time",nullable = false)
+   private String time;
+
+   @Column(name = "percent",nullable = false)
+   private  double percent;
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getSkipped() {
+        return skipped;
+    }
+
+    public void setSkipped(int skipped) {
+        this.skipped = skipped;
+    }
+
     public String getName() {
         return name;
     }

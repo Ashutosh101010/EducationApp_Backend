@@ -1,9 +1,22 @@
 package com.aurd.Student.Model.BeanClass;
 
+import com.aurd.Student.Model.Entity.Question_Option_Model;
+
+import java.util.ArrayList;
+
 public class SolutionEntity {
     String question;
     String myAnswer;
     String answer;
+    ArrayList<Question_Option_Model> options = new ArrayList<>();
+
+    public ArrayList<Question_Option_Model> getOptions() {
+        return options;
+    }
+
+    public void setOptions(ArrayList<Question_Option_Model> options) {
+        this.options = options;
+    }
 
     public String getQuestion() {
         return question;

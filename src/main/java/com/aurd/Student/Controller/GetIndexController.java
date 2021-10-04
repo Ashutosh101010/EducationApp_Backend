@@ -1,7 +1,5 @@
 package com.aurd.Student.Controller;
 
-
-import com.aurd.Student.Model.BeanClass.BlogEntity;
 import com.aurd.Student.Model.Entity.BlogModel;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
 import com.aurd.Student.Model.Entity.Index_Model;

@@ -86,20 +86,26 @@ public class GetStudentPostsController {
             Integer likeCount =  likeList.size();
             postModel.setLike(likeCount.longValue());
 
-
             postList.add(postModel);
+
             ArrayList<Student_Posts_Commented> postsCommentedArrayList = getPostCommented(request);
             postsCommentedArrayList.forEach(student_posts_commented -> {
                 if( student_posts_commented.getPost_id()!=postModel.getId()){
                     System.out.println("----------------"+student_posts_commented.getPost_id());
+                    System.out.println("-------"+postModel.getId());
+
+                    long id = Long.valueOf(student_posts_commented.getPost_id());
 
                     StudentPostModel ps = postRepository.find("id",
-                            postModel.getId()).firstResult();
+                            id).firstResult();
+
+                    System.out.println(ps.getAdded_by());
+
                     StudentPostEntity en = new Gson().fromJson(new Gson().toJson(ps),
                             StudentPostEntity.class);
 
-                  StudentModel sm = studentRepository.find("id",en.getAdded_by().longValue())
-                          .firstResult();
+                    StudentModel sm = studentRepository.find("id",en.getAdded_by().longValue())
+                            .firstResult();
 
                     en.setName(sm.getFname());
 
@@ -130,6 +136,8 @@ public class GetStudentPostsController {
 
 
         });
+
+
 
 
         if(postList.isEmpty()){
