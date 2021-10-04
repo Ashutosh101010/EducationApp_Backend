@@ -14,8 +14,15 @@ public class BlogEntity {
     private long inst_id;
     private  String name;
     private  Integer added_by;
+    String type;
 
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 
     Long like;
 

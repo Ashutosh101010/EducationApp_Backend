@@ -3,9 +3,11 @@ package com.aurd.Student.Model.BeanClass;
 import java.sql.Timestamp;
 
 public class CurrentAffairEntity {
+
     private long id;
     private String title;
     private String description;
+    private  Timestamp created_at;
     private Integer added_by;
     private Integer inst_id;
     private String thumbnail;
@@ -15,6 +17,15 @@ public class CurrentAffairEntity {
     boolean isLiked;
     String name;
     boolean added;
+    String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public boolean isAdded() {
         return added;
@@ -70,6 +81,14 @@ public class CurrentAffairEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Timestamp getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
     public Integer getAdded_by() {
