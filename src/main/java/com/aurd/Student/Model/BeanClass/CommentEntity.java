@@ -18,7 +18,15 @@ public class CommentEntity {
     int user_id;
     String comment_reply;
     String type;
+    String time;
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public int getComment_id() {
         return comment_id;

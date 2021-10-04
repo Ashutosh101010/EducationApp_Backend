@@ -29,7 +29,8 @@ public class StudentPostRepository implements PanacheRepository<StudentPostModel
 
     public ArrayList getStudentPosts(GetStudentPostRequest request){
 
-        ArrayList<StudentPostModel> arrayList = (ArrayList<StudentPostModel>) list("added_by =?1 and inst_id =?2",
+        ArrayList<StudentPostModel> arrayList = (ArrayList<StudentPostModel>)
+                list("added_by =?1 and inst_id =?2",
                 request.getStud_id(),request.getInst_id());
 
         return  arrayList;

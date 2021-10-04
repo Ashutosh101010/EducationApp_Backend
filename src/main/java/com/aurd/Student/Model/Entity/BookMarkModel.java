@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public class BookMarkModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private int id;
 
   @Column(name = "post_id",nullable = false)
   @NotNull
@@ -32,11 +32,12 @@ public class BookMarkModel {
   @Column(name = "type",nullable = false)
   private String type;
 
-  public long getId() {
+
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
 

@@ -18,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 @Path("/getAllComment")
@@ -168,6 +169,7 @@ public class GetAllCommentController {
                 Integer integer = Math.toIntExact(model.getAdded_by());
                 entity.setUser_id(integer);
                 entity.setAdded_on(model.getAdded_on());
+                entity.setTime(model.getAdded_on().toString());
 
                 ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
                 entity.setReplyList(rList);

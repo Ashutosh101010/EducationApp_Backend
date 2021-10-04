@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.Entity.CurrentAffairModel;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public class GetCurrentAffairResponse {
     String message;
     boolean status;
     int statusCode;
-    ArrayList<CurrentAffairModel> currentAffair = new ArrayList();
+    ArrayList<CurrentAffairEntity> currentAffair = new ArrayList();
 
     public String getMessage() {
         return message;
@@ -34,11 +35,12 @@ public class GetCurrentAffairResponse {
         this.statusCode = statusCode;
     }
 
-    public ArrayList<CurrentAffairModel> getCurrentAffair() {
+
+    public ArrayList<CurrentAffairEntity> getCurrentAffair() {
         return currentAffair;
     }
 
-    public void setCurrentAffair(ArrayList<CurrentAffairModel> currentAffair) {
+    public void setCurrentAffair(ArrayList<CurrentAffairEntity> currentAffair) {
         this.currentAffair = currentAffair;
     }
 }

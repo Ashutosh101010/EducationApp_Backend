@@ -23,8 +23,14 @@ import java.util.Locale;
 public class StudentRepository implements PanacheRepository<StudentModel> {
 
     public StudentModel login(LoginRequest request){
-        return  find("contact=?1 and password = ?2 and inst_id = ?3",
-                request.getContact(),request.getPassword(),request.getInst_id()).firstResult();
+        try {
+            return  find("contact=?1 and password = ?2 and inst_id = ?3",
+                    request.getContact(),request.getPassword(),request.getInst_id()).firstResult();
+        }catch (Exception e){
+            e.printStackTrace();
+            return  new StudentModel();
+        }
+
     }
 
     public Integer UpDateRequest(UpDateRequest request) {

@@ -88,6 +88,12 @@ public class GetExploreDataController {
     @Inject
     PractiseTestSeriesRepository repository;
 
+    @Inject
+    BookMarkRepository bookMarkRepository;
+
+
+
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -363,7 +369,8 @@ public class GetExploreDataController {
                     "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                     "student_posts.added_on, students.fname FROM `student_posts` " +
                     "INNER JOIN students ON students.id=student_posts.added_by " +
-                    "WHERE student_posts.inst_id =? and  student_posts.added_on between ? and ? ORDER BY added_on DESC";
+                    "WHERE student_posts.inst_id =? and  student_posts.added_on between ? and ? " +
+                    "ORDER BY added_on DESC";
             Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
             studentPost.setParameter(1, id);
             studentPost.setParameter(2, start);
@@ -417,6 +424,19 @@ public class GetExploreDataController {
 
             Integer likeCount = likeList.size();
             postModel.setLike(likeCount.longValue());
+
+
+            ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
+                    bookMarkRepository.list("type=?1 and post_id=?2",
+                    "post",postModel.getId());
+            arrayList.forEach(bookMarkModel -> {
+
+                if(bookMarkModel.getAdded_by()==studId){
+                    postModel.setAdded(true);
+                }else{
+                    postModel.setAdded(false);
+                }
+            });
 
             postList.add(postModel);
         });

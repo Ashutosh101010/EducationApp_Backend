@@ -13,28 +13,34 @@ import java.util.List;
 public class CurrentAffairRepository implements PanacheRepository<CurrentAffairModel> {
 
     public ArrayList getCurrentAffairList(GetCurrentAffairRequest request){
-
+        ArrayList<CurrentAffairModel> arrayList = new ArrayList();
         if(request.getDate().isEmpty()|| request.getDate().equals("")){
-            ArrayList<CurrentAffairModel> arrayList = new ArrayList();
-            List<CurrentAffairModel> list = list("inst_id",request.getInst_id());
-            arrayList.addAll(list);
-            return  arrayList;
+
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ORDER BY `time` DESC";
+            Query currentAffair = getEntityManager().createNativeQuery(caQuery,
+                    CurrentAffairModel.class);
+            currentAffair.setParameter(1,request.getInst_id());
+
+          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+//            List<CurrentAffairModel> list = list("inst_id  ORDER BY created_at ",request.getInst_id());
+//            arrayList.addAll(list);
+
         }else{
             String start = request.getDate()+" 00:00:00";
             String end =  request.getDate()+" 23:59:59";
 
-            String caQuery = "SELECT * from `current_affairs` where created_at BETWEEN ? AND ? AND inst_id = ? ;";
+            String caQuery = "SELECT * from `current_affairs` where created_at BETWEEN ? AND ? AND inst_id = ?;";
             Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1,start);
             currentAffair.setParameter(2,end);
             currentAffair.setParameter(3,request.getInst_id());
-            ArrayList<CurrentAffairModel> caList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+           arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 
-            return  caList;
 
         }
 
+        return  arrayList;
 
     }
 

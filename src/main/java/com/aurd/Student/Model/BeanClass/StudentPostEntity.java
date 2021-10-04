@@ -14,6 +14,15 @@ public class StudentPostEntity {
     Long like;
     boolean isLiked;
     boolean disLiked;
+    boolean added;
+
+    public boolean isAdded() {
+        return added;
+    }
+
+    public void setAdded(boolean added) {
+        this.added = added;
+    }
 
     public boolean isLiked() {
         return isLiked;
