@@ -15,6 +15,15 @@ public class StudentPostEntity {
     boolean isLiked;
     boolean disLiked;
     boolean added;
+    String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public boolean isAdded() {
         return added;

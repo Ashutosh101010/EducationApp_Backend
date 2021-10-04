@@ -1,13 +1,8 @@
 package com.aurd.Student.Controller;
 
 
-import com.aurd.Student.Model.BeanClass.BlogEntity;
-import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
-import com.aurd.Student.Model.BeanClass.NotesEntity;
-import com.aurd.Student.Model.Entity.BlogModel;
-import com.aurd.Student.Model.Entity.CurrentAffairModel;
-import com.aurd.Student.Model.Entity.Index_Model;
-import com.aurd.Student.Model.Entity.NotesModel;
+import com.aurd.Student.Model.BeanClass.*;
+import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.GetIndexRequest;
 import com.aurd.Student.Model.Response.GetIndexResponse;
 import com.aurd.Student.Repository.*;
@@ -44,10 +39,42 @@ public class GetIndexController {
     NotesLikeDislikeRepository notesLikeDislikeRepository;
 
     @Inject
-    TeacherRepository teacherRepository;
+    BlogLikedRepository blogLikedRepository;
 
     @Inject
-    NotesCommentRepository notesComentRepository;
+    TeacherRepository teacherRepository;
+
+
+    @Inject
+    CurrentAffairLikeDislikeRepository currentAffairLikeDislikeRepository;
+
+    @Inject
+    VideoLectureRepository videoLectureRepository;
+
+    @Inject
+    SubjectRepository subjectRepository;
+
+    @Inject
+    SubSubject_Repository subSubject_repository;
+
+    @Inject
+    TopicsRepository topicsRepository;
+
+    @Inject
+    CoursesRepository coursesRepository;
+
+
+    @Inject
+    StudentPostRepository postRepository;
+
+    @Inject
+    StudentPostLikedRepository likedRepository;
+
+    @Inject
+    BookMarkRepository bookMarkRepository;
+
+    @Inject
+    QuizRepository quizRepository;
 
 
     @POST
@@ -60,16 +87,95 @@ public class GetIndexController {
 
 
         ArrayList<Index_Model> arrayList = new ArrayList<>();
-     //   ArrayList<BlogModel> blogList = new ArrayList<>();
-
+        ArrayList<Object[]> list = null;
         ArrayList<Object> vList = new ArrayList<>();
 
-        String string="SELECT * FROM `index_data` WHERE inst_id=?  ORDER By created_on DESC";
-        Query query = indexRepository.getEntityManager().createNativeQuery(string);
-        query.setParameter(1,request.getInst_id());
+        if(!request.getFilter().isEmpty()){
+            System.out.println(request.getFilter());
+            System.out.println("Some filter entry");
+
+            if(request.getFilter().equals("blog")){
+                String string="SELECT * FROM `index_data` WHERE inst_id=? and " +
+                        " type = ? ORDER By created_on DESC";
+                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+                query.setParameter(1,request.getInst_id());
+                query.setParameter(2,"blog");
+                list = (ArrayList<Object[]>) query.getResultList();
+            }else if(request.getFilter().equals("currentAffair")){
+                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? ORDER By created_on DESC";
+                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+                query.setParameter(1,request.getInst_id());
+                query.setParameter(2,"current_affair");
 
 
-        ArrayList<Object[]> list = (ArrayList<Object[]>) query.getResultList();
+                list = (ArrayList<Object[]>) query.getResultList();
+            }else if(request.getFilter().equals("notes")){
+                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+                        "ORDER By created_on DESC";
+                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+                query.setParameter(1,request.getInst_id());
+                query.setParameter(2,"notes");
+
+
+                list = (ArrayList<Object[]>) query.getResultList();
+            }
+            else if(request.getFilter().equals("post")){
+                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+                        "ORDER By created_on DESC";
+                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+                query.setParameter(1,request.getInst_id());
+                query.setParameter(2,"post");
+
+
+                list = (ArrayList<Object[]>) query.getResultList();
+            }
+            else if(request.getFilter().equals("video")){
+                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+                        "ORDER By created_on DESC";
+                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+                query.setParameter(1,request.getInst_id());
+                query.setParameter(2,"video");
+
+
+                list = (ArrayList<Object[]>) query.getResultList();
+            } else if(request.getFilter().equals("quiz")){
+                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+                        "ORDER By created_on DESC";
+                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+                query.setParameter(1,request.getInst_id());
+                query.setParameter(2,"quiz");
+
+
+                list = (ArrayList<Object[]>) query.getResultList();
+            }
+
+
+
+        }else if(!request.getDate().isEmpty()){
+            System.out.println(request.getDate());
+            System.out.println("Some date entry");
+            String start = request.getDate()+" 00:00:00";
+            String end = request.getDate()+" 23:59:59";
+            String string="SELECT * FROM `index_data` WHERE inst_id=? and created_on BETWEEN ? AND ? " +
+                    "ORDER By created_on DESC";
+            Query query = indexRepository.getEntityManager().createNativeQuery(string);
+            query.setParameter(1,request.getInst_id());
+            query.setParameter(2,start);
+            query.setParameter(3,end);
+
+            list = (ArrayList<Object[]>) query.getResultList();
+        }else{
+            System.out.println("empty data filter");
+
+            String string="SELECT * FROM `index_data` WHERE inst_id=?  ORDER By created_on DESC";
+            Query query = indexRepository.getEntityManager().createNativeQuery(string);
+            query.setParameter(1,request.getInst_id());
+
+
+            list = (ArrayList<Object[]>) query.getResultList();
+        }
+
+
 
 
 
@@ -90,101 +196,30 @@ public class GetIndexController {
              if(model.getType().equals("blog")){
              //    Long value = Long.valueOf(model.getPost_id());
 
-                 String blogQuery = "SELECT * from `blog` where inst_id = ? and id=?";
-                 Query blog = blogRepository.getEntityManager().createNativeQuery(blogQuery);
-                 blog.setParameter(1, request.getInst_id());
-                 blog.setParameter(2,model.getPost_id());
-                 ArrayList <Object[]>blogList = (ArrayList<Object[]>) blog.getResultList();
-
-                 System.out.println(blogList.size());
-
-                 blogList.forEach(objects1 -> {
-                     BlogEntity blogModel = new BlogEntity();
-                     blogModel.setId(Long.parseLong(objects1[0].toString()));
-                     blogModel.setTitle(objects1[1].toString());
-                     blogModel.setDescription(objects1[2].toString());
-                     blogModel.setAdded_by(Integer.parseInt(objects1[3].toString()));
-                     blogModel.setCreated_on(Timestamp.valueOf(objects1[4].toString()));
-                     blogModel.setInst_id(Long.parseLong(objects1[6].toString()));
-                     blogModel.setTags(objects1[7].toString());
-                     blogModel.setThumbnail(objects1[8].toString());
-                     blogModel.setType("blog");
-
-                     vList.add(blogModel);
-
-                 });
+                 BlogEntity blogEntity = getBlogs(model,request);
+                 vList.add(blogEntity);
 
 
              } else if(model.getType().equals("current_affair")){
+                 CurrentAffairEntity entity = getCurrentAffair(model,request);
+                 vList.add(entity);
 
-                 String caQuery = "SELECT * from `current_affairs` where  inst_id = ?  and id=?";
-                 Query currentAffair = caRepository.getEntityManager().createNativeQuery(caQuery);
-                 currentAffair.setParameter(1, request.getInst_id());
-                 currentAffair.setParameter(2,model.getPost_id());
-
-                 ArrayList<Object[]> caList =(ArrayList<Object[]>) currentAffair.getResultList();
-
-                 caList.forEach(objects1 -> {
-                     CurrentAffairEntity caModal = new CurrentAffairEntity();
-                     caModal.setId(Long.parseLong(objects1[0].toString()));
-                     caModal.setTitle(objects1[1].toString());
-                     caModal.setDescription(objects1[2].toString());
-                     caModal.setCreated_at(Timestamp.valueOf(objects1[3].toString()));
-                     caModal.setAdded_by(Integer.parseInt(objects1[5].toString()));
-                     caModal.setInst_id(Integer.parseInt(objects1[6].toString()));
-                     caModal.setThumbnail(objects1[7].toString());
-                     caModal.setType("currentAffair");
-
-                     vList.add(caModal);
-
-                 });
 
              }else if(model.getType().equals("notes")){
-
-                 String notesQuery = "SELECT * from `notes` where inst_id = ? and id=?";
-                 Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery);
-                 notes.setParameter(1,request.getInst_id());
-                 notes.setParameter(2,model.getPost_id());
-
-                 ArrayList<Object[]> notesList = (ArrayList<Object[]>) notes.getResultList();
-
-                 notesList.forEach(objects -> {
-                     NotesEntity notesEntity =new NotesEntity();
-                     notesEntity.setId(Long.parseLong(objects[0].toString()));
-                     notesEntity.setName(objects[1].toString());
-                     notesEntity.setFile(objects[2].toString());
-                     notesEntity.setTopicId(Integer.parseInt(objects[3].toString()));
-                     notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
-                     notesEntity.setInst_id(Integer.parseInt(objects[6].toString()));
-                     notesEntity.setCreated_by(Integer.parseInt(objects[7].toString()));
-                     notesEntity.setTopic(objects[8].toString());
-                     notesEntity.setComment(Long.parseLong(objects[9].toString()));
-                     notesEntity.setFee_type(objects[12].toString());
-                  //   notesEntity.setLike(Long.parseLong(objects[11].toString()));
-                  //   notesEntity.setDescription(objects[10].toString());
-                  //   notesEntity.setSubject(objects[15].toString());
-                     notesEntity.setType("notes");
+                 NotesEntity notesEntity = getNotes(model,request);
+                 vList.add(notesEntity);
 
 
-                     String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =? ";
-                     Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
-                     like.setParameter(1, notesEntity.getId());
-                     ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-                     likeList.forEach(likeObject -> {
-                         if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-                             System.out.println("Liked");
-                             notesEntity.setLiked(true);
-                         }
-                     });
+             }else if(model.getType().equals("video")){
+                 VideoEntity videoEntity = getVideos(model,request);
+                 vList.add(videoEntity);
 
-                     Integer likeCount = likeList.size();
-                     notesEntity.setLike(likeCount.longValue());
-                     vList.add(notesEntity);
-
-
-                 });
-
-
+             }else if(model.getType().equals("post")){
+                 StudentPostEntity entity= getPost(model,request);
+                 vList.add(entity);
+             }else if(model.getType().equals("quiz")){
+                 QuizEntity quizEntity = getQuizzes(model,request);
+                 vList.add(quizEntity);
              }
 
          });
@@ -199,4 +234,339 @@ public class GetIndexController {
 
         return getIndexResponse;
     }
+
+
+
+    BlogEntity getBlogs(Index_Model model,GetIndexRequest request){
+
+
+        Long val = Long.valueOf(model.getPost_id());
+        Long inst = Long.valueOf(request.getInst_id());
+      BlogModel bm =   blogRepository.find("id=?1 and inst_id=?2",
+              val,inst).firstResult();
+
+      BlogEntity blogEntity = new Gson().fromJson(new Gson().toJson(bm),BlogEntity.class);
+        blogEntity.setType("blog");
+        String likeQuery = "SELECT * FROM `blog_liked` WHERE blog_id =? ";
+        Query like = blogLikedRepository.getEntityManager().createNativeQuery(likeQuery);
+        like.setParameter(1, blogEntity.getId());
+        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+        likeList.forEach(likeObject -> {
+            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                System.out.println("Liked");
+                blogEntity.setLiked(true);
+            }
+        });
+
+        Integer likeCount = likeList.size();
+        blogEntity.setLike(likeCount.longValue());
+
+
+        TeacherModel teacherModel = teacherRepository.find("id",
+                blogEntity.getAdded_by().longValue()).firstResult();
+        blogEntity.setName(teacherModel.getFname());
+
+
+
+//        ArrayList <Object[]>blogList = (ArrayList<Object[]>) blog.getResultList();
+
+//        System.out.println(blogList.size());
+
+//        blogList.forEach(objects1 -> {
+//            BlogEntity blogModel = new BlogEntity();
+//            blogModel.setId(Long.parseLong(objects1[0].toString()));
+//            blogModel.setTitle(objects1[1].toString());
+//            blogModel.setDescription(objects1[2].toString());
+//            blogModel.setAdded_by(Integer.parseInt(objects1[3].toString()));
+//            blogModel.setCreated_on(Timestamp.valueOf(objects1[4].toString()));
+//            blogModel.setInst_id(Long.parseLong(objects1[6].toString()));
+//            blogModel.setTags(objects1[7].toString());
+//            blogModel.setThumbnail(objects1[8].toString());
+//            blogModel.setType("blog");
+//
+//            String likeQuery = "SELECT * FROM `blog_liked` WHERE blog_id =? ";
+//            Query like = blogLikedRepository.getEntityManager().createNativeQuery(likeQuery);
+//            like.setParameter(1, blogModel.getId());
+//            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+//            likeList.forEach(likeObject -> {
+//                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+//                    System.out.println("Liked");
+//                    blogModel.setLiked(true);
+//                }
+//            });
+//
+//            Integer likeCount = likeList.size();
+//            blogModel.setLike(likeCount.longValue());
+//
+//
+//            TeacherModel teacherModel = teacherRepository.find("id",
+//                    blogModel.getAdded_by().longValue()).firstResult();
+//            blogModel.setName(teacherModel.getFname());
+//
+////            return blogModel;
+//        });
+
+        return  blogEntity;
+    }
+
+
+    CurrentAffairEntity getCurrentAffair(Index_Model model,GetIndexRequest request){
+        Long val = Long.valueOf(model.getPost_id());
+        Long inst = Long.valueOf(request.getInst_id());
+      CurrentAffairModel currentAffairModel=  caRepository.
+              find("id=?1 and inst_id =?2",
+                      val,request.getInst_id()).firstResult();
+      CurrentAffairEntity caEntity = new Gson().fromJson
+              (new Gson().toJson(currentAffairModel),CurrentAffairEntity.class);
+
+      caEntity.setType("currentAffair");
+
+
+        String likeQuery = "SELECT * FROM `current_affairs_liked` WHERE current_affair_id =? ";
+        Query like = currentAffairLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+        like.setParameter(1, caEntity.getId());
+        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+        likeList.forEach(likeObject -> {
+            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                System.out.println("Liked");
+                caEntity.setLiked(true);
+            }
+        });
+
+
+        Integer likeCount = likeList.size();
+        caEntity.setLike(likeCount.longValue());
+
+
+        TeacherModel teacherModel = teacherRepository.find("id",
+                caEntity.getAdded_by().longValue()).firstResult();
+        caEntity.setName(teacherModel.getFname());
+
+
+//        String caQuery = "SELECT * from `current_affairs` where  inst_id = ?  and id=?";
+//        Query currentAffair = caRepository.getEntityManager().createNativeQuery(caQuery);
+//        currentAffair.setParameter(1, request.getInst_id());
+//        currentAffair.setParameter(2,model.getPost_id());
+
+//        ArrayList<Object[]> caList =(ArrayList<Object[]>) currentAffair.getResultList();
+//
+//        caList.forEach(objects1 -> {
+//            CurrentAffairEntity caModal = new CurrentAffairEntity();
+//            caModal.setId(Long.parseLong(objects1[0].toString()));
+//            caModal.setTitle(objects1[1].toString());
+//            caModal.setDescription(objects1[2].toString());
+//            caModal.setCreated_at(Timestamp.valueOf(objects1[3].toString()));
+//            caModal.setAdded_by(Integer.parseInt(objects1[5].toString()));
+//            caModal.setInst_id(Integer.parseInt(objects1[6].toString()));
+//            caModal.setThumbnail(objects1[7].toString());
+//            caModal.setType("currentAffair");
+//
+//            String likeQuery = "SELECT * FROM `current_affairs_liked` WHERE current_affair_id =? ";
+//            Query like = currentAffairLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+//            like.setParameter(1, caModal.getId());
+//            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+//            likeList.forEach(likeObject -> {
+//                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+//                    System.out.println("Liked");
+//                    caModal.setLiked(true);
+//                }
+//            });
+//
+//            Integer likeCount = likeList.size();
+//            caModal.setLike(likeCount.longValue());
+//
+//
+//        });
+
+        return caEntity;
+
+    }
+
+
+    NotesEntity getNotes(Index_Model model,GetIndexRequest request){
+        Long val = Long.valueOf(model.getPost_id());
+
+        NotesModel notesModel =   notesRepository.find("id =?1 and inst_id =?2",
+             val,request.getInst_id()).firstResult();
+     NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
+     entity.setName(notesModel.getName());
+
+        String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =? ";
+        Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+        like.setParameter(1, entity.getId());
+        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+        likeList.forEach(likeObject -> {
+            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                System.out.println("Liked");
+                entity.setLiked(true);
+            }
+        });
+
+        Integer likeCount = likeList.size();
+        entity.setLike(likeCount.longValue());
+        entity.setType("notes");
+
+        SubjectModel subjectModel = subjectRepository.
+                find("id", notesModel.getSubject_id().longValue()).firstResult();
+        entity.setSubject(subjectModel.getSubject());
+
+        CourseModel courseModel = coursesRepository.find("id",
+                Long.parseLong(notesModel.getCourse_id())).firstResult();
+        entity.setCourse(courseModel.getCourse());
+
+        TeacherModel teacherModel = teacherRepository.find("id",
+                entity.getCreated_by().longValue()).firstResult();
+        entity.setTeacherName(teacherModel.getFname());
+
+        TopicModel topicModel = topicsRepository.find("id",
+                notesModel.getTopicId().longValue()).firstResult();
+        entity.setTopic(topicModel.getTopic());
+
+
+
+////        String notesQuery = "SELECT * from `notes` where inst_id = ? and id=?";
+////        Query notes = notesRepository.getEntityManager().createNativeQuery(notesQuery);
+////        notes.setParameter(1,request.getInst_id());
+////        notes.setParameter(2,model.getPost_id());
+//
+//        ArrayList<Object[]> notesList = (ArrayList<Object[]>) notes.getResultList();
+//
+//        notesList.forEach(objects -> {
+//            NotesEntity notesEntity =new NotesEntity();
+//            notesEntity.setId(Long.parseLong(objects[0].toString()));
+//            notesEntity.setName(objects[1].toString());
+//            notesEntity.setFile(objects[2].toString());
+//            notesEntity.setTopicId(Integer.parseInt(objects[3].toString()));
+//            notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
+//            notesEntity.setInst_id(Integer.parseInt(objects[6].toString()));
+//            notesEntity.setCreated_by(Integer.parseInt(objects[7].toString()));
+//            notesEntity.setTopic(objects[8].toString());
+//            notesEntity.setComment(Long.parseLong(objects[9].toString()));
+//            notesEntity.setFee_type(objects[12].toString());
+//
+//            notesEntity.setType("notes");
+//
+//
+//            String likeQuery = "SELECT * FROM `notes_liked` WHERE notes_id =? ";
+//            Query like = notesLikeDislikeRepository.getEntityManager().createNativeQuery(likeQuery);
+//            like.setParameter(1, notesEntity.getId());
+//            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+//            likeList.forEach(likeObject -> {
+//                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+//                    System.out.println("Liked");
+//                    notesEntity.setLiked(true);
+//                }
+//            });
+//
+//            Integer likeCount = likeList.size();
+//            notesEntity.setLike(likeCount.longValue());
+//            vList.add(notesEntity);
+//
+//
+//        });
+
+        return  entity;
+
+    }
+
+
+    StudentPostEntity getPost(Index_Model model, GetIndexRequest request){
+        String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
+                "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+                "student_posts.added_on, students.fname FROM `student_posts` " +
+                "INNER JOIN students ON students.id=student_posts.added_by " +
+                "WHERE student_posts.inst_id = ? and student_posts.id = ?";
+        Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
+        studentPost.setParameter(1, request.getInst_id());
+        studentPost.setParameter(2,model.getPost_id());
+        StudentPostEntity postModel = new StudentPostEntity();
+        ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
+        tempPostList.forEach(objects -> {
+
+            postModel.setId(Long.parseLong(objects[0].toString()));
+            if(objects[1].toString()==null){
+                postModel.setDescription("");
+            }else{
+                postModel.setDescription(objects[1].toString());
+            }
+
+            postModel.setDescription(objects[1].toString());
+
+            if( objects[2]==null){
+                postModel.setPic("");
+            }else{
+                postModel.setPic(objects[2].toString());
+            }
+
+
+
+            postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
+            postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
+            postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
+            postModel.setName(objects[6].toString());
+
+            String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
+            Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
+            like.setParameter(1, postModel.getId());
+            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+            likeList.forEach(likeObject -> {
+                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                    System.out.println("Liked");
+                    postModel.setLiked(true);
+                }
+            });
+
+            Integer likeCount = likeList.size();
+            postModel.setLike(likeCount.longValue());
+
+
+            ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
+                    bookMarkRepository.list("type=?1 and post_id=?2",
+                            "post",postModel.getId());
+            arrayList.forEach(bookMarkModel -> {
+
+                if(bookMarkModel.getAdded_by()==request.getStudId()){
+                    postModel.setAdded(true);
+                }else{
+                    postModel.setAdded(false);
+                }
+            });
+
+            postModel.setType("post");
+
+        });
+
+        return postModel;
+
+    }
+
+
+
+    QuizEntity getQuizzes(Index_Model model, GetIndexRequest request){
+        Long val = Long.valueOf(model.getPost_id());
+        QuizModel quizModel =  quizRepository.find("id =?1 and inst_id = ?2 and type = ?3",
+                val,request.getInst_id(),"Quiz").firstResult();
+
+        QuizEntity entity= new Gson().fromJson(new Gson().toJson(quizModel),QuizEntity.class);
+
+        return  entity;
+    }
+
+    VideoEntity getVideos(Index_Model model, GetIndexRequest request){
+        Long val = Long.valueOf(model.getPost_id());
+
+       VideoModel videoModel = videoLectureRepository.find("inst_id =?1 and id =?2", request.getInst_id(),val).firstResult();
+       VideoEntity entity = new Gson().fromJson(new Gson().toJson(videoModel),VideoEntity.class);
+
+       entity.setType("video");
+
+        TeacherModel teacherModel = teacherRepository.find("id",
+                videoModel.getTeacher_id()).firstResult();
+        entity.setTeacherName(teacherModel.getFname());
+
+        return  entity;
+    }
+
+
+
 }

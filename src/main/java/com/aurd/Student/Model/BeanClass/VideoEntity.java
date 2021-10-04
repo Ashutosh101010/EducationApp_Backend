@@ -1,59 +1,28 @@
-package com.aurd.Student.Model.Entity;
+package com.aurd.Student.Model.BeanClass;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "videos")
-public class VideoModel {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VideoEntity {
     private long id;
-
-
-    @Column(name = "name",nullable = false)
-    @Max(256)
     private String name;
-
-    @Column(name = "video",nullable = false)
-    @Max(256)
     private  String video;
-
-    @Column(name = "thumb",nullable = false)
-    @Max(256)
     private  String thumb;
-
-    @Column(name = "topicId",nullable = false)
     private  long topicId;
-
-    @Column(name = "created_at",nullable = false)
     private Timestamp created_at;
-
-    @Column(name = "teacher_id",nullable = false)
     private long teacher_id;
-
-    @Column(name = "description",nullable = true)
     private String description;
-
-    @Column(name = "tags",nullable = true)
     private String tags;
-
-    @Column(name = "video_type",nullable = false)
     private String video_type;
-
-
-    @Column(name = "fee_type",nullable = true)
     private String fee_type;
+    private  String type;
+    private  String teacherName;
 
-
-
-    public String getFee_type() {
-        return fee_type;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setFee_type(String fee_type) {
-        this.fee_type = fee_type;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public long getId() {
@@ -134,5 +103,21 @@ public class VideoModel {
 
     public void setVideo_type(String video_type) {
         this.video_type = video_type;
+    }
+
+    public String getFee_type() {
+        return fee_type;
+    }
+
+    public void setFee_type(String fee_type) {
+        this.fee_type = fee_type;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }
