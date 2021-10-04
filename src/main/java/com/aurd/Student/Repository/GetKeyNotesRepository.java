@@ -24,7 +24,7 @@ public class GetKeyNotesRepository implements PanacheRepository<KeyNotesModel>
         ArrayList<KeyNotesModel> arrayList = new ArrayList();
         if(request.getSubjectId().equals(0) && request.getCourseId().equals(0)){
 
-            List<KeyNotesModel> list = list("student_id ORDER BY created_at",request.getStudent_id());
+            List<KeyNotesModel> list = list("student_id=?1 ORDER BY created_at",request.getStudent_id());
             arrayList.addAll(list);
 
         } else if(!request.getCourseId().equals(0)&&! request.getSubjectId().equals(0)){
