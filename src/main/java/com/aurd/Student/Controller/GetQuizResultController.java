@@ -38,10 +38,10 @@ public class GetQuizResultController {
                                 " inst_id =?2 order by marks_obtained DESC",
                        request.getQuizID(),request.getInstID());
 
-
-        arrayList1.forEach(saveResultModel -> {
-
-        });
+//
+//        arrayList1.forEach(saveResultModel -> {
+//
+//        });
 
 
 

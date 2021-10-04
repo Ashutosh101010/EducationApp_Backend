@@ -80,41 +80,65 @@ public class QuizSubmitController {
             }
 
 
-            ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
-                    (request.getArrayList().get(0).getInst_id(),
-                            request.getArrayList().get(0).getStud_id(),
-                            request.getArrayList().get(0).getQuiz_id());
-            for(Quiz_Submit_Model quizSubmitModel :arrayList){
-                marksObtained = marksObtained + quizSubmitModel.getMarks_ob();
+            QuizModel quizModel = quizRepository.find("quiz_id",
+                    request.getArrayList().get(0).getQuiz_id()).firstResult();
 
-                quizQuestionModel = quizQuestionRepository.
-                        getQuestions(quizSubmitModel.getQues_id());
-                if(quizQuestionModel.getQuestion_id()==quizSubmitModel.getQues_id()){
-                    if(quizQuestionModel.getAnswer().equals(quizSubmitModel.getAns())){
-                        correctAns = correctAns+1;
-                    }else{
-                        wrongAns = wrongAns+1;
-                        skippedAns = skippedAns+1;
+            for(int i=0;i<request.getArrayList().size();i++)
+            {
+                Quiz_Submit_Model quiz_submit_model=request.getArrayList().get(i);
+                Quiz_Question_Model  quizQuestion = quizQuestionRepository.
+                        getQuestions(quiz_submit_model.getQues_id());
+
+                if(quiz_submit_model.getAns().equals(quizQuestion.getAnswer()))
+                {
+                    correctAns++;
+                    marksObtained = marksObtained + quizModel.getMarks_per_ques();
+                }
+                else{
+                    wrongAns++;
+                    if(quizModel.getNegative_marking()!=null && !quizModel.getNegative_marking().equals("0"))
+                    {
+                       int num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
+                       int den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
+
+                       marksObtained=marksObtained-((num/den)*quizModel.getMarks_per_ques());
                     }
                 }
-
-                if(quizQuestionModel.getQuestion_id()!=quizSubmitModel.getQues_id()){
-                    skippedAns = skippedAns+1;
-                }
-
-
-
-
             }
+
+skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
+//            ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
+//                    (request.getArrayList().get(0).getInst_id(),
+//                            request.getArrayList().get(0).getStud_id(),
+//                            request.getArrayList().get(0).getQuiz_id());
+//            for(Quiz_Submit_Model quizSubmitModel :arrayList){
+//                marksObtained = marksObtained + quizSubmitModel.getMarks_ob();
+//
+//                quizQuestionModel = quizQuestionRepository.
+//                        getQuestions(quizSubmitModel.getQues_id());
+//                if(quizQuestionModel.getQuestion_id()==quizSubmitModel.getQues_id()){
+//                    if(quizQuestionModel.getAnswer().equals(quizSubmitModel.getAns())){
+//                        correctAns = correctAns+1;
+//                    }else{
+//                        wrongAns = wrongAns+1;
+//                        skippedAns = skippedAns+1;
+//                    }
+//                }
+//
+//                if(quizQuestionModel.getQuestion_id()!=quizSubmitModel.getQues_id()){
+//                    skippedAns = skippedAns+1;
+//                }
+//
+//            }
 
 
 
             System.out.println("correct ans============="+correctAns);
             System.out.println("wrong ans         "+wrongAns);
 
-
-            QuizModel quizModel = quizRepository.find("quiz_id",
-                    request.getArrayList().get(0).getQuiz_id()).firstResult();
+//
+//            QuizModel quizModel = quizRepository.find("quiz_id",
+//                    request.getArrayList().get(0).getQuiz_id()).firstResult();
 
 
 
@@ -127,24 +151,24 @@ public class QuizSubmitController {
 
 
 
-            if(quizModel.getNegative_marking()!=null
-                    && !quizModel.getNegative_marking().equals("0")){
-                System.out.println(quizModel.getNegative_marking());
-
-                String[] frac = quizModel.getNegative_marking().split("/");
-              int  num = Integer.parseInt(frac[0]);
-               int den = Integer.parseInt(frac[1]);
-
-               System.out.println(num);
-               System.out.println(den);
-
-               double neg_mark = (num%den);
-
-
-//                marksObtained = marksObtained *(num%den)*wrongAns;
-                marksObtained = marksObtained *neg_mark *wrongAns;
-                System.out.println("========"+marksObtained);
-            }
+//            if(quizModel.getNegative_marking()!=null
+//                    && !quizModel.getNegative_marking().equals("0")){
+//                System.out.println(quizModel.getNegative_marking());
+//
+//                String[] frac = quizModel.getNegative_marking().split("/");
+//              int  num = Integer.parseInt(frac[0]);
+//               int den = Integer.parseInt(frac[1]);
+//
+//               System.out.println(num);
+//               System.out.println(den);
+//
+//               double neg_mark = (num%den);
+//
+//
+////                marksObtained = marksObtained *(num%den)*wrongAns;
+//                marksObtained = marksObtained *neg_mark *wrongAns;
+//                System.out.println("========"+marksObtained);
+//            }
 
 
 

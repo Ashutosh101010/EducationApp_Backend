@@ -179,4 +179,25 @@ public class SaveResultModel {
     public void setNegative_marking(int negative_marking) {
         this.negative_marking = negative_marking;
     }
+
+    @Override
+    public String toString() {
+        return "SaveResultModel{" +
+                "id=" + id +
+                ", stud_id=" + stud_id +
+                ", inst_id=" + inst_id +
+                ", quiz_id=" + quiz_id +
+                ", total_marks=" + total_marks +
+                ", marks_obtained=" + marks_obtained +
+                ", correct_ans=" + correct_ans +
+                ", wrong_ans=" + wrong_ans +
+                ", cut_off=" + cut_off +
+                ", negative_marking=" + negative_marking +
+                ", status='" + status + '\'' +
+                ", name='" + name + '\'' +
+                ", skipped=" + skipped +
+                ", time='" + time + '\'' +
+                ", percent=" + percent +
+                '}';
+    }
 }
