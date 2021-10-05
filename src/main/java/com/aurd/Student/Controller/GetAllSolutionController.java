@@ -54,42 +54,83 @@ public class GetAllSolutionController{
         ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult(
                request.getInst_id(),request.getStud_id(),request.getQuiz_id());
 
-
+//        ArrayList<Quiz_Question_Model> questionModels=quizQuestionRepository.getQuestions()
+        ArrayList<Long> questionIds=new ArrayList();
         quizQuestionIDList.forEach(quiz_question_map_model -> {
+            questionIds.add(quiz_question_map_model.getQues_id());
+        });
+
+
+        ArrayList<Quiz_Question_Model> questionModels=quizQuestionRepository.getQuestion(questionIds);
+
+        questionModels.forEach(quiz_question_model -> {
+
+
             SolutionEntity entity = new SolutionEntity();
-            Quiz_Question_Model question_model  = quizQuestionRepository.
-                    getQuestions(quiz_question_map_model.getQues_id());
+
             ArrayList<Question_Option_Model> optionList =
                     quiz_question_option_repository.
-                            getOptions(question_model.getQuestion_id());
+                            getOptions(quiz_question_model.getQuestion_id());
 
+            entity.setOptions(optionList);
+            entity.setQuestion(quiz_question_model.getQuestion());
+            entity.setAnswer(quiz_question_model.getAnswer());
 
-            for(int i=0;i<arrayList.size();i++){
-
-
-                System.out.println("QuestionID   from data ====="+quiz_question_map_model.getQues_id());
-                System.out.println("Question id from student"+arrayList.get(i).getQues_id());
-
-                if(quiz_question_map_model.getQues_id() == arrayList.get(i).getQues_id()){
-                    entity.setQuestion(question_model.getQuestion());
-                    entity.setAnswer(question_model.getAnswer());
-                    System.out.println(arrayList.get(i).getAns());
-                    entity.setMyAnswer(arrayList.get(i).getAns());
-                    entity.setOptions(optionList);
-
-                }else{
-                    entity.setOptions(optionList);
-                    entity.setQuestion(question_model.getQuestion());
-                    entity.setAnswer(question_model.getAnswer());
-                    entity.setMyAnswer("");
+            for(int i=0;i<arrayList.size();i++)
+            {
+                Quiz_Submit_Model quiz_submit_model=arrayList.get(i);
+                if(quiz_submit_model.getQues_id()==quiz_question_model.getQuestion_id())
+                {
+entity.setMyAnswer(quiz_submit_model.getAns());
+break;
                 }
             }
 
+            if(entity.getMyAnswer()==null)
+            {
+                entity.setMyAnswer("");
+            }
 
 
             solution.add(entity);
 
         });
+
+
+//       for(Quiz_Submit_Model model: arrayList){
+//           SolutionEntity entity = new SolutionEntity();
+//           quizQuestionIDList.forEach(quiz_question_map_model -> {
+//               Quiz_Question_Model question_model  = quizQuestionRepository.
+//                       getQuestions(quiz_question_map_model.getQues_id());
+//               ArrayList<Question_Option_Model> optionList =
+//                       quiz_question_option_repository.
+//                               getOptions(question_model.getQuestion_id());
+//
+//               if(question_model.getQuestion_id() == model.getQues_id()){
+//
+//                   entity.setQuestion(question_model.getQuestion());
+//                   entity.setAnswer(question_model.getAnswer());
+//                   entity.setMyAnswer(model.getAns());
+//                   entity.setOptions(optionList);
+//
+//               }else{
+//                   entity.setOptions(optionList);
+//                   entity.setQuestion(question_model.getQuestion());
+//                   entity.setAnswer(question_model.getAnswer());
+//                   entity.setMyAnswer("");
+//               }
+//
+//
+//
+//           });
+//
+//
+//
+//           solution.add(entity);
+//
+//
+//
+//       }
 
         Result_Response response = new Result_Response();
 
