@@ -3,7 +3,7 @@ package com.aurd.Student.Model.Request;
 public class GetIndexRequest {
 
 
-    int  inst_id;
+    Long  inst_id;
 
 
     long studId;
@@ -11,7 +11,7 @@ public class GetIndexRequest {
     String filter;
 
     int pageCount;
-    int lastId;
+    int lastId=-1;
 
     public int getLastId() {
         return lastId;
@@ -53,12 +53,11 @@ public class GetIndexRequest {
         this.filter = filter;
     }
 
-
-    public int getInst_id() {
+    public Long getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(int inst_id) {
+    public void setInst_id(Long inst_id) {
         this.inst_id = inst_id;
     }
 }

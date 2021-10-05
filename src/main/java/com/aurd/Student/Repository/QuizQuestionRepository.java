@@ -20,12 +20,11 @@ public class QuizQuestionRepository implements PanacheRepository<Quiz_Question_M
 
     {
 
-
-
-      ArrayList arrayList= new ArrayList<>(getEntityManager().createQuery("select Quiz_Question_Model  from Quiz_Question_Model Quiz_Question_Model where Quiz_Question_Model.question_id in :ids",Quiz_Question_Model.class)
+       ArrayList arrayList= new ArrayList<>(getEntityManager().createQuery("select Quiz_Question_Model  from Quiz_Question_Model Quiz_Question_Model where Quiz_Question_Model.question_id in :ids",Quiz_Question_Model.class)
                                             .setParameter("ids",ids).getResultList());
-  System.out.println(arrayList);
-      return arrayList;
+       System.out.println(arrayList);
+
+       return arrayList;
     }
 
 
