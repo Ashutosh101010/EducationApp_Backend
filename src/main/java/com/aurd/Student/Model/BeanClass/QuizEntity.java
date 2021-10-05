@@ -29,9 +29,15 @@ public class QuizEntity
     private String quiz_type;
     private String test_end;
     private  boolean attempt;
+    private long indexId;
 
+    public long getIndexId() {
+        return indexId;
+    }
 
-
+    public void setIndexId(long indexId) {
+        this.indexId = indexId;
+    }
 
     public boolean isAttempt() {
         return attempt;

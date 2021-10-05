@@ -16,6 +16,15 @@ public class StudentPostEntity {
     boolean disLiked;
     boolean added;
     String type;
+    private long indexId;
+
+    public long getIndexId() {
+        return indexId;
+    }
+
+    public void setIndexId(long indexId) {
+        this.indexId = indexId;
+    }
 
     public String getType() {
         return type;

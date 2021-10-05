@@ -322,33 +322,40 @@ public class GetIndexController {
              //    Long value = Long.valueOf(model.getPost_id());
 
                  BlogEntity blogEntity = getBlogs(model,request);
+                 blogEntity.setIndexId(model.getId());
                  vList.add(blogEntity);
 
 
              } else if(model.getType().equals("current_affair")){
                  CurrentAffairEntity entity = getCurrentAffair(model,request);
+                 entity.setIndexId(model.getId());
                  vList.add(entity);
 
 
              }else if(model.getType().equals("notes")){
                  NotesEntity notesEntity = getNotes(model,request);
+                 notesEntity.setIndexId(model.getId());
                  vList.add(notesEntity);
 
 
              }else if(model.getType().equals("video")){
                  VideoEntity videoEntity = getVideos(model,request);
+                 videoEntity.setIndexId(model.getId());
                  vList.add(videoEntity);
 
              }else if(model.getType().equals("post")){
                  StudentPostEntity entity= getPost(model,request);
+                 entity.setIndexId(model.getId());
                  vList.add(entity);
              }else if(model.getType().equals("quiz")){
                  QuizEntity quizEntity = getQuizzes(model,request);
+                 quizEntity.setIndexId(model.getId());
                  vList.add(quizEntity);
              }
              else if(model.getType().equals("practiceTest"))
              {
                  QuizEntity quizEntity =getAllTestSeries(model,request);
+                 quizEntity.setIndexId(model.getId());
                  vList.add(quizEntity);
              }
 

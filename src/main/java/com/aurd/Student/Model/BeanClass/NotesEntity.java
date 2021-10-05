@@ -19,7 +19,15 @@ public class NotesEntity
     boolean isLiked;
     String fee_type;
     String type;
+    private long indexId;
 
+    public long getIndexId() {
+        return indexId;
+    }
+
+    public void setIndexId(long indexId) {
+        this.indexId = indexId;
+    }
 
     String description;
     String subject;
