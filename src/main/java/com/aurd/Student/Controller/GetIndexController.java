@@ -161,7 +161,7 @@ public class GetIndexController {
                         query.setParameter("lastId",request.getLastId());
                 query.setParameter("endDate",request.getDate()+" 23:59:59");
 
-                    if(request.getDate()!=null)
+                    if(request.getDate()!=null && !request.getDate().isEmpty())
                     {
                         query.setParameter("startDate",request.getDate()+" 00:00:00");
 
@@ -180,7 +180,7 @@ public class GetIndexController {
                         .setParameter("instId",request.getInst_id())
                         .setParameter("type",request.getFilter());
                 query.setParameter("endDate",request.getDate()+" 23:59:59");
-                if(request.getDate()!=null)
+                if(request.getDate()!=null && !request.getDate().isEmpty())
                 {
                     query.setParameter("startDate",request.getDate()+" 00:00:00");
 
@@ -278,6 +278,11 @@ public class GetIndexController {
                  vList.add(entity);
              }else if(model.getType().equals("quiz")){
                  QuizEntity quizEntity = getQuizzes(model,request);
+                 vList.add(quizEntity);
+             }
+             else if(model.getType().equals("practiceTest"))
+             {
+                 QuizEntity quizEntity =getAllTestSeries(model,request);
                  vList.add(quizEntity);
              }
 
@@ -626,6 +631,111 @@ public class GetIndexController {
         return  entity;
     }
 
+
+    QuizEntity getAllTestSeries(Index_Model model, GetIndexRequest request) {
+
+        System.out.println(model.getPost_id());
+        //  System.out.println(request.getInst_id());
+
+        Long val = Long.valueOf(model.getPost_id());
+
+        QuizModel quizModel = quizRepository.find("inst_id=?1 and quiz_id = ?2 and type = ?3 ", request.getInst_id(), val, "Monthly Test").firstResult();
+        QuizEntity entity = new QuizEntity();
+        entity.setQuiz_id(quizModel.getQuiz_id());
+        entity.setInst_id(quizModel.getInst_id());
+
+        if (quizModel.getSubject_id() == null) {
+            entity.setSubject_id(0);
+        } else entity.setSubject_id(quizModel.getSubject_id());
+
+        entity.setSub_subject_id(quizModel.getSub_subject_id());
+        entity.setCourse_id(quizModel.getCourse_id());
+        entity.setDiscription(quizModel.getDiscription());
+        entity.setPic(quizModel.getPic());
+        entity.setPrice(quizModel.getPrice());
+
+        entity.setTitle(quizModel.getTitle());
+        entity.setAdded_by(quizModel.getAdded_by());
+        entity.setAdded_on(quizModel.getAdded_on());
+        entity.setInstruction(quizModel.getInstruction());
+        entity.setUpdated_by(quizModel.getUpdated_by());
+
+        if(quizModel.getMarks_per_ques()==null){
+            entity.setMarks_per_ques(0);
+        }else entity.setMarks_per_ques(quizModel.getMarks_per_ques());
+
+        if(quizModel.getCutoff()==null){
+            entity.setCutoff(null);
+        }else entity.setCutoff(quizModel.getCutoff());
+
+        if(quizModel.getQuiz_type()==null){
+            entity.setQuiz_type("");
+        }else  entity.setQuiz_type(quizModel.getQuiz_type());
+
+
+        entity.setTotal_ques(quizModel.getTotal_ques());
+        entity.setTest_start(quizModel.getTest_start());
+        entity.setTime(quizModel.getTime());
+        entity.setTest_end(quizModel.getTest_end());
+
+
+
+        entity.setType("Practise Test");
+
+
+        // QuizModel quizModel = quizRepository.find("id =?1 and inst_id =?2 and type = ?3",val,request.getInst_id(),"Monthly Test").firstResult();
+//        QuizEntity entity = new Gson().fromJson(new Gson().toJson(quizModel),QuizEntity.class);
+//        quizModel.setType("practise_test");
+
+        //            System.out.println(new Gson().toJson(quizModel));
+//
+//        String string = "SELECT * from quiz_master where inst_id=? and  type=?";
+//        Query query = quizRepository.getEntityManager().createNativeQuery(string, QuizModel.class);
+//        query.setParameter(1, request.getInst_id());
+//        query.setParameter(2, "Monthly Test");
+//       QuizModel quizModel = (QuizModel) query.getSingleResult();
+//
+//
+//       ArrayList<Object[]> practiseList = (ArrayList<Object[]>) query.getResultList();
+//
+//         practiseList.forEach(objects -> {
+//           quizModel.setQuiz_id(Long.parseLong(objects[0].toString()));
+//           quizModel.setSubject_id(Integer.parseInt(objects[1].toString()));
+//           quizModel.setCourse_id(Integer.parseInt(objects[3].toString()));
+//           quizModel.setTitle(objects[5].toString());
+//           quizModel.setDiscription(objects[6].toString());
+//           quizModel.setPic(objects[8].toString());
+//           quizModel.setTest_start(Timestamp.valueOf(objects[10].toString()));
+//           quizModel.setTest_duration(objects[11].toString());
+//           quizModel.setAdded_on(Timestamp.valueOf(objects[12].toString()));
+//
+//
+//         });
+
+
+
+
+//        QuizEntity entity;
+
+
+//        practiseList.forEach(objects -> {
+//            QuizEntity entity= new QuizEntity();
+//
+//            entity.setQuiz_id(Long.parseLong(objects[0].toString()));
+//            entity.setSubject_id(Integer.parseInt(objects[1].toString()));
+//            entity.setCourse_id(Integer.parseInt(objects[2].toString()));
+//            entity.setInst_id(Integer.parseInt(objects[3].toString()));
+//            entity.setDiscription(objects[4].toString());
+//            entity.setTitle(objects[5].toString());
+//            entity.setCutoff(Long.parseLong(objects[6].toString()));
+//            entity.setAdded_by(Long.parseLong(objects[7].toString()));
+//
+//
+//         return entity;
+//
+//        });
+        return entity;
+    }
 
 
 }
