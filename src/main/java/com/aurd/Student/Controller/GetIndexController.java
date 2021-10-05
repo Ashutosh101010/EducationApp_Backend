@@ -19,7 +19,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 
 @Path("/getIndex")
 
@@ -85,14 +89,13 @@ public class GetIndexController {
 
 
     @Transactional
-    public GetIndexResponse getIndex(GetIndexRequest request){
+    public GetIndexResponse getIndex(GetIndexRequest request) throws ParseException {
 
 
         ArrayList<Index_Model> arrayList = new ArrayList<>();
         ArrayList<Object[]> list = null;
         ArrayList<Object> vList = new ArrayList<>();
 
-        if(!request.getFilter().isEmpty()){
             System.out.println(request.getFilter());
             System.out.println("Some filter entry");
 
@@ -151,51 +154,114 @@ public class GetIndexController {
 //
 //                list = (ArrayList<Object[]>) query.getResultList();
 //            }
-
-            if(request.getLastId()!=-1)
+        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        if(request.getFilter()!=null && !request.getFilter().isEmpty())
             {
-          Query query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
-                        "Index_Model.type=:type and Index_Model.id < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
-                        query.setParameter("instId",request.getInst_id());
-                        query.setParameter("type",request.getFilter());
-                        query.setParameter("lastId",request.getLastId());
-                query.setParameter("endDate",request.getDate()+" 23:59:59");
-
-                    if(request.getDate()!=null && !request.getDate().isEmpty())
-                    {
-                        query.setParameter("startDate",request.getDate()+" 00:00:00");
-
-
-                    }
-                    else{
-                        query.setParameter("startDate","2000-01-01"+" 00:00:00");
-                    }
-
-                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
-
-            }
-            else{
-                Query query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
-                        "Index_Model.type=:type and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
-                        .setParameter("instId",request.getInst_id())
-                        .setParameter("type",request.getFilter());
-                query.setParameter("endDate",request.getDate()+" 23:59:59");
-                if(request.getDate()!=null && !request.getDate().isEmpty())
+                Query query=null;
+                if(request.getLastId()!=-1)
                 {
-                    query.setParameter("startDate",request.getDate()+" 00:00:00");
+                     query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
+                            "Index_Model.type=:type and Index_Model.id < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
+                    query.setParameter("instId",request.getInst_id());
+                    query.setParameter("type",request.getFilter());
+                    query.setParameter("lastId",request.getLastId());
 
+
+
+//                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
 
                 }
                 else{
-                    query.setParameter("startDate","2000-01-01"+" 00:00:00");
+                     query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
+                            "Index_Model.type=:type and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
+                            .setParameter("instId",request.getInst_id())
+                            .setParameter("type",request.getFilter());
+//                    query.setParameter("endDate",request.getDate()+" 23:59:59");
+//                    if(request.getDate()!=null && !request.getDate().isEmpty())
+//                    {
+//                        query.setParameter("startDate",request.getDate()+" 00:00:00");
+//
+//
+//                    }
+//                    else{
+//                        query.setParameter("startDate","2000-01-01"+" 00:00:00");
+//                    }
+
+
+                }
+
+                if(request.getDate()!=null && !request.getDate().isEmpty())
+                {
+                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+                    query.setParameter("endDate",formatter.parse(request.getDate()+" 23:59:59"));
+
+                }
+                else{
+                    query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
+                    query.setParameter("endDate",new Date(System.currentTimeMillis()));
                 }
 
                 arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
             }
+            else{
+            Query query=null;
+                if(request.getLastId()!=-1)
+                {
+                     query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
+                            " and Index_Model.id < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
+                    query.setParameter("instId",request.getInst_id());
+                    query.setParameter("lastId",request.getLastId());
+//                    query.setParameter("endDate",formatter.parse(request.getDate()+" 23:59:59"));
+
+//                    if(request.getDate()!=null && !request.getDate().isEmpty())
+//                    {
+//                        query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+//
+//
+//                    }
+//                    else{
+//                        query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
+//                    }
+//
+//                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
+
+                }
+                else{
+                     query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
+                            " and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
+                            .setParameter("instId",request.getInst_id());
+
+//                    if(request.getDate()!=null && !request.getDate().isEmpty())
+//                    {
+//                        query.setParameter("endDate",formatter.parse(request.getDate()+" 23:59:59"));
+//
+//
+//                    }
+//                    else{
+//                        query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
+//                    }
+//
+//                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
+                }
+            if(request.getDate()!=null && !request.getDate().isEmpty())
+            {
+                query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+                query.setParameter("endDate",formatter.parse(request.getDate()+" 23:59:59"));
+
+            }
+            else{
+                query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
+                query.setParameter("endDate",new Date(System.currentTimeMillis()));
+            }
+
+            arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
+            }
 
 
 
-        }
+
+
+
 //        else if(!request.getDate().isEmpty()){
 //            System.out.println(request.getDate());
 //            System.out.println("Some date entry");
@@ -305,7 +371,7 @@ public class GetIndexController {
 
 
         Long val = Long.valueOf(model.getPost_id());
-        Long inst = Long.valueOf(request.getInst_id());
+        Long inst = request.getInst_id();
       BlogModel bm =   blogRepository.find("id=?1 and inst_id=?2",
               val,inst).firstResult();
 
@@ -376,10 +442,10 @@ public class GetIndexController {
 
     CurrentAffairEntity getCurrentAffair(Index_Model model,GetIndexRequest request){
         Long val = Long.valueOf(model.getPost_id());
-        Long inst = Long.valueOf(request.getInst_id());
+        Long inst = request.getInst_id();
       CurrentAffairModel currentAffairModel=  caRepository.
               find("id=?1 and inst_id =?2",
-                      val,request.getInst_id()).firstResult();
+                      val,inst.intValue()).firstResult();
       CurrentAffairEntity caEntity = new Gson().fromJson
               (new Gson().toJson(currentAffairModel),CurrentAffairEntity.class);
 
@@ -451,7 +517,7 @@ public class GetIndexController {
         Long val = Long.valueOf(model.getPost_id());
 
         NotesModel notesModel =   notesRepository.find("id =?1 and inst_id =?2",
-             val,request.getInst_id()).firstResult();
+             val,request.getInst_id().intValue()).firstResult();
      NotesEntity entity = new Gson().fromJson(new Gson().toJson(notesModel),NotesEntity.class);
      entity.setName(notesModel.getName());
 
@@ -609,7 +675,7 @@ public class GetIndexController {
     QuizEntity getQuizzes(Index_Model model, GetIndexRequest request){
         Long val = Long.valueOf(model.getPost_id());
         QuizModel quizModel =  quizRepository.find("id =?1 and inst_id = ?2 and type = ?3",
-                val,request.getInst_id(),"Quiz").firstResult();
+                val,request.getInst_id().intValue(),"Quiz").firstResult();
 
         QuizEntity entity= new Gson().fromJson(new Gson().toJson(quizModel),QuizEntity.class);
 
@@ -619,7 +685,7 @@ public class GetIndexController {
     VideoEntity getVideos(Index_Model model, GetIndexRequest request){
         Long val = Long.valueOf(model.getPost_id());
 
-       VideoModel videoModel = videoLectureRepository.find("inst_id =?1 and id =?2", request.getInst_id(),val).firstResult();
+       VideoModel videoModel = videoLectureRepository.find("inst_id =?1 and id =?2", request.getInst_id().intValue(),val).firstResult();
        VideoEntity entity = new Gson().fromJson(new Gson().toJson(videoModel),VideoEntity.class);
 
        entity.setType("video");
@@ -639,7 +705,7 @@ public class GetIndexController {
 
         Long val = Long.valueOf(model.getPost_id());
 
-        QuizModel quizModel = quizRepository.find("inst_id=?1 and quiz_id = ?2 and type = ?3 ", request.getInst_id(), val, "Monthly Test").firstResult();
+        QuizModel quizModel = quizRepository.find("inst_id=?1 and quiz_id = ?2 and type = ?3 ", request.getInst_id().intValue(), val, "Monthly Test").firstResult();
         QuizEntity entity = new QuizEntity();
         entity.setQuiz_id(quizModel.getQuiz_id());
         entity.setInst_id(quizModel.getInst_id());
