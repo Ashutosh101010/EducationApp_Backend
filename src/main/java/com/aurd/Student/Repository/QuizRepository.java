@@ -27,12 +27,9 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
         try {
             System.out.println(new Gson().toJson(request));
 
-
                if(request.getCourse_id()!=0 && request.getSubject_id()==0){
                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and course_id=?3",
                      request.getInst_id(),request.getType(),request.getCourse_id()).list();
-
-
 
 
 
