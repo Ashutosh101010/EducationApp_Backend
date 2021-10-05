@@ -16,6 +16,15 @@ public class VideoEntity {
     private String fee_type;
     private  String type;
     private  String teacherName;
+    private long indexId;
+
+    public long getIndexId() {
+        return indexId;
+    }
+
+    public void setIndexId(long indexId) {
+        this.indexId = indexId;
+    }
 
     public String getTeacherName() {
         return teacherName;

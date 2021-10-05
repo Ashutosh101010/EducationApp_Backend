@@ -154,7 +154,7 @@ public class GetIndexController {
 //
 //                list = (ArrayList<Object[]>) query.getResultList();
 //            }
-        SimpleDateFormat formatter=new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(request.getFilter()!=null && !request.getFilter().isEmpty())
             {
                 Query query=null;
@@ -173,7 +173,7 @@ public class GetIndexController {
                 }
                 else{
                      query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
-                            "Index_Model.type=:type and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
+                            "Index_Model.type=:type and Index_Model.created_on between :startDate and :endDate order by Index_Model.created_on desc ")
                             .setParameter("instId",request.getInst_id())
                             .setParameter("type",request.getFilter());
 //                    query.setParameter("endDate",request.getDate()+" 23:59:59");
@@ -192,8 +192,13 @@ public class GetIndexController {
 
                 if(request.getDate()!=null && !request.getDate().isEmpty())
                 {
-                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
-                    query.setParameter("endDate",formatter.parse(request.getDate()+" 23:59:59"));
+                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()-86400000);
+                    System.out.println(startDate);
+                    query.setParameter("startDate",startDate);
+//                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+                    Date endDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()+86400000);
+                    System.out.println(endDate);
+                    query.setParameter("endDate",endDate);
 
                 }
                 else{
@@ -245,8 +250,13 @@ public class GetIndexController {
                 }
             if(request.getDate()!=null && !request.getDate().isEmpty())
             {
-                query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
-                query.setParameter("endDate",formatter.parse(request.getDate()+" 23:59:59"));
+                Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()-86400000);
+                System.out.println(startDate);
+                query.setParameter("startDate",startDate);
+
+                Date endDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()+86400000);
+                System.out.println(endDate);
+                query.setParameter("endDate",endDate);
 
             }
             else{
@@ -322,33 +332,40 @@ public class GetIndexController {
              //    Long value = Long.valueOf(model.getPost_id());
 
                  BlogEntity blogEntity = getBlogs(model,request);
+                 blogEntity.setIndexId(model.getId());
                  vList.add(blogEntity);
 
 
              } else if(model.getType().equals("current_affair")){
                  CurrentAffairEntity entity = getCurrentAffair(model,request);
+                 entity.setIndexId(model.getId());
                  vList.add(entity);
 
 
              }else if(model.getType().equals("notes")){
                  NotesEntity notesEntity = getNotes(model,request);
+                 notesEntity.setIndexId(model.getId());
                  vList.add(notesEntity);
 
 
              }else if(model.getType().equals("video")){
                  VideoEntity videoEntity = getVideos(model,request);
+                 videoEntity.setIndexId(model.getId());
                  vList.add(videoEntity);
 
              }else if(model.getType().equals("post")){
                  StudentPostEntity entity= getPost(model,request);
+                 entity.setIndexId(model.getId());
                  vList.add(entity);
              }else if(model.getType().equals("quiz")){
                  QuizEntity quizEntity = getQuizzes(model,request);
+                 quizEntity.setIndexId(model.getId());
                  vList.add(quizEntity);
              }
              else if(model.getType().equals("practiceTest"))
              {
                  QuizEntity quizEntity =getAllTestSeries(model,request);
+                 quizEntity.setIndexId(model.getId());
                  vList.add(quizEntity);
              }
 
