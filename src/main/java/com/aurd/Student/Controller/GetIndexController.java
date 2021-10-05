@@ -7,6 +7,8 @@ import com.aurd.Student.Model.Request.GetIndexRequest;
 import com.aurd.Student.Model.Response.GetIndexResponse;
 import com.aurd.Student.Repository.*;
 import com.google.gson.Gson;
+import io.quarkus.hibernate.orm.panache.Panache;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -94,100 +96,157 @@ public class GetIndexController {
             System.out.println(request.getFilter());
             System.out.println("Some filter entry");
 
-            if(request.getFilter().equals("blog")){
-                String string="SELECT * FROM `index_data` WHERE inst_id=? and " +
-                        " type = ? ORDER By created_on DESC";
-                Query query = indexRepository.getEntityManager().createNativeQuery(string);
-                query.setParameter(1,request.getInst_id());
-                query.setParameter(2,"blog");
-                list = (ArrayList<Object[]>) query.getResultList();
-            }else if(request.getFilter().equals("currentAffair")){
-                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? ORDER By created_on DESC";
-                Query query = indexRepository.getEntityManager().createNativeQuery(string);
-                query.setParameter(1,request.getInst_id());
-                query.setParameter(2,"current_affair");
+//            if(request.getFilter().equals("blog")){
+//                String string="SELECT * FROM `index_data` WHERE inst_id=? and " +
+//                        " type = ? ORDER By created_on DESC";
+//                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//
+//                query.setParameter(1,request.getInst_id());
+//
+//                list = (ArrayList<Object[]>) query.getResultList();
+//            }else if(request.getFilter().equals("currentAffair")){
+//                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? ORDER By created_on DESC";
+//                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//                query.setParameter(1,request.getInst_id());
+//                query.setParameter(2,"current_affair");
+//
+//
+//                list = (ArrayList<Object[]>) query.getResultList();
+//            }else if(request.getFilter().equals("notes")){
+//                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+//                        "ORDER By created_on DESC";
+//                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//                query.setParameter(1,request.getInst_id());
+//                query.setParameter(2,"notes");
+//
+//
+//                list = (ArrayList<Object[]>) query.getResultList();
+//            }
+//            else if(request.getFilter().equals("post")){
+//                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+//                        "ORDER By created_on DESC";
+//                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//                query.setParameter(1,request.getInst_id());
+//                query.setParameter(2,"post");
+//
+//
+//                list = (ArrayList<Object[]>) query.getResultList();
+//            }
+//            else if(request.getFilter().equals("video")){
+//                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+//                        "ORDER By created_on DESC";
+//                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//                query.setParameter(1,request.getInst_id());
+//                query.setParameter(2,"video");
+//
+//
+//                list = (ArrayList<Object[]>) query.getResultList();
+//            } else if(request.getFilter().equals("quiz")){
+//                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
+//                        "ORDER By created_on DESC";
+//                Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//                query.setParameter(1,request.getInst_id());
+//                query.setParameter(2,"quiz");
+//
+//
+//                list = (ArrayList<Object[]>) query.getResultList();
+//            }
+
+            if(request.getLastId()!=-1)
+            {
+          Query query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
+                        "Index_Model.type=:type and Index_Model.id < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
+                        query.setParameter("instId",request.getInst_id());
+                        query.setParameter("type",request.getFilter());
+                        query.setParameter("lastId",request.getLastId());
+                query.setParameter("endDate",request.getDate()+" 23:59:59");
+
+                    if(request.getDate()!=null)
+                    {
+                        query.setParameter("startDate",request.getDate()+" 00:00:00");
 
 
-                list = (ArrayList<Object[]>) query.getResultList();
-            }else if(request.getFilter().equals("notes")){
-                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
-                        "ORDER By created_on DESC";
-                Query query = indexRepository.getEntityManager().createNativeQuery(string);
-                query.setParameter(1,request.getInst_id());
-                query.setParameter(2,"notes");
+                    }
+                    else{
+                        query.setParameter("startDate","2000-01-01"+" 00:00:00");
+                    }
 
+                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
 
-                list = (ArrayList<Object[]>) query.getResultList();
             }
-            else if(request.getFilter().equals("post")){
-                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
-                        "ORDER By created_on DESC";
-                Query query = indexRepository.getEntityManager().createNativeQuery(string);
-                query.setParameter(1,request.getInst_id());
-                query.setParameter(2,"post");
+            else{
+                Query query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
+                        "Index_Model.type=:type and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
+                        .setParameter("instId",request.getInst_id())
+                        .setParameter("type",request.getFilter());
+                query.setParameter("endDate",request.getDate()+" 23:59:59");
+                if(request.getDate()!=null)
+                {
+                    query.setParameter("startDate",request.getDate()+" 00:00:00");
 
 
-                list = (ArrayList<Object[]>) query.getResultList();
-            }
-            else if(request.getFilter().equals("video")){
-                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
-                        "ORDER By created_on DESC";
-                Query query = indexRepository.getEntityManager().createNativeQuery(string);
-                query.setParameter(1,request.getInst_id());
-                query.setParameter(2,"video");
+                }
+                else{
+                    query.setParameter("startDate","2000-01-01"+" 00:00:00");
+                }
 
-
-                list = (ArrayList<Object[]>) query.getResultList();
-            } else if(request.getFilter().equals("quiz")){
-                String string="SELECT * FROM `index_data` WHERE inst_id=? and  type = ? " +
-                        "ORDER By created_on DESC";
-                Query query = indexRepository.getEntityManager().createNativeQuery(string);
-                query.setParameter(1,request.getInst_id());
-                query.setParameter(2,"quiz");
-
-
-                list = (ArrayList<Object[]>) query.getResultList();
+                arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
             }
 
 
 
-        }else if(!request.getDate().isEmpty()){
-            System.out.println(request.getDate());
-            System.out.println("Some date entry");
-            String start = request.getDate()+" 00:00:00";
-            String end = request.getDate()+" 23:59:59";
-            String string="SELECT * FROM `index_data` WHERE inst_id=? and created_on BETWEEN ? AND ? " +
-                    "ORDER By created_on DESC";
-            Query query = indexRepository.getEntityManager().createNativeQuery(string);
-            query.setParameter(1,request.getInst_id());
-            query.setParameter(2,start);
-            query.setParameter(3,end);
-
-            list = (ArrayList<Object[]>) query.getResultList();
-        }else{
-            System.out.println("empty data filter");
-
-            String string="SELECT * FROM `index_data` WHERE inst_id=?  ORDER By created_on DESC";
-            Query query = indexRepository.getEntityManager().createNativeQuery(string);
-            query.setParameter(1,request.getInst_id());
-
-
-            list = (ArrayList<Object[]>) query.getResultList();
         }
+//        else if(!request.getDate().isEmpty()){
+//            System.out.println(request.getDate());
+//            System.out.println("Some date entry");
+//            String start = request.getDate()+" 00:00:00";
+//            String end = request.getDate()+" 23:59:59";
+//            String string="SELECT * FROM `index_data` WHERE inst_id=? and created_on BETWEEN ? AND ? " +
+//                    "ORDER By created_on DESC";
+//            Query query = indexRepository.getEntityManager().createNativeQuery(string);
+//            query.setParameter(1,request.getInst_id());
+//            query.setParameter(2,start);
+//            query.setParameter(3,end);
+//
+//            list = (ArrayList<Object[]>) query.getResultList();
+//        }else{
+//            System.out.println("empty data filter");
+//
+////            String string="SELECT * FROM `index_data` WHERE inst_id=?  ORDER By created_on DESC";
+////            Query query = indexRepository.getEntityManager().createNativeQuery(string);
+////            query.setParameter(1,request.getInst_id());
+//
+//            if(request.getLastId()!=-1)
+//            {
+//                arrayList=  new ArrayList<>(indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model  where Index_Model.inst_id = :insId  and Index_Model.id< : lastId order by Index_Model.created_on DESC  ")
+//                        .setParameter("insId",Long.valueOf(request.getInst_id()))
+//                        .setParameter("lastId",request.getLastId())
+//                        .setMaxResults(10).getResultList());
+//            }
+//     else{
+//                arrayList=  new ArrayList<>(indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model  where Index_Model.inst_id = :insId  order by Index_Model.created_on DESC  ")
+//                        .setParameter("insId",Long.valueOf(request.getInst_id()))
+//                        .setMaxResults(10).getResultList());
+//            }
+//
+//
+
+//            list = (ArrayList<Object[]>) query.getResultList();
+//        }
 
 
 
 
 
-         list.forEach(objects -> {
-                     Index_Model model = new Index_Model();
-                     model.setId(Integer.parseInt(objects[0].toString()));
-                     model.setPost_id(Integer.parseInt(objects[1].toString()));
-                     model.setCreated_on(Timestamp.valueOf(objects[2].toString()));
-                     model.setType(objects[3].toString());
-                     arrayList.add(model);
-
-         });
+//         list.forEach(objects -> {
+//                     Index_Model model = new Index_Model();
+//                     model.setId(Integer.parseInt(objects[0].toString()));
+//                     model.setPost_id(Integer.parseInt(objects[1].toString()));
+//                     model.setCreated_on(Timestamp.valueOf(objects[2].toString()));
+//                     model.setType(objects[3].toString());
+//                     arrayList.add(model);
+//
+//         });
 
          System.out.println(arrayList.size());
 

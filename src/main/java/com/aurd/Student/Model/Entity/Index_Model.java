@@ -24,6 +24,16 @@ public class Index_Model {
     @Column(name = "type",nullable = false)
     private String type;
 
+    @Column(name="inst_id",nullable = false)
+    private Long inst_id;
+
+    public Long getInst_id() {
+        return inst_id;
+    }
+
+    public void setInst_id(Long inst_id) {
+        this.inst_id = inst_id;
+    }
 
     public int getId() {
         return id;

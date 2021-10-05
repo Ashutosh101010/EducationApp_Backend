@@ -11,7 +11,7 @@ public class GetIndexRequest {
     String filter;
 
     int pageCount;
-    int lastId;
+    int lastId=-1;
 
     public int getLastId() {
         return lastId;
