@@ -36,7 +36,7 @@ public class GetCourseSyllabus {
         String string = "SELECT blog.id, blog.title,blog.description,blog.added_by," +
                 " blog.inst_id,blog.tags,blog.thumbnail,blog.created_on,course_blog.blog," +
                 "course_blog.created_at FROM course_blog" +
-                " INNER JOIN blog ON blog.id=course_blog.blog WHERE course_blog.course=?";
+                " INNER JOIN blog ON blog.id=course_blog.blog WHERE course_blog.course=? ORDER BY created_at DESC";
 
         Query query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getCourse_id());

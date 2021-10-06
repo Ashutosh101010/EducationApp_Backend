@@ -40,7 +40,7 @@ public class GetCoursePractiseController {
                     " quiz_master.is_active,quiz_master.marks_per_ques,quiz_master.total_ques," +
                     "quiz_master.cutoff,quiz_master.instruction,quiz_master.time,quiz_master.negative_marking," +
                     "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master`" +
-                    " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =?";
+                    " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? ORDER BY time DESC ";
 
             Query query = quizRepository.getEntityManager().createNativeQuery(string);
 
@@ -80,7 +80,7 @@ public class GetCoursePractiseController {
                         " quiz_master.is_active,quiz_master.marks_per_ques,quiz_master.total_ques," +
                         "quiz_master.cutoff,quiz_master.instruction,quiz_master.time,quiz_master.negative_marking," +
                         "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master`" +
-                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.price = ?AND quiz_master.inst_id =?";
+                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.price = ?AND quiz_master.inst_id =? ORDER BY time DESC ";
 
                 Query query = quizRepository.getEntityManager().createNativeQuery(string);
 
@@ -119,7 +119,7 @@ public class GetCoursePractiseController {
                         " quiz_master.is_active,quiz_master.marks_per_ques,quiz_master.total_ques," +
                         "quiz_master.cutoff,quiz_master.instruction,quiz_master.time,quiz_master.negative_marking," +
                         "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master` " +
-                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? AND quiz_master.price>'0'";
+                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? AND quiz_master.price>'0' ";
 
                 Query query = quizRepository.getEntityManager().createNativeQuery(string);
 
