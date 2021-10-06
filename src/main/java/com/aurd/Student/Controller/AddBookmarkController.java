@@ -7,6 +7,7 @@ import com.aurd.Student.Repository.BookMarkRepository;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -16,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import static io.quarkus.hibernate.orm.panache.Panache.getEntityManager;
 
 @Path("/students/addBookmark")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -39,19 +42,42 @@ public class AddBookmarkController {
 
         bookMarkModel.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
 
-        repository.persist(bookMarkModel);
-
-
-
+      //  repository.persist(bookMarkModel);
 
         GeneralResponse response = new GeneralResponse();
-        response.setStatusCode(0);
-        response.setMessage("Add Book mark Success");
+        BookMarkModel model =new BookMarkModel();
+
+        if (request.getOperation() == 1) {
+            model.setPost_id(request.getPost_id());
+            model.setAdded_by(request.getAdded_by());
+            repository.persist(bookMarkModel);
+
+         response.setStatusCode(0);
+         response.setMessage("Add Book mark Success");
+         response.setStatus(true);
+
+        } else if (request.getOperation() == 2) {
+
+        String string = "DELETE FROM student_posts_saved WHERE post_id=? and added_by=? and type=?";
+
+        Query query = getEntityManager().createNativeQuery(string);
+        query.setParameter(1,request.getPost_id());
+        query.setParameter(2,request.getAdded_by());
+        query.setParameter(3,request.getType());
+
+        query.executeUpdate();
+
+        response.setMessage("Delete book mark");
         response.setStatus(true);
+        response.setStatusCode(0);
+        } else {
+            response.setMessage("Unable to proceed");
+            response.setStatus(false);
+            response.setStatusCode(1);
+        }
 
         return  response;
 
     }
-
 
 }

@@ -4,6 +4,7 @@ public class AddBookmarkRequest {
     int post_id;
     String type;
     int added_by;
+    int operation;
 
 
     public String getType() {
@@ -28,5 +29,13 @@ public class AddBookmarkRequest {
 
     public void setAdded_by(int added_by) {
         this.added_by = added_by;
+    }
+
+    public int getOperation() {
+        return operation;
+    }
+
+    public void setOperation(int operation) {
+        this.operation = operation;
     }
 }
