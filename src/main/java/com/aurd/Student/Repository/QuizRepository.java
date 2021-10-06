@@ -29,30 +29,28 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
 
                if(request.getCourse_id()!=0 && request.getSubject_id()==0){
-               arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and course_id=?3",
+               arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and course_id=?3 ORDER BY added_on",
                      request.getInst_id(),request.getType(),request.getCourse_id()).list();
-
-
 
 
 
                 return  arrayList;
 
             }else if(request.getSubject_id()!=0 && request.getCourse_id() ==0){
-                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3",
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 ORDER BY added_on",
                        request.getInst_id(),request.getType(),request.getSubject_id()).list();
 
                   return arrayList;
 
             }else if(request.getCourse_id()!=0 && request.getSubject_id()!=0){
-                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 and course_id = ?4",
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 and course_id = ?4 ORDER BY added_on",
                         request.getInst_id(),request.getType(),request.getSubject_id(),request.getCourse_id()).list();
 
                 return arrayList;
 
             }
                else{
-                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 ",
+                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 ORDER BY added_on",
                            request.getInst_id().intValue(),request.getType()).list();
 
                    return arrayList;

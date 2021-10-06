@@ -24,22 +24,22 @@ public class GetKeyNotesRepository implements PanacheRepository<KeyNotesModel>
         ArrayList<KeyNotesModel> arrayList = new ArrayList();
         if(request.getSubjectId().equals(0) && request.getCourseId().equals(0)){
 
-            List<KeyNotesModel> list = list("student_id=?1 ORDER BY created_at",request.getStudent_id());
+            List<KeyNotesModel> list = list("student_id=?1 ORDER BY added_on",request.getStudent_id());
             arrayList.addAll(list);
 
         } else if(!request.getCourseId().equals(0)&&! request.getSubjectId().equals(0)){
          arrayList  = (ArrayList<KeyNotesModel>)
-                    list("student_id=?1 and course_id =?2 and subject_id = ?3",request.getStudent_id(),request.getCourseId(),request.getSubjectId());
+                    list("student_id=?1 and course_id =?2 and subject_id = ?3 ORDER BY added_on",request.getStudent_id(),request.getCourseId(),request.getSubjectId());
 
         } else if(!request.getCourseId().equals(0) &&request.getSubjectId().equals(0)){
             arrayList  = (ArrayList<KeyNotesModel>)
-                    list("student_id=?1 and course_id =?2",request.getStudent_id(),request.getCourseId());
+                    list("student_id=?1 and course_id =?2 ORDER BY added_on",request.getStudent_id(),request.getCourseId());
 
         }
 
         else if(!request.getSubjectId().equals(0) && request.getCourseId().equals(0)){
              arrayList  = (ArrayList<KeyNotesModel>)
-                    list("student_id=?1 and subject_id =?2",request.getStudent_id(),request.getSubjectId());
+                    list("student_id=?1 and subject_id =?2 ORDER BY added_on",request.getStudent_id(),request.getSubjectId());
 
         }
         return  arrayList;
