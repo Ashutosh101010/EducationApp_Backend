@@ -7,11 +7,13 @@ import com.aurd.Student.Model.Response.StudentPostCommentResponse;
 import com.aurd.Student.Repository.CommentReplyRepository;
 import com.aurd.Student.Repository.NotesCommentRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
+import com.aurd.Student.Repository.StudentRepository;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -43,6 +45,9 @@ public class GetAllCommentController {
     @Inject
     NotesCommentRepository notesComentRepository;
 
+    @Inject
+    StudentRepository studentRepository;
+
     @Transactional
     @POST
 
@@ -54,14 +59,17 @@ public class GetAllCommentController {
 
         if(request.getType().equals("blog")){
 
-
           ArrayList<Blog_Comment_Model> commentList = (ArrayList<Blog_Comment_Model>)
                   blog_repository.list("blog_id",request.getPost_id());
           commentList.forEach(model -> {
               CommentEntity entity = new CommentEntity();
               entity.setComment(model.getComment());
               entity.setComment_id(model.getComment_id());
-              entity.setFname(model.getStud_name());
+            //  entity.setFname(model.getStud_name());
+
+              StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
+              entity.setFname(studentModel.getFname());
+
               entity.setPost_id(model.getBlog_id_id());
               entity.setUser_id(model.getAdded_by());
               entity.setAdded_on(model.getAdded_on());
@@ -77,16 +85,15 @@ public class GetAllCommentController {
           if(arrayList.isEmpty()){
 
               response.setComments(arrayList);
+              response.setMessage("Comment not found");
               response.setStatus(false);
               response.setStatusCode(1);
           }else{
               response.setComments(arrayList);
+              response.setMessage("Get comment Successful");
               response.setStatus(true);
               response.setStatusCode(0);
           }
-
-
-
 
         }
         else if(request.getType().equals("currentAffair")){
@@ -98,7 +105,11 @@ public class GetAllCommentController {
                 CommentEntity entity = new CommentEntity();
                 entity.setComment(model.getComment());
                 entity.setComment_id(model.getComment_id());
-                entity.setFname(model.getStud_name());
+             //   entity.setFname(model.getStud_name());
+
+                StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
+                entity.setFname(studentModel.getFname());
+
                 entity.setPost_id(model.getCurrent_affair_id());
                 entity.setUser_id(model.getAdded_by());
                 entity.setAdded_on(model.getAdded_on());
@@ -130,8 +141,15 @@ public class GetAllCommentController {
                 CommentEntity entity = new CommentEntity();
                 entity.setComment(model.getComment());
                 entity.setComment_id(model.getComment_id());
-                entity.setFname(model.getStud_name());
+
                 entity.setPost_id(model.getPost_id());
+
+                StudentModel studentModel = studentRepository.find("id",model.getAdded_by()).firstResult();
+
+                entity.setFname(studentModel.getFname());
+
+                System.out.println(studentModel.getFname());
+
                Integer integer = Math.toIntExact(model.getAdded_by());
                 entity.setUser_id(integer);
                 entity.setAdded_on(model.getAdded_on());
@@ -147,17 +165,17 @@ public class GetAllCommentController {
             if(arrayList.isEmpty()){
 
                 response.setComments(arrayList);
+                response.setMessage("comment not found");
                 response.setStatus(false);
                 response.setStatusCode(1);
             }else{
                 response.setComments(arrayList);
+                response.setMessage("Get comment Successful ");
                 response.setStatus(true);
                 response.setStatusCode(0);
             }
 
         }
-
-
 
         else  if(request.getType().equals("notes")){
 
@@ -167,8 +185,12 @@ public class GetAllCommentController {
                 CommentEntity entity = new CommentEntity();
                 entity.setComment(model.getComment());
                 entity.setComment_id(model.getComment_id());
-                entity.setFname(model.getStud_name());
+            //    entity.setFname(model.getStud_name());
                 entity.setPost_id(model.getNotes_id());
+                StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
+                entity.setFname(studentModel.getFname());
+
+
                 Integer integer = Math.toIntExact(model.getAdded_by());
                 entity.setUser_id(integer);
                 entity.setAdded_on(model.getAdded_on());
@@ -184,26 +206,19 @@ public class GetAllCommentController {
             if(arrayList.isEmpty()){
 
                 response.setComments(arrayList);
+                response.setMessage("comment not found");
                 response.setStatus(false);
                 response.setStatusCode(1);
             }else{
                 response.setComments(arrayList);
+                response.setMessage("Get comment Successful");
                 response.setStatus(true);
                 response.setStatusCode(0);
             }
-
         }
 
-
-
-
-
         return  response;
-
-
     }
-
-
 
    ArrayList getCommentReply(int id){
      ArrayList<Comment_Reply_Model> list = (ArrayList<Comment_Reply_Model>)
