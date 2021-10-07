@@ -31,6 +31,16 @@ public class QuizEntity
     private  boolean attempt;
     private long indexId;
 
+    private long timeStamp;
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public long getIndexId() {
         return indexId;
     }

@@ -16,6 +16,16 @@ public class BlogEntity {
     private  Integer added_by;
     String type;
     private long indexId;
+    private long timeStamp;
+
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public long getIndexId() {
         return indexId;

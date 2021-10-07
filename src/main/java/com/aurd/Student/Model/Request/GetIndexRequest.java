@@ -11,13 +11,13 @@ public class GetIndexRequest {
     String filter;
 
     int pageCount;
-    int lastId=-1;
+    String lastId;
 
-    public int getLastId() {
+    public String getLastId() {
         return lastId;
     }
 
-    public void setLastId(int lastId) {
+    public void setLastId(String lastId) {
         this.lastId = lastId;
     }
 
