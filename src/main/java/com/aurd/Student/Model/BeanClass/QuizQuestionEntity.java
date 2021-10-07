@@ -21,6 +21,23 @@ public class QuizQuestionEntity {
     long subject_id;
     long option_id;
     String option_discription;
+    String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public long getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(long subject_id) {
+        this.subject_id = subject_id;
+    }
 
     public long getOption_id() {
         return option_id;

@@ -59,8 +59,18 @@ public class GetStudentprofile {
         tempPostList.forEach(objects -> {
                     StudentPostEntity postModel = new StudentPostEntity();
                     postModel.setId(Long.parseLong(objects[0].toString()));
-                    postModel.setDescription(objects[1].toString());
-                    //  postModel.setPic(objects[2].toString());
+                    if(objects[1].toString()==null){
+                        postModel.setDescription("");
+                    }else{
+                        postModel.setDescription(objects[1].toString());
+                    }
+
+
+                    if(objects[2].toString()==null){
+                        postModel.setPic("");
+                    }else{
+                          postModel.setPic(objects[2].toString());
+                    }
                     postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
                     postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
                     postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));

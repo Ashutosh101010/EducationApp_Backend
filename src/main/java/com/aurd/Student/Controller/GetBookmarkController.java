@@ -53,6 +53,9 @@ public class GetBookmarkController {
     @Inject
     StudentPostLikedRepository likedRepository;
 
+    @Inject
+    StudentRepository studentRepository;
+
 
 
 
@@ -71,10 +74,18 @@ public class GetBookmarkController {
 
         arrayList.forEach(bookMarkModel -> {
             if(bookMarkModel.getType().equals("post")){
-               StudentPostEntity postModel = getStudentPost(bookMarkModel.getPost_id(),bookMarkModel.getAdded_by());
+               StudentPostEntity postModel =
+                       getStudentPost(bookMarkModel.getPost_id(),bookMarkModel.getAdded_by());
+
+             StudentModel model = studentRepository.find("id",postModel.getAdded_by().longValue()).firstResult();
+
+               postModel.setAdded(true);
+               postModel.setName(model.getFname());
                 postList.add(postModel);
             }else if(bookMarkModel.getType().equals("currentAffair")){
-               CurrentAffairEntity currentAffairModel = getCurrentAffair(bookMarkModel.getPost_id(),bookMarkModel.getAdded_by());
+               CurrentAffairEntity currentAffairModel =
+                       getCurrentAffair(bookMarkModel.getPost_id(),bookMarkModel.getAdded_by());
+               currentAffairModel.setAdded(true);
                caList.add(currentAffairModel);
             }
         });

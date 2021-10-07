@@ -18,6 +18,15 @@ public class CurrentAffairEntity {
     String name;
     boolean added;
     String type;
+    private long timeStamp;
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     private long indexId;
 
