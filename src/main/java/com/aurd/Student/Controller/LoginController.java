@@ -22,6 +22,8 @@ public class LoginController {
     @Inject
     StudentRepository repository;
 
+
+
     @POST
     public LoginResponse loginStudent(LoginRequest request){
 

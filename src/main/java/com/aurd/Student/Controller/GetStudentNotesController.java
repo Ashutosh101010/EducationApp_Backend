@@ -37,6 +37,7 @@ public class GetStudentNotesController {
         String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
                 "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? and student_notes.inst_id = ? ORDER BY added_on DESC ";
 
+
         Query query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getStud_id());
         query.setParameter(2,request.getInst_id());

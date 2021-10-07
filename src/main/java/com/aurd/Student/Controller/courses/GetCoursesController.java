@@ -60,13 +60,13 @@ public class GetCoursesController {
           courses.add(courseEntity);
       }
 
-        ArrayList<NotesModel>notesList = notesRepository.getNotesList(request.getInst_id());
-        if(!notesList.isEmpty()){
-            int videoLectureCount =  videoLectureRepository.getVideoLectureCount(request.getInst_id());
-            getCoursesResponse.setNotesCount(notesList.size());
-            getCoursesResponse.setVideoLectureCount(videoLectureCount);
-
-        }
+//        ArrayList<NotesModel>notesList = notesRepository.getNotesList(request.getInst_id());
+//        if(!notesList.isEmpty()){
+//            int videoLectureCount =  videoLectureRepository.getVideoLectureCount(request.getInst_id());
+//            getCoursesResponse.setNotesCount(notesList.size());
+//            getCoursesResponse.setVideoLectureCount(videoLectureCount);
+//
+//        }
 
 
 

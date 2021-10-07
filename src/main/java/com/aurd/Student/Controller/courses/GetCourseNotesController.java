@@ -74,7 +74,7 @@ public class GetCourseNotesController {
                     " FROM notes INNER JOIN employees ON employees.id= notes.created_by " +
                     "INNER JOIN topics ON topics.id= notes.topicId INNER JOIN subjects ON " +
                     "subjects.id = notes.subject_id INNER JOIN courses ON courses.id = notes.course_id" +
-                    " WHERE notes.inst_id = ? and notes.topicId = ? ";
+                    " WHERE notes.inst_id = ? and notes.topicId = ? ORDER BY created_at DESC ";
 
             Query query = repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getInst_id());
@@ -89,7 +89,7 @@ public class GetCourseNotesController {
                     " FROM notes INNER JOIN employees ON employees.id= notes.created_by " +
                     "INNER JOIN topics ON topics.id= notes.topicId INNER JOIN subjects ON " +
                     "subjects.id = notes.subject_id INNER JOIN courses ON courses.id = notes.course_id" +
-                    " WHERE notes.inst_id = ? and notes.topicId = ? and notes.fee_type=?";
+                    " WHERE notes.inst_id = ? and notes.topicId = ? and notes.fee_type=? ORDER BY created_at DESC ";
 
             Query query = repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getInst_id());
@@ -203,12 +203,8 @@ public class GetCourseNotesController {
             Integer likeCount =  likeList.size();
             notesEntity.setLike(likeCount.longValue());
 
-
-
-
             notesList.add(notesEntity);
         });
-
 
         GetNotesResponse getNotesResponse = new GetNotesResponse();
         getNotesResponse.setNotes(notesList);
