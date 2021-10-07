@@ -13,7 +13,7 @@ public class StudentCourseRepository implements PanacheRepository<StudentCourseM
     public ArrayList getStudentCourses(GetStudentCourseRequest request){
         try {
             ArrayList<StudentCourseModel> arrayList = (ArrayList<StudentCourseModel>)
-                    list("inst_id =?1 and userId=?2",
+                    list("inst_id =?1 and userId=?2 ORDER BY created_at DESC " ,
                             request.getInst_id(),request.getUserId());
 
             System.out.println(arrayList.size());

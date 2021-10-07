@@ -46,6 +46,8 @@ public class GetStudentCoursesController {
             StudentCourseEntity studentCourseEntity = gson.fromJson(new Gson().toJson(studentCourseModel),
                     StudentCourseEntity.class);
 
+            System.out.println(studentCourseModel.getCourseId());
+
             CourseModel courseModel = repository.getCourseDetails
                     (studentCourseModel.getInst_id(),studentCourseModel.getCourseId());
 
