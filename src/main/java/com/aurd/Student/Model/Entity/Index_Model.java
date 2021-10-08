@@ -27,6 +27,18 @@ public class Index_Model {
     @Column(name="inst_id",nullable = false)
     private Long inst_id;
 
+
+    @Transient
+    private long timeStamp;
+
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public Long getInst_id() {
         return inst_id;
     }

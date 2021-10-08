@@ -8,7 +8,16 @@ public class SolutionEntity {
     String question;
     String myAnswer;
     String answer;
+    String description;
     ArrayList<Question_Option_Model> options = new ArrayList<>();
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public ArrayList<Question_Option_Model> getOptions() {
         return options;

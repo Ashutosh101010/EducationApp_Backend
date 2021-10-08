@@ -109,9 +109,7 @@ public class GetIndexController {
                             "Index_Model.type=:type and Index_Model.created_on < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
                     query.setParameter("instId",request.getInst_id());
                     query.setParameter("type",request.getFilter());
-                    query.setParameter("lastId",request.getLastId());
-
-
+                    query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
 
 //                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
 
@@ -127,11 +125,11 @@ public class GetIndexController {
 
                 if(request.getDate()!=null && !request.getDate().isEmpty())
                 {
-                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()-86400000);
+                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
                     System.out.println(startDate);
                     query.setParameter("startDate",startDate);
 //                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
-                    Date endDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()+86400000);
+                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
                     System.out.println(endDate);
                     query.setParameter("endDate",endDate);
 
@@ -148,9 +146,9 @@ public class GetIndexController {
                 if(request.getLastId()!=null && !request.getLastId().isEmpty())
                 {
                      query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
-                            " and Index_Model.id < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
+                            " and Index_Model.created_on < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
                     query.setParameter("instId",request.getInst_id());
-                    query.setParameter("lastId",request.getLastId());
+                    query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
 
 
                 }
@@ -166,7 +164,7 @@ public class GetIndexController {
                 System.out.println(startDate);
                 query.setParameter("startDate",startDate);
 
-                Date endDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()+86400000);
+                Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime()+86400000);
                 System.out.println(endDate);
                 query.setParameter("endDate",endDate);
 
@@ -187,6 +185,7 @@ public class GetIndexController {
 
          arrayList.forEach(model -> {
 
+             model.setTimeStamp(model.getCreated_on().getTime());
              if(model.getType().equals("blog")){
              //    Long value = Long.valueOf(model.getPost_id());
 

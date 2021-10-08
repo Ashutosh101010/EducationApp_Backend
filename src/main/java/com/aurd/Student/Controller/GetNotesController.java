@@ -96,6 +96,7 @@ public class GetNotesController {
             notesEntity.setSubject(objects[12].toString());
             notesEntity.setCourse(objects[13].toString());
             notesEntity.setFee_type(objects[14].toString());
+            notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
 
 
 //            if(objects[14].equals(null)){

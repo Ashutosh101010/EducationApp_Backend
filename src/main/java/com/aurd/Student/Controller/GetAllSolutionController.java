@@ -66,6 +66,8 @@ public class GetAllSolutionController{
         questionModels.forEach(quiz_question_model -> {
 
 
+
+
             SolutionEntity entity = new SolutionEntity();
 
             ArrayList<Question_Option_Model> optionList =
@@ -75,6 +77,12 @@ public class GetAllSolutionController{
             entity.setOptions(optionList);
             entity.setQuestion(quiz_question_model.getQuestion());
             entity.setAnswer(quiz_question_model.getAnswer());
+
+            if (quiz_question_model.getAns_description() == null) {
+                entity.setDescription("");
+            }else{
+                entity.setDescription(quiz_question_model.getAns_description());
+            }
 
             for(int i=0;i<arrayList.size();i++)
             {
