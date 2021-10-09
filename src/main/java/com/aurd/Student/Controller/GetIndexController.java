@@ -94,6 +94,7 @@ public class GetIndexController {
         ArrayList<Index_Model> arrayList = new ArrayList<>();
         ArrayList<Object[]> list = null;
         ArrayList<Object> vList = new ArrayList<>();
+        int maxResultCount =5;
 
             System.out.println(request.getFilter());
             System.out.println("Some filter entry");
@@ -139,7 +140,7 @@ public class GetIndexController {
                     query.setParameter("endDate",new Date(System.currentTimeMillis()));
                 }
 
-                arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
+                arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
             }
             else{
             Query query=null;
@@ -174,7 +175,7 @@ public class GetIndexController {
                 query.setParameter("endDate",new Date(System.currentTimeMillis()));
             }
 
-            arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
+            arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
             }
 
 

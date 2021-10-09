@@ -87,6 +87,7 @@ public class GetAllSolutionController{
             for(int i=0;i<arrayList.size();i++)
             {
                 Quiz_Submit_Model quiz_submit_model=arrayList.get(i);
+                entity.setMarkForReview(arrayList.get(i).getMarkForReview());
                 if(quiz_submit_model.getQues_id()==quiz_question_model.getQuestion_id())
                 {
 entity.setMyAnswer(quiz_submit_model.getAns());
@@ -98,6 +99,8 @@ break;
             {
                 entity.setMyAnswer("");
             }
+
+
 
 
             solution.add(entity);

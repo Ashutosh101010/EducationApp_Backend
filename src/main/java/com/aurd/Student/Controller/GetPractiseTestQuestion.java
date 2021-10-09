@@ -71,6 +71,9 @@ public class GetPractiseTestQuestion {
             if(quizQuestionIDList.get(i).getSubject_id()!=0){
                 subjectModel = subjectRepository.
                         find("id",quizQuestionIDList.get(i).getSubject_id()).firstResult();
+                model.setSubject(subjectModel.getSubject());
+
+                model.setSubject_id(subjectModel.getId());
             }
 
             model.setQues_id(quizQuestionIDList.get(i).getQues_id());
@@ -82,8 +85,7 @@ public class GetPractiseTestQuestion {
             model.setAns_description(quizQuestionModel.getAns_description());
             model.setAdded_on(quizQuestionModel.getAdded_on());
             model.setPic(quizQuestionModel.getPic());
-            model.setSubject(subjectModel.getSubject());
-            model.setSubject_id(subjectModel.getId());
+
             
            
 

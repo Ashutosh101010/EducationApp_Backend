@@ -133,6 +133,7 @@ public class GetBookmarkController {
 
         Integer likeCount =  likeList.size();
         postEntity.setLike(likeCount.longValue());
+        postEntity.setTimeStamp(postModel.getAdded_on().getTime());
 
         return postEntity;
     }
@@ -170,6 +171,7 @@ public class GetBookmarkController {
 
         Integer likeCount =  likeList.size();
         entity.setLike(likeCount.longValue());
+        entity.setTimeStamp(currentAffairModel.getCreated_at().getTime());
 
         return  entity;
     }

@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.quarkus.runtime.annotations.IgnoreProperty;
 import io.smallrye.common.constraint.Nullable;
 
 import javax.persistence.*;
@@ -44,9 +45,19 @@ public class Quiz_Submit_Model {
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private Timestamp added_on;
 
-    @Column(name = "inst_id ",nullable = false)
+    @Column(name = "inst_id",nullable = false)
     private  int inst_id;
 
+    @Column(name = "markForReview",nullable = false)
+    private  int markForReview;
+
+    public int getMarkForReview() {
+        return markForReview;
+    }
+
+    public void setMarkForReview(int markForReview) {
+        this.markForReview = markForReview;
+    }
 
     public long getId() {
         return id;

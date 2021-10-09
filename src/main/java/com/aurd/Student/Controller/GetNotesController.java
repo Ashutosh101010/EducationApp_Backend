@@ -22,7 +22,7 @@ import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
-@Path("/notes/getInsituteNotes")
+@Path("/notes/getInstituteNotes")
 
 public class GetNotesController {
 

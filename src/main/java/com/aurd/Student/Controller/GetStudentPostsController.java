@@ -68,6 +68,7 @@ public class GetStudentPostsController {
             postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
            postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
             postModel.setName(objects[6].toString());
+            postModel.setTimeStamp(Timestamp.valueOf(objects[5].toString()).getTime());
 
 
             Integer commentCount = getCommentCount(postModel);
@@ -108,11 +109,10 @@ public class GetStudentPostsController {
                             .firstResult();
 
                     en.setName(sm.getFname());
+                    en.setTimeStamp(ps.getAdded_on().getTime());
 
                     Integer count = getCommentCount(en);
                     en.setComment(count.longValue());
-
-
 
                     ArrayList<Object[]> like = getLiked(en);
                     like.forEach(likeObject -> {

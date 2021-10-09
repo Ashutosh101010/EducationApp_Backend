@@ -10,6 +10,15 @@ public class SolutionEntity {
     String answer;
     String description;
     ArrayList<Question_Option_Model> options = new ArrayList<>();
+    int markForReview ;
+
+    public int getMarkForReview() {
+        return markForReview;
+    }
+
+    public void setMarkForReview(int markForReview) {
+        this.markForReview = markForReview;
+    }
 
     public String getDescription() {
         return description;
