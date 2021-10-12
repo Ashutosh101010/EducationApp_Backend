@@ -23,6 +23,7 @@ public class NotesCommentRepository implements PanacheRepository<NotesCommentMod
 
         commentModel.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
         commentModel.setNotes_id(request.getPost_id());
+        commentModel.setType("student");
         persist(commentModel);
         return true;
 

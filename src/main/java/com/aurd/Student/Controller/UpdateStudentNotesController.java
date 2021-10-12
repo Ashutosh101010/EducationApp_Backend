@@ -1,4 +1,4 @@
-package com.aurd.Student;
+package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.Request.UpdateStudentNotesRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/students/updateStudentNotesController")
+@Path("/students/updateStudentNotes")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class UpdateStudentNotesController {

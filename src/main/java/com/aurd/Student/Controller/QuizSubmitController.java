@@ -1,6 +1,7 @@
 package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.ResultEntity;
+import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
 import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.QuizSubmitRequest;
@@ -64,13 +65,14 @@ public class QuizSubmitController {
             long wrongAns = 0;
             int skippedAns = 0;
 
+            ArrayList<TopicAnalysisModel> tList = new ArrayList<>();
+
 
             ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
                     (ArrayList<Quiz_Question_Map_Model>) questionID_repository.
                             getQuestionID(request.getArrayList().get(0).getQuiz_id());
 
             System.out.println(quizQuestionIDList.size());
-            Quiz_Question_Model quizQuestionModel;
 
             for(Quiz_Question_Map_Model model :quizQuestionIDList){
 
@@ -83,16 +85,39 @@ public class QuizSubmitController {
             QuizModel quizModel = quizRepository.find("quiz_id",
                     request.getArrayList().get(0).getQuiz_id()).firstResult();
 
+
+            TopicAnalysisModel analysisModel = new TopicAnalysisModel();
+
+
             for(int i=0;i<request.getArrayList().size();i++)
             {
+
                 Quiz_Submit_Model quiz_submit_model=request.getArrayList().get(i);
                 Quiz_Question_Model  quizQuestion = quizQuestionRepository.
                         getQuestions(quiz_submit_model.getQues_id());
+
+                int topicQues = 0;
+                int topicMarksObtained = 0;
+
+
+                if(quiz_submit_model.getSubjectId()!=null){
+                    if(quiz_submit_model.getSubjectId()==quizQuestion.getSubject_id()){
+                        analysisModel.setSubject(quiz_submit_model.getSubject());
+                        topicQues++;
+                        analysisModel.setQuestions(topicQues);
+                    }
+                }
+
 
                 if(quiz_submit_model.getAns().equals(quizQuestion.getAnswer()))
                 {
                     correctAns++;
                     marksObtained = marksObtained + quizModel.getMarks_per_ques();
+
+                    if(quiz_submit_model.getSubjectId() == quizQuestion.getSubject_id()){
+                        topicMarksObtained = topicMarksObtained+quizModel.getMarks_per_ques();
+                    }
+
                 }
                 else{
                     wrongAns++;
@@ -102,11 +127,29 @@ public class QuizSubmitController {
                        int den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
 
                        marksObtained=marksObtained-((num/den)*quizModel.getMarks_per_ques());
+
+
+
+                       if(quiz_submit_model.getSubjectId() == quizQuestion.getSubject_id()){
+                           topicMarksObtained =
+                                    topicMarksObtained-((num/den)*quizModel.getMarks_per_ques());
+
+                       }
                     }
+
+
                 }
+
+                analysisModel.setQuestions(topicQues);
+                analysisModel.setMarksObtained(topicMarksObtained);
+
+
             }
 
-skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
+            tList.add(analysisModel);
+
+
+            skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
 //            ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
 //                    (request.getArrayList().get(0).getInst_id(),
 //                            request.getArrayList().get(0).getStud_id(),
@@ -174,8 +217,6 @@ skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
 
 
             resultModel.setMarks_obtained(marksObtained.intValue());
-
-
             resultModel.setTotal_marks(totalMarks);
             resultModel.setWrong_ans(wrongAns);
             resultModel.setCorrect_ans(correctAns);
@@ -199,7 +240,8 @@ skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
 
 
 
-         StudentModel model =  studentRepository.find("id",resultModel.getStud_id()).firstResult();
+         StudentModel model =  studentRepository.
+                 find("id",resultModel.getStud_id()).firstResult();
 
             resultModel.setName(model.getFname());
             resultRepository.persist(resultModel);
@@ -216,6 +258,7 @@ skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
             response.setMessage("Your Quiz is submitted..");
             response.setResult(resultModel);
             response.setResultList(arrayList1);
+            response.setTopics(tList);
         }else{
             response.setErrorCode(1);
             response.setStatus(false);

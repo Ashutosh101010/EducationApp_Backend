@@ -57,6 +57,7 @@ public class GetStudentPostsController {
         studentPost.setParameter(1,request.getInst_id());
         studentPost.setParameter(2,request.getStud_id());
 
+
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
         tempPostList.forEach(objects -> {
@@ -89,46 +90,6 @@ public class GetStudentPostsController {
 
             postList.add(postModel);
 
-            ArrayList<Student_Posts_Commented> postsCommentedArrayList = getPostCommented(request);
-            postsCommentedArrayList.forEach(student_posts_commented -> {
-                if( student_posts_commented.getPost_id()!=postModel.getId()){
-                    System.out.println("----------------"+student_posts_commented.getPost_id());
-                    System.out.println("-------"+postModel.getId());
-
-                    long id = Long.valueOf(student_posts_commented.getPost_id());
-
-                    StudentPostModel ps = postRepository.find("id",
-                            id).firstResult();
-
-                    System.out.println(ps.getAdded_by());
-
-                    StudentPostEntity en = new Gson().fromJson(new Gson().toJson(ps),
-                            StudentPostEntity.class);
-
-                    StudentModel sm = studentRepository.find("id",en.getAdded_by().longValue())
-                            .firstResult();
-
-                    en.setName(sm.getFname());
-                    en.setTimeStamp(ps.getAdded_on().getTime());
-
-                    Integer count = getCommentCount(en);
-                    en.setComment(count.longValue());
-
-                    ArrayList<Object[]> like = getLiked(en);
-                    like.forEach(likeObject -> {
-                        if(request.getStud_id() == Long.parseLong(likeObject[1].toString())){
-                            System.out.println("Liked");
-                            en.setLiked(true);
-                        }
-                    });
-
-                    Integer likec =  likeList.size();
-                    en.setLike(likec.longValue());
-
-
-                    postList.add(en);
-                }
-            });
 
 
 
@@ -137,7 +98,7 @@ public class GetStudentPostsController {
 
         });
 
-
+        getPostCommented(request,postList);
 
 
         if(postList.isEmpty()){
@@ -177,9 +138,56 @@ public class GetStudentPostsController {
 
 
 
-    ArrayList getPostCommented(GetStudentPostRequest request){
+
+
+
+    ArrayList getPostCommented(GetStudentPostRequest request,ArrayList<StudentPostEntity> postModel){
         ArrayList<Student_Posts_Commented> arrayList = (ArrayList<Student_Posts_Commented>)
                 commentRepository.list("added_by",request.getStud_id());
+
+
+        arrayList.forEach(student_posts_commented -> {
+
+            if( ! postModel.contains(student_posts_commented.getPost_id())){
+                System.out.println("----------------"+student_posts_commented.getPost_id());
+//                System.out.println("-------"+postModel.getId());
+
+                long id = Long.valueOf(student_posts_commented.getPost_id());
+
+                StudentPostModel ps = postRepository.find("id",
+                        id).firstResult();
+
+                System.out.println(ps.getAdded_by());
+
+                StudentPostEntity en = new Gson().fromJson(new Gson().toJson(ps),
+                        StudentPostEntity.class);
+
+                StudentModel sm = studentRepository.find("id",en.getAdded_by().longValue())
+                        .firstResult();
+
+                en.setName(sm.getFname());
+                en.setTimeStamp(ps.getAdded_on().getTime());
+
+                Integer count = getCommentCount(en);
+                en.setComment(count.longValue());
+
+                ArrayList<Object[]> like = getLiked(en);
+                like.forEach(likeObject -> {
+                    if(request.getStud_id() == Long.parseLong(likeObject[1].toString())){
+                        System.out.println("Liked");
+                        en.setLiked(true);
+                    }
+                });
+
+                Integer likec =  like.size();
+                en.setLike(likec.longValue());
+
+                postModel.add(en);
+            }
+
+        });
+
+
 
         System.out.println(arrayList.size());
 

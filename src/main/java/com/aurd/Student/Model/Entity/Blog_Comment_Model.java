@@ -30,10 +30,26 @@ public class Blog_Comment_Model {
     @Column(name = "added_by",nullable = false)
     private int added_by;
 
+    @Column(name = "type",nullable = false)
+    private String type;
+
+    @Transient
     @Column(name = "stud_name",nullable = false)
     @NotBlank
     private String stud_name;
 
+
+    public int getBlog_id() {
+        return blog_id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getStud_name() {
         return stud_name;

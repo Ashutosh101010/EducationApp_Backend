@@ -29,6 +29,7 @@ public class StudentPostCommentRepository implements PanacheRepository<Student_P
         Calendar calendar = Calendar.getInstance();
 
         studentPostsCommented.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
+        studentPostsCommented.setType("student");
         persist(studentPostsCommented);
         return true;
 

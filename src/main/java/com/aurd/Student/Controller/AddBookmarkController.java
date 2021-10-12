@@ -45,12 +45,9 @@ public class AddBookmarkController {
       //  repository.persist(bookMarkModel);
 
         GeneralResponse response = new GeneralResponse();
-        BookMarkModel model =new BookMarkModel();
 
         if (request.getOperation() == 1) {
-            model.setPost_id(request.getPost_id());
-            model.setAdded_by(request.getAdded_by());
-            repository.persist(bookMarkModel);
+           repository.persist(bookMarkModel);
 
          response.setStatusCode(0);
          response.setMessage("Add Book mark Success");

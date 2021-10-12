@@ -51,6 +51,29 @@ public class Quiz_Submit_Model {
     @Column(name = "markForReview",nullable = false)
     private  int markForReview;
 
+
+    @Column(name = "subjectId",nullable = true)
+    private  Integer subjectId;
+
+    @Column(name = "subject",nullable = true)
+    private  String subject;
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     public int getMarkForReview() {
         return markForReview;
     }
