@@ -10,16 +10,15 @@ public class AddPostCommentRequest {
     long added_by;
     Timestamp added_on;
     String type;
-    String stud_name;
+ //   String stud_name;
 
-
-    public String getStud_name() {
-        return stud_name;
-    }
-
-    public void setStud_name(String stud_name) {
-        this.stud_name = stud_name;
-    }
+//    public String getStud_name() {
+//        return stud_name;
+//    }
+//
+//    public void setStud_name(String stud_name) {
+//        this.stud_name = stud_name;
+//    }
 
     public String getType() {
         return type;
