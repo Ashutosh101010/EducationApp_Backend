@@ -5,7 +5,15 @@ public class TopicAnalysisModel {
     int questions;
     String percent;
     int marksObtained;
+    int totalMarks;
 
+    public int getTotalMarks() {
+        return totalMarks;
+    }
+
+    public void setTotalMarks(int totalMarks) {
+        this.totalMarks = totalMarks;
+    }
 
     public String getSubject() {
         return subject;

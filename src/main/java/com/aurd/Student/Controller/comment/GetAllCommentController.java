@@ -4,10 +4,7 @@ import com.aurd.Student.Model.BeanClass.CommentEntity;
 import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.GetCommentRequest;
 import com.aurd.Student.Model.Response.StudentPostCommentResponse;
-import com.aurd.Student.Repository.CommentReplyRepository;
-import com.aurd.Student.Repository.NotesCommentRepository;
-import com.aurd.Student.Repository.StudentPostCommentRepository;
-import com.aurd.Student.Repository.StudentRepository;
+import com.aurd.Student.Repository.*;
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
 import com.google.gson.Gson;
@@ -48,6 +45,9 @@ public class GetAllCommentController {
     @Inject
     StudentRepository studentRepository;
 
+    @Inject
+    TeacherRepository teacherRepository;
+
     @Transactional
     @POST
 
@@ -65,18 +65,18 @@ public class GetAllCommentController {
               CommentEntity entity = new CommentEntity();
               entity.setComment(model.getComment());
               entity.setComment_id(model.getComment_id());
-              entity.setFname(model.getStudentModel().getFname());
-            //  entity.setFname(model.getStud_name());
+
+              if(model.getType().equals("student")){
+                  StudentModel studentModel = studentRepository.find("id",
+                          Long.valueOf(model.getAdded_by())).firstResult();
+                  entity.setFname(studentModel.getFname());
+              }else if(model.getType().equals("faculty")){
+                  TeacherModel teacherModel = teacherRepository.findTeacher(Long.valueOf(model.getAdded_by()));
+                  entity.setFname(teacherModel.getFname());
+              }
 
 
-         //     if(studentModel.getFname==null){
-         //         entity.setFname(studentModel.getFname);
-//
-          //    }else {
 
-//                StudentModel studentModel = studentRepository.find("id", Long.valueOf(model.getAdded_by())).firstResult();
-//                  entity.setFname(studentModel.getFname());
-//          //    }
               entity.setPost_id(model.getBlog_id_id());
               entity.setUser_id(model.getAdded_by());
               entity.setAdded_on(model.getAdded_on());
@@ -114,8 +114,17 @@ public class GetAllCommentController {
                 entity.setComment_id(model.getComment_id());
              //   entity.setFname(model.getStud_name());
 
-                StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
-                entity.setFname(studentModel.getFname());
+//                StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
+//                entity.setFname(studentModel.getFname());
+
+                if(model.getType().equals("student")){
+                    StudentModel studentModel = studentRepository.find("id",
+                            Long.valueOf(model.getAdded_by())).firstResult();
+                    entity.setFname(studentModel.getFname());
+                }else if(model.getType().equals("faculty")){
+                    TeacherModel teacherModel = teacherRepository.findTeacher(Long.valueOf(model.getAdded_by()));
+                    entity.setFname(teacherModel.getFname());
+                }
 
                 entity.setPost_id(model.getCurrent_affair_id());
                 entity.setUser_id(model.getAdded_by());
@@ -150,12 +159,19 @@ public class GetAllCommentController {
                 entity.setComment_id(model.getComment_id());
 
                 entity.setPost_id(model.getPost_id());
+                if(model.getType().equals("student")){
+                    StudentModel studentModel = studentRepository.find("id",
+                            Long.valueOf(model.getAdded_by())).firstResult();
+                    entity.setFname(studentModel.getFname());
+                }else if(model.getType().equals("faculty")){
+                    TeacherModel teacherModel = teacherRepository.findTeacher(Long.valueOf(model.getAdded_by()));
+                    entity.setFname(teacherModel.getFname());
+                }
 
-                StudentModel studentModel = studentRepository.find("id",model.getAdded_by()).firstResult();
+//                StudentModel studentModel = studentRepository.find("id",model.getAdded_by()).firstResult();
+//
+//                entity.setFname(studentModel.getFname());
 
-                entity.setFname(studentModel.getFname());
-
-                System.out.println(studentModel.getFname());
 
                Integer integer = Math.toIntExact(model.getAdded_by());
                 entity.setUser_id(integer);
@@ -194,8 +210,17 @@ public class GetAllCommentController {
                 entity.setComment_id(model.getComment_id());
             //    entity.setFname(model.getStud_name());
                 entity.setPost_id(model.getNotes_id());
-                StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
-                entity.setFname(studentModel.getFname());
+
+                if(model.getType().equals("student")){
+                    StudentModel studentModel = studentRepository.find("id",
+                            Long.valueOf(model.getAdded_by())).firstResult();
+                    entity.setFname(studentModel.getFname());
+                }else if(model.getType().equals("faculty")){
+                    TeacherModel teacherModel = teacherRepository.findTeacher(Long.valueOf(model.getAdded_by()));
+                    entity.setFname(teacherModel.getFname());
+                }
+//                StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
+//                entity.setFname(studentModel.getFname());
 
 
                 Integer integer = Math.toIntExact(model.getAdded_by());

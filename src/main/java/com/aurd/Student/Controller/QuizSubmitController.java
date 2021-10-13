@@ -73,12 +73,25 @@ public class QuizSubmitController {
                             getQuestionID(request.getArrayList().get(0).getQuiz_id());
 
             System.out.println(quizQuestionIDList.size());
-
+            ArrayList<SubjectModel> subjectList=new ArrayList<>();
             for(Quiz_Question_Map_Model model :quizQuestionIDList){
 
                 System.out.println("Total Marks"+ model.getMarks());
 
                 totalMarks = totalMarks+model.getMarks();
+
+                boolean exists=false;
+                for (SubjectModel subjectModel:subjectList) {
+                    if(subjectModel.getId()==model.getSubject_id())
+                    {
+                        exists=true;
+                    }
+                }
+
+                if(!exists)
+                {
+                    subjectList.add(model.getSubjectModel());
+                }
             }
 
 
@@ -86,67 +99,95 @@ public class QuizSubmitController {
                     request.getArrayList().get(0).getQuiz_id()).firstResult();
 
 
-            TopicAnalysisModel analysisModel = new TopicAnalysisModel();
 
 
-            for(int i=0;i<request.getArrayList().size();i++)
-            {
 
-                Quiz_Submit_Model quiz_submit_model=request.getArrayList().get(i);
-                Quiz_Question_Model  quizQuestion = quizQuestionRepository.
-                        getQuestions(quiz_submit_model.getQues_id());
-
-                int topicQues = 0;
-                int topicMarksObtained = 0;
-
-
-                if(quiz_submit_model.getSubjectId()!=null){
-                    if(quiz_submit_model.getSubjectId()==quizQuestion.getSubject_id()){
-                        analysisModel.setSubject(quiz_submit_model.getSubject());
-                        topicQues++;
-                        analysisModel.setQuestions(topicQues);
-                    }
-                }
-
-
-                if(quiz_submit_model.getAns().equals(quizQuestion.getAnswer()))
-                {
-                    correctAns++;
-                    marksObtained = marksObtained + quizModel.getMarks_per_ques();
-
-                    if(quiz_submit_model.getSubjectId() == quizQuestion.getSubject_id()){
-                        topicMarksObtained = topicMarksObtained+quizModel.getMarks_per_ques();
-                    }
-
-                }
-                else{
-                    wrongAns++;
-                    if(quizModel.getNegative_marking()!=null && !quizModel.getNegative_marking().equals("0"))
+            for (SubjectModel subjectModel:subjectList) {
+                TopicAnalysisModel analysisModel = new TopicAnalysisModel();
+                int subjectTotalMarks=0;
+                int subjectObtainedMarks=0;
+                int totalQuestion=0;
+                for (Quiz_Question_Map_Model model:quizQuestionIDList) {
+                    if(model.getSubject_id()==subjectModel.getId())
                     {
-                       int num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
-                       int den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
-
-                       marksObtained=marksObtained-((num/den)*quizModel.getMarks_per_ques());
-
-
-
-                       if(quiz_submit_model.getSubjectId() == quizQuestion.getSubject_id()){
-                           topicMarksObtained =
-                                    topicMarksObtained-((num/den)*quizModel.getMarks_per_ques());
-
-                       }
+                        subjectTotalMarks+=model.getMarks();
+                        totalQuestion+=1;
                     }
-
-
                 }
+                analysisModel.setTotalMarks(subjectTotalMarks);
 
-                analysisModel.setQuestions(topicQues);
-                analysisModel.setMarksObtained(topicMarksObtained);
-
-
+                for (Quiz_Submit_Model quiz_submit_model:request.getArrayList()) {
+                    if(quiz_submit_model.getSubjectId().equals(String.valueOf(subjectModel.getId())))
+                    {
+                        subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
+                    }
+                }
+                analysisModel.setSubject(subjectModel.getSubject());
+                analysisModel.setMarksObtained(subjectObtainedMarks);
+                analysisModel.setPercent(String.valueOf((subjectObtainedMarks/subjectTotalMarks)*100));
+                analysisModel.setQuestions(totalQuestion);
+tList.add(analysisModel);
             }
 
-            tList.add(analysisModel);
+
+//            for(int i=0;i<request.getArrayList().size();i++)
+//            {
+//
+//                Quiz_Submit_Model quiz_submit_model=request.getArrayList().get(i);
+//                Quiz_Question_Model  quizQuestion = quizQuestionRepository.
+//                        getQuestions(quiz_submit_model.getQues_id());
+//
+//                int topicQues = 0;
+//                int topicMarksObtained = 0;
+//
+//
+//                if(quiz_submit_model.getSubjectId()!=null){
+//                    if(quiz_submit_model.getSubjectId()==quizQuestion.getSubject_id()){
+//                        analysisModel.setSubject(quiz_submit_model.getSubject());
+//                        topicQues++;
+//                        analysisModel.setQuestions(topicQues);
+//                    }
+//                }
+//
+//
+//                if(quiz_submit_model.getAns().equals(quizQuestion.getAnswer()))
+//                {
+//                    correctAns++;
+//                    marksObtained = marksObtained + quizModel.getMarks_per_ques();
+//
+//                    if(quiz_submit_model.getSubjectId() == quizQuestion.getSubject_id()){
+//                        topicMarksObtained = topicMarksObtained+quizModel.getMarks_per_ques();
+//                    }
+//
+//                }
+//                else{
+//                    wrongAns++;
+//                    if(quizModel.getNegative_marking()!=null && !quizModel.getNegative_marking().equals("0"))
+//                    {
+//                       int num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
+//                       int den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
+//
+//                       marksObtained=marksObtained-((num/den)*quizModel.getMarks_per_ques());
+//
+//
+//
+//                       if(quiz_submit_model.getSubjectId() == quizQuestion.getSubject_id()){
+//                           topicMarksObtained =
+//                                    topicMarksObtained-((num/den)*quizModel.getMarks_per_ques());
+//
+//                       }
+//                    }
+//
+//
+//                }
+//
+//                analysisModel.setQuestions(topicQues);
+//                analysisModel.setMarksObtained(topicMarksObtained);
+//
+//
+//            }
+
+//            tList.add(analysisModel);
 
 
             skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();

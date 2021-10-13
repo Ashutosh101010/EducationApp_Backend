@@ -1,6 +1,7 @@
 package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.ResultEntity;
+import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
 import com.aurd.Student.Model.Entity.QuizModel;
 import com.aurd.Student.Model.Entity.Quiz_Question_Model;
 import com.aurd.Student.Model.Entity.Quiz_Submit_Model;
@@ -50,6 +51,7 @@ public class GetQuizResultController {
                      request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
 
 
+//        ArrayList<TopicAnalysisModel> topicList
 
 
         Result_Response response = new Result_Response();
