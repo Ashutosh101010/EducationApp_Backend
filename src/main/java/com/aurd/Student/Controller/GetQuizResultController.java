@@ -57,7 +57,7 @@ public class GetQuizResultController {
         ArrayList<Quiz_Submit_Model> quizSubmitModels=quizSubmitRepository.getStudentPracticeTestResult(Math.toIntExact(request.getInstID()),request.getStudID(),request.getQuizID());
 
         ArrayList<SubjectModel> subjects=new ArrayList<>();
-        ArrayList<Quiz_Question_Map_Model> questions=questionRepository.getQuestion(request.getQuizID());
+        ArrayList<Quiz_Question_Map_Model> questions=questionRepository.getQuestionID(request.getQuizID());
 
         for (Quiz_Question_Map_Model question: questions) {
             boolean exists=false;
@@ -129,6 +129,7 @@ public class GetQuizResultController {
          response.setErrorCode(0);
          response.setResult(saveResultModel);
          response.setResultList(arrayList1);
+         response.setTopics(topicList);
      }
 
 

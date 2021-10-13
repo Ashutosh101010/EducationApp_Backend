@@ -4,8 +4,8 @@ public class GetKeyNotesRequest {
 
 
     int student_id;
-    Integer courseId;
-    Integer subjectId;
+    Integer courseId =0;
+    Integer subjectId =0;
 
 
     public Integer getCourseId() {

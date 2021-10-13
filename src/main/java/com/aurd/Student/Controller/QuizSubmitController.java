@@ -70,7 +70,7 @@ public class QuizSubmitController {
 
             ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
                     (ArrayList<Quiz_Question_Map_Model>) questionID_repository.
-                            getQuestion(request.getArrayList().get(0).getQuiz_id());
+                            getQuestionID(request.getArrayList().get(0).getQuiz_id());
 
             System.out.println(quizQuestionIDList.size());
             ArrayList<SubjectModel> subjectList=new ArrayList<>();
