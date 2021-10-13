@@ -56,7 +56,7 @@ public class AddCommentController {
                 response.setStatus(true);
             }else{
                 response.setStatusCode(1);
-                response.setMessage("Unable to add commment");
+                response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }else if(request.getType().equals("currentAffair")){
@@ -67,7 +67,7 @@ public class AddCommentController {
                 response.setStatus(true);
             }else{
                 response.setStatusCode(1);
-                response.setMessage("Unable to add commment");
+                response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }else if(request.getType().equals("studentPost")){
@@ -78,7 +78,7 @@ public class AddCommentController {
                 response.setStatus(true);
             }else{
                 response.setStatusCode(1);
-                response.setMessage("Unable to add commment");
+                response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }else if(request.getType().equals("notes")){
@@ -89,7 +89,7 @@ public class AddCommentController {
                 response.setStatus(true);
             }else{
                 response.setStatusCode(1);
-                response.setMessage("Unable to add commment");
+                response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }

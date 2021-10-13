@@ -33,11 +33,17 @@ public class Blog_Comment_Model {
     @Column(name = "type",nullable = false)
     private String type;
 
-    @Transient
-    @Column(name = "stud_name",nullable = false)
-    @NotBlank
-    private String stud_name;
+    @ManyToOne
+    @JoinColumn(name = "added_by",insertable = false,updatable = false)
+    StudentModel studentModel;
 
+    public StudentModel getStudentModel() {
+        return studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
+    }
 
     public int getBlog_id() {
         return blog_id;
@@ -51,13 +57,18 @@ public class Blog_Comment_Model {
         this.type = type;
     }
 
-    public String getStud_name() {
-        return stud_name;
-    }
-
-    public void setStud_name(String stud_name) {
-        this.stud_name = stud_name;
-    }
+    //    @Column(name = "stud_name",nullable = false)
+//    @NotBlank
+//    private String stud_name;
+//
+//
+//    public String getStud_name() {
+//        return stud_name;
+//    }
+//
+//    public void setStud_name(String stud_name) {
+//        this.stud_name = stud_name;
+//    }
 
     public int getComment_id() {
         return comment_id;

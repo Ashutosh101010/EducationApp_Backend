@@ -65,11 +65,18 @@ public class GetAllCommentController {
               CommentEntity entity = new CommentEntity();
               entity.setComment(model.getComment());
               entity.setComment_id(model.getComment_id());
+              entity.setFname(model.getStudentModel().getFname());
             //  entity.setFname(model.getStud_name());
 
-              StudentModel studentModel = studentRepository.find("id",Long.valueOf(model.getAdded_by())).firstResult();
-              entity.setFname(studentModel.getFname());
 
+         //     if(studentModel.getFname==null){
+         //         entity.setFname(studentModel.getFname);
+//
+          //    }else {
+
+//                StudentModel studentModel = studentRepository.find("id", Long.valueOf(model.getAdded_by())).firstResult();
+//                  entity.setFname(studentModel.getFname());
+//          //    }
               entity.setPost_id(model.getBlog_id_id());
               entity.setUser_id(model.getAdded_by());
               entity.setAdded_on(model.getAdded_on());
