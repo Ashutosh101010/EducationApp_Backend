@@ -1,5 +1,6 @@
 package com.aurd.Student.Repository;
 
+
 import com.aurd.Student.Model.Entity.Student_Posts_Commented;
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Request.GetCommentRequest;
@@ -7,6 +8,7 @@ import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,11 +17,20 @@ import java.util.Calendar;
 @ApplicationScoped
 public class StudentPostCommentRepository implements PanacheRepository<Student_Posts_Commented> {
 
-    public ArrayList getComment(GetCommentRequest request){
 
-      ArrayList<Student_Posts_Commented> arrayList = (ArrayList<Student_Posts_Commented>) list("post_id =?1 " ,request.getPost_id());
+    public ArrayList<Student_Posts_Commented> getComment(GetCommentRequest request) {
 
-            return  arrayList;
+
+      //  Query query = getEntityManager().createQuery("select Student_Posts_Commented from Student_Posts_Commented post join" +
+      //          " StudentModel student on post.added_by=student.id where post.post_id=:postId");
+
+        Query query=getEntityManager().createQuery("select Student_Posts_Commented from Student_Posts_Commented post" +
+                " left outer join TeacherModel Teacher on post.added_by=Teacher.id" +
+                " left  outer join StudentModel Students on Students.id=post.added_by where post.post_id=:postId");
+
+        query.setParameter("postId", request.getPost_id());
+
+        return (ArrayList<Student_Posts_Commented>) query.getResultList();
     }
 
     public boolean addPostCommentRequest(AddPostCommentRequest request) {

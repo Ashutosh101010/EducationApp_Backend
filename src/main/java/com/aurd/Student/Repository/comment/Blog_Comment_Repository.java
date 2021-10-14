@@ -37,12 +37,19 @@ public class Blog_Comment_Repository implements PanacheRepository<Blog_Comment_M
 //        ArrayList<Blog_Comment_Model> arrayList = (ArrayList<Blog_Comment_Model>)
 //                find("blog_id",request.getPost_id()).list();
 
-        Query query=getEntityManager().createQuery("select Blog_Comment_Model from Blog_Comment_Model blog join StudentModel student on blog.added_by=student.id where blog.blog_id=:postId");
+     //   Query query=getEntityManager().createQuery("select Blog_Comment_Model from Blog_Comment_Model blog join StudentModel student on blog.added_by=student.id where blog.blog_id=:postId");
+     //   query.setParameter("postId",request.getPost_id());
+
+
+        Query query=getEntityManager().createQuery("select Blog_Comment_Model from Blog_Comment_Model blog" +
+                " left outer join TeacherModel Teacher on blog.added_by=Teacher.id" +
+                " left  outer join StudentModel Students on Students.id=blog.added_by where blog.blog_id=:postId");
+
         query.setParameter("postId",request.getPost_id());
+
 
         return (ArrayList<Blog_Comment_Model>) query.getResultList();
       }
-
 
      }
 

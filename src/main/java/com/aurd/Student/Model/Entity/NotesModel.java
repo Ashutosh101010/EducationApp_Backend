@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.Entity;
 
 import io.smallrye.common.constraint.Nullable;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -41,6 +43,7 @@ public class NotesModel {
     private int created_by;
 
 
+
     @Column(name = "description",nullable = false)
     private  String description;
 
@@ -56,6 +59,8 @@ public class NotesModel {
 
     @Column(name = "fee_type",nullable = true)
     private String fee_type;
+
+
 
     public String getFee_type() {
         return fee_type;

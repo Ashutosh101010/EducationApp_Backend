@@ -2,6 +2,8 @@ package com.aurd.Student.Model.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -34,10 +36,23 @@ public class Current_AffairsCommented_Model {
     @Column(name = "type",nullable = false)
     private String type;
 
-
     @ManyToOne
     @JoinColumn(name = "added_by",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     StudentModel studentModel;
+
+    @ManyToOne
+    @JoinColumn(name="added_by",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    TeacherModel teacherModel;
+
+    public TeacherModel getTeacherModel() {
+        return teacherModel;
+    }
+
+    public void setTeacherModel(TeacherModel teacherModel) {
+        this.teacherModel = teacherModel;
+    }
 
     public StudentModel getStudentModel() {
         return studentModel;
