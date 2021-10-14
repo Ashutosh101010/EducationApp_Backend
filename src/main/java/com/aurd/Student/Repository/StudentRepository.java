@@ -14,9 +14,9 @@ import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 @ApplicationScoped
@@ -33,20 +33,22 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
     }
 
-    public Integer UpDateRequest(UpDateRequest request) {
-
+    public Integer UpDateRequest(UpDateRequest request) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date langDate = sdf.parse(request.getDOB());
    return update("fname=?1 , contact=?2   ,address=?3 ," +
-                   "email=?4 , stateId=?5   ,districtId=?6 ,dob=?7, bio=?8 , gender=?9  where id=?10"
+                   "email=?4 , stateId=?5   ,districtId=?6 ,dob=?7, bio=?8 , gender=?9, profile=?10 " +
+                   " where id=?11"
         ,request.getF_name()
         ,request.getMobile_no()
         ,request.getAddress()
         ,request.getEmail()
         ,request.getState_id()
         ,request.getDistrict_id()
-           ,request.getDOB(),
+        ,new java.sql.Date(langDate.getTime()),
            request.getBio(),
-            request.getGender()
-           ,request.getStudent_id()
+        request.getGender(),request.getImageId()
+        ,request.getStudent_id()
 
         );
     }

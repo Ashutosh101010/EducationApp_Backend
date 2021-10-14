@@ -1,20 +1,66 @@
 package com.aurd.Student.Model.Request;
 
 
+import org.jboss.resteasy.annotations.jaxrs.FormParam;
+import org.jboss.resteasy.annotations.providers.multipart.PartType;
+
+import javax.persistence.Transient;
+import javax.ws.rs.core.MediaType;
+import java.io.InputStream;
 import java.sql.Date;
 
 public class UpDateRequest {
 
+    @FormParam("pic")
+    @PartType(MediaType.APPLICATION_OCTET_STREAM)
+    public InputStream pic;
+
+    @FormParam("name")
+    @PartType(MediaType.TEXT_PLAIN)
     String f_name;
+
+    @FormParam("mobileNumber")
+    @PartType(MediaType.TEXT_PLAIN)
     String mobile_no;
+    @FormParam("address")
+    @PartType(MediaType.TEXT_PLAIN)
     String address;
+
+    @FormParam("email")
+    @PartType(MediaType.TEXT_PLAIN)
     String email;
+
+    @FormParam("state_id")
+    @PartType(MediaType.TEXT_PLAIN)
     Integer state_id;
+
+    @FormParam("district_id")
+    @PartType(MediaType.TEXT_PLAIN)
     String district_id;
-    Date DOB;
+    @FormParam("dob")
+    @PartType(MediaType.TEXT_PLAIN)
+    String DOB;
+    @FormParam("stud_id")
+    @PartType(MediaType.TEXT_PLAIN)
     Long student_id;
+    @FormParam("bio")
+    @PartType(MediaType.TEXT_PLAIN)
     String bio;
+    @FormParam("gender")
+    @PartType(MediaType.TEXT_PLAIN)
     String gender;
+
+
+    @Transient
+    String imageId;
+
+    public String getImageId() {
+        return imageId;
+    }
+
+    public void setImageId(String imageId) {
+        this.imageId = imageId;
+    }
 
     public String getGender() {
         return gender;
@@ -80,11 +126,11 @@ public class UpDateRequest {
         this.student_id = student_id;
     }
 
-    public Date getDOB() {
+    public String getDOB() {
         return DOB;
     }
 
-    public void setDOB(Date DOB) {
+    public void setDOB(String DOB) {
         this.DOB = DOB;
     }
 
@@ -94,5 +140,13 @@ public class UpDateRequest {
 
     public void setF_name(String f_name) {
         this.f_name = f_name;
+    }
+
+    public InputStream getPic() {
+        return pic;
+    }
+
+    public void setPic(InputStream pic) {
+        this.pic = pic;
     }
 }

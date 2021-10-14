@@ -22,11 +22,11 @@ public class StudentNotesRepository implements PanacheRepository<StudentNotesMod
         Calendar now = Calendar.getInstance();
         System.out.println(sdf.format(now.getTime()));
 
+        StudentNotesModel studentNotesModel = new Gson().fromJson(new Gson().toJson(request),
+                StudentNotesModel.class);
+        studentNotesModel.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
+        studentNotesModel.setUpdated_on(Timestamp.valueOf(sdf.format(now.getTime())));
 
-
-        request.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
-        request.setUpdated_on(Timestamp.valueOf(sdf.format(now.getTime())));
-        StudentNotesModel studentNotesModel = new Gson().fromJson(new Gson().toJson(request),StudentNotesModel.class);
         persist(studentNotesModel);
         return true;
     }

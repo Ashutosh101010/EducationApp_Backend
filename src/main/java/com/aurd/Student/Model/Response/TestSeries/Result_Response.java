@@ -2,6 +2,7 @@ package com.aurd.Student.Model.Response.TestSeries;
 
 import com.aurd.Student.Model.BeanClass.ResultEntity;
 import com.aurd.Student.Model.BeanClass.SolutionEntity;
+import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
 import com.aurd.Student.Model.Entity.SaveResultModel;
 
 import java.util.ArrayList;
@@ -13,6 +14,16 @@ public class Result_Response {
     SaveResultModel result;
     ArrayList<SolutionEntity> solutions = new ArrayList<>();
     ArrayList<SaveResultModel> resultList = new ArrayList<>();
+
+    ArrayList<TopicAnalysisModel> topics = new ArrayList<>();
+
+    public ArrayList<TopicAnalysisModel> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(ArrayList<TopicAnalysisModel> topics) {
+        this.topics = topics;
+    }
 
     public ArrayList<SaveResultModel> getResultList() {
         return resultList;

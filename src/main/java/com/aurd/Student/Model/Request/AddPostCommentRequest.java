@@ -10,8 +10,9 @@ public class AddPostCommentRequest {
     long added_by;
     Timestamp added_on;
     String type;
- //   String stud_name;
-
+//    String stud_name;
+//
+//
 //    public String getStud_name() {
 //        return stud_name;
 //    }

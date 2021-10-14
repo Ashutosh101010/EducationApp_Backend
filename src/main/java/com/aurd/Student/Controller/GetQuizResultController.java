@@ -1,10 +1,8 @@
 package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.ResultEntity;
-import com.aurd.Student.Model.Entity.QuizModel;
-import com.aurd.Student.Model.Entity.Quiz_Question_Model;
-import com.aurd.Student.Model.Entity.Quiz_Submit_Model;
-import com.aurd.Student.Model.Entity.SaveResultModel;
+import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
+import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import com.aurd.Student.Model.Response.TestSeries.Result_Response;
@@ -25,6 +23,13 @@ public class GetQuizResultController {
     @Inject
     ResultRepository resultRepository;
 
+    @Inject
+    Get_QuestionID_Repository questionRepository;
+
+    @Inject
+    Quiz_Submit_Repository quizSubmitRepository;
+
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -44,10 +49,71 @@ public class GetQuizResultController {
 //        });
 
 
-
+        ArrayList<TopicAnalysisModel> topicList =new ArrayList<>();
         SaveResultModel saveResultModel  =
              resultRepository.find("quiz_id=?1 and stud_id=?2 and inst_id =?3",
                      request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
+
+        ArrayList<Quiz_Submit_Model> quizSubmitModels=quizSubmitRepository.getStudentPracticeTestResult(Math.toIntExact(request.getInstID()),request.getStudID(),request.getQuizID());
+
+        ArrayList<SubjectModel> subjects=new ArrayList<>();
+        ArrayList<Quiz_Question_Map_Model> questions=questionRepository.getQuestion(request.getQuizID());
+
+        for (Quiz_Question_Map_Model question: questions) {
+            boolean exists=false;
+
+            for(SubjectModel subject:subjects)
+            {
+                if(subject.getId()==question.getSubject_id())
+                {
+                    exists=true;
+                }
+            }
+
+
+
+            if(!exists)
+            {
+                subjects.add(question.getSubjectModel());
+            }
+
+        }
+
+
+
+
+
+        for (SubjectModel subjectModel:subjects) {
+            TopicAnalysisModel analysisModel = new TopicAnalysisModel();
+            int subjectTotalMarks=0;
+            int subjectObtainedMarks=0;
+            int totalQuestion=0;
+            for (Quiz_Question_Map_Model model:questions) {
+                if(model.getSubject_id()==subjectModel.getId())
+                {
+                    subjectTotalMarks+=model.getMarks();
+                    totalQuestion+=1;
+                }
+            }
+            analysisModel.setTotalMarks(subjectTotalMarks);
+
+            for (Quiz_Submit_Model quiz_submit_model:quizSubmitModels) {
+                if(quiz_submit_model.getSubjectId().equals(String.valueOf(subjectModel.getId())))
+                {
+                    subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
+                }
+            }
+            analysisModel.setSubject(subjectModel.getSubject());
+            analysisModel.setMarksObtained(subjectObtainedMarks);
+            analysisModel.setPercent(String.valueOf((subjectObtainedMarks/subjectTotalMarks)*100));
+            analysisModel.setQuestions(totalQuestion);
+            topicList.add(analysisModel);
+        }
+
+
+
+
+
 
 
 

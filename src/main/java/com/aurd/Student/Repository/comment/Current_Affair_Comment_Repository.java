@@ -47,7 +47,10 @@ public class Current_Affair_Comment_Repository implements PanacheRepository<Curr
         Calendar calendar = Calendar.getInstance();
 
         current_affairsCommented_model.setCurrent_affair_id(request.getPost_id());
-        current_affairsCommented_model.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
+        current_affairsCommented_model.setAdded_on(Timestamp.
+                valueOf(simpleDateFormat.format(calendar.getTime())));
+
+        current_affairsCommented_model.setType("student");
         persist(current_affairsCommented_model);
 
         current_affairsCommented_model.setType("student");

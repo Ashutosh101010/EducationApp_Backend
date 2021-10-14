@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.Entity.map;
 
 
+import com.aurd.Student.Model.Entity.SubjectModel;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 
@@ -37,6 +39,18 @@ public class Quiz_Question_Map_Model {
     @Max(12)
     private long updated_by;
 
+    @ManyToOne
+    @JoinColumn(name="subject_id", nullable=false,insertable = false,updatable = false)
+    private SubjectModel subjectModel;
+
+
+    public SubjectModel getSubjectModel() {
+        return subjectModel;
+    }
+
+    public void setSubjectModel(SubjectModel subjectModel) {
+        this.subjectModel = subjectModel;
+    }
 
     public long getQuiz_id() {
         return quiz_id;

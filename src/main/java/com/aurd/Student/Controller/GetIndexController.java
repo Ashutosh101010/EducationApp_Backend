@@ -209,7 +209,6 @@ public class GetIndexController {
                  notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
                  vList.add(notesEntity);
 
-
              }else if(model.getType().equals("video")){
                  VideoEntity videoEntity = getVideos(model,request);
                  videoEntity.setIndexId(model.getId());
@@ -296,6 +295,7 @@ public class GetIndexController {
               (new Gson().toJson(currentAffairModel),CurrentAffairEntity.class);
 
       caEntity.setType("currentAffair");
+      caEntity.setTimeStamp(currentAffairModel.getTime().getTime());
 
 
         String likeQuery = "SELECT * FROM `current_affairs_liked` WHERE current_affair_id =? ";
@@ -380,6 +380,7 @@ public class GetIndexController {
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1, request.getInst_id());
         studentPost.setParameter(2,model.getPost_id());
+//        studentPost.setParameter(3,1);
         StudentPostEntity postModel = new StudentPostEntity();
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         tempPostList.forEach(objects -> {
