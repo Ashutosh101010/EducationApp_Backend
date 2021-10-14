@@ -17,28 +17,27 @@ import java.util.Calendar;
 
 @ApplicationScoped
 public class Current_Affair_Comment_Repository implements PanacheRepository<Current_AffairsCommented_Model> {
+    public ArrayList<Current_AffairsCommented_Model> getComment(GetCommentRequest request) {
 
-    public ArrayList getComment(GetCommentRequest request){
+       //     Query query = getEntityManager().createQuery("select Current_AffairsCommented_Model from Current_AffairsCommented_Model current join StudentModel student on current.added_by=student.id where current.current_affair_id=:postId");
+       //     query.setParameter("postId", request.getPost_id());
 
-        try{
-
-            Query query = getEntityManager().createQuery("select  Current_AffairsCommented_Model  from " +
-                    "Current_AffairsCommented_Model model join StudentModel student on model.added_by " +
-                    "= student.id where model.current_affair_id = :postId ");
-            query.setParameter("postId",request.getPost_id());
-
+//        try{
 //            ArrayList<Current_AffairsCommented_Model> arrayList = (ArrayList<Current_AffairsCommented_Model>)
 //                    find("current_affair_id =?1" ,
 //                    request.getPost_id()).list();
-            return   (ArrayList<Current_AffairsCommented_Model>) query.getResultList();
+//            return  arrayList;
+//        }catch (Exception e){
+//            System.out.println(e);
+        Query query=getEntityManager().createQuery("select Current_AffairsCommented_Model from Current_AffairsCommented_Model current" +
+                " left outer join TeacherModel Teacher on current.added_by=Teacher.id" +
+                " left  outer join StudentModel Students on Students.id=current.added_by where current.current_affair_id=:postId");
 
-        }catch (Exception e){
-            System.out.println(e);
-          return  new ArrayList();
+
+        return (ArrayList<Current_AffairsCommented_Model>) query.getResultList();
+
         }
 
-
-      }
 
     public boolean addCurrentAffairCommentRequest(AddPostCommentRequest request) {
         Current_AffairsCommented_Model current_affairsCommented_model =
@@ -53,6 +52,8 @@ public class Current_Affair_Comment_Repository implements PanacheRepository<Curr
 
         current_affairsCommented_model.setType("student");
         persist(current_affairsCommented_model);
+
+        current_affairsCommented_model.setType("student");
         return true;
 
           }

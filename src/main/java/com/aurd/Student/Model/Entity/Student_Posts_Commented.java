@@ -2,6 +2,8 @@ package com.aurd.Student.Model.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.smallrye.common.constraint.Nullable;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -30,6 +32,16 @@ public class Student_Posts_Commented {
     @Column(name = "added_by",nullable = false)
     private long added_by;
 
+    @ManyToOne
+    @JoinColumn(name = "added_by",insertable = false,updatable = false)
+    StudentModel studentModel;
+
+
+    @ManyToOne
+    @JoinColumn(name="added_by",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    TeacherModel teacherModel;
+
 
     @Column(name = "type",nullable = false)
     private String type;
@@ -40,6 +52,22 @@ public class Student_Posts_Commented {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public StudentModel getStudentModel() {
+        return studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
+    }
+
+    public TeacherModel getTeacherModel() {
+        return teacherModel;
+    }
+
+    public void setTeacherModel(TeacherModel teacherModel) {
+        this.teacherModel = teacherModel;
     }
 
     public int getComment_id() {

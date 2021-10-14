@@ -2,6 +2,8 @@ package com.aurd.Student.Model.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -39,6 +41,22 @@ public class Blog_Comment_Model {
 
     public StudentModel getStudentModel() {
         return studentModel;
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name="added_by",insertable = false,updatable = false)
+            @NotFound(action = NotFoundAction.IGNORE)
+    TeacherModel teacherModel;
+
+
+
+    public TeacherModel getTeacherModel() {
+        return teacherModel;
+    }
+
+    public void setTeacherModel(TeacherModel teacherModel) {
+        this.teacherModel = teacherModel;
     }
 
     public void setStudentModel(StudentModel studentModel) {
