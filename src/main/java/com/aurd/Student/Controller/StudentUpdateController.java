@@ -49,8 +49,16 @@ public class StudentUpdateController {
 
         try {
 
-            request.setDOB(input.get("dob").get(0).getBodyAsString());
-            request.setAddress(input.get("address").get(0).getBodyAsString());
+            if(input.get("dob")!=null){
+                request.setDOB(input.get("dob").get(0).getBodyAsString());
+            }
+            if(input.get("address")!=null){
+                request.setAddress(input.get("address").get(0).getBodyAsString());
+            }
+            if(input.get("bio")!=null){
+
+            }
+
             request.setBio(input.get("bio").get(0).getBodyAsString());
             request.setStudent_id(Long.parseLong(input.get("stud_id").get(0).getBodyAsString()));
             request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());

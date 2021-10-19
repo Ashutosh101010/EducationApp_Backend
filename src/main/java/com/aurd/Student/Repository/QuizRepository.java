@@ -55,13 +55,13 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
                    return arrayList;
                }else if(request.getFilter().equals("paid")){
                    arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 ORDER BY added_on DESC",
-                           request.getInst_id().intValue(),request.getType(),"0").list();
+                           request.getInst_id().intValue(),request.getType(),">0").list();
 
                    return arrayList;
                }
                else{
-                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 ORDER BY added_on DESC",
-                           request.getInst_id().intValue(),request.getType(),">0").list();
+                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2  ORDER BY added_on DESC",
+                           request.getInst_id().intValue(),request.getType()).list();
 
                    return arrayList;
                }
