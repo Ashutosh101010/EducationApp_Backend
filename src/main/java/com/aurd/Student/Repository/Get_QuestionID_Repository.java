@@ -27,7 +27,11 @@ public class Get_QuestionID_Repository implements PanacheRepository<Quiz_Questio
     }
     public ArrayList getQuestion(long quizID){
 
-        Query query= getEntityManager().createQuery("select Quiz_Question_Map_Model from Quiz_Question_Map_Model Quiz_Question_Map_Model join SubjectModel SubjectModel on  Quiz_Question_Map_Model.subject_id =SubjectModel.id where Quiz_Question_Map_Model.quiz_id= : quizId ");
+
+
+        Query query= getEntityManager().createQuery("select Quiz_Question_Map_Model from Quiz_Question_Map_Model Quiz_Question_Map_Model" +
+                " join SubjectModel SubjectModel on  Quiz_Question_Map_Model.subject_id = SubjectModel.id and Quiz_Question_Map_Model.subject_id<> 0" +
+                " where Quiz_Question_Map_Model.quiz_id= : quizId ");
 
 
         query.setParameter("quizId",quizID);

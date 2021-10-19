@@ -53,6 +53,8 @@ public class Quiz_Submit_Model {
 
 
     @Column(name = "subjectId",nullable = true)
+    @Null
+    @Nullable
     private  Integer subjectId;
 
     @Column(name = "subject",nullable = true)

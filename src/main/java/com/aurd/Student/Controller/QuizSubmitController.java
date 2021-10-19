@@ -138,12 +138,6 @@ public class QuizSubmitController {
                 Quiz_Question_Model  quizQuestion = quizQuestionRepository.
                         getQuestions(quiz_submit_model.getQues_id());
 
-
-
-
-
-
-
                 if(quiz_submit_model.getAns().equals(quizQuestion.getAnswer()))
                 {
                     correctAns++;
@@ -165,12 +159,8 @@ public class QuizSubmitController {
 
                 }
 
-
-
-
             }
 
-//            tList.add(analysisModel);
 
 
             skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();

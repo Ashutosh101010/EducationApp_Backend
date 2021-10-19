@@ -4,6 +4,8 @@ package com.aurd.Student.Model.Entity.map;
 import com.aurd.Student.Model.Entity.SubjectModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.runtime.annotations.IgnoreProperty;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -43,6 +45,7 @@ public class Quiz_Question_Map_Model {
 
     @ManyToOne
     @JoinColumn(name="subject_id", nullable=false,insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
     private SubjectModel subjectModel;
 
