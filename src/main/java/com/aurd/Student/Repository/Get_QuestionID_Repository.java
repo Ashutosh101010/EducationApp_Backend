@@ -22,16 +22,22 @@ public class Get_QuestionID_Repository implements PanacheRepository<Quiz_Questio
 //
 //       query.setParameter("quizId",quizID);
 
-        return (ArrayList<Quiz_Question_Map_Model>) list;
+        return  list;
 
     }
     public ArrayList getQuestion(long quizID){
 
 
 
+
+//      Query query =  getEntityManager().createNativeQuery("select * from quiz_ques_map inner join subjects on " +
+//                "subjects.id = quiz_ques_map.subject_id where quiz_ques_map.quiz_id =?  " );
+//
+//      query.setParameter(1,quizID);
+
         Query query= getEntityManager().createQuery("select Quiz_Question_Map_Model from Quiz_Question_Map_Model Quiz_Question_Map_Model" +
-                " join SubjectModel SubjectModel on  Quiz_Question_Map_Model.subject_id = SubjectModel.id and Quiz_Question_Map_Model.subject_id<> 0" +
-                " where Quiz_Question_Map_Model.quiz_id= : quizId ");
+                " left join SubjectModel SubjectModel on  Quiz_Question_Map_Model.subject_id = SubjectModel.id " +
+                " where Quiz_Question_Map_Model.quiz_id= : quizId");
 
 
         query.setParameter("quizId",quizID);

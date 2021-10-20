@@ -1,5 +1,8 @@
 package com.aurd.Student.Model.Entity;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -43,8 +46,6 @@ public class SaveResultModel {
    @Column(name = "status",nullable = false)
    private String status;
 
-   @Column(name = "name",nullable = false)
-   private String name;
 
    @Column(name = "skipped",nullable = false)
    private int skipped;
@@ -54,6 +55,25 @@ public class SaveResultModel {
 
    @Column(name = "percent",nullable = false)
    private  double percent;
+//
+//   @Transient
+////    @Column(name = "name",nullable = false)
+//    private String name;
+//
+//
+
+    @ManyToOne
+    @JoinColumn(name = "stud_id",updatable = false,insertable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    StudentModel studentModel;
+
+    public StudentModel getStudentModel() {
+        return studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
+    }
 
     public double getPercent() {
         return percent;
@@ -79,13 +99,6 @@ public class SaveResultModel {
         this.skipped = skipped;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getStatus() {
         return status;
@@ -194,7 +207,7 @@ public class SaveResultModel {
                 ", cut_off=" + cut_off +
                 ", negative_marking=" + negative_marking +
                 ", status='" + status + '\'' +
-                ", name='" + name + '\'' +
+//                ", name='" + name + '\'' +
                 ", skipped=" + skipped +
                 ", time='" + time + '\'' +
                 ", percent=" + percent +

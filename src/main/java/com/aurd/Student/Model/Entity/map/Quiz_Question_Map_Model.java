@@ -30,7 +30,7 @@ public class Quiz_Question_Map_Model {
 
     @Column(name = "marks",nullable = false)
     @Max(12)
-    private  long marks;
+    private  int marks;
 
     @Column(name = "subject_id",nullable = false)
     @Max(12)
@@ -74,11 +74,12 @@ public class Quiz_Question_Map_Model {
         this.ques_id = ques_id;
     }
 
-    public long getMarks() {
+
+    public int getMarks() {
         return marks;
     }
 
-    public void setMarks(long marks) {
+    public void setMarks(int marks) {
         this.marks = marks;
     }
 

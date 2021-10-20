@@ -1,9 +1,11 @@
 package com.aurd.Student.Controller;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.aurd.Student.Model.Entity.Index_Model;
 import com.aurd.Student.Model.Entity.StudentPostModel;
 import com.aurd.Student.Model.Request.AddStudentPostRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
+import com.aurd.Student.Repository.IndexRepository;
 import com.aurd.Student.Repository.StudentPostRepository;
 import com.google.gson.Gson;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
@@ -34,6 +36,9 @@ public class AddStudentPostController
 
     @Inject
     StudentPostRepository repository;
+
+    @Inject
+    IndexRepository indexRepository;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -117,9 +122,17 @@ public class AddStudentPostController
 
             repository.addStudentPost(studentPostModel);
 
+            Index_Model index_model = new Index_Model();
+            index_model.setPost_id((int) studentPostModel.getId());
+            index_model.setInst_id((long) studentPostModel.getInst_id());
+            index_model.setType("post");
+            index_model.setCreated_on(studentPostModel.getAdded_on());
+            indexRepository.persist(index_model);
+
             response.setStatusCode(0);
             response.setStatus(true);
             response.setMessage("Student Post Added Successfully");
+
 
         }catch (Exception e){
 

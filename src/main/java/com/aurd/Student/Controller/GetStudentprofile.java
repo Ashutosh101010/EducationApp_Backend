@@ -59,14 +59,14 @@ public class GetStudentprofile {
         tempPostList.forEach(objects -> {
                     StudentPostEntity postModel = new StudentPostEntity();
                     postModel.setId(Long.parseLong(objects[0].toString()));
-                    if(objects[1].toString()==null){
+                    if(objects[1]==null){
                         postModel.setDescription("");
                     }else{
                         postModel.setDescription(objects[1].toString());
                     }
 
 
-                    if(objects[2].toString()==null){
+                    if(objects[2]==null){
                         postModel.setPic("");
                     }else{
                           postModel.setPic(objects[2].toString());

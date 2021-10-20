@@ -17,7 +17,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -56,6 +59,8 @@ public class QuizSubmitController {
         Result_Response response = new Result_Response();
 
        boolean value = repository.submitStudentQuizResponses(request);
+       System.out.println(value);
+
 
         if(value==true){
 
@@ -68,37 +73,43 @@ public class QuizSubmitController {
             ArrayList<TopicAnalysisModel> tList = new ArrayList<>();
 
 
+            System.out.println("Quiz ID "+request.getArrayList().get(0).getQuiz_id());
+
+            long quizId = request.getArrayList().get(0).getQuiz_id();
+
             ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
                     (ArrayList<Quiz_Question_Map_Model>) questionID_repository.
-                            getQuestion(request.getArrayList().get(0).getQuiz_id());
+                            getQuestion(quizId);
 
             System.out.println(quizQuestionIDList.size());
             ArrayList<SubjectModel> subjectList=new ArrayList<>();
             for(Quiz_Question_Map_Model model :quizQuestionIDList){
 
                 System.out.println("Total Marks"+ model.getMarks());
-
+                System.out.println("Quiz Question Map Model"+new Gson().toJson(model));
                 totalMarks = totalMarks+model.getMarks();
 
-                boolean exists=false;
-                for (SubjectModel subjectModel:subjectList) {
-                    if(subjectModel.getId()==model.getSubject_id())
+                if(model.getSubject_id()!=0){
+
+                    boolean exists=false;
+                    for (SubjectModel subjectModel:subjectList) {
+                        if(subjectModel.getId()==model.getSubject_id())
+                        {
+                            exists=true;
+                        }
+                    }
+
+                    if(!exists)
                     {
-                        exists=true;
+                        subjectList.add(model.getSubjectModel());
                     }
                 }
 
-                if(!exists)
-                {
-                    subjectList.add(model.getSubjectModel());
-                }
             }
 
 
             QuizModel quizModel = quizRepository.find("quiz_id",
                     request.getArrayList().get(0).getQuiz_id()).firstResult();
-
-
 
 
 
@@ -133,7 +144,6 @@ public class QuizSubmitController {
 
             for(int i=0;i<request.getArrayList().size();i++)
             {
-
                 Quiz_Submit_Model quiz_submit_model=request.getArrayList().get(i);
                 Quiz_Question_Model  quizQuestion = quizQuestionRepository.
                         getQuestions(quiz_submit_model.getQues_id());
@@ -162,7 +172,7 @@ public class QuizSubmitController {
             }
 
 
-
+            System.out.println("Marks Obtained"+marksObtained);
             skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
 //            ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
 //                    (request.getArrayList().get(0).getInst_id(),
@@ -193,9 +203,6 @@ public class QuizSubmitController {
             System.out.println("correct ans============="+correctAns);
             System.out.println("wrong ans         "+wrongAns);
 
-//
-//            QuizModel quizModel = quizRepository.find("quiz_id",
-//                    request.getArrayList().get(0).getQuiz_id()).firstResult();
 
 
 
@@ -228,16 +235,25 @@ public class QuizSubmitController {
 //            }
 
 
-
-
             resultModel.setMarks_obtained(marksObtained.intValue());
             resultModel.setTotal_marks(totalMarks);
             resultModel.setWrong_ans(wrongAns);
             resultModel.setCorrect_ans(correctAns);
 
+            /// temporarily commented dont delete it
+
             double  percent = (marksObtained *100)/totalMarks;
             resultModel.setPercent(percent);
+//            DecimalFormat decimalFormat = new DecimalFormat();
+//            decimalFormat.setMaximumFractionDigits(2);
+//            decimalFormat.format(percent);
+//
+//            System.out.println(  decimalFormat.format(percent));
+//            System.out.println(Double.parseDouble(decimalFormat.format(percent)));
+//
+//            resultModel.setPercent( Double.parseDouble(decimalFormat.format(percent)));
 
+///////////////////////////////
 
             if(quizModel.getCutoff()!=null){
                 resultModel.setCut_off(quizModel.getCutoff());
@@ -252,26 +268,35 @@ public class QuizSubmitController {
                 resultModel.setCut_off(0);
             }
 
+//            resultModel.setPercent(19.7);
 
+            System.out.println(new Gson().toJson(resultModel));
 
-         StudentModel model =  studentRepository.
-                 find("id",resultModel.getStud_id()).firstResult();
-
-            resultModel.setName(model.getFname());
             resultRepository.persist(resultModel);
+//            resultRepository.flush();
+
 
             ArrayList<SaveResultModel> arrayList1 =
-                    (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and inst_id =?2" +
-                                    " order by marks_obtained DESC",
-                            quizModel.getQuiz_id(),quizModel.getInst_id().longValue());
+                    resultRepository.getResultList(quizModel.getQuiz_id(),quizModel.getInst_id());
+//                    (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and inst_id =?2" +
+//                                    " order by marks_obtained DESC",
+//                            quizModel.getQuiz_id(),quizModel.getInst_id().longValue());
+//
 
+            ArrayList<LeaderBoardModel> leaderBoardArrayList = new ArrayList<>();
+            for(SaveResultModel result :arrayList1){
+                LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(result),
+                        LeaderBoardModel.class);
+                leaderBoardModel.setName(resultModel.getStudentModel().getFname());
+                leaderBoardArrayList.add(leaderBoardModel);
 
+            }
 
             response.setErrorCode(0);
             response.setStatus(true);
-            response.setMessage("Your Quiz is submitted..");
+            response.setMessage("Quiz submitted Successfully");
             response.setResult(resultModel);
-            response.setResultList(arrayList1);
+            response.setResultList(leaderBoardArrayList);
             response.setTopics(tList);
         }else{
             response.setErrorCode(1);
@@ -285,4 +310,10 @@ public class QuizSubmitController {
 
 
     }
+
+
+//    @Transactional
+//    public void insertData(){
+//
+//    }
 }

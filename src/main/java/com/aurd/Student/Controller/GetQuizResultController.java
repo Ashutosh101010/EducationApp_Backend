@@ -7,6 +7,7 @@ import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import com.aurd.Student.Model.Response.TestSeries.Result_Response;
 import com.aurd.Student.Repository.*;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -37,11 +38,19 @@ public class GetQuizResultController {
     @Transactional
     public  Result_Response getResult(GetQuizResultRequest request){
 
+        ArrayList<LeaderBoardModel> leaderBoardList = new ArrayList<>();
 
-        ArrayList<SaveResultModel> arrayList1=
-                (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and" +
-                                " inst_id =?2 order by marks_obtained DESC",
-                       request.getQuizID(),request.getInstID());
+        ArrayList<SaveResultModel> arrayList1=resultRepository.getResultList(
+                request.getQuizID(),request.getInstID());
+
+        for(SaveResultModel resultModel:arrayList1){
+            LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(resultModel),LeaderBoardModel.class);
+            leaderBoardModel.setName(resultModel.getStudentModel().getFname());
+            leaderBoardList.add(leaderBoardModel);
+        }
+//                (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and" +
+//                                " inst_id =?2 order by marks_obtained DESC",
+//                       request.getQuizID(),request.getInstID());
 
 //
 //        arrayList1.forEach(saveResultModel -> {
@@ -59,28 +68,30 @@ public class GetQuizResultController {
         ArrayList<SubjectModel> subjects=new ArrayList<>();
         ArrayList<Quiz_Question_Map_Model> questions=questionRepository.getQuestion(request.getQuizID());
 
+        System.out.println("Question List Size"+ questions.size());
         for (Quiz_Question_Map_Model question: questions) {
             boolean exists=false;
 
-            for(SubjectModel subject:subjects)
-            {
-                if(subject.getId()==question.getSubject_id())
+            if(question.getSubject_id()!=0){
+
+                for(SubjectModel subject:subjects)
                 {
-                    exists=true;
+                    if(subject.getId()==question.getSubject_id())
+                    {
+                        exists=true;
+                    }
+                }
+
+
+
+                if(!exists)
+                {
+                    subjects.add(question.getSubjectModel());
                 }
             }
 
 
-
-            if(!exists)
-            {
-                subjects.add(question.getSubjectModel());
-            }
-
         }
-
-
-
 
 
         for (SubjectModel subjectModel:subjects) {
@@ -128,7 +139,7 @@ public class GetQuizResultController {
          response.setMessage("Get Result Success");
          response.setErrorCode(0);
          response.setResult(saveResultModel);
-         response.setResultList(arrayList1);
+         response.setResultList(leaderBoardList);
      }
 
 

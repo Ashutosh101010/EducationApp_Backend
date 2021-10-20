@@ -16,7 +16,6 @@ public class Quiz_Submit_Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long id;
 
-
     @Column(name = "stud_id ",nullable = false)
     private  long stud_id;
 
