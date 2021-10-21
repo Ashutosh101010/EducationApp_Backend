@@ -48,7 +48,7 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
                 return arrayList;
 
-            }else if(request.getFilter().equals("free")){
+            }else if(   request.getFilter().equals("free")){
                    arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 ORDER BY added_on DESC",
                            request.getInst_id().intValue(),request.getType(),0).list();
 

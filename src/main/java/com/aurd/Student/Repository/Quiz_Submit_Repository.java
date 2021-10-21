@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.Calendar;
 @ApplicationScoped
 public class Quiz_Submit_Repository implements PanacheRepository<Quiz_Submit_Model> {
 
+    @Transactional
     public boolean submitStudentQuizResponses(QuizSubmitRequest request){
 
         try{
@@ -43,7 +45,7 @@ public class Quiz_Submit_Repository implements PanacheRepository<Quiz_Submit_Mod
 
 
 
-//                persistAndFlush(quiz_submit_model);
+                persistAndFlush(quiz_submit_model);
                 System.out.println("After persisted "+new Gson().toJson(quiz_submit_model));
 //                getEntityManager().flush();
             }

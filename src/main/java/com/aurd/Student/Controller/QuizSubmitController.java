@@ -52,7 +52,7 @@ public class QuizSubmitController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
-    @Transactional
+
 
     public Result_Response submitQuiz(QuizSubmitRequest request){
         System.out.println(request);
@@ -272,7 +272,8 @@ public class QuizSubmitController {
 
             System.out.println(new Gson().toJson(resultModel));
 
-            resultRepository.persist(resultModel);
+
+      insertData(resultModel);
 //            resultRepository.flush();
 
 
@@ -287,6 +288,7 @@ public class QuizSubmitController {
             for(SaveResultModel result :arrayList1){
                 LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(result),
                         LeaderBoardModel.class);
+                if(resultModel.getStudentModel()!=null)
                 leaderBoardModel.setName(resultModel.getStudentModel().getFname());
                 leaderBoardArrayList.add(leaderBoardModel);
 
@@ -312,8 +314,8 @@ public class QuizSubmitController {
     }
 
 
-//    @Transactional
-//    public void insertData(){
-//
-//    }
+    @Transactional
+    public void insertData(SaveResultModel resultModel){
+        resultRepository.persistAndFlush(resultModel);
+    }
 }
