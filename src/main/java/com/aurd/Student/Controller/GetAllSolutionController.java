@@ -66,8 +66,6 @@ public class GetAllSolutionController{
         questionModels.forEach(quiz_question_model -> {
 
 
-
-
             SolutionEntity entity = new SolutionEntity();
 
             ArrayList<Question_Option_Model> optionList =
@@ -87,11 +85,19 @@ public class GetAllSolutionController{
             for(int i=0;i<arrayList.size();i++)
             {
                 Quiz_Submit_Model quiz_submit_model=arrayList.get(i);
-                entity.setMarkForReview(arrayList.get(i).getMarkForReview());
+
+              if(  quiz_question_model.getQuestion_id()==quiz_submit_model.getQues_id()){
+                  entity.setMarkForReview(arrayList.get(i).getMarkForReview());
+              }else{
+                  entity.setMarkForReview(0);
+              }
+
+
+
                 if(quiz_submit_model.getQues_id()==quiz_question_model.getQuestion_id())
                 {
-entity.setMyAnswer(quiz_submit_model.getAns());
-break;
+                    entity.setMyAnswer(quiz_submit_model.getAns());
+                    break;
                 }
             }
 

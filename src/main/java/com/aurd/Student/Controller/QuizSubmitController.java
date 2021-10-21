@@ -113,33 +113,33 @@ public class QuizSubmitController {
 
 
 
-            for (SubjectModel subjectModel:subjectList) {
-                TopicAnalysisModel analysisModel = new TopicAnalysisModel();
-                int subjectTotalMarks=0;
-                int subjectObtainedMarks=0;
-                int totalQuestion=0;
-                for (Quiz_Question_Map_Model model:quizQuestionIDList) {
-                    if(model.getSubject_id()==subjectModel.getId())
-                    {
-                        subjectTotalMarks+=model.getMarks();
-                        totalQuestion+=1;
-                    }
-                }
-                analysisModel.setTotalMarks(subjectTotalMarks);
-
-                for (Quiz_Submit_Model quiz_submit_model:request.getArrayList()) {
-                    if(quiz_submit_model.getSubjectId().equals(String.valueOf(subjectModel.getId())))
-                    {
-                        subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
-                    }
-                }
-                analysisModel.setSubject(subjectModel.getSubject());
-                analysisModel.setMarksObtained(subjectObtainedMarks);
-                analysisModel.setPercent(String.valueOf((subjectObtainedMarks/subjectTotalMarks)*100));
-                analysisModel.setQuestions(totalQuestion);
-
-                tList.add(analysisModel);
-            }
+//            for (SubjectModel subjectModel:subjectList) {
+//                TopicAnalysisModel analysisModel = new TopicAnalysisModel();
+//                int subjectTotalMarks=0;
+//                int subjectObtainedMarks=0;
+//                int totalQuestion=0;
+//                for (Quiz_Question_Map_Model model:quizQuestionIDList) {
+//                    if(model.getSubject_id()==subjectModel.getId())
+//                    {
+//                        subjectTotalMarks+=model.getMarks();
+//                        totalQuestion+=1;
+//                    }
+//                }
+//                analysisModel.setTotalMarks(subjectTotalMarks);
+//
+//                for (Quiz_Submit_Model quiz_submit_model:request.getArrayList()) {
+//                    if(quiz_submit_model.getSubjectId().equals(String.valueOf(subjectModel.getId())))
+//                    {
+//                        subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
+//                    }
+//                }
+//                analysisModel.setSubject(subjectModel.getSubject());
+//                analysisModel.setMarksObtained(subjectObtainedMarks);
+//                analysisModel.setPercent(String.valueOf((subjectObtainedMarks/subjectTotalMarks)*100));
+//                analysisModel.setQuestions(totalQuestion);
+//
+//                tList.add(analysisModel);
+//            }
 
 
             for(int i=0;i<request.getArrayList().size();i++)
@@ -268,37 +268,36 @@ public class QuizSubmitController {
                 resultModel.setCut_off(0);
             }
 
-//            resultModel.setPercent(19.7);
 
             System.out.println(new Gson().toJson(resultModel));
 
 
-      insertData(resultModel);
+            insertData(resultModel);
 //            resultRepository.flush();
 
 
-            ArrayList<SaveResultModel> arrayList1 =
-                    resultRepository.getResultList(quizModel.getQuiz_id(),quizModel.getInst_id());
-//                    (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and inst_id =?2" +
-//                                    " order by marks_obtained DESC",
-//                            quizModel.getQuiz_id(),quizModel.getInst_id().longValue());
+//            ArrayList<SaveResultModel> arrayList1 =
+//                    resultRepository.getResultList(quizModel.getQuiz_id(),quizModel.getInst_id());
+////                    (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and inst_id =?2" +
+////                                    " order by marks_obtained DESC",
+////                            quizModel.getQuiz_id(),quizModel.getInst_id().longValue());
+////
 //
-
-            ArrayList<LeaderBoardModel> leaderBoardArrayList = new ArrayList<>();
-            for(SaveResultModel result :arrayList1){
-                LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(result),
-                        LeaderBoardModel.class);
-                if(resultModel.getStudentModel()!=null)
-                leaderBoardModel.setName(resultModel.getStudentModel().getFname());
-                leaderBoardArrayList.add(leaderBoardModel);
-
-            }
+//            ArrayList<LeaderBoardModel> leaderBoardArrayList = new ArrayList<>();
+//            for(SaveResultModel result :arrayList1){
+//                LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(result),
+//                        LeaderBoardModel.class);
+//                if(resultModel.getStudentModel()!=null)
+//                leaderBoardModel.setName(resultModel.getStudentModel().getFname());
+//                leaderBoardArrayList.add(leaderBoardModel);
+//
+//            }
 
             response.setErrorCode(0);
             response.setStatus(true);
             response.setMessage("Quiz submitted Successfully");
             response.setResult(resultModel);
-            response.setResultList(leaderBoardArrayList);
+//            response.setResultList(leaderBoardArrayList);
             response.setTopics(tList);
         }else{
             response.setErrorCode(1);

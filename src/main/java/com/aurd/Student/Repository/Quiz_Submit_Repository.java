@@ -32,7 +32,7 @@ public class Quiz_Submit_Repository implements PanacheRepository<Quiz_Submit_Mod
                 quiz_submit_model.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
 
                 if(request.getArrayList().get(i).getSubjectId()==null){
-                    quiz_submit_model.setSubjectId(null);
+                    quiz_submit_model.setSubjectId(0);
                 }else{
                     quiz_submit_model.setSubjectId(request.getArrayList().get(i).getSubjectId());
                 }
@@ -68,6 +68,5 @@ public class Quiz_Submit_Repository implements PanacheRepository<Quiz_Submit_Mod
     }
 
 
-    public void insertData(){}
 
 }

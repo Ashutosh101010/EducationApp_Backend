@@ -70,7 +70,7 @@ public class GetPractiseTestQuestion {
 
             if(quizQuestionIDList.get(i).getSubject_id()!=0){
                 subjectModel = subjectRepository.
-                        find("id",quizQuestionIDList.get(i).getSubject_id()).firstResult();
+                        find("id",(int)quizQuestionIDList.get(i).getSubject_id()).firstResult();
                 model.setSubject(subjectModel.getSubject());
 
                 model.setSubject_id(subjectModel.getId());

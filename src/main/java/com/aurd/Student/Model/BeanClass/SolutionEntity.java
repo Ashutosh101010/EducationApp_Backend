@@ -10,7 +10,7 @@ public class SolutionEntity {
     String answer;
     String description;
     ArrayList<Question_Option_Model> options = new ArrayList<>();
-    int markForReview ;
+    int markForReview =0;
 
     public int getMarkForReview() {
         return markForReview;

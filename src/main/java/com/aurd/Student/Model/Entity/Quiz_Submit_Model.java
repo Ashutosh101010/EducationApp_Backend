@@ -51,9 +51,8 @@ public class Quiz_Submit_Model {
     private  int markForReview;
 
 
-    @Column(name = "subjectId",nullable = true)
-    @Null
-    @Nullable
+    @Column(name = "subjectId",nullable = false)
+
     private  Integer subjectId;
 
     @Column(name = "subject",nullable = true)
