@@ -29,7 +29,7 @@ public class SaveResultModel {
     private long total_marks;
 
     @Column(name = "marks_obtained",nullable = false)
-    private  int marks_obtained;
+    private  double marks_obtained;
 
     @Column(name = "correct_ans",nullable = false)
     private  long correct_ans;
@@ -152,12 +152,12 @@ public class SaveResultModel {
         this.total_marks = total_marks;
     }
 
-    public long getMarks_obtained() {
+    public double getMarks_obtained() {
         return marks_obtained;
     }
 
-    public void setMarks_obtained(long marks_obtained) {
-        this.marks_obtained = (int) marks_obtained;
+    public void setMarks_obtained(double marks_obtained) {
+        this.marks_obtained = marks_obtained;
     }
 
     public long getCorrect_ans() {

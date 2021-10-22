@@ -52,8 +52,19 @@ public class GetQuizResultController {
         ArrayList<SaveResultModel> arrayList1=resultRepository.getResultList(
                 request.getQuizID(),request.getInstID());
 
-        for(SaveResultModel resultModel:arrayList1){
+        SaveResultModel saveResultModel  =
+                resultRepository.find("quiz_id=?1 and stud_id=?2 and inst_id =?3",
+                        request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
+
+        for(int i=0;i<arrayList1.size();i++){
+            SaveResultModel resultModel=arrayList1.get(i);
+
             LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(resultModel),LeaderBoardModel.class);
+           leaderBoardModel.setPercent((i+1/arrayList1.size())*100);
+           if(saveResultModel.getId()== resultModel.getId())
+           {
+               saveResultModel.setPercent((i+1/arrayList1.size())*100);
+           }
             leaderBoardModel.setName(resultModel.getStudentModel().getFname());
             leaderBoardList.add(leaderBoardModel);
         }
@@ -70,15 +81,14 @@ public class GetQuizResultController {
                 request.getQuizID()).firstResult();
 
         ArrayList<TopicAnalysisModel> topicList =new ArrayList<>();
-        SaveResultModel saveResultModel  =
-             resultRepository.find("quiz_id=?1 and stud_id=?2 and inst_id =?3",
-                     request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
+
 
         ArrayList<Quiz_Submit_Model> quizSubmitModels=
                 quizSubmitRepository.getStudentPracticeTestResult
                         (Math.toIntExact(request.getInstID()),request.getStudID(),request.getQuizID());
 
         System.out.println("Quiz Subbmmited length"+quizSubmitModels.size());
+
 
 
         ArrayList<SubjectModel> subjects=new ArrayList<>();
@@ -158,9 +168,10 @@ public class GetQuizResultController {
                         if(quizModel.getNegative_marking()!=null &&
                                 !quizModel.getNegative_marking().equals("0"))
                         {
-                            int num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
-                            int den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
+                            double num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
+                            double den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
 
+                            System.out.println("negative "+num +" "+den +"  "+num/den);
                             subjectObtainedMarks=subjectObtainedMarks-
                                     ((num/den)*quizModel.getMarks_per_ques());
 
@@ -177,9 +188,9 @@ public class GetQuizResultController {
 
 
             analysisModel.setSubject(subjectModel.getSubject());
-            analysisModel.setMarksObtained(subjectObtainedMarks.intValue());
+            analysisModel.setMarksObtained(subjectObtainedMarks);
 
-            percent = (subjectObtainedMarks *100)/subjectTotalMarks;
+            percent = (((double) correctAns) *100)/totalQuestion;
 
 
             analysisModel.setPercent(percent);

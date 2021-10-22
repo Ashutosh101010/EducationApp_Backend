@@ -4,7 +4,7 @@ public class TopicAnalysisModel {
     String subject;
     int questions;
     double percent;
-    int marksObtained;
+    double marksObtained;
     int totalMarks;
     int cutOff;
     String status;
@@ -84,11 +84,11 @@ public class TopicAnalysisModel {
         this.percent = percent;
     }
 
-    public int getMarksObtained() {
+    public double getMarksObtained() {
         return marksObtained;
     }
 
-    public void setMarksObtained(int marksObtained) {
+    public void setMarksObtained(double marksObtained) {
         this.marksObtained = marksObtained;
     }
 }

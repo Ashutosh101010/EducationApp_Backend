@@ -4,7 +4,7 @@ public class LeaderBoardModel {
     int id;
     long stud_id;
     long inst_id;
-    int marks_obtained;
+    double marks_obtained;
     long total_marks;
     String status;
     double percent;
@@ -34,11 +34,11 @@ public class LeaderBoardModel {
         this.inst_id = inst_id;
     }
 
-    public int getMarks_obtained() {
+    public double getMarks_obtained() {
         return marks_obtained;
     }
 
-    public void setMarks_obtained(int marks_obtained) {
+    public void setMarks_obtained(double marks_obtained) {
         this.marks_obtained = marks_obtained;
     }
 

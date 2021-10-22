@@ -159,8 +159,8 @@ public class QuizSubmitController {
                     wrongAns++;
                     if(quizModel.getNegative_marking()!=null && !quizModel.getNegative_marking().equals("0"))
                     {
-                       int num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
-                       int den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
+                       double num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
+                       double den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
 
                        marksObtained=marksObtained-((num/den)*quizModel.getMarks_per_ques());
 
@@ -235,7 +235,7 @@ public class QuizSubmitController {
 //            }
 
 
-            resultModel.setMarks_obtained(marksObtained.intValue());
+            resultModel.setMarks_obtained(marksObtained);
             resultModel.setTotal_marks(totalMarks);
             resultModel.setWrong_ans(wrongAns);
             resultModel.setCorrect_ans(correctAns);
