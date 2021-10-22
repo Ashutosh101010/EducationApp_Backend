@@ -26,8 +26,6 @@ public class GetLiveClassController {
     public void getLiveClasses(LiveClassesRequest request){
 
 
-
-
     }
 
 

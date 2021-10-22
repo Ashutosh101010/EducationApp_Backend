@@ -349,7 +349,7 @@ public class GetIndexController {
         entity.setType("notes");
 
         SubjectModel subjectModel = subjectRepository.
-                find("id", notesModel.getSubject_id().longValue()).firstResult();
+                find("id", notesModel.getSubject_id().intValue()).firstResult();
         entity.setSubject(subjectModel.getSubject());
 
         CourseModel courseModel = coursesRepository.find("id",
@@ -357,6 +357,7 @@ public class GetIndexController {
         entity.setCourse(courseModel.getCourse());
 
         TeacherModel teacherModel = teacherRepository.find("id",
+
                 entity.getCreated_by().longValue()).firstResult();
         entity.setTeacherName(teacherModel.getFname());
 

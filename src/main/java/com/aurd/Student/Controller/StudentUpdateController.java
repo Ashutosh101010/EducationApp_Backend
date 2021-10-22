@@ -97,6 +97,13 @@ public class StudentUpdateController {
 
             }
 
+            if(input.get("image")==null){
+                request.setImage(null);
+            }else {
+
+                request.setImage(input.get("image").get(0).getBodyAsString());
+            }
+
 
 
 
