@@ -88,8 +88,10 @@ public class GetAllSolutionController{
 
               if(  quiz_question_model.getQuestion_id()==quiz_submit_model.getQues_id()){
                   entity.setMarkForReview(arrayList.get(i).getMarkForReview());
+                  entity.setSkipped(0);
               }else{
                   entity.setMarkForReview(0);
+                  entity.setSkipped(1);
               }
 
 

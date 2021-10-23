@@ -64,6 +64,11 @@ public class GetStudentPostsController {
             StudentPostEntity postModel = new StudentPostEntity();
             postModel.setId(Long.parseLong(objects[0].toString()));
             postModel.setDescription(objects[1].toString());
+            if(objects[2]==null){
+                postModel.setPic("");
+            }else{
+                postModel.setPic(objects[2].toString());
+            }
           //  postModel.setPic(objects[2].toString());
             postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
             postModel.setAdded_by(Integer.parseInt(objects[4].toString()));

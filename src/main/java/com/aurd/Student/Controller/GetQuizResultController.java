@@ -148,8 +148,14 @@ public class GetQuizResultController {
             for (Quiz_Submit_Model quiz_submit_model:quizSubmitModels) {
 
 
+
+
                 Quiz_Question_Model  quizQuestion = quizQuestionRepository.
                         getQuestions(quiz_submit_model.getQues_id());
+
+
+
+
 
 
                 if(quiz_submit_model.getSubjectId()==subjectModel.getId())

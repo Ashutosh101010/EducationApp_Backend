@@ -12,40 +12,28 @@ import java.sql.Timestamp;
 public class LiveClassModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long live_session_id;
+    private int live_session_id;
 
 
     @Column(name = "course",nullable = false)
-    @NotBlank
-    @Max(256)
     private String course;
 
 
     @Column(name = "title",nullable = false)
-    @NotBlank
-    @Max(256)
     private String title;
 
 
     @Column(name = "batch",nullable = false)
-    @NotBlank
-    @Max(256)
     private String batch;
 
     @Column(name = "subject",nullable = false)
-    @NotBlank
-    @Max(256)
     private String subject;
 
 
     @Column(name = "sub_subject",nullable = false)
-    @NotBlank
-    @Max(256)
     private String sub_subject;
 
     @Column(name = "topic",nullable = false)
-    @NotBlank
-    @Max(256)
     private String topic;
 
     @Column(name = "quiz_id",nullable = false)
@@ -59,7 +47,6 @@ public class LiveClassModel {
     private int faculty_id;
 
     @Column(name = "live_session_url",nullable = true)
-    @Max(255)
     private String live_session_url;
 
     @Column(name = "status",nullable = false)
@@ -75,11 +62,11 @@ public class LiveClassModel {
     private Timestamp end_time;
 
 
-    public long getLive_session_id() {
+    public int getLive_session_id() {
         return live_session_id;
     }
 
-    public void setLive_session_id(long live_session_id) {
+    public void setLive_session_id(int live_session_id) {
         this.live_session_id = live_session_id;
     }
 
