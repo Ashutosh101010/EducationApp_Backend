@@ -90,6 +90,7 @@ public class GetIndexController {
     @Transactional
     public GetIndexResponse getIndex(GetIndexRequest request) throws ParseException {
 
+        System.out.println(new Gson().toJson(request));
 
         ArrayList<Index_Model> arrayList = new ArrayList<>();
         ArrayList<Object[]> list = null;
@@ -236,6 +237,9 @@ public class GetIndexController {
 
          });
 
+
+         System.out.println(vList.size());
+
         GetIndexResponse getIndexResponse= new GetIndexResponse();
         getIndexResponse.setIndex(arrayList);
         getIndexResponse.setMessage("Get Index Successfully");
@@ -250,6 +254,7 @@ public class GetIndexController {
 
 
     BlogEntity getBlogs(Index_Model model,GetIndexRequest request){
+        System.out.println("Get Blogs");
 
 
         Long val = Long.valueOf(model.getPost_id());
@@ -286,6 +291,7 @@ public class GetIndexController {
 
 
     CurrentAffairEntity getCurrentAffair(Index_Model model,GetIndexRequest request){
+        System.out.println("Get Current Affair");
         Long val = Long.valueOf(model.getPost_id());
         Long inst = request.getInst_id();
       CurrentAffairModel currentAffairModel=  caRepository.
@@ -326,6 +332,7 @@ public class GetIndexController {
 
 
     NotesEntity getNotes(Index_Model model,GetIndexRequest request){
+        System.out.println("Get Notes");
         Long val = Long.valueOf(model.getPost_id());
 
         NotesModel notesModel =   notesRepository.find("id =?1 and inst_id =?2",
@@ -357,7 +364,6 @@ public class GetIndexController {
         entity.setCourse(courseModel.getCourse());
 
         TeacherModel teacherModel = teacherRepository.find("id",
-
                 entity.getCreated_by().longValue()).firstResult();
         entity.setTeacherName(teacherModel.getFname());
 
@@ -373,6 +379,7 @@ public class GetIndexController {
 
 
     StudentPostEntity getPost(Index_Model model, GetIndexRequest request){
+        System.out.println("Get Post");
         String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
                 "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                 "student_posts.added_on, students.fname FROM `student_posts` " +
@@ -446,22 +453,48 @@ public class GetIndexController {
 
 
     QuizEntity getQuizzes(Index_Model model, GetIndexRequest request){
+        System.out.println("Get Quiz");
         Long val = Long.valueOf(model.getPost_id());
         QuizModel quizModel =  quizRepository.find("id =?1 and inst_id = ?2 and type = ?3",
                 val,request.getInst_id().intValue(),"Quiz").firstResult();
 
         QuizEntity entity= new Gson().fromJson(new Gson().toJson(quizModel),QuizEntity.class);
+        entity.setType("quiz");
 
         return  entity;
     }
 
     VideoEntity getVideos(Index_Model model, GetIndexRequest request){
+        System.out.println("Get Videos");
         Long val = Long.valueOf(model.getPost_id());
 
-       VideoModel videoModel = videoLectureRepository.find("inst_id =?1 and id =?2", request.getInst_id().intValue(),val).firstResult();
+       VideoModel videoModel = videoLectureRepository.find("inst_id =?1 and id =?2",
+               request.getInst_id().intValue(),val).firstResult();
        VideoEntity entity = new Gson().fromJson(new Gson().toJson(videoModel),VideoEntity.class);
 
-       entity.setType("video");
+       if(videoModel.getCourse_id()!=null){
+           CourseModel courseModel = coursesRepository.find("id",
+                   videoModel.getCourse_id().longValue()).firstResult();
+           entity.setCourse(courseModel.getCourse());
+       }
+
+       if(videoModel.getTopicId()!=null){
+            TopicModel topicModel = topicsRepository.find("id",
+                    videoModel.getTopicId()).firstResult();
+            entity.setTopic(topicModel.getTopic());
+        }
+        if(videoModel.getSubject_id()!=null){
+
+            SubjectModel subjectModel = subjectRepository.find("id",
+                    videoModel.getSubject_id().intValue()).firstResult();
+            entity.setSubject(subjectModel.getSubject());
+
+        }
+
+
+
+
+        entity.setType("video");
 
         TeacherModel teacherModel = teacherRepository.find("id",
                 videoModel.getTeacher_id()).firstResult();
@@ -472,7 +505,7 @@ public class GetIndexController {
 
 
     QuizEntity getAllTestSeries(Index_Model model, GetIndexRequest request) {
-
+        System.out.println("Get Test Series");
         System.out.println(model.getPost_id());
         //  System.out.println(request.getInst_id());
 
@@ -519,7 +552,7 @@ public class GetIndexController {
 
 
 
-        entity.setType("Practise Test");
+        entity.setType("practiseTest");
 
 
         return entity;
