@@ -20,7 +20,7 @@ public class LiveClassesRepository implements PanacheRepository<LiveClassModel> 
                     getEntityManager().createQuery("select LiveClassModel from LiveClassModel liveclassModel" +
                             " where LiveClassModel .inst_id =: instId and LiveClassModel.status=:status");
             query.setParameter("instId",request.getInst_id());
-            query.setParameter("status",0);
+            query.setParameter("status",1);
 
             return (ArrayList<LiveClassModel>) query.getResultList();
         }catch (Exception e){

@@ -36,8 +36,7 @@ public class VideoModel {
     @Column(name = "description",nullable = true)
     private String description;
 
-    @Column(name = "tags",nullable = true)
-    private String tags;
+
 
     @Column(name = "video_type",nullable = false)
     private String video_type;
@@ -155,13 +154,6 @@ public class VideoModel {
         this.description = description;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
 
     public String getVideo_type() {
         return video_type;
