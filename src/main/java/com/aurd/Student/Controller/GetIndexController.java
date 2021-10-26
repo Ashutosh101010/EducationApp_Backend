@@ -497,7 +497,7 @@ public class GetIndexController {
         entity.setType("video");
 
         TeacherModel teacherModel = teacherRepository.find("id",
-                videoModel.getTeacher_id()).firstResult();
+                videoModel.getCreated_by()).firstResult();
         entity.setTeacherName(teacherModel.getFname());
 
         return  entity;

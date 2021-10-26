@@ -30,8 +30,8 @@ public class VideoModel {
     @Column(name = "created_at",nullable = false)
     private Timestamp created_at;
 
-    @Column(name = "teacher_id",nullable = false)
-    private long teacher_id;
+    @Column(name = "created_by",nullable = false)
+    private long created_by;
 
     @Column(name = "description",nullable = true)
     private String description;
@@ -138,12 +138,12 @@ public class VideoModel {
         this.created_at = created_at;
     }
 
-    public long getTeacher_id() {
-        return teacher_id;
+    public long getCreated_by() {
+        return created_by;
     }
 
-    public void setTeacher_id(long teacher_id) {
-        this.teacher_id = teacher_id;
+    public void setCreated_by(long created_by) {
+        this.created_by = created_by;
     }
 
     public String getDescription() {
