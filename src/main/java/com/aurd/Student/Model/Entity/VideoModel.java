@@ -25,7 +25,7 @@ public class VideoModel {
     private  String thumb;
 
     @Column(name = "topicId",nullable = false)
-    private  long topicId;
+    private  Long topicId;
 
     @Column(name = "created_at",nullable = false)
     private Timestamp created_at;
@@ -36,8 +36,7 @@ public class VideoModel {
     @Column(name = "description",nullable = true)
     private String description;
 
-    @Column(name = "tags",nullable = true)
-    private String tags;
+
 
     @Column(name = "video_type",nullable = false)
     private String video_type;
@@ -46,6 +45,40 @@ public class VideoModel {
     @Column(name = "fee_type",nullable = true)
     private String fee_type;
 
+    @Column(name = "course_id",nullable = true)
+    private Integer course_id;
+
+    @Column(name = "sub_subject_id",nullable = true)
+    private Integer sub_subject_id;
+
+    @Column(name = "subject_id",nullable = true)
+    private Integer subject_id;
+
+
+
+    public Integer getCourse_id() {
+        return course_id;
+    }
+
+    public void setCourse_id(Integer course_id) {
+        this.course_id = course_id;
+    }
+
+    public Integer getSub_subject_id() {
+        return sub_subject_id;
+    }
+
+    public void setSub_subject_id(Integer sub_subject_id) {
+        this.sub_subject_id = sub_subject_id;
+    }
+
+    public Integer getSubject_id() {
+        return subject_id;
+    }
+
+    public void setSubject_id(Integer subject_id) {
+        this.subject_id = subject_id;
+    }
 
 
     public String getFee_type() {
@@ -88,11 +121,12 @@ public class VideoModel {
         this.thumb = thumb;
     }
 
-    public long getTopicId() {
+
+    public Long getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(long topicId) {
+    public void setTopicId(Long topicId) {
         this.topicId = topicId;
     }
 
@@ -120,13 +154,6 @@ public class VideoModel {
         this.description = description;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
 
     public String getVideo_type() {
         return video_type;

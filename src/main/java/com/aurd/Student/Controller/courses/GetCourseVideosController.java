@@ -29,9 +29,7 @@ public class GetCourseVideosController {
     public GetVideoLectureResponse getVideos(GetVideoLectureRequest request){
 
         ArrayList<VideoModel> arrayList= videoLectureRepository.getCourseVideoList(request);
-        arrayList.forEach(videoModel -> {
-            System.out.println(videoModel.getTags());
-        });
+
 
         GetVideoLectureResponse response = new GetVideoLectureResponse();
         response.setErrorCode(0);

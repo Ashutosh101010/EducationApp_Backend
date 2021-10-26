@@ -3,6 +3,7 @@ package com.aurd.Student.Model.Response.TestSeries;
 import com.aurd.Student.Model.BeanClass.ResultEntity;
 import com.aurd.Student.Model.BeanClass.SolutionEntity;
 import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
+import com.aurd.Student.Model.Entity.LeaderBoardModel;
 import com.aurd.Student.Model.Entity.SaveResultModel;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class Result_Response {
     boolean status;
     SaveResultModel result;
     ArrayList<SolutionEntity> solutions = new ArrayList<>();
-    ArrayList<SaveResultModel> resultList = new ArrayList<>();
+    ArrayList<LeaderBoardModel> resultList = new ArrayList<>();
 
     ArrayList<TopicAnalysisModel> topics = new ArrayList<>();
 
@@ -25,11 +26,11 @@ public class Result_Response {
         this.topics = topics;
     }
 
-    public ArrayList<SaveResultModel> getResultList() {
+    public ArrayList<LeaderBoardModel> getResultList() {
         return resultList;
     }
 
-    public void setResultList(ArrayList<SaveResultModel> resultList) {
+    public void setResultList(ArrayList<LeaderBoardModel> resultList) {
         this.resultList = resultList;
     }
 

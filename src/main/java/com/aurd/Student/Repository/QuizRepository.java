@@ -48,9 +48,35 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
                 return arrayList;
 
-            }
+            }else if(  request.getFilter().equals("free") && request.getCourse_id()==0 &&request.getSubject_id()==0){
+                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 ORDER BY added_on DESC",
+                           request.getInst_id().intValue(),request.getType(),"0").list();
+
+                   return arrayList;
+               }else if(request.getFilter().equals("paid") &&
+                       request.getCourse_id()==0 &&
+                       request.getSubject_id()==0){
+
+//                   Query query = getEntityManager().createQuery("select QuizModel from  QuizModel quizModel" +
+//                           " where quizModel.inst_id=:instId and quizModel.type =:type and quizModel.price =:price");
+//                   query.setParameter("instId",request.getInst_id().intValue());
+//                   query.setParameter("type",request.getType());
+//                   query.setParameter("price",">0");
+
+                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 " +
+                                   "ORDER BY added_on DESC",
+                           request.getInst_id().intValue(),request.getType(),">0").list();
+
+                   return arrayList;
+               }
                else{
-                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 ORDER BY added_on DESC",
+//                   Query query = getEntityManager().createQuery("select QuizModel from  QuizModel quizModel" +
+//                           " where quizModel.inst_id=:instId and quizModel.type =:type");
+//                   query.setParameter("instId",request.getInst_id().intValue());
+//                   query.setParameter("type",request.getType());
+
+
+                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2  ORDER BY added_on DESC",
                            request.getInst_id().intValue(),request.getType()).list();
 
                    return arrayList;

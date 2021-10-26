@@ -7,6 +7,7 @@ import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import com.aurd.Student.Model.Response.TestSeries.Result_Response;
 import com.aurd.Student.Repository.*;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -29,6 +30,15 @@ public class GetQuizResultController {
     @Inject
     Quiz_Submit_Repository quizSubmitRepository;
 
+    @Inject
+    Quiz_Section_Repository section_repository;
+
+    @Inject
+    QuizQuestionRepository quizQuestionRepository;
+
+    @Inject
+    QuizRepository quizRepository;
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -37,76 +47,181 @@ public class GetQuizResultController {
     @Transactional
     public  Result_Response getResult(GetQuizResultRequest request){
 
+        ArrayList<LeaderBoardModel> leaderBoardList = new ArrayList<>();
 
-        ArrayList<SaveResultModel> arrayList1=
-                (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and" +
-                                " inst_id =?2 order by marks_obtained DESC",
-                       request.getQuizID(),request.getInstID());
+        ArrayList<SaveResultModel> arrayList1=resultRepository.getResultList(
+                request.getQuizID(),request.getInstID());
+
+        SaveResultModel saveResultModel  =
+                resultRepository.find("quiz_id=?1 and stud_id=?2 and inst_id =?3",
+                        request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
+
+        for(int i=0;i<arrayList1.size();i++){
+            SaveResultModel resultModel=arrayList1.get(i);
+
+            LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(resultModel),LeaderBoardModel.class);
+           leaderBoardModel.setPercent((i+1/arrayList1.size())*100);
+           if(saveResultModel.getId()== resultModel.getId())
+           {
+               saveResultModel.setPercent((i+1/arrayList1.size())*100);
+           }
+            leaderBoardModel.setName(resultModel.getStudentModel().getFname());
+            leaderBoardList.add(leaderBoardModel);
+        }
+//                (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and" +
+//                                " inst_id =?2 order by marks_obtained DESC",
+//                       request.getQuizID(),request.getInstID());
 
 //
 //        arrayList1.forEach(saveResultModel -> {
 //
 //        });
 
+        QuizModel quizModel = quizRepository.find("quiz_id",
+                request.getQuizID()).firstResult();
 
         ArrayList<TopicAnalysisModel> topicList =new ArrayList<>();
-        SaveResultModel saveResultModel  =
-             resultRepository.find("quiz_id=?1 and stud_id=?2 and inst_id =?3",
-                     request.getQuizID(),request.getStudID(),request.getInstID()).firstResult();
 
-        ArrayList<Quiz_Submit_Model> quizSubmitModels=quizSubmitRepository.getStudentPracticeTestResult(Math.toIntExact(request.getInstID()),request.getStudID(),request.getQuizID());
+
+        ArrayList<Quiz_Submit_Model> quizSubmitModels=
+                quizSubmitRepository.getStudentPracticeTestResult
+                        (Math.toIntExact(request.getInstID()),request.getStudID(),request.getQuizID());
+
+        System.out.println("Quiz Subbmmited length"+quizSubmitModels.size());
+
+
 
         ArrayList<SubjectModel> subjects=new ArrayList<>();
         ArrayList<Quiz_Question_Map_Model> questions=questionRepository.getQuestion(request.getQuizID());
 
+        System.out.println("Questions main List Size"+questions.size());
+
+        System.out.println("Question List Size"+ questions.size());
         for (Quiz_Question_Map_Model question: questions) {
             boolean exists=false;
 
-            for(SubjectModel subject:subjects)
-            {
-                if(subject.getId()==question.getSubject_id())
+            if(question.getSubject_id()!=0){
+
+                for(SubjectModel subject:subjects)
                 {
-                    exists=true;
+                    if(subject.getId()==question.getSubject_id())
+                    {
+                        exists=true;
+                    }
+                }
+
+
+
+                if(!exists)
+                {
+                    subjects.add(question.getSubjectModel());
                 }
             }
 
 
-
-            if(!exists)
-            {
-                subjects.add(question.getSubjectModel());
-            }
-
         }
-
-
-
 
 
         for (SubjectModel subjectModel:subjects) {
             TopicAnalysisModel analysisModel = new TopicAnalysisModel();
             int subjectTotalMarks=0;
-            int subjectObtainedMarks=0;
+            Double subjectObtainedMarks=0.0;
             int totalQuestion=0;
+            int correctAns = 0;
+            int wrongAns =0;
+            int skipped = 0;
+            Double percent = 0.0;
             for (Quiz_Question_Map_Model model:questions) {
                 if(model.getSubject_id()==subjectModel.getId())
                 {
                     subjectTotalMarks+=model.getMarks();
                     totalQuestion+=1;
+
                 }
+
+
+
             }
+            System.out.println("Total Marks"+subjectTotalMarks);
             analysisModel.setTotalMarks(subjectTotalMarks);
 
             for (Quiz_Submit_Model quiz_submit_model:quizSubmitModels) {
-                if(quiz_submit_model.getSubjectId().equals(String.valueOf(subjectModel.getId())))
+
+
+
+
+                Quiz_Question_Model  quizQuestion = quizQuestionRepository.
+                        getQuestions(quiz_submit_model.getQues_id());
+
+
+
+
+
+
+                if(quiz_submit_model.getSubjectId()==subjectModel.getId())
                 {
                     subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
+
+
+
+                    if(quiz_submit_model.getAns().equals(quizQuestion.getAnswer()))
+                    {
+                        correctAns++;
+                        subjectObtainedMarks = subjectObtainedMarks + quiz_submit_model.getMarks_ob();
+                    }
+                    else{
+                        wrongAns++;
+                        if(quizModel.getNegative_marking()!=null &&
+                                !quizModel.getNegative_marking().equals("0"))
+                        {
+                            double num= Integer.parseInt(quizModel.getNegative_marking().split("/")[0]);
+                            double den= Integer.parseInt(quizModel.getNegative_marking().split("/")[1]);
+
+                            System.out.println("negative "+num +" "+den +"  "+num/den);
+                            subjectObtainedMarks=subjectObtainedMarks-
+                                    ((num/den)*quizModel.getMarks_per_ques());
+
+                        }
+                    }
+
                 }
+
             }
+
+
+          Quiz_Section_Model sectionModel  = section_repository.find("quiz_id =?1 and subject_id=?2",
+                    request.getQuizID().intValue(),subjectModel.getId()).firstResult();
+
+
             analysisModel.setSubject(subjectModel.getSubject());
             analysisModel.setMarksObtained(subjectObtainedMarks);
-            analysisModel.setPercent(String.valueOf((subjectObtainedMarks/subjectTotalMarks)*100));
+
+            percent = (((double) correctAns) *100)/totalQuestion;
+
+
+            analysisModel.setPercent(percent);
             analysisModel.setQuestions(totalQuestion);
+            analysisModel.setCorrectAns(correctAns);
+            analysisModel.setWrongAns(wrongAns);
+
+
+            if(sectionModel.getSubject_cutoff()!=0){
+                analysisModel.setCutOff(sectionModel.getSubject_cutoff());
+                if(sectionModel.getSubject_cutoff()<subjectObtainedMarks){
+                    analysisModel.setStatus("Pass");
+                }else{
+                    analysisModel.setStatus("Fail");
+                }
+            }else{
+                analysisModel.setCutOff(0);
+                analysisModel.setStatus("Pass");
+            }
+
+            skipped=quizModel.getTotal_ques()-quizSubmitModels.size();
+
+            analysisModel.setSkipped(skipped);
+
+
             topicList.add(analysisModel);
         }
 
@@ -128,7 +243,8 @@ public class GetQuizResultController {
          response.setMessage("Get Result Success");
          response.setErrorCode(0);
          response.setResult(saveResultModel);
-         response.setResultList(arrayList1);
+         response.setResultList(leaderBoardList);
+         response.setTopics(topicList);
      }
 
 

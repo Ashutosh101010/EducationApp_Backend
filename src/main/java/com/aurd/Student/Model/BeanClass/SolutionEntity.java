@@ -10,7 +10,16 @@ public class SolutionEntity {
     String answer;
     String description;
     ArrayList<Question_Option_Model> options = new ArrayList<>();
-    int markForReview ;
+    int markForReview =0;
+    int skipped = 0;
+
+    public int getSkipped() {
+        return skipped;
+    }
+
+    public void setSkipped(int skipped) {
+        this.skipped = skipped;
+    }
 
     public int getMarkForReview() {
         return markForReview;

@@ -14,7 +14,7 @@ public class SubjectModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     @Column(name = "subject",nullable = false)
     private String subject;
@@ -34,12 +34,21 @@ public class SubjectModel {
 //    public void setQuiz_question_map_model(List<Quiz_Question_Map_Model> quiz_question_map_model) {
 //        this.quiz_question_map_model = quiz_question_map_model;
 //    }
+//
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
-    public long getId() {
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

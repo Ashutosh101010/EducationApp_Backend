@@ -8,7 +8,7 @@ public class GetQuizRequest {
 
     Integer subject_id;
     Integer course_id;
-    String filter;
+    String filter ="-1";
 
     long stud_id;
 

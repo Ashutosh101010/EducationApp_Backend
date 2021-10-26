@@ -75,7 +75,7 @@ public class GetAllCommentController {
               } else if(model.getType().equals("faculty")){
                   entity.setFname(model.getTeacherModel().getFname());
               }
-              ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
+              ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity);
               entity.setReplyList(rList);
 
               arrayList.add(entity);
@@ -118,7 +118,7 @@ public class GetAllCommentController {
                 entity.setAdded_on(model.getAdded_on());
                 entity.setTime(model.getAdded_on().toString());
 
-                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
+                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity);
                 entity.setReplyList(rList);
 
                 arrayList.add(entity);
@@ -159,7 +159,7 @@ public class GetAllCommentController {
                 entity.setAdded_on(model.getAdded_on());
                 entity.setTime(model.getAdded_on().toString());
 
-                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
+                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity);
                 entity.setReplyList(rList);
 
                 arrayList.add(entity);
@@ -205,7 +205,7 @@ public class GetAllCommentController {
                 entity.setAdded_on(model.getAdded_on());
                 entity.setTime(model.getAdded_on().toString());
 
-                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity.getComment_id());
+                ArrayList<Comment_Reply_Model> rList =  getCommentReply(entity);
                 entity.setReplyList(rList);
 
                 arrayList.add(entity);
@@ -229,20 +229,32 @@ public class GetAllCommentController {
         return  response;
     }
 
-   ArrayList getCommentReply(int id){
+   ArrayList getCommentReply(CommentEntity entity){
      ArrayList<Comment_Reply_Model> list = (ArrayList<Comment_Reply_Model>)
-             replyRepository.list("comment_id",id);
+             replyRepository.list("comment_id",entity.getComment_id());
+
+     list.forEach(comment_reply_model -> {
+         if(comment_reply_model.getUser_type().equals("faculty")){
+             comment_reply_model.setFname(comment_reply_model.getTeacherModel().getFname());
+             comment_reply_model.setTime(comment_reply_model.getAdded_on().toString());
+
+         }else if(comment_reply_model.getUser_type().equals("student")){
+             comment_reply_model.setFname(comment_reply_model.getStudentModel().getFname());
+             comment_reply_model.setTime(comment_reply_model.getAdded_on().toString());
+
+         }
+     });
 
      return list;
    }
 
-    Comment_Reply_Model getReply(long postID,CommentEntity entity){
-        Comment_Reply_Model model = null;
-        if(entity.getPost_id()==postID){
-            model = new Comment_Reply_Model();
-          return  model;
-        }
-        return  model;
-    }
+//    Comment_Reply_Model getReply(long postID,CommentEntity entity){
+//        Comment_Reply_Model model = null;
+//        if(entity.getPost_id()==postID){
+//            model = new Comment_Reply_Model();
+//          return  model;
+//        }
+//        return  model;
+//    }
 
 }

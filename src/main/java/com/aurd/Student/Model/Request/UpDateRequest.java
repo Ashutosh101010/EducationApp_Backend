@@ -51,8 +51,23 @@ public class UpDateRequest {
     String gender;
 
 
+    @FormParam("image")
+    @PartType(MediaType.TEXT_PLAIN)
+    String image;
+
+
+
+
     @Transient
     String imageId;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getImageId() {
         return imageId;

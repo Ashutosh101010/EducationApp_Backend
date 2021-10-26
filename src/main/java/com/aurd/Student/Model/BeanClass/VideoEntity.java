@@ -17,6 +17,42 @@ public class VideoEntity {
     private  String type;
     private  String teacherName;
     private long indexId;
+    private String topic;
+    private String course;
+    private String subject;
+    private String sub_subject;
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getSub_subject() {
+        return sub_subject;
+    }
+
+    public void setSub_subject(String sub_subject) {
+        this.sub_subject = sub_subject;
+    }
 
     private long timeStamp;
 

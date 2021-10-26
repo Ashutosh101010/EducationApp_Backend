@@ -138,7 +138,8 @@ public class GetQuestionController {
            ArrayList<QuizQuestionEntity> arrayList = new ArrayList<>();
           ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
 
-                 (ArrayList<Quiz_Question_Map_Model>) questionID_repository.getQuestionID(request.getQuiz_id());
+                 (ArrayList<Quiz_Question_Map_Model>) questionID_repository.
+                         getQuestionID(request.getQuiz_id());
 
          System.out.println("List size==="+quizQuestionIDList.size());
 

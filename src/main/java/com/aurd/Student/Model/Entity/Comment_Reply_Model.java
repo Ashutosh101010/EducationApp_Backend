@@ -2,6 +2,8 @@ package com.aurd.Student.Model.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -36,8 +38,71 @@ public class Comment_Reply_Model {
     @Column(name = "type",nullable = false)
     private String type;
 
-    @Column(name = "fname",nullable = false)
+
+    @Column(name = "user_type",nullable = false)
+    private String user_type;
+
+    @Transient
     private  String fname;
+
+    @Transient
+    private String time;
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "user_id",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    StudentModel studentModel;
+
+
+    @ManyToOne
+    @JoinColumn(name="user_id",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    TeacherModel teacherModel;
+
+
+//    @Column(name = "fname",nullable = false)
+//    private  String fname;
+
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
+    }
+
+    public StudentModel getStudentModel() {
+        return studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
+    }
+
+    public TeacherModel getTeacherModel() {
+        return teacherModel;
+    }
+
+    public void setTeacherModel(TeacherModel teacherModel) {
+        this.teacherModel = teacherModel;
+    }
 
     public int getComment_id() {
         return comment_id;
@@ -88,13 +153,13 @@ public class Comment_Reply_Model {
         this.comment_id=comment_id;
     }
 
-    public String getFname() {
-        return fname;
-    }
-
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
+//    public String getFname() {
+//        return fname;
+//    }
+//
+//    public void setFname(String fname) {
+//        this.fname = fname;
+//    }
 
     public long getId() {
         return id;

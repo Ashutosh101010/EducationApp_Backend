@@ -16,7 +16,6 @@ public class Quiz_Submit_Model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  long id;
 
-
     @Column(name = "stud_id ",nullable = false)
     private  long stud_id;
 
@@ -52,7 +51,8 @@ public class Quiz_Submit_Model {
     private  int markForReview;
 
 
-    @Column(name = "subjectId",nullable = true)
+    @Column(name = "subjectId",nullable = false)
+
     private  Integer subjectId;
 
     @Column(name = "subject",nullable = true)

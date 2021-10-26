@@ -2,6 +2,10 @@ package com.aurd.Student.Model.Entity.map;
 
 
 import com.aurd.Student.Model.Entity.SubjectModel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.quarkus.runtime.annotations.IgnoreProperty;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -26,7 +30,7 @@ public class Quiz_Question_Map_Model {
 
     @Column(name = "marks",nullable = false)
     @Max(12)
-    private  long marks;
+    private  int marks;
 
     @Column(name = "subject_id",nullable = false)
     @Max(12)
@@ -41,6 +45,8 @@ public class Quiz_Question_Map_Model {
 
     @ManyToOne
     @JoinColumn(name="subject_id", nullable=false,insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
     private SubjectModel subjectModel;
 
 
@@ -68,11 +74,12 @@ public class Quiz_Question_Map_Model {
         this.ques_id = ques_id;
     }
 
-    public long getMarks() {
+
+    public int getMarks() {
         return marks;
     }
 
-    public void setMarks(long marks) {
+    public void setMarks(int marks) {
         this.marks = marks;
     }
 
