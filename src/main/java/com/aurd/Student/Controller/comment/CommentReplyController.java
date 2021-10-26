@@ -44,11 +44,11 @@ public class CommentReplyController {
 
         boolean value = repository.addCommentReplyRequest(request);
         if (value) {
-            response.setStatusCode(0);
+            response.seterrorCode(0);
             response.setStatus(true);
             response.setMessage("Comment Reply Added");
         } else {
-            response.setStatusCode(1);
+            response.seterrorCode(1);
             response.setStatus(false);
             response.setMessage("Comments Reply Not Added");
         }

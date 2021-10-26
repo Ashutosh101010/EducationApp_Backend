@@ -73,7 +73,7 @@ public class GetCoursesController {
         getCoursesResponse.setCourses(courses);
         getCoursesResponse.setMessage("Get Course Success");
         getCoursesResponse.setStatus(true);
-        getCoursesResponse.setStatusCode(0);
+        getCoursesResponse.seterrorCode(0);
 
 
         return getCoursesResponse;

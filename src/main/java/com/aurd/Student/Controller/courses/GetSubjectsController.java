@@ -135,7 +135,7 @@ public class GetSubjectsController {
        subjectResponse.setSubjectsList(subjectsList);
 //       subjectResponse.setList(arrayList);
        subjectResponse.setStatus(true);
-       subjectResponse.setStatusCode(0);
+       subjectResponse.seterrorCode(0);
        subjectResponse.setMessage("Get Subject Successfully");
 
        return  subjectResponse;

@@ -87,12 +87,12 @@ public class GetAllCommentController {
               response.setComments(arrayList);
               response.setMessage("Comment not found");
               response.setStatus(false);
-              response.setStatusCode(1);
+              response.seterrorCode(1);
           }else{
               response.setComments(arrayList);
               response.setMessage("Get comment Successful");
               response.setStatus(true);
-              response.setStatusCode(0);
+              response.seterrorCode(0);
           }
 
         }
@@ -129,11 +129,11 @@ public class GetAllCommentController {
 
                 response.setComments(arrayList);
                 response.setStatus(false);
-                response.setStatusCode(1);
+                response.seterrorCode(1);
             }else{
                 response.setComments(arrayList);
                 response.setStatus(true);
-                response.setStatusCode(0);
+                response.seterrorCode(0);
             }
         }
         else  if(request.getType().equals("studentPost")){
@@ -171,12 +171,12 @@ public class GetAllCommentController {
                 response.setComments(arrayList);
                 response.setMessage("comment not found");
                 response.setStatus(false);
-                response.setStatusCode(1);
+                response.seterrorCode(1);
             }else{
                 response.setComments(arrayList);
                 response.setMessage("Get comment Successful ");
                 response.setStatus(true);
-                response.setStatusCode(0);
+                response.seterrorCode(0);
             }
 
         }
@@ -217,12 +217,12 @@ public class GetAllCommentController {
                 response.setComments(arrayList);
                 response.setMessage("comment not found");
                 response.setStatus(false);
-                response.setStatusCode(1);
+                response.seterrorCode(1);
             }else{
                 response.setComments(arrayList);
                 response.setMessage("Get comment Successful");
                 response.setStatus(true);
-                response.setStatusCode(0);
+                response.seterrorCode(0);
             }
         }
 

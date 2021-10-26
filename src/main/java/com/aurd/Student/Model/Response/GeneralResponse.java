@@ -2,7 +2,7 @@ package com.aurd.Student.Model.Response;
 
 public class GeneralResponse {
     String message;
-    int statusCode;
+    int errorCode;
     boolean status;
 
 
@@ -14,12 +14,12 @@ public class GeneralResponse {
         this.message = message;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int geterrorCode() {
+        return errorCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void seterrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public boolean isStatus() {

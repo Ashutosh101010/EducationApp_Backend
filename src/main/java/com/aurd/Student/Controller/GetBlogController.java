@@ -32,7 +32,7 @@ public class GetBlogController {
       getBlogResponse.setBlogs(arrayList);
       getBlogResponse.setMessage("Get Blogs Successfully");
       getBlogResponse.setStatus(0);
-      getBlogResponse.setStatusCode(true);
+      getBlogResponse.seterrorCode(true);
 
 
       return getBlogResponse;

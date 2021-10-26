@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class StudentNotesResponse {
     String message;
     boolean status;
-    int statusCode;
+    int errorCode;
     ArrayList<StudentNotesEntity> notes = new ArrayList();
 
     public String getMessage() {
@@ -28,12 +28,12 @@ public class StudentNotesResponse {
         this.status = status;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int geterrorCode() {
+        return errorCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void seterrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public ArrayList<StudentNotesEntity> getNotes() {

@@ -33,7 +33,7 @@ public class GetNoticeController {
         getNoticeResponse.setNotice(arrayList);
         getNoticeResponse.setMessage("Get Notice Successfully");
         getNoticeResponse.setStatus(true);
-        getNoticeResponse.setStatusCode(0);
+        getNoticeResponse.seterrorCode(0);
 
 
         return getNoticeResponse;

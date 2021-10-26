@@ -103,6 +103,20 @@
       <artifactId>aws-java-sdk-iam</artifactId>
       <version>1.12.30</version>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-websockets</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-scheduler</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.quarkus</groupId>
+      <artifactId>camel-quarkus-gson</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+
 
 
 

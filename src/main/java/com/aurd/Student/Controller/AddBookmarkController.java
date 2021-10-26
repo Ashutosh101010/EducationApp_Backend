@@ -49,7 +49,7 @@ public class AddBookmarkController {
         if (request.getOperation() == 1) {
            repository.persist(bookMarkModel);
 
-         response.setStatusCode(0);
+         response.seterrorCode(0);
          response.setMessage("Add Book mark Success");
          response.setStatus(true);
 
@@ -66,11 +66,11 @@ public class AddBookmarkController {
 
         response.setMessage("Delete book mark");
         response.setStatus(true);
-        response.setStatusCode(0);
+        response.seterrorCode(0);
         } else {
             response.setMessage("Unable to proceed");
             response.setStatus(false);
-            response.setStatusCode(1);
+            response.seterrorCode(1);
         }
 
         return  response;

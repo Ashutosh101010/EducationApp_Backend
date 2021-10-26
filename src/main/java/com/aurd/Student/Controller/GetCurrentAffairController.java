@@ -48,7 +48,7 @@ public class GetCurrentAffairController {
 
             getCurrentAffairResponse.setMessage("No Current Affairs");
             getCurrentAffairResponse.setStatus(false);
-            getCurrentAffairResponse.setStatusCode(1);
+            getCurrentAffairResponse.seterrorCode(1);
 
         }else{
 
@@ -79,7 +79,7 @@ public class GetCurrentAffairController {
             getCurrentAffairResponse.setCurrentAffair(aList);
             getCurrentAffairResponse.setMessage("Get Current Affair Success");
             getCurrentAffairResponse.setStatus(true);
-            getCurrentAffairResponse.setStatusCode(0);
+            getCurrentAffairResponse.seterrorCode(0);
         }
 
 

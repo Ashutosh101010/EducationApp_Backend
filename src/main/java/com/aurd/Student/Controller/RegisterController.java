@@ -70,7 +70,7 @@ public class RegisterController {
 
         generalResponse.setMessage("Register Success");
         generalResponse.setStatus(true);
-        generalResponse.setStatusCode(0);
+        generalResponse.seterrorCode(0);
         return  generalResponse;
     }
 

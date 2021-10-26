@@ -67,7 +67,7 @@ public class GetCourseSyllabus {
         getBlogResponse.setBlogs(list);
         getBlogResponse.setMessage("Get Syllabus Successfully");
         getBlogResponse.setStatus(0);
-        getBlogResponse.setStatusCode(true);
+        getBlogResponse.seterrorCode(true);
 
 
         return getBlogResponse;

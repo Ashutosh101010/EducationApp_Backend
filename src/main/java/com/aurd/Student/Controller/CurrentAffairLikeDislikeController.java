@@ -53,7 +53,7 @@ public class CurrentAffairLikeDislikeController {
 
             response.setMessage("Post Liked");
             response.setStatus(true);
-            response.setStatusCode(0);
+            response.seterrorCode(0);
 
         } else if (request.getOperation() == 2) {
 
@@ -68,11 +68,11 @@ public class CurrentAffairLikeDislikeController {
 
             response.setMessage("Post Dislike");
             response.setStatus(true);
-            response.setStatusCode(0);
+            response.seterrorCode(0);
         } else {
             response.setMessage("Unable to proceed");
             response.setStatus(false);
-            response.setStatusCode(1);
+            response.seterrorCode(1);
         }
 
         return response;
