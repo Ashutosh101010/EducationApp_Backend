@@ -93,7 +93,7 @@ public class GetBookmarkController {
         GetBookMarkResponse response = new GetBookMarkResponse();
         response.setCaList(caList);
         response.setpList(postList);
-        response.setStatusCode(0);
+        response.seterrorCode(0);
         response.setStatus(true);
         return  response;
     }

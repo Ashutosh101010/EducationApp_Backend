@@ -69,7 +69,7 @@ public class GetStudentNotesController {
        response.setNotes(arrayList);
        response.setMessage("Get student notes successfully");
        response.setStatus(true);
-       response.setStatusCode(0);
+       response.seterrorCode(0);
 
         return  response;
 

@@ -38,7 +38,7 @@ public class UpdateStudentNotesController {
         GeneralResponse response = new GeneralResponse();
         response.setStatus(true);
         response.setMessage("Update notes successfull");
-        response.setStatusCode(0);
+        response.seterrorCode(0);
 
         return  response;
 

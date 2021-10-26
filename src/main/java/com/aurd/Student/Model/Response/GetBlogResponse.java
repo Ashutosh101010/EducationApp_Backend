@@ -8,7 +8,7 @@ public class GetBlogResponse {
 
     String message;
     int status;
-    boolean statusCode;
+    boolean errorCode;
     ArrayList<BlogModel> blogs = new ArrayList();
 
 
@@ -28,12 +28,12 @@ public class GetBlogResponse {
         this.status = status;
     }
 
-    public boolean isStatusCode() {
-        return statusCode;
+    public boolean iserrorCode() {
+        return errorCode;
     }
 
-    public void setStatusCode(boolean statusCode) {
-        this.statusCode = statusCode;
+    public void seterrorCode(boolean errorCode) {
+        this.errorCode = errorCode;
     }
 
     public ArrayList<BlogModel> getBlogs() {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class GetStudentBlogCommentResponse {
 
     String message;
-    int statusCode;
+    int errorCode;
     boolean status;
 
     ArrayList<Blog_Comment_Model> comments=new ArrayList();
@@ -22,12 +22,12 @@ public class GetStudentBlogCommentResponse {
         this.message = message;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int geterrorCode() {
+        return errorCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void seterrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public boolean isStatus() {

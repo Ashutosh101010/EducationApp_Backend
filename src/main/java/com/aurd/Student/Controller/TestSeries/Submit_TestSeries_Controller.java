@@ -32,7 +32,7 @@ public class Submit_TestSeries_Controller {
         GeneralResponse generalResponse = new GeneralResponse();
         generalResponse.setStatus(true);
         generalResponse.setMessage("Practice Test Series Submitted");
-        generalResponse.setStatusCode(0);
+        generalResponse.seterrorCode(0);
         return generalResponse;
     }
 }

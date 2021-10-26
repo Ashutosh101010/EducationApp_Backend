@@ -36,18 +36,18 @@ public class LoginController {
                response.setStudent(studentModel);
                response.setMessage("Login Success");
                response.setStatus(true);
-               response.setStatusCode(0);
+               response.seterrorCode(0);
            }else{
 
                response.setMessage("Login Fail! Password does not matches");
                response.setStatus(false);
-               response.setStatusCode(1);
+               response.seterrorCode(1);
            }
 
        }else{
            response.setMessage("Login Failure");
            response.setStatus(false);
-           response.setStatusCode(1);
+           response.seterrorCode(1);
        }
 
 

@@ -117,13 +117,13 @@ public class AddStudentPostController
 
             repository.addStudentPost(studentPostModel);
 
-            response.setStatusCode(0);
+            response.seterrorCode(0);
             response.setStatus(true);
             response.setMessage("Student Post Added Successfully");
 
         }catch (Exception e){
 
-            response.setStatusCode(1);
+            response.seterrorCode(1);
             response.setStatus(false);
             response.setMessage("Failure");
         }

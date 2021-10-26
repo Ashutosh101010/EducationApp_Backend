@@ -103,12 +103,12 @@ public class StudentUpdateController {
             {
                 response.setMessage("update Success");
                 response.setStatus(true);
-                response.setStatusCode(0);
+                response.seterrorCode(0);
             }
             else{
                 response.setMessage("update Fail");
                 response.setStatus(false);
-                response.setStatusCode(1);
+                response.seterrorCode(1);
             }
 
         } catch (IOException e) {

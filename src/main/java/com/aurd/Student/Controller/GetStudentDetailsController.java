@@ -29,12 +29,12 @@ public class GetStudentDetailsController {
          if(model!=null){
              response.setStudent(model);
              response.setMessage("Fetch student details success");
-             response.setStatusCode(0);
+             response.seterrorCode(0);
              response.setStatus(true);
 
          }else{
              response.setMessage("Unable to fetch details");
-             response.setStatusCode(1);
+             response.seterrorCode(1);
              response.setStatus(false);
          }
 
@@ -46,7 +46,7 @@ public class GetStudentDetailsController {
             e.printStackTrace();
 
             response.setMessage("efffd");
-            response.setStatusCode(1);
+            response.seterrorCode(1);
             response.setStatus(false);
 
         }

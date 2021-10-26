@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class GetBookMarkResponse {
     String message;
     boolean status;
-    int statusCode;
+    int errorCode;
 
 //    ArrayList<BookMarkEntity> book = new ArrayList();
 
@@ -61,12 +61,12 @@ public class GetBookMarkResponse {
         this.status = status;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int geterrorCode() {
+        return errorCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void seterrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
 

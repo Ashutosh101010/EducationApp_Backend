@@ -43,7 +43,7 @@ public class GetProfileController {
         getProfileResponse.setStudentModel(model);
         getProfileResponse.setMessage("Get Profile Successfully");
         getProfileResponse.setStatus(true);
-        getProfileResponse.setStatusCode(0);
+        getProfileResponse.seterrorCode(0);
 
         return getProfileResponse;
 

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GetCoursesResponse {
     String message;
     boolean status;
-    int statusCode;
+    int errorCode;
     ArrayList<CourseEntity> courses = new ArrayList();
 
     private int videoLectureCount;
@@ -56,12 +56,12 @@ public class GetCoursesResponse {
         this.status = status;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public int geterrorCode() {
+        return errorCode;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
+    public void seterrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 
     public ArrayList<CourseEntity> getCourses() {

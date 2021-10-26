@@ -51,44 +51,44 @@ public class AddCommentController {
         if(request.getType().equals("blog")){
           boolean val =   blogCommentRepository.addStudentBlogCommentRequest(request);
             if(val==true){
-                response.setStatusCode(0);
+                response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
             }else{
-                response.setStatusCode(1);
+                response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }else if(request.getType().equals("currentAffair")){
            boolean val= affair_comment_repository.addCurrentAffairCommentRequest(request);
             if(val==true){
-                response.setStatusCode(0);
+                response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
             }else{
-                response.setStatusCode(1);
+                response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }else if(request.getType().equals("studentPost")){
            boolean val =  postCommentRepository.addPostCommentRequest(request);
             if(val==true){
-                response.setStatusCode(0);
+                response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
             }else{
-                response.setStatusCode(1);
+                response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
         }else if(request.getType().equals("notes")){
             boolean val =  notesComentRepository.addNotesCommentRequest(request);
             if(val==true){
-                response.setStatusCode(0);
+                response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
             }else{
-                response.setStatusCode(1);
+                response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }

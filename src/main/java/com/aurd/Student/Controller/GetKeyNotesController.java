@@ -53,13 +53,13 @@ GetKeyNotesRepository repository;
 
             getKeyNotesResponse.setMessage("No KeyNotes");
             getKeyNotesResponse.setStatus(false);
-            getKeyNotesResponse.setStatusCode(1);
+            getKeyNotesResponse.seterrorCode(1);
 
         }else{
             getKeyNotesResponse.setKeynotes(list);
             getKeyNotesResponse.setMessage("Get KeyNotes Success");
             getKeyNotesResponse.setStatus(true);
-            getKeyNotesResponse.setStatusCode(0);
+            getKeyNotesResponse.seterrorCode(0);
         }
 
 

@@ -29,11 +29,11 @@ public class AddNotesController {
 
         boolean value= repository.addStudentNotes(request);
         if(value){
-            response.setStatusCode(0);
+            response.seterrorCode(0);
             response.setStatus(true);
             response.setMessage("Notes Added");
         }else{
-            response.setStatusCode(1);
+            response.seterrorCode(1);
             response.setStatus(false);
             response.setMessage("Notes Not Added");
         }
