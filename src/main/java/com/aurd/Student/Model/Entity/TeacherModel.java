@@ -14,6 +14,15 @@ public class TeacherModel {
     @NotBlank
     private String fname;
 
+    private String profile;
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
 
     public long getId() {
         return id;

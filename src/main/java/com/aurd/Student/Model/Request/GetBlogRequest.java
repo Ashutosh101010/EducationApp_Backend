@@ -3,6 +3,15 @@ package com.aurd.Student.Model.Request;
 public class GetBlogRequest {
     long inst_id;
     String  date;
+    String lastId;
+
+    public String getLastId() {
+        return lastId;
+    }
+
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
+    }
 
     public String getDate() {
         return date;

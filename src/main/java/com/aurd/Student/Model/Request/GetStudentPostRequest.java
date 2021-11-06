@@ -1,14 +1,14 @@
 package com.aurd.Student.Model.Request;
 
 public class GetStudentPostRequest {
-    long stud_id;
+    Long stud_id;
     int inst_id;
 
-    public long getStud_id() {
+    public Long getStud_id() {
         return stud_id;
     }
 
-    public void setStud_id(long stud_id) {
+    public void setStud_id(Long stud_id) {
         this.stud_id = stud_id;
     }
 

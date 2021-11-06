@@ -7,8 +7,6 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.aurd.Student.Repository.LiveSessionRepository;
-import com.aurd.Student.WebSocket.ChatSocket;
-import com.aurd.Student.WebSocket.WebSocketModel;
 import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import io.quarkus.scheduler.Scheduled;
@@ -16,13 +14,6 @@ import io.quarkus.scheduler.Scheduled;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.persistence.Query;
-import javax.transaction.Transactional;
-
-import java.util.ArrayList;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import static com.aurd.Student.WebSocket.ChatSocket.liveSessions;
 
 @ApplicationScoped
 public class Service {

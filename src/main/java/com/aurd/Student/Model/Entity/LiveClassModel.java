@@ -46,8 +46,8 @@ public class LiveClassModel {
     @Column(name = "faculty_id",nullable = false)
     private int faculty_id;
 
-    @Column(name = "live_session_url",nullable = true)
-    private String live_session_url;
+//    @Column(name = "live_session_url",nullable = true)
+//    private String live_session_url;
 
     @Column(name = "status",nullable = false)
     private int status;
@@ -61,6 +61,17 @@ public class LiveClassModel {
     @Column(name = "end_time",nullable = false)
     private Timestamp end_time;
 
+    @Column(name = "thumbnail",nullable = false)
+    private String thumbnail;
+
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
     public int getLive_session_id() {
         return live_session_id;
@@ -140,14 +151,6 @@ public class LiveClassModel {
 
     public void setFaculty_id(int faculty_id) {
         this.faculty_id = faculty_id;
-    }
-
-    public String getLive_session_url() {
-        return live_session_url;
-    }
-
-    public void setLive_session_url(String live_session_url) {
-        this.live_session_url = live_session_url;
     }
 
     public int getStatus() {

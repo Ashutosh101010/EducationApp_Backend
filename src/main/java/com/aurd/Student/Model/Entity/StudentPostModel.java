@@ -1,6 +1,9 @@
 package com.aurd.Student.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.smallrye.common.constraint.Nullable;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Null;
@@ -43,6 +46,20 @@ public class StudentPostModel {
     @Null
    private Timestamp post_approved_on;
 
+
+    @ManyToOne
+    @JoinColumn(name = "added_by",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
+    StudentModel studentModel;
+
+    public StudentModel getStudentModel() {
+        return studentModel;
+    }
+
+    public void setStudentModel(StudentModel studentModel) {
+        this.studentModel = studentModel;
+    }
 
     public long getId() {
         return id;

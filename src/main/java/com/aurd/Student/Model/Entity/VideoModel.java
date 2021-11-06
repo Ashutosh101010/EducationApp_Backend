@@ -56,6 +56,7 @@ public class VideoModel {
 
 
 
+
     public Integer getCourse_id() {
         return course_id;
     }

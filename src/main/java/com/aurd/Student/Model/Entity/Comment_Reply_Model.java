@@ -2,6 +2,7 @@ package com.aurd.Student.Model.Entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -48,6 +49,17 @@ public class Comment_Reply_Model {
     @Transient
     private String time;
 
+    @Transient
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getTime() {
         return time;
     }
@@ -59,12 +71,14 @@ public class Comment_Reply_Model {
     @ManyToOne
     @JoinColumn(name = "user_id",insertable = false,updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
     StudentModel studentModel;
 
 
     @ManyToOne
     @JoinColumn(name="user_id",insertable = false,updatable = false)
     @NotFound(action = NotFoundAction.IGNORE)
+    @JsonIgnore
     TeacherModel teacherModel;
 
 

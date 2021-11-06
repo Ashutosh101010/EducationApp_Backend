@@ -1,6 +1,7 @@
 package com.aurd.Student.Controller;
 
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.aurd.Student.Model.Entity.Index_Model;
 import com.aurd.Student.Model.Entity.StudentPostModel;
 import com.aurd.Student.Model.Request.AddStudentPostRequest;
@@ -81,18 +82,23 @@ public class AddStudentPostController
                 InputStream inputStream = new ByteArrayInputStream(imageBytes);
                 ObjectMetadata metadata = new ObjectMetadata();
                 metadata.setContentLength(imageBytes.length);
+                metadata.setContentType("image/png");
 
-                String ImageId = String.valueOf(System.currentTimeMillis());
-                s3.putObject(bucketName, ImageId, inputStream,metadata );
+                String imageId = String.valueOf(System.currentTimeMillis());
+                String key = "image/"+imageId;
+                s3.putObject(new PutObjectRequest(bucketName,
+                        key,
+                        inputStream,
+                        metadata));
 
-                System.out.println(ImageId);
+                System.out.println(imageId);
                 try {
                     Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                studentPostModel.setPic(ImageId);
+                studentPostModel.setPic(imageId);
             }
 
             if(input.get("description")!=null){

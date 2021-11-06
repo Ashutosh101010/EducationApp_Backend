@@ -12,6 +12,7 @@ public class CommentEntity {
     int post_id;
     Timestamp added_on;
     String fname;
+    String image;
 
     ArrayList<Comment_Reply_Model> ReplyList = new ArrayList<>();
     int reply_id;
@@ -19,6 +20,15 @@ public class CommentEntity {
     String comment_reply;
     String type;
     String time;
+
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getTime() {
         return time;

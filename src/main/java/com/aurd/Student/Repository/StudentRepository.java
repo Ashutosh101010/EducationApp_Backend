@@ -34,15 +34,20 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
     }
 
     public Integer UpDateRequest(UpDateRequest request) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date langDate = sdf.parse(request.getDOB());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date langDate = sdf.parse(request.getDOB());
 
-        String imageid = "";
-        if(request.getImageId()!=null){
-            imageid= request.getImageId();
-        }else{
-            imageid = request.getImage();
-        }
+
+        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        java.util.Date date = formatter.parse(request.getDOB());
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+//        String imageid = "";
+//        if(request.getImageId()!=null){
+//            imageid= request.getImageId();
+//        }else{
+//            imageid = request.getImage();
+//        }
 
    return update("fname=?1 , contact=?2   ,address=?3 ," +
                    "email=?4 , stateId=?5   ,districtId=?6 ,dob=?7, bio=?8 , gender=?9, profile=?10 " +
@@ -53,9 +58,9 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
         ,request.getEmail()
         ,request.getState_id()
         ,request.getDistrict_id()
-        ,new java.sql.Date(langDate.getTime()),
+        ,sqlDate,
            request.getBio(),
-        request.getGender(),imageid
+        request.getGender(),request.getImageId()
         ,request.getStudent_id()
 
         );

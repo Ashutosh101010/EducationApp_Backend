@@ -18,6 +18,15 @@ public class StudentPostEntity {
     String type;
     private long indexId;
     private long timeStamp;
+    String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public long getTimeStamp() {
         return timeStamp;

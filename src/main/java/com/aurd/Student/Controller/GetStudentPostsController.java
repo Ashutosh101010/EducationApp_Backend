@@ -55,7 +55,7 @@ public class GetStudentPostsController {
                 "WHERE student_posts.inst_id = ? and student_posts.added_by = ? ORDER BY added_on DESC";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,request.getInst_id());
-        studentPost.setParameter(2,request.getStud_id());
+        studentPost.setParameter(2,request.getStud_id().longValue());
 
 
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
@@ -75,6 +75,12 @@ public class GetStudentPostsController {
            postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
             postModel.setName(objects[6].toString());
             postModel.setTimeStamp(Timestamp.valueOf(objects[5].toString()).getTime());
+
+
+            StudentModel studentModel = studentRepository.find("id"
+                    ,postModel.getAdded_by().longValue()).firstResult();
+
+            postModel.setImage(studentModel.getProfile());
 
 
             Integer commentCount = getCommentCount(postModel);

@@ -96,6 +96,17 @@ public class PractiseTestSeriesModel {
     private String test_end;
 
 
+    @Column(name = "test_id",nullable = false)
+    private int test_id;
+
+    public int getTest_id() {
+        return test_id;
+    }
+
+    public void setTest_id(int test_id) {
+        this.test_id = test_id;
+    }
+
     public int getTest_series_id() {
         return test_series_id;
     }

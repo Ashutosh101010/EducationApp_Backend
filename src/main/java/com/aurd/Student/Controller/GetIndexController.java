@@ -212,6 +212,7 @@ public class GetIndexController {
 
              }else if(model.getType().equals("video")){
                  VideoEntity videoEntity = getVideos(model,request);
+
                  videoEntity.setIndexId(model.getId());
                  videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
                  vList.add(videoEntity);
@@ -282,6 +283,9 @@ public class GetIndexController {
         TeacherModel teacherModel = teacherRepository.find("id",
                 blogEntity.getAdded_by().longValue()).firstResult();
         blogEntity.setName(teacherModel.getFname());
+        if(teacherModel.getProfile()!=null){
+            blogEntity.setImage(teacherModel.getProfile());
+        }
 
 
 
@@ -323,6 +327,9 @@ public class GetIndexController {
         TeacherModel teacherModel = teacherRepository.find("id",
                 caEntity.getAdded_by().longValue()).firstResult();
         caEntity.setName(teacherModel.getFname());
+        if(teacherModel.getProfile()!=null){
+            caEntity.setImage(teacherModel.getProfile());
+        }
 
 
 
@@ -367,6 +374,11 @@ public class GetIndexController {
                 entity.getCreated_by().longValue()).firstResult();
         entity.setTeacherName(teacherModel.getFname());
 
+        if(teacherModel.getProfile()!=null){
+            entity.setImage(teacherModel.getProfile());
+        }
+
+
         TopicModel topicModel = topicsRepository.find("id",
                 notesModel.getTopicId().longValue()).firstResult();
         entity.setTopic(topicModel.getTopic());
@@ -380,73 +392,120 @@ public class GetIndexController {
 
     StudentPostEntity getPost(Index_Model model, GetIndexRequest request){
         System.out.println("Get Post");
-        String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
-                "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
-                "student_posts.added_on, students.fname FROM `student_posts` " +
-                "INNER JOIN students ON students.id=student_posts.added_by " +
-                "WHERE student_posts.inst_id = ? and student_posts.id = ?";
-        Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
-        studentPost.setParameter(1, request.getInst_id());
-        studentPost.setParameter(2,model.getPost_id());
-//        studentPost.setParameter(3,1);
-        StudentPostEntity postModel = new StudentPostEntity();
-        ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
-        tempPostList.forEach(objects -> {
+        Integer val = model.getPost_id();
 
-            postModel.setId(Long.parseLong(objects[0].toString()));
-            if(objects[1].toString()==null){
-                postModel.setDescription("");
-            }else{
-                postModel.setDescription(objects[1].toString());
+       StudentPostModel postModel = postRepository.find("inst_id =?1 and id =?2",
+               request.getInst_id(),val.intValue()).firstResult();
+
+
+       StudentPostEntity entity = new Gson().fromJson(new Gson().toJson(postModel),StudentPostEntity.class);
+        String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
+        Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
+        like.setParameter(1, postModel.getId());
+        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+        likeList.forEach(likeObject -> {
+            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                System.out.println("Liked");
+                entity.setLiked(true);
             }
-
-            postModel.setDescription(objects[1].toString());
-
-            if( objects[2]==null){
-                postModel.setPic("");
-            }else{
-                postModel.setPic(objects[2].toString());
-            }
-
-
-
-            postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
-            postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
-            postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
-            postModel.setName(objects[6].toString());
-
-            String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
-            Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
-            like.setParameter(1, postModel.getId());
-            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-            likeList.forEach(likeObject -> {
-                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-                    System.out.println("Liked");
-                    postModel.setLiked(true);
-                }
-            });
-
-            Integer likeCount = likeList.size();
-            postModel.setLike(likeCount.longValue());
-
-
-            ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
-                    bookMarkRepository.list("type=?1 and post_id=?2",
-                            "post",postModel.getId());
-            arrayList.forEach(bookMarkModel -> {
-
-                if(bookMarkModel.getAdded_by()==request.getStudId()){
-                    postModel.setAdded(true);
-                }else{
-                    postModel.setAdded(false);
-                }
-            });
-
-            postModel.setType("post");
-
         });
 
-        return postModel;
+        Integer likeCount = likeList.size();
+        entity.setLike(likeCount.longValue());
+
+
+      if(  postModel.getStudentModel().getProfile()!=null){
+          entity.setImage(postModel.getStudentModel().getProfile());
+      }
+
+        ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
+                bookMarkRepository.list("type=?1 and post_id=?2",
+                        "post",postModel.getId());
+        arrayList.forEach(bookMarkModel -> {
+
+            if(bookMarkModel.getAdded_by()==request.getStudId()){
+                entity.setAdded(true);
+            }else{
+                entity.setAdded(false);
+            }
+        });
+
+        entity.setType("post");
+
+
+//        String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
+//                "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
+//                "student_posts.added_on, students.fname FROM `student_posts` " +
+//                "students.profile INNER JOIN students ON students.id=student_posts.added_by " +
+//                "WHERE student_posts.inst_id = ? and student_posts.id = ?";
+//        Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
+//        studentPost.setParameter(1, request.getInst_id());
+//        studentPost.setParameter(2,model.getPost_id());
+////        studentPost.setParameter(3,1);
+//        StudentPostEntity postModel = new StudentPostEntity();
+//        ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
+//        tempPostList.forEach(objects -> {
+//
+//            postModel.setId(Long.parseLong(objects[0].toString()));
+//            if(objects[1].toString()==null){
+//                postModel.setDescription("");
+//            }else{
+//                postModel.setDescription(objects[1].toString());
+//            }
+//
+//            postModel.setDescription(objects[1].toString());
+//
+//            if( objects[2]==null){
+//                postModel.setPic("");
+//            }else{
+//                postModel.setPic(objects[2].toString());
+//            }
+//
+//
+//
+//            postModel.setPostStatus(Integer.parseInt(objects[3].toString()));
+//            postModel.setAdded_by(Integer.parseInt(objects[4].toString()));
+//            postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
+//            postModel.setName(objects[6].toString());
+//
+//
+//            if(objects[7]!=null){
+//                postModel.setImage(objects[7].toString());
+//            }
+//
+//
+//            String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
+//            Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
+//            like.setParameter(1, postModel.getId());
+//            ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
+//            likeList.forEach(likeObject -> {
+//                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+//                    System.out.println("Liked");
+//                    postModel.setLiked(true);
+//                }
+//            });
+//
+//            Integer likeCount = likeList.size();
+//            postModel.setLike(likeCount.longValue());
+//
+//
+//            ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
+//                    bookMarkRepository.list("type=?1 and post_id=?2",
+//                            "post",postModel.getId());
+//            arrayList.forEach(bookMarkModel -> {
+//
+//                if(bookMarkModel.getAdded_by()==request.getStudId()){
+//                    postModel.setAdded(true);
+//                }else{
+//                    postModel.setAdded(false);
+//                }
+//            });
+//
+//            postModel.setType("post");
+
+//        });
+
+        return entity;
 
     }
 
@@ -499,6 +558,9 @@ public class GetIndexController {
         TeacherModel teacherModel = teacherRepository.find("id",
                 videoModel.getCreated_by()).firstResult();
         entity.setTeacherName(teacherModel.getFname());
+        if(teacherModel.getProfile()!=null){
+            entity.setImage(teacherModel.getProfile());
+        }
 
         return  entity;
     }

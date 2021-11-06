@@ -47,30 +47,35 @@ public class StudentUpdateController {
         UpDateRequest request = new UpDateRequest();
         UpdateResponse response = new UpdateResponse();
 
+
+
         try {
+            Long studId = Long.parseLong(input.get("stud_id").get(0).getBodyAsString());
 
-            if(input.get("dob")!=null){
-                request.setDOB(input.get("dob").get(0).getBodyAsString());
-            }
-            if(input.get("address")!=null){
-                request.setAddress(input.get("address").get(0).getBodyAsString());
-            }
-            if(input.get("bio")!=null){
-
-            }
+            StudentModel studentModel = repository.find("id",studId).firstResult();
 
             request.setBio(input.get("bio").get(0).getBodyAsString());
-            request.setStudent_id(Long.parseLong(input.get("stud_id").get(0).getBodyAsString()));
+            request.setStudent_id(studId);
             request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());
             request.setF_name(input.get("name").get(0).getBodyAsString());
             request.setGender(input.get("gender").get(0).getBodyAsString());
             request.setMobile_no(input.get("mobileNumber").get(0).getBodyAsString());
             request.setState_id(Integer.parseInt(input.get("state_id").get(0).getBodyAsString()));
             request.setEmail(input.get("email").get(0).getBodyAsString());
+            request.setDOB(input.get("dob").get(0).getBodyAsString());
+            request.setAddress(input.get("address").get(0).getBodyAsString());
+
+
+
 
 
             if(input.get("pic")==null){
-                request.setPic(null);
+                if(studentModel.getProfile()!=null){
+                    request.setImageId(studentModel.getProfile());
+                }else{
+                    request.setImageId(null);
+                }
+
             }
             else{
                 request.setPic(input.get("pic").get(0).getBody(InputStream.class,null));
@@ -84,7 +89,8 @@ public class StudentUpdateController {
                 metadata.setContentLength(imageBytes.length);
 
                 String ImageId = String.valueOf(System.currentTimeMillis());
-                s3.putObject(bucketName, ImageId, inputStream,metadata );
+                String key = "image/"+ImageId;
+                s3.putObject(bucketName, key, inputStream,metadata );
 
 
                 request.setImageId(ImageId);
@@ -97,23 +103,23 @@ public class StudentUpdateController {
 
             }
 
-            if(input.get("image")==null){
-                request.setImage(null);
-            }else {
-                request.setImage(input.get("image").get(0).getBodyAsString());
-            }
+//            if(input.get("image")==null){
+//                request.setImage(null);
+//            }else {
+//                request.setImage(input.get("image").get(0).getBodyAsString());
+//            }
 
 
 
+//
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            System.out.println((sdf.format(new Date())).toString());
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            System.out.println((sdf.format(new Date())).toString());
 
-
-            Integer studentModel  = repository.UpDateRequest(request);
+            Integer resp  = repository.UpDateRequest(request);
             System.out.println(studentModel);
 
-            if(studentModel>0)
+            if(resp>0)
             {
                 response.setMessage("update Success");
                 response.setStatus(true);

@@ -32,17 +32,10 @@ public class GetLiveClassController {
 
 
         GetLiveClassResponse response = new GetLiveClassResponse();
-        if(arrayList.isEmpty()){
-            response.setMessage("No Live Class Found");
-            response.setErrorCode(1);
-            response.setStatus(true);
-            response.setList(arrayList);
-        }else{
-            response.setList(arrayList);
-            response.setStatus(true);
-            response.setErrorCode(0);
-            response.setMessage("Live Class found successfully");
-        }
+        response.setList(arrayList);
+        response.setStatus(true);
+        response.setErrorCode(0);
+        response.setMessage("Live Class found successfully");
 
         return response;
     }

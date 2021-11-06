@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 @Path("/getBlogs")
@@ -25,7 +26,7 @@ public class GetBlogController {
     @POST
 
 
-    public GetBlogResponse getBlogs(GetBlogRequest request){
+    public GetBlogResponse getBlogs(GetBlogRequest request) throws ParseException {
 
       ArrayList<BlogModel> arrayList = repository.getBlogs(request);
       GetBlogResponse getBlogResponse= new GetBlogResponse();

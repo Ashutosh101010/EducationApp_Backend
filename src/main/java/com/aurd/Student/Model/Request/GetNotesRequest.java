@@ -5,6 +5,15 @@ public class GetNotesRequest {
     long topicId;
     int studId;
     String filter;
+    String lastId;
+
+    public String getLastId() {
+        return lastId;
+    }
+
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
+    }
 
     public String getFilter() {
         return filter;
