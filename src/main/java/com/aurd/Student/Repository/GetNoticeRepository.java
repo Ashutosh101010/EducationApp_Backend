@@ -16,8 +16,8 @@ public class GetNoticeRepository implements PanacheRepository<NoticeModel> {
     public ArrayList getNotice(GetNoticeRequest request){
 
 
-
-        ArrayList<NoticeModel> arrayList = (ArrayList<NoticeModel>) list("inst_id =?1 ", request.getInst_id());
+        ArrayList<NoticeModel> arrayList = (ArrayList<NoticeModel>)
+                list("inst_id", request.getInst_id());
         return arrayList;
 
     }

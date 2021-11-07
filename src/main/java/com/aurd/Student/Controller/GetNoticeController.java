@@ -29,6 +29,7 @@ public class GetNoticeController {
     public GetNoticeResponse getNotice(GetNoticeRequest request){
 
         ArrayList<NoticeModel> arrayList = repository.getNotice(request);
+        System.out.println(arrayList.size());
         GetNoticeResponse getNoticeResponse= new GetNoticeResponse();
         getNoticeResponse.setNotice(arrayList);
         getNoticeResponse.setMessage("Get Notice Successfully");

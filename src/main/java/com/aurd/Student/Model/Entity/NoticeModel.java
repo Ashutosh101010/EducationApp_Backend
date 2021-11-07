@@ -16,7 +16,7 @@ public class NoticeModel {
 
     @Column(name = "title",nullable = false)
     @NotBlank
-    private  String name;
+    private  String title;
 
     @Column(name = "body",nullable = false)
     @NotBlank
@@ -43,12 +43,12 @@ public class NoticeModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getBody() {
