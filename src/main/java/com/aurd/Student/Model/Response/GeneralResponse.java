@@ -29,4 +29,6 @@ public class GeneralResponse {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+
 }
