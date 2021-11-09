@@ -55,15 +55,39 @@ public class StudentUpdateController {
             StudentModel studentModel = repository.find("id",studId).firstResult();
 
             request.setBio(input.get("bio").get(0).getBodyAsString());
-            request.setStudent_id(studId);
-            request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());
-            request.setF_name(input.get("name").get(0).getBodyAsString());
             request.setGender(input.get("gender").get(0).getBodyAsString());
-            request.setMobile_no(input.get("mobileNumber").get(0).getBodyAsString());
             request.setState_id(Integer.parseInt(input.get("state_id").get(0).getBodyAsString()));
-            request.setEmail(input.get("email").get(0).getBodyAsString());
             request.setDOB(input.get("dob").get(0).getBodyAsString());
+            request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());
             request.setAddress(input.get("address").get(0).getBodyAsString());
+
+
+//            if(input.get("bio").get(0)!=null){
+//
+//            }
+//
+//
+//            if(input.get("gender").get(0)!=null){
+//              }
+//
+//            if(input.get("state_id").get(0)!=null){
+//
+//            }
+//
+//
+//            if(input.get("dob").get(0)!=null){
+//             }
+//
+//            if(input.get("district_id").get(0)!=null ){
+//            }
+//            if(input.get("address").get(0)!=null){
+//
+//            }
+
+            request.setStudent_id(studId);
+            request.setF_name(input.get("name").get(0).getBodyAsString());
+            request.setMobile_no(input.get("mobileNumber").get(0).getBodyAsString());
+           request.setEmail(input.get("email").get(0).getBodyAsString());
 
 
 

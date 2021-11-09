@@ -20,7 +20,9 @@ public class LiveClassesRepository implements PanacheRepository<LiveClassModel> 
             ArrayList<LiveClassModel> arrayList= (ArrayList<LiveClassModel>)
                     list("inst_id=?1 and status =?2",request.getInst_id(),1);
 
+
             System.out.println(arrayList.size());
+
 
             return  arrayList;
 //            Query query =

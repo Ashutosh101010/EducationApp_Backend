@@ -41,24 +41,54 @@ public class BlogRepository implements PanacheRepository<BlogModel> {
             query.setParameter("lastId", Timestamp.valueOf(lastId));
 
 
-             return  (ArrayList<BlogModel>) query.getResultList();
+             return  (ArrayList<BlogModel>) query.setMaxResults(5).getResultList();
 
         } else {
 
             if (request.getDate().equals(formatter.format(calendar.getTime()))) {
-                ArrayList<BlogModel> arrayList = (ArrayList<BlogModel>) list("inst_id", request.getInst_id());
-                return arrayList;
+                String lastId;
+                if (request.getLastId().equals("")) {
+                    lastId = formatter.format(calendar.getTime());
+                } else {
+                    lastId = request.getLastId();
+                }
+
+                Query query = getEntityManager().createQuery("select Blog from BlogModel Blog where   Blog.inst_id = : inst_id" +
+                        " and Blog.created_on < : lastId  order by Blog.created_on desc");
+                query.setParameter("inst_id", request.getInst_id());
+                query.setParameter("lastId", Timestamp.valueOf(lastId));
+
+
+                return  (ArrayList<BlogModel>) query.setMaxResults(5).getResultList();
+//                ArrayList<BlogModel> arrayList =
+//                        (ArrayList<BlogModel>) list("inst_id", request.getInst_id());
+//                return arrayList;
 
             } else {
                 String start = request.getDate() + " 00:00:00";
                 String end = request.getDate() + " 23:59:59";
+                String lastId;
+                if (request.getLastId().equals("")) {
+                    lastId = formatter.format(calendar.getTime());
+                } else {
+                    lastId = request.getLastId();
+                }
 
-                String blogQuery = "SELECT * from `blog` where created_on BETWEEN ? AND ? AND inst_id = ? ;";
-                Query blog = getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
-                blog.setParameter(1, start);
-                blog.setParameter(2, end);
-                blog.setParameter(3, request.getInst_id());
-                ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) blog.getResultList();
+                Query query = getEntityManager().createQuery("select Blog from BlogModel Blog where   Blog.inst_id = : inst_id" +
+                        " and Blog.created_on < : lastId and Blog.created_on between :startDate and :endDate order by Blog.created_on desc");
+                query.setParameter("inst_id", request.getInst_id());
+                query.setParameter("lastId", Timestamp.valueOf(lastId));
+                query.setParameter("startDate",start);
+                query.setParameter("endDate",end);
+
+
+//
+//                String blogQuery = "SELECT * from `blog` where created_on BETWEEN ? AND ? AND inst_id = ? ;";
+//                Query blog = getEntityManager().createNativeQuery(blogQuery, BlogModel.class);
+//                blog.setParameter(1, start);
+//                blog.setParameter(2, end);
+//                blog.setParameter(3, request.getInst_id());
+                ArrayList<BlogModel> blogList = (ArrayList<BlogModel>) query.setMaxResults(5).getResultList();
 
                 return blogList;
             }

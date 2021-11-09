@@ -16,7 +16,7 @@ public class LiveClassModel {
 
 
     @Column(name = "course",nullable = false)
-    private String course;
+    private int course;
 
 
     @Column(name = "title",nullable = false)
@@ -64,6 +64,27 @@ public class LiveClassModel {
     @Column(name = "thumbnail",nullable = false)
     private String thumbnail;
 
+    @Transient
+    String courseName;
+
+    @Transient
+    String teacherName;
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
     public String getThumbnail() {
         return thumbnail;
@@ -81,11 +102,11 @@ public class LiveClassModel {
         this.live_session_id = live_session_id;
     }
 
-    public String getCourse() {
+    public int getCourse() {
         return course;
     }
 
-    public void setCourse(String course) {
+    public void setCourse(int course) {
         this.course = course;
     }
 

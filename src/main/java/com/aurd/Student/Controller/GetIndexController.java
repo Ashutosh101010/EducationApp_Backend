@@ -270,10 +270,13 @@ public class GetIndexController {
         like.setParameter(1, blogEntity.getId());
         ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
         likeList.forEach(likeObject -> {
-            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-                System.out.println("Liked");
-                blogEntity.setLiked(true);
+            if(request.getStudId()!=0){
+                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                    System.out.println("Liked");
+                    blogEntity.setLiked(true);
+                }
             }
+
         });
 
         Integer likeCount = likeList.size();
@@ -313,10 +316,13 @@ public class GetIndexController {
         like.setParameter(1, caEntity.getId());
         ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
         likeList.forEach(likeObject -> {
-            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-                System.out.println("Liked");
-                caEntity.setLiked(true);
+            if(request.getStudId()!=0){
+                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                    System.out.println("Liked");
+                    caEntity.setLiked(true);
+                }
             }
+
         });
 
 
@@ -352,10 +358,13 @@ public class GetIndexController {
         like.setParameter(1, entity.getId());
         ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
         likeList.forEach(likeObject -> {
-            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-                System.out.println("Liked");
-                entity.setLiked(true);
+            if(request.getStudId()!=0){
+                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                    System.out.println("Liked");
+                    entity.setLiked(true);
+                }
             }
+
         });
 
         Integer likeCount = likeList.size();
@@ -488,10 +497,13 @@ public class GetIndexController {
             like.setParameter(1, postModel.getId());
             ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
             likeList.forEach(likeObject -> {
-                if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-                    System.out.println("Liked");
-                    postModel.setLiked(true);
+                if(request.getStudId()!=0){
+                    if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
+                        System.out.println("Liked");
+                        postModel.setLiked(true);
+                    }
                 }
+
             });
 
             Integer likeCount = likeList.size();
@@ -503,11 +515,14 @@ public class GetIndexController {
                             "post",postModel.getId());
             arrayList.forEach(bookMarkModel -> {
 
-                if(bookMarkModel.getAdded_by()==request.getStudId()){
-                    postModel.setAdded(true);
-                }else{
-                    postModel.setAdded(false);
+                if(request.getStudId()!=0){
+                    if(bookMarkModel.getAdded_by()==request.getStudId()){
+                        postModel.setAdded(true);
+                    }else{
+                        postModel.setAdded(false);
+                    }
                 }
+
             });
 
             postModel.setType("post");
