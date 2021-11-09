@@ -6,6 +6,7 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Query;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,10 +21,19 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
         Calendar calendar = Calendar.getInstance();
         if(request.getDate().isEmpty()|| request.getDate().equals("")){
 
-            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ORDER BY `time` DESC";
+            String lastId;
+            if (request.getLastId().equals("")) {
+                lastId = formatter.format(calendar.getTime());
+            } else {
+                lastId = request.getLastId();
+            }
+
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and created_at <=? ORDER BY `time` DESC";
             Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1,request.getInst_id());
+            currentAffair.setParameter(2,lastId);
+          //  currentAffair.setParameter(2, Timestamp.valueOf(lastId));
 
           arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 //            List<CurrentAffairModel> list = list("inst_id  ORDER BY created_at ",request.getInst_id());
@@ -31,10 +41,19 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
 
         }else{
             if(request.getDate().equals(formatter.format(calendar.getTime()))){
-                String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ORDER BY `time` DESC";
+
+                String lastId;
+                if (request.getLastId().equals("")) {
+                    lastId = formatter.format(calendar.getTime());
+                } else {
+                    lastId = request.getLastId();
+                }
+
+                String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and created_at<=? ORDER BY `time` DESC";
                 Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                         CurrentAffairModel.class);
                 currentAffair.setParameter(1,request.getInst_id());
+                currentAffair.setParameter(2,lastId);
 
                 arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 

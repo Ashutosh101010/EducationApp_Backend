@@ -4,6 +4,7 @@ public class GetCurrentAffairRequest {
     int inst_id;
     String date;
     int stud_id;
+    String lastId;
 
 
     public int getStud_id() {
@@ -28,5 +29,13 @@ public class GetCurrentAffairRequest {
 
     public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
+    }
+
+    public String getLastId() {
+        return lastId;
+    }
+
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
     }
 }
