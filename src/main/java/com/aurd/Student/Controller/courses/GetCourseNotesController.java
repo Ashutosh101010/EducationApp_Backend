@@ -17,7 +17,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Path("/courses/getCourseNotes")
 public class GetCourseNotesController {
@@ -64,8 +66,17 @@ public class GetCourseNotesController {
 
         System.out.println(request);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
 
         if(request.getFilter()==null ||request.getFilter().isEmpty() || request.getFilter().equals("")) {
+
+            String lastId = "";
+            if(request.getLastId().equals("")){
+                lastId = sdf.format(calendar.getTime());
+            }else{
+                lastId = request.getLastId();
+            }
 
             String string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
                     "employees.fname,topics.topic, notes.topicId, notes.description," +
@@ -74,14 +85,22 @@ public class GetCourseNotesController {
                     " FROM notes INNER JOIN employees ON employees.id= notes.created_by " +
                     "INNER JOIN topics ON topics.id= notes.topicId INNER JOIN subjects ON " +
                     "subjects.id = notes.subject_id INNER JOIN courses ON courses.id = notes.course_id" +
-                    " WHERE notes.inst_id = ? and notes.topicId = ? ORDER BY created_at DESC ";
+                    " WHERE notes.inst_id = ? and notes.topicId = ? and notes.created_at<?" +
+                    "  ORDER BY created_at DESC";
 
             Query query = repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getInst_id());
             query.setParameter(2,request.getTopicId());
+            query.setParameter(3,Timestamp.valueOf(lastId));
 
-            list = (ArrayList<Object[]>) query.getResultList();
+            list = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
         }else{
+            String lastId = "";
+            if(request.getLastId().equals("")){
+                lastId = sdf.format(calendar.getTime());
+            }else{
+                lastId = request.getLastId();
+            }
             String string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
                     "employees.fname,topics.topic, notes.topicId, notes.description," +
                     " notes.subject_id,notes.sub_subject_id, notes.course_id," +
@@ -89,20 +108,21 @@ public class GetCourseNotesController {
                     " FROM notes INNER JOIN employees ON employees.id= notes.created_by " +
                     "INNER JOIN topics ON topics.id= notes.topicId INNER JOIN subjects ON " +
                     "subjects.id = notes.subject_id INNER JOIN courses ON courses.id = notes.course_id" +
-                    " WHERE notes.inst_id = ? and notes.topicId = ? and notes.fee_type=? ORDER BY created_at DESC ";
+                    " WHERE notes.inst_id = ? and notes.topicId = ? and notes.fee_type=?" +
+                    "and notes.created_at<?" +
+                    " ORDER BY created_at DESC ";
 
             Query query = repository.getEntityManager().createNativeQuery(string);
             query.setParameter(1,request.getInst_id());
             query.setParameter(2,request.getTopicId());
             if(request.getFilter().equals("free")){
-
                 query.setParameter(3,"free");
             }else{
                 query.setParameter(3,"paid");
             }
+            query.setParameter(4,Timestamp.valueOf(lastId));
 
-
-            list = (ArrayList<Object[]>) query.getResultList();
+            list = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
         }
 
 

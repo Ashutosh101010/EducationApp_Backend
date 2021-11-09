@@ -55,7 +55,16 @@ public class VideoModel {
     private Integer subject_id;
 
 
+    @Column(name = "inst_id",nullable = false)
+    private Integer inst_id;
 
+    public Integer getInst_id() {
+        return inst_id;
+    }
+
+    public void setInst_id(Integer inst_id) {
+        this.inst_id = inst_id;
+    }
 
     public Integer getCourse_id() {
         return course_id;

@@ -59,7 +59,8 @@ public class GetQuizResultController {
         for(int i=0;i<arrayList1.size();i++){
             SaveResultModel resultModel=arrayList1.get(i);
 
-            LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(resultModel),LeaderBoardModel.class);
+            LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(resultModel),
+                    LeaderBoardModel.class);
            leaderBoardModel.setPercent((i+1/arrayList1.size())*100);
            if(saveResultModel.getId()== resultModel.getId())
            {
