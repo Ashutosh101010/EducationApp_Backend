@@ -67,6 +67,7 @@ public class GetQuizResultController {
                saveResultModel.setPercent((i+1/arrayList1.size())*100);
            }
             leaderBoardModel.setName(resultModel.getStudentModel().getFname());
+           leaderBoardModel.setImage(resultModel.getStudentModel().getProfile());
             leaderBoardList.add(leaderBoardModel);
         }
 //                (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and" +
