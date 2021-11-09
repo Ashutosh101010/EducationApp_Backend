@@ -16,7 +16,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Path("/students/getStudentNotes")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -34,15 +36,27 @@ public class GetStudentNotesController {
 
         ArrayList<StudentNotesEntity> arrayList =new ArrayList<>();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+
+       String lastId;
+        if (request.getLastId().equals("")) {
+            lastId = sdf.format(calendar.getTime());
+       } else {
+            lastId = request.getLastId();
+       }
+
         String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
-                "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? and student_notes.inst_id = ? ORDER BY added_on DESC ";
+                "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? and student_notes.inst_id = ?  and student_notes.added_on < ? ORDER BY added_on DESC ";
 
 
         Query query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getStud_id());
         query.setParameter(2,request.getInst_id());
+      //  query.setParameter(3,request.getLastId());
+        query.setParameter(3,lastId);
 
-        ArrayList<Object[]> objList = (ArrayList<Object[]>) query.getResultList();
+        ArrayList<Object[]> objList = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
         System.out.println(objList.size());
         objList.forEach(objects -> {
 

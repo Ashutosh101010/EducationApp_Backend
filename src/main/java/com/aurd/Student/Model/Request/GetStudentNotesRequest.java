@@ -3,6 +3,7 @@ package com.aurd.Student.Model.Request;
 public class GetStudentNotesRequest {
     long inst_id;
     long stud_id;
+    String lastId;
 
     public long getInst_id() {
         return inst_id;
@@ -18,5 +19,13 @@ public class GetStudentNotesRequest {
 
     public void setStud_id(long stud_id) {
         this.stud_id = stud_id;
+    }
+
+    public String getLastId() {
+        return lastId;
+    }
+
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
     }
 }
