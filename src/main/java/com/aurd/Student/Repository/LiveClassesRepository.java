@@ -18,7 +18,7 @@ public class LiveClassesRepository implements PanacheRepository<LiveClassModel> 
 
         try{
             ArrayList<LiveClassModel> arrayList= (ArrayList<LiveClassModel>)
-                    list("inst_id=?1 and status =?2",request.getInst_id(),1);
+                    list("inst_id=?1 and status =?2 ORDER BY date_time DESC",request.getInst_id(),1);
 
 
             System.out.println(arrayList.size());

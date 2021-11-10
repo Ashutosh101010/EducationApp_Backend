@@ -67,7 +67,7 @@ public class GetBookmarkController {
     public GetBookMarkResponse getBookmarkedData(GetBookMarkRequest request){
 
         ArrayList<BookMarkModel> arrayList  = (ArrayList<BookMarkModel>)
-                bookMarkRepository.find("added_by",request.getStudent_id()).list();
+                bookMarkRepository.find("added_by=?1  ORDER BY added_on DESC",request.getStudent_id()).list();
         ArrayList blogList = new ArrayList();
         ArrayList caList = new ArrayList();
         ArrayList postList = new ArrayList();
