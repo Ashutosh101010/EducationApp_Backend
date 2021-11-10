@@ -22,7 +22,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
         if(request.getDate().isEmpty()|| request.getDate().equals("")){
 
             String lastId;
-            if (request.getLastId().equals("")) {
+            if (request.getLastId()==null || request.getLastId().equals("")) {
                 lastId = formatter.format(calendar.getTime());
             } else {
                 lastId = request.getLastId();
@@ -35,7 +35,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
             currentAffair.setParameter(2,lastId);
           //  currentAffair.setParameter(2, Timestamp.valueOf(lastId));
 
-          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
 //            List<CurrentAffairModel> list = list("inst_id  ORDER BY created_at ",request.getInst_id());
 //            arrayList.addAll(list);
 
@@ -43,7 +43,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
             if(request.getDate().equals(formatter.format(calendar.getTime()))){
 
                 String lastId;
-                if (request.getLastId().equals("")) {
+                if (request.getLastId()==null || request.getLastId().equals("")) {
                     lastId = formatter.format(calendar.getTime());
                 } else {
                     lastId = request.getLastId();
@@ -55,7 +55,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
                 currentAffair.setParameter(1,request.getInst_id());
                 currentAffair.setParameter(2,lastId);
 
-                arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+                arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
 
             }else{
                 String start = request.getDate()+" 00:00:00";

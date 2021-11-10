@@ -8,6 +8,7 @@ public class Get_PractiseTestSeries_Request {
     int test_series_id;
     int subject_id;
     String filter;
+    String lastId;
 
     public String getFilter() {
         return filter;
@@ -56,5 +57,13 @@ public class Get_PractiseTestSeries_Request {
 
     public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
+    }
+
+    public String getLastId() {
+        return lastId;
+    }
+
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
     }
 }

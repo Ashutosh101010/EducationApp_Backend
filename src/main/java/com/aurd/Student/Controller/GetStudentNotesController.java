@@ -40,7 +40,7 @@ public class GetStudentNotesController {
         Calendar calendar = Calendar.getInstance();
 
        String lastId;
-        if (request.getLastId().equals("")) {
+        if ( request.getLastId()==null || request.getLastId().equals("")) {
             lastId = sdf.format(calendar.getTime());
        } else {
             lastId = request.getLastId();

@@ -14,7 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Path("/courses/getPractiseTest")
 public class GetCoursePractiseController {
@@ -32,22 +34,35 @@ public class GetCoursePractiseController {
 
         System.out.println(new Gson().toJson(request));
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+
         ArrayList<Object[]> arrayList = null;
         ArrayList<QuizModel> list = new ArrayList<>();
          if(request.getFilter().equals("")|| request.getFilter().isEmpty()){
+
+             String lastId = "";
+             if(request.getLastId()==null||request.getLastId().equals("")){
+                 lastId = sdf.format(calendar.getTime());
+             }else{
+                 lastId = request.getLastId();
+             }
+
             String string = "SELECT quiz_master.quiz_id,quiz_master.course_id,quiz_master.title,quiz_master.discription," +
                     " quiz_master.pic,quiz_master.price,quiz_master.test_start,quiz_master.test_duration," +
                     " quiz_master.is_active,quiz_master.marks_per_ques,quiz_master.total_ques," +
                     "quiz_master.cutoff,quiz_master.instruction,quiz_master.time,quiz_master.negative_marking," +
                     "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master`" +
-                    " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? ORDER BY time DESC ";
+                    " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? AND quiz_master.time <? ORDER BY time DESC ";
 
             Query query = quizRepository.getEntityManager().createNativeQuery(string);
 
             query.setParameter(1,request.getCourse_id());
             query.setParameter(2,"Monthly Test");
             query.setParameter(3,request.getInst_id());
-           arrayList  = (ArrayList<Object[]>) query.getResultList();
+            query.setParameter(4,lastId);
+
+           arrayList  = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
            arrayList.forEach(objects -> {
                QuizModel model = new QuizModel();
                model.setQuiz_id(Long.parseLong(objects[0].toString()));
@@ -75,12 +90,21 @@ public class GetCoursePractiseController {
 
         }else{
             if(request.getFilter().equals("free")){
+
+
+                String lastId = "";
+                if(request.getLastId()==null || request.getLastId().equals("")){
+                    lastId = sdf.format(calendar.getTime());
+                }else{
+                    lastId = request.getLastId();
+                }
+
                 String string = "SELECT quiz_master.quiz_id,quiz_master.course_id,quiz_master.title,quiz_master.discription," +
                         " quiz_master.pic,quiz_master.price,quiz_master.test_start,quiz_master.test_duration," +
                         " quiz_master.is_active,quiz_master.marks_per_ques,quiz_master.total_ques," +
                         "quiz_master.cutoff,quiz_master.instruction,quiz_master.time,quiz_master.negative_marking," +
                         "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master`" +
-                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.price = ?AND quiz_master.inst_id =? ORDER BY time DESC ";
+                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.price = ?AND quiz_master.inst_id =? AND quiz_master.time <? ORDER BY time DESC ";
 
                 Query query = quizRepository.getEntityManager().createNativeQuery(string);
 
@@ -88,7 +112,9 @@ public class GetCoursePractiseController {
                 query.setParameter(2,"Monthly Test");
                 query.setParameter(3,'0');
                 query.setParameter(4,request.getInst_id());
-                arrayList  = (ArrayList<Object[]>) query.getResultList();
+                query.setParameter(5,lastId);
+
+                arrayList  = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
                 arrayList.forEach(objects -> {
                     QuizModel model = new QuizModel();
                     model.setQuiz_id(Long.parseLong(objects[0].toString()));
@@ -114,19 +140,29 @@ public class GetCoursePractiseController {
                 });
             }
             else{
+
+                String lastId = "";
+                if(request.getLastId()==null || request.getLastId().equals("")){
+                    lastId = sdf.format(calendar.getTime());
+                }else{
+                    lastId = request.getLastId();
+                }
+
                 String string = "SELECT quiz_master.quiz_id,quiz_master.course_id,quiz_master.title,quiz_master.discription," +
                         " quiz_master.pic,quiz_master.price,quiz_master.test_start,quiz_master.test_duration," +
                         " quiz_master.is_active,quiz_master.marks_per_ques,quiz_master.total_ques," +
                         "quiz_master.cutoff,quiz_master.instruction,quiz_master.time,quiz_master.negative_marking," +
                         "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master` " +
-                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? AND quiz_master.price>'0' ";
+                        " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? AND quiz_master.price>'0' AND quiz_master.time <? ORDER BY time DESC ";
 
                 Query query = quizRepository.getEntityManager().createNativeQuery(string);
 
                 query.setParameter(1,request.getCourse_id());
                 query.setParameter(2,"Monthly Test");
                 query.setParameter(3,request.getInst_id());
-                arrayList  = (ArrayList<Object[]>) query.getResultList();
+                query.setParameter(4,lastId);
+
+                arrayList  = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
                 arrayList.forEach(objects -> {
                     QuizModel model = new QuizModel();
                     model.setQuiz_id(Long.parseLong(objects[0].toString()));
