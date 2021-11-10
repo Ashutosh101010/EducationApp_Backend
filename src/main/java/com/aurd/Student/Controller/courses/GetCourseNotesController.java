@@ -72,7 +72,7 @@ public class GetCourseNotesController {
         if(request.getFilter()==null ||request.getFilter().isEmpty() || request.getFilter().equals("")) {
 
             String lastId = "";
-            if(request.getLastId().equals("")){
+            if( request.getLastId()==null || request.getLastId().equals("")){
                 lastId = sdf.format(calendar.getTime());
             }else{
                 lastId = request.getLastId();

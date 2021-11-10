@@ -38,6 +38,7 @@ public class GetCourseSyllabus {
                 "course_blog.created_at FROM course_blog" +
                 " INNER JOIN blog ON blog.id=course_blog.blog WHERE course_blog.course=? ORDER BY created_at DESC";
 
+
         Query query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getCourse_id());
         ArrayList<Object[]> arrayList = (ArrayList<Object[]>) query.getResultList();

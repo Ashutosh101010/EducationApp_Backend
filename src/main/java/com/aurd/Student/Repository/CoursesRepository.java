@@ -20,7 +20,7 @@ public class CoursesRepository implements PanacheRepository<CourseModel> {
 
     public ArrayList getCourses(int instID){
         ArrayList<CourseModel> arrayList = new ArrayList();
-      List<CourseModel> list = list("inst_id",instID);
+      List<CourseModel> list = list("inst_id ORDER BY created_at DESC",instID);
         arrayList.addAll(list);
 
         return  arrayList;

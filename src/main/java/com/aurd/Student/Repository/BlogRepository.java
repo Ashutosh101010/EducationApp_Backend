@@ -23,7 +23,7 @@ public class BlogRepository implements PanacheRepository<BlogModel> {
 
 
             String lastId;
-            if (request.getLastId().equals("")) {
+            if (request.getLastId()==null || request.getLastId().equals("")) {
                 lastId = formatter.format(calendar.getTime());
             } else {
                 lastId = request.getLastId();

@@ -18,7 +18,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Path("/getStudentProfile")
 @Produces(MediaType.APPLICATION_JSON)
@@ -42,17 +44,28 @@ public class GetStudentprofile {
 
     public StudentProfileResponse getProfile(GetStudentDetailRequest request){
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+
       StudentModel studentModel = studentRepository.find("id",request.getId()).firstResult();
+
+        String lastId;
+        if ( request.getLastId()==null || request.getLastId().equals("")) {
+            lastId = sdf.format(calendar.getTime());
+        } else {
+            lastId = request.getLastId();
+        }
 
 
         String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
                 "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                 "student_posts.added_on, students.fname FROM `student_posts` " +
                 "INNER JOIN students ON students.id=student_posts.added_by " +
-                "WHERE student_posts.inst_id = ? and student_posts.added_by = ? ORDER  BY added_on DESC ";
+                "WHERE student_posts.inst_id = ? and student_posts.added_by = ? and student_posts.added_on < ? ORDER  BY added_on DESC ";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,studentModel.getInst_id());
         studentPost.setParameter(2,request.getId());
+        studentPost.setParameter(3,lastId);
 
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
@@ -77,6 +90,7 @@ public class GetStudentprofile {
                     postModel.setName(objects[6].toString());
                     postModel.setTimeStamp(postModel.getAdded_on().getTime());
                     postModel.setImage(studentModel.getProfile());
+
 
 
                     Integer commentCount = getCommentCount(postModel);
