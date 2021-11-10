@@ -76,6 +76,7 @@ public class GetStudentprofile {
                     postModel.setAdded_on(Timestamp.valueOf(objects[5].toString()));
                     postModel.setName(objects[6].toString());
                     postModel.setTimeStamp(postModel.getAdded_on().getTime());
+                    postModel.setImage(studentModel.getProfile());
 
 
                     Integer commentCount = getCommentCount(postModel);

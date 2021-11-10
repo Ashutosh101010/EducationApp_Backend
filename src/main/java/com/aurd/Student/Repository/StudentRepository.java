@@ -6,6 +6,7 @@ import com.aurd.Student.Model.Request.GetProfileRequest;
 import com.aurd.Student.Model.Request.GetStudentDetailRequest;
 import com.aurd.Student.Model.Request.LoginRequest;
 import com.aurd.Student.Model.Request.UpDateRequest;
+import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -39,15 +40,18 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
 
         DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
-        java.util.Date date = formatter.parse(request.getDOB());
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        java.sql.Date sqlDate;
+        if(request.getDOB()!=null){
+            java.util.Date date = formatter.parse(request.getDOB());
+          sqlDate  = new java.sql.Date(date.getTime());
+        }else
+        {
+            sqlDate = null;
+        }
 
-//        String imageid = "";
-//        if(request.getImageId()!=null){
-//            imageid= request.getImageId();
-//        }else{
-//            imageid = request.getImage();
-//        }
+
+//        System.out.println(new Gson().toJson(request));
+
 
    return update("fname=?1 , contact=?2   ,address=?3 ," +
                    "email=?4 , stateId=?5   ,districtId=?6 ,dob=?7, bio=?8 , gender=?9, profile=?10 " +

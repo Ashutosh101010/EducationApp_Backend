@@ -5,6 +5,7 @@ import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Request.UpDateRequest;
 import com.aurd.Student.Model.Response.UpdateResponse;
 import com.aurd.Student.Repository.StudentRepository;
+import com.google.gson.Gson;
 import org.jboss.resteasy.annotations.providers.multipart.MultipartForm;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
@@ -49,17 +50,67 @@ public class StudentUpdateController {
 
 
 
+
         try {
+
+
+            System.out.println(input.get("pic"));
+            System.out.println(input.get("bio").get(0).getBodyAsString());
+
+            System.out.println(input.get("gender").get(0).getBodyAsString());
+
+            System.out.println(input.get("state_id").get(0).getBodyAsString());
+            System.out.println(input.get("dob").get(0).getBodyAsString());
+            System.out.println(input.get("district_id").get(0).getBodyAsString());
+
+            System.out.println(input.get("address").get(0).getBodyAsString());
+
+
             Long studId = Long.parseLong(input.get("stud_id").get(0).getBodyAsString());
 
             StudentModel studentModel = repository.find("id",studId).firstResult();
 
-            request.setBio(input.get("bio").get(0).getBodyAsString());
-            request.setGender(input.get("gender").get(0).getBodyAsString());
-            request.setState_id(Integer.parseInt(input.get("state_id").get(0).getBodyAsString()));
-            request.setDOB(input.get("dob").get(0).getBodyAsString());
-            request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());
-            request.setAddress(input.get("address").get(0).getBodyAsString());
+            if(input.get("bio")!=null){
+                request.setBio(input.get("bio").get(0).getBodyAsString());
+            }else{
+                request.setBio(studentModel.getBio());
+            }
+
+            if(input.get("gender")!=null){
+                request.setGender(input.get("gender").get(0).getBodyAsString());
+
+            }else{
+                request.setGender(studentModel.getGender());
+            }
+
+
+            if(input.get("state_id")!=null){
+                request.setState_id(Integer.parseInt(input.get("state_id").get(0).getBodyAsString()));
+
+            }else{
+                request.setState_id(studentModel.getStateId());
+            }
+
+            if(input.get("dob")!=null){
+                request.setDOB(input.get("dob").get(0).getBodyAsString());
+
+            }else{
+                request.setDOB(studentModel.getDob().toString());
+            }
+
+            if(input.get("district_id")!=null){
+                request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());
+
+            }else{
+                request.setDistrict_id(studentModel.getDistrictId());
+            }
+
+            if(input.get("address")!=null){
+                request.setAddress(input.get("address").get(0).getBodyAsString());
+            }else{
+                request.setAddress(studentModel.getAddress());
+
+            }
 
 
 //            if(input.get("bio").get(0)!=null){
@@ -85,15 +136,28 @@ public class StudentUpdateController {
 //            }
 
             request.setStudent_id(studId);
-            request.setF_name(input.get("name").get(0).getBodyAsString());
-            request.setMobile_no(input.get("mobileNumber").get(0).getBodyAsString());
-           request.setEmail(input.get("email").get(0).getBodyAsString());
+            if(input.get("name")!=null){
+                request.setF_name(input.get("name").get(0).getBodyAsString());
+            }else{
+                request.setF_name(studentModel.getFname());
+            }
 
+            if(input.get("mobileNumber")!=null){
+                request.setMobile_no(input.get("mobileNumber").get(0).getBodyAsString());
+            }else{
+                request.setMobile_no(studentModel.getContact());
+            }
 
+            if(input.get("email")!=null){
+                request.setEmail(input.get("email").get(0).getBodyAsString());
+            }else{
+                request.setEmail(studentModel.getEmail());
 
+            }
 
 
             if(input.get("pic")==null){
+                System.out.println("Pic is Null");
                 if(studentModel.getProfile()!=null){
                     request.setImageId(studentModel.getProfile());
                 }else{
@@ -102,6 +166,7 @@ public class StudentUpdateController {
 
             }
             else{
+                System.out.println("Pic is not null");
                 request.setPic(input.get("pic").get(0).getBody(InputStream.class,null));
                 System.out.println(request);
                 byte imageBytes[] = request.getPic().readAllBytes();
@@ -127,18 +192,7 @@ public class StudentUpdateController {
 
             }
 
-//            if(input.get("image")==null){
-//                request.setImage(null);
-//            }else {
-//                request.setImage(input.get("image").get(0).getBodyAsString());
-//            }
-
-
-
-//
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//            System.out.println((sdf.format(new Date())).toString());
-
+//            System.out.println(new Gson().toJson(request));
 
             Integer resp  = repository.UpDateRequest(request);
             System.out.println(studentModel);
