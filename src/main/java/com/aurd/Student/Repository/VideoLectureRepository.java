@@ -23,20 +23,20 @@ public class VideoLectureRepository implements PanacheRepository <VideoModel>{
 
 
     public ArrayList getCourseVideoList(GetVideoLectureRequest request){
-
+Integer val = Math.toIntExact(request.getInstID());
         ArrayList<VideoModel> arrayList = new ArrayList<>();
         if(request.getFilter()==null ||request.getFilter().isEmpty() || request.getFilter().equals("")){
             arrayList = (ArrayList<VideoModel>) list("topicId=?1 and inst_id=?2 ORDER BY created_at DESC",
-                    request.getTopicID(),request.getInstID());
+                    request.getTopicID(),val);
 
         }else if(request.getFilter().equals("free")){
             arrayList = (ArrayList<VideoModel>) list("topicId=?1 and inst_id=?2 and fee_type=?3 ORDER BY created_at DESC",
-                    request.getTopicID(),request.getInstID(),"Free");
+                    request.getTopicID(),val,"Free");
 
 
         }else if(request.getFilter().equals("paid")){
             arrayList = (ArrayList<VideoModel>) list("topicId=?1 and inst_id=?2 and fee_type=?3 ORDER BY created_at DESC",
-                    request.getTopicID(),request.getInstID(),"Paid");
+                    request.getTopicID(),val,"Paid");
 
 
         }

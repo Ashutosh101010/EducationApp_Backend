@@ -62,45 +62,41 @@ public class GetNotesController {
             if(request.getFilter()==null ||request.getFilter().isEmpty()
                     || request.getFilter().equals("")){
 
-                if( request.getLastId()==null || request.getLastId().equals("")){
+                if(request.getLastId().equals("")){
 
-                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at, " +
+                    string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at, " +
                             "employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
                             " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course, notes.fee_type FROM notes" +
                             " INNER JOIN employees ON employees.id= notes.created_by INNER JOIN topics " +
                             "ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
-                            "WHERE notes.inst_id = ? and notes.created_at<?  ORDER BY created_at DESC ";
+                            "WHERE notes.inst_id = ?  ORDER BY created_at DESC ";
 
                     query = repository.getEntityManager().createNativeQuery(string);
                     query.setParameter(1,request.getInst_id());
+
+
+                }else{
+                    string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at, " +
+                            "employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
+                            " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course, notes.fee_type FROM notes" +
+                            " INNER JOIN employees ON employees.id= notes.created_by INNER JOIN topics " +
+                            "ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
+                            "INNER JOIN courses ON courses.id = notes.course_id " +
+                            "WHERE notes.inst_id = ? and notes.created_at <? ORDER BY created_at DESC ";
+                    query = repository.getEntityManager().createNativeQuery(string);
+                    query.setParameter(1,request.getInst_id());
                     query.setParameter(2,new Date(Long.valueOf(request.getLastId())));
+                }
 
 
-                }else {
 
-
-                        string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at, " +
-                                "employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
-                                " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course, notes.fee_type FROM notes" +
-                                " INNER JOIN employees ON employees.id= notes.created_by INNER JOIN topics " +
-                                "ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
-                                "INNER JOIN courses ON courses.id = notes.course_id " +
-                                "WHERE notes.inst_id = ? and notes.created_at <? and notes.created_at<? ORDER BY created_at DESC ";
-                        query = repository.getEntityManager().createNativeQuery(string);
-                        query.setParameter(1, request.getInst_id());
-                        query.setParameter(2, new Date(Long.valueOf(request.getLastId())));
-                    }
-
-
-                    list = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
+                list = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
 
 
             }else{
 
-                if( request.getLastId()==null || request.getLastId().equals("")){
-
-
+                if(request.getLastId().equals("")){
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
                             " employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
                             " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course," +
@@ -108,16 +104,13 @@ public class GetNotesController {
                             "FROM notes INNER JOIN employees ON employees.id= notes.created_by INNER JOIN" +
                             " topics ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
-                            "WHERE notes.inst_id = ? and notes.fee_type=? and notes.created_at<? ORDER BY created_at DESC";
+                            "WHERE notes.inst_id = ? and notes.fee_type=? ORDER BY created_at DESC";
 
                     query = repository.getEntityManager().createNativeQuery(string);
                     query.setParameter(1,request.getInst_id());
                     query.setParameter(2,request.getFilter());
-                    query.setParameter(3,new Date(Long.valueOf(request.getLastId())));
 
                 }else{
-
-
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
                             " employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
                             " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course," +
@@ -162,7 +155,6 @@ public class GetNotesController {
                         notesEntity.getCreated_by().longValue()).firstResult();
 
                 notesEntity.setTeacherName(teacherModel.getFname());
-                notesEntity.setImage(teacherModel.getProfile());
 
                 String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
                 Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);

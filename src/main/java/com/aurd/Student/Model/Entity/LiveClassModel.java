@@ -70,6 +70,17 @@ public class LiveClassModel {
     @Transient
     String teacherName;
 
+    @Transient
+    String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getTeacherName() {
         return teacherName;
     }

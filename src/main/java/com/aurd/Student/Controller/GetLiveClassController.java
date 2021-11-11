@@ -53,6 +53,7 @@ public class GetLiveClassController {
        TeacherModel model = teacherRepository.find("id",faculty.longValue()).firstResult();
          if(model!=null){
              liveClassModel.setTeacherName(model.getFname());
+             liveClassModel.setImage(model.getProfile());
          }
        });
 
