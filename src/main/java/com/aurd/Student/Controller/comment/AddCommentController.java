@@ -41,9 +41,14 @@ public class AddCommentController {
     @Transactional
 
     public GeneralResponse addComment(AddPostCommentRequest request){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar calendar = Calendar.getInstance();
-        request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
+
+
+        java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Calendar calendar = Calendar.getInstance();
+      //  request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
+        request.setAdded_on(date);
+
         System.out.println(request);
 
         GeneralResponse response =  new GeneralResponse();
