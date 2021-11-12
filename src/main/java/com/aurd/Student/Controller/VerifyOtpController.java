@@ -37,8 +37,6 @@ public class VerifyOtpController {
             response.setMessage("Otp Verification Successful");
             response.seterrorCode(0);
             response.setStatus(true);
-
-
         }else{
             response.setStatus(false);
             response.seterrorCode(1);

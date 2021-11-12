@@ -16,11 +16,10 @@ import java.util.List;
 import java.util.Objects;
 
 
-
 @ApplicationScoped
 public class QuizRepository implements PanacheRepository<QuizModel> {
 
-    public ArrayList getQuizzes(GetQuizRequest request){
+    public ArrayList getQuizzes(GetQuizRequest request) {
 
         ArrayList<QuizModel> arrayList = new ArrayList();
 
@@ -28,34 +27,33 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
             System.out.println(new Gson().toJson(request));
 
 
-               if(request.getCourse_id()!=0 && request.getSubject_id()==0){
-               arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and course_id=?3 ORDER BY added_on DESC",
-                     request.getInst_id(),request.getType(),request.getCourse_id()).list();
+            if (request.getCourse_id() != 0 && request.getSubject_id() == 0) {
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and course_id=?3 ORDER BY added_on DESC",
+                        request.getInst_id(), request.getType(), request.getCourse_id()).list();
 
-
-
-                return  arrayList;
-
-            }else if(request.getSubject_id()!=0 && request.getCourse_id() ==0){
-                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 ORDER BY added_on DESC",
-                       request.getInst_id(),request.getType(),request.getSubject_id()).list();
-
-                  return arrayList;
-
-            }else if(request.getCourse_id()!=0 && request.getSubject_id()!=0){
-                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 and course_id = ?4 ORDER BY added_on DESC",
-                        request.getInst_id(),request.getType(),request.getSubject_id(),request.getCourse_id()).list();
 
                 return arrayList;
 
-            }else if(  request.getFilter().equals("free") && request.getCourse_id()==0 &&request.getSubject_id()==0){
-                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 ORDER BY added_on DESC",
-                           request.getInst_id().intValue(),request.getType(),"0").list();
+            } else if (request.getSubject_id() != 0 && request.getCourse_id() == 0) {
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 ORDER BY added_on DESC",
+                        request.getInst_id(), request.getType(), request.getSubject_id()).list();
 
-                   return arrayList;
-               }else if(request.getFilter().equals("paid") &&
-                       request.getCourse_id()==0 &&
-                       request.getSubject_id()==0){
+                return arrayList;
+
+            } else if (request.getCourse_id() != 0 && request.getSubject_id() != 0) {
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and subject_id=?3 and course_id = ?4 ORDER BY added_on DESC",
+                        request.getInst_id(), request.getType(), request.getSubject_id(), request.getCourse_id()).list();
+
+                return arrayList;
+
+            } else if (request.getFilter().equals("free") && request.getCourse_id() == 0 && request.getSubject_id() == 0) {
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 ORDER BY added_on DESC",
+                        request.getInst_id().intValue(), request.getType(), "0").list();
+
+                return arrayList;
+            } else if (request.getFilter().equals("paid") &&
+                    request.getCourse_id() == 0 &&
+                    request.getSubject_id() == 0) {
 
 //                   Query query = getEntityManager().createQuery("select QuizModel from  QuizModel quizModel" +
 //                           " where quizModel.inst_id=:instId and quizModel.type =:type and quizModel.price =:price");
@@ -63,27 +61,26 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 //                   query.setParameter("type",request.getType());
 //                   query.setParameter("price",">0");
 
-                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 " +
-                                   "ORDER BY added_on DESC",
-                           request.getInst_id().intValue(),request.getType(),">0").list();
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2 and price =?3 " +
+                                "ORDER BY added_on DESC",
+                        request.getInst_id().intValue(), request.getType(), ">0").list();
 
-                   return arrayList;
-               }
-               else{
+                return arrayList;
+            } else {
 //                   Query query = getEntityManager().createQuery("select QuizModel from  QuizModel quizModel" +
 //                           " where quizModel.inst_id=:instId and quizModel.type =:type");
 //                   query.setParameter("instId",request.getInst_id().intValue());
 //                   query.setParameter("type",request.getType());
 
 
-                   arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2  ORDER BY added_on DESC",
-                           request.getInst_id().intValue(),request.getType()).list();
+                arrayList = (ArrayList<QuizModel>) find("inst_id=?1 and type =?2  ORDER BY added_on DESC",
+                        request.getInst_id().intValue(), request.getType()).list();
 
-                   return arrayList;
-               }
+                return arrayList;
+            }
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return new ArrayList();
         }
@@ -91,43 +88,36 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
 
     }
 
-    public ArrayList getTestSeries(GetQuizRequest request){
+    public ArrayList getTestSeries(GetQuizRequest request) {
 
         ArrayList<QuizModel> arrayList = new ArrayList();
 
-        List<QuizModel> list =  find("inst_id=?1 and type =?2",
-                request.getInst_id(),request.getType()).list();
+        List<QuizModel> list = find("inst_id=?1 and type =?2",
+                request.getInst_id(), request.getType()).list();
 
         arrayList.addAll(list);
 
-        return  arrayList;
-
+        return arrayList;
     }
 
-    public ArrayList getMonthlyTest(long instID,String type){
+    public ArrayList getMonthlyTest(long instID, String type) {
 
         ArrayList<QuizModel> arrayList = new ArrayList();
 
-        List<QuizModel> list =  find("inst_id=?1 and type =?2",
-               instID,type).list();
-
+        List<QuizModel> list = find("inst_id=?1 and type =?2",
+                instID, type).list();
         arrayList.addAll(list);
-
-        return  arrayList;
-
+        return arrayList;
+    }
+    public ArrayList getAllUpdates(long instID) {
+        ArrayList<QuizModel> arrayList = (ArrayList<QuizModel>) list("inst_id", instID);
+        return arrayList;
     }
 
+    public ArrayList<QuizModel> getAllTestSeries(Integer inst_id, String type) {
 
-
-    public ArrayList getAllUpdates(long instID){
-        ArrayList<QuizModel> arrayList = (ArrayList<QuizModel>) list("inst_id",instID);
-        return  arrayList;
-    }
-
-    public ArrayList<QuizModel> getAllTestSeries(Integer inst_id,String type) {
-
-        ArrayList<QuizModel>arrayList=(ArrayList<QuizModel>)
-                find("inst_id=?1 and type=?2",inst_id,type).list();
-        return  arrayList;
+        ArrayList<QuizModel> arrayList = (ArrayList<QuizModel>)
+                find("inst_id=?1 and type=?2", inst_id, type).list();
+        return arrayList;
     }
 }
