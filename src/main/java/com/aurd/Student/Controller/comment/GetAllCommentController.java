@@ -59,7 +59,7 @@ public class GetAllCommentController {
         if(request.getType().equals("blog")){
 
           ArrayList<Blog_Comment_Model> commentList = (ArrayList<Blog_Comment_Model>)
-                  blog_repository.list("blog_id",request.getPost_id());
+                  blog_repository.list("blog_id =?1 ORDER BY added_on DESC ",request.getPost_id());
           commentList.forEach(model -> {
               CommentEntity entity = new CommentEntity();
               entity.setComment(model.getComment());
@@ -101,7 +101,7 @@ public class GetAllCommentController {
 
             ArrayList<Current_AffairsCommented_Model> commentList =
                     (ArrayList<Current_AffairsCommented_Model>)
-                    ca_repository.list("current_affair_id",request.getPost_id());
+                    ca_repository.list("current_affair_id=?1 ORDER BY added_on DESC",request.getPost_id());
             commentList.forEach(model -> {
                 CommentEntity entity = new CommentEntity();
                 entity.setComment(model.getComment());
@@ -140,7 +140,7 @@ public class GetAllCommentController {
         else  if(request.getType().equals("studentPost")){
 
             ArrayList<Student_Posts_Commented> commentList = (ArrayList<Student_Posts_Commented>)
-                    repository.list("post_id",request.getPost_id());
+                    repository.list("post_id=?1 ORDER BY added_on DESC",request.getPost_id());
             commentList.forEach(model -> {
                 CommentEntity entity = new CommentEntity();
                 entity.setComment(model.getComment());
@@ -183,7 +183,7 @@ public class GetAllCommentController {
         else  if(request.getType().equals("notes")){
 
             ArrayList<NotesCommentModel> commentList = (ArrayList<NotesCommentModel>)
-                    notesComentRepository.list("notes_id",request.getPost_id());
+                    notesComentRepository.list("notes_id=?1 ORDER BY added_on DESC",request.getPost_id());
             commentList.forEach(model -> {
                 CommentEntity entity = new CommentEntity();
                 entity.setComment(model.getComment());
@@ -226,7 +226,7 @@ public class GetAllCommentController {
 
    ArrayList getCommentReply(CommentEntity entity){
      ArrayList<Comment_Reply_Model> list = (ArrayList<Comment_Reply_Model>)
-             replyRepository.list("comment_id",entity.getComment_id());
+             replyRepository.list("comment_id=?1 ORDER BY added_on DESC",entity.getComment_id());
      list.forEach(comment_reply_model -> {
          System.out.println(new Gson().toJson(comment_reply_model));
 

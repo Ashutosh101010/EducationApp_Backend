@@ -116,6 +116,17 @@ public class StudentModel {
     @Column(name = "created_at",nullable = true)
     private Timestamp created_at;
 
+    @Column(name = "deviceId",nullable = true)
+    String deviceId;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
     public Timestamp getCreated_at() {
         return created_at;
     }
