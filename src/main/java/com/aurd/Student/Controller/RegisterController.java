@@ -19,7 +19,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 
 @Path("/register")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,10 +34,30 @@ public class RegisterController {
     @POST
     @Transactional
     public GeneralResponse register(RegisterRequest request) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar cal = Calendar.getInstance();
         GeneralResponse generalResponse = new GeneralResponse();
         Gson gson = new Gson();
         StudentModel studentModel = gson.fromJson(gson.toJson(request),StudentModel.class);
         studentModel.setPassword_salt(request.getPassword());
+        studentModel.setAddress(null);
+        studentModel.setBio(null);
+        studentModel.setCoursecheck(0);
+        studentModel.setDistrictId(null);
+        studentModel.setEmail_verify(0);
+        studentModel.setGender(null);
+        studentModel.setHostel(0);
+        studentModel.setTownId(null);
+        studentModel.setLogin_status(0);
+        studentModel.setProfile(null);
+        studentModel.setReg_status(request.getReg_status());
+        studentModel.setStateId(null);
+        studentModel.setLibrary(0);
+        studentModel.setPhone_verify(0);
+        studentModel.setDob(null);
+        studentModel.setUsername(request.getFname());
+        studentModel.setDeviceId(null);
+        studentModel.setCreated_at(Timestamp.valueOf(sdf.format(cal.getTime())));
 
 //
 //        String passwordToHash =request.getPassword();
