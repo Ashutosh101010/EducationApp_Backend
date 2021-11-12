@@ -18,9 +18,8 @@ import javax.inject.Inject;
 @ApplicationScoped
 public class Service {
 
-@Inject
-    LiveSessionRepository liveSessionRepository;
     public static AmazonS3 s3;
+
     public void  onStart(@Observes StartupEvent event){
 
         final String s3Endpoint = "https://s3.wasabisys.com";
@@ -34,6 +33,10 @@ public class Service {
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region))
                 .withCredentials(credentials)
                 .build();
+
+
+
+
     }
 
     public void onStop(@Observes ShutdownEvent event){

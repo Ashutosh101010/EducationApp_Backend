@@ -97,6 +97,16 @@
       <version>1.12.30</version>
     </dependency>
 
+
+
+    <!-- https://mvnrepository.com/artifact/org.json/json -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20210307</version>
+    </dependency>
+
+
     <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-iam -->
     <dependency>
       <groupId>com.amazonaws</groupId>

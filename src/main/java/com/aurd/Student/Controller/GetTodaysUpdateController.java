@@ -168,14 +168,14 @@ public class GetTodaysUpdateController {
     response.setMessage("Get Latest Updates Successful");
     response.setStatus(true);
     response.setErrorCode(0);
-    response.setBlogList(blogList);
-    response.setCurrentAffairArrayList(currentAffairList);
-    response.setNotesList(notesList);
-    response.setPostList(postList);
+//    response.setBlogList(blogList);
+//    response.setCurrentAffairArrayList(currentAffairList);
+//    response.setNotesList(notesList);
+//    response.setPostList(postList);
     response.setImageList(bannerList);
-    response.setQuizList(quizList);
-    response.setVideoList(videoList);
-    response.setPractiseList(practiseList);
+//    response.setQuizList(quizList);
+//    response.setVideoList(videoList);
+//    response.setPractiseList(practiseList);
 
         return  response;
 

@@ -9,13 +9,13 @@ import com.aurd.Student.Model.Entity.*;
 import java.util.ArrayList;
 
 public class LatestUpdateResponse {
-    ArrayList<BlogEntity> blogList = new ArrayList<>();
-    ArrayList<CurrentAffairEntity> currentAffairArrayList =new ArrayList<>();
-    ArrayList<StudentPostEntity> postList = new ArrayList<>();
-    ArrayList<NotesEntity> notesList = new ArrayList<>();
-    ArrayList<QuizModel> quizList = new ArrayList<>();
-    ArrayList<VideoModel> videoList = new ArrayList<>();
-    ArrayList<QuizModel> practiseList = new ArrayList<>();
+//    ArrayList<BlogEntity> blogList = new ArrayList<>();
+//    ArrayList<CurrentAffairEntity> currentAffairArrayList =new ArrayList<>();
+//    ArrayList<StudentPostEntity> postList = new ArrayList<>();
+//    ArrayList<NotesEntity> notesList = new ArrayList<>();
+//    ArrayList<QuizModel> quizList = new ArrayList<>();
+//    ArrayList<VideoModel> videoList = new ArrayList<>();
+//    ArrayList<QuizModel> practiseList = new ArrayList<>();
 
 
     String message;
@@ -32,45 +32,45 @@ public class LatestUpdateResponse {
         this.imageList = imageList;
     }
 
-    public ArrayList<BlogEntity> getBlogList() {
-        return blogList;
-    }
-
-    public void setBlogList(ArrayList<BlogEntity> blogList) {
-        this.blogList = blogList;
-    }
-
-    public ArrayList<CurrentAffairEntity> getCurrentAffairArrayList() {
-        return currentAffairArrayList;
-    }
-
-    public void setCurrentAffairArrayList(ArrayList<CurrentAffairEntity> currentAffairArrayList) {
-        this.currentAffairArrayList = currentAffairArrayList;
-    }
-
-    public ArrayList<StudentPostEntity> getPostList() {
-        return postList;
-    }
-
-    public void setPostList(ArrayList<StudentPostEntity> postList) {
-        this.postList = postList;
-    }
-
-    public ArrayList<NotesEntity> getNotesList() {
-        return notesList;
-    }
-
-    public void setNotesList(ArrayList<NotesEntity> notesList) {
-        this.notesList = notesList;
-    }
-
-    public ArrayList<QuizModel> getQuizList() {
-        return quizList;
-    }
-
-    public void setQuizList(ArrayList<QuizModel> quizList) {
-        this.quizList = quizList;
-    }
+//    public ArrayList<BlogEntity> getBlogList() {
+//        return blogList;
+//    }
+//
+//    public void setBlogList(ArrayList<BlogEntity> blogList) {
+//        this.blogList = blogList;
+//    }
+//
+//    public ArrayList<CurrentAffairEntity> getCurrentAffairArrayList() {
+//        return currentAffairArrayList;
+//    }
+//
+//    public void setCurrentAffairArrayList(ArrayList<CurrentAffairEntity> currentAffairArrayList) {
+//        this.currentAffairArrayList = currentAffairArrayList;
+//    }
+//
+//    public ArrayList<StudentPostEntity> getPostList() {
+//        return postList;
+//    }
+//
+//    public void setPostList(ArrayList<StudentPostEntity> postList) {
+//        this.postList = postList;
+//    }
+//
+//    public ArrayList<NotesEntity> getNotesList() {
+//        return notesList;
+//    }
+//
+//    public void setNotesList(ArrayList<NotesEntity> notesList) {
+//        this.notesList = notesList;
+//    }
+//
+//    public ArrayList<QuizModel> getQuizList() {
+//        return quizList;
+//    }
+//
+//    public void setQuizList(ArrayList<QuizModel> quizList) {
+//        this.quizList = quizList;
+//    }
 
     public String getMessage() {
         return message;
@@ -95,20 +95,20 @@ public class LatestUpdateResponse {
     public void setStatus(boolean status) {
         this.status = status;
     }
-
-    public ArrayList<VideoModel> getVideoList() {
-        return videoList;
-    }
-
-    public void setVideoList(ArrayList<VideoModel> videoList) {
-        this.videoList = videoList;
-    }
-
-    public ArrayList<QuizModel> getPractiseList() {
-        return practiseList;
-    }
-
-    public void setPractiseList(ArrayList<QuizModel> practiseList) {
-        this.practiseList = practiseList;
-    }
+//
+//    public ArrayList<VideoModel> getVideoList() {
+//        return videoList;
+//    }
+//
+//    public void setVideoList(ArrayList<VideoModel> videoList) {
+//        this.videoList = videoList;
+//    }
+//
+//    public ArrayList<QuizModel> getPractiseList() {
+//        return practiseList;
+//    }
+//
+//    public void setPractiseList(ArrayList<QuizModel> practiseList) {
+//        this.practiseList = practiseList;
+//    }
 }

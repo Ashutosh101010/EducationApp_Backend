@@ -30,14 +30,10 @@ public class RegisterController {
     StudentRepository repository;
     @POST
     @Transactional
-    public GeneralResponse register(RegisterRequest request)
-             {
+    public GeneralResponse register(RegisterRequest request) {
         GeneralResponse generalResponse = new GeneralResponse();
         Gson gson = new Gson();
         StudentModel studentModel = gson.fromJson(gson.toJson(request),StudentModel.class);
-
-
-
         studentModel.setPassword_salt(request.getPassword());
 
 //
