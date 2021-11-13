@@ -1,12 +1,21 @@
 package com.aurd.Student.Controller.comment;
 
 
+import com.aurd.Student.Model.Entity.StudentModel;
+import com.aurd.Student.Model.Entity.StudentPostModel;
+import com.aurd.Student.Model.Entity.Student_Posts_Commented;
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
+import com.aurd.Student.Model.Students;
 import com.aurd.Student.Repository.NotesCommentRepository;
 import com.aurd.Student.Repository.StudentPostCommentRepository;
+import com.aurd.Student.Repository.StudentRepository;
+
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -18,6 +27,9 @@ import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
+import static com.aurd.Service.firebaseApp;
+
 
 @Path("/addComment")
 public class AddCommentController {
@@ -34,65 +46,76 @@ public class AddCommentController {
     @Inject
     NotesCommentRepository notesComentRepository;
 
+    @Inject
+    StudentRepository studentRepository;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
     @Transactional
 
-    public GeneralResponse addComment(AddPostCommentRequest request){
+    public GeneralResponse addComment(AddPostCommentRequest request) {
 
 
         java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
 //        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //        Calendar calendar = Calendar.getInstance();
-      //  request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
+        //  request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
         request.setAdded_on(date);
 
         System.out.println(request);
 
-        GeneralResponse response =  new GeneralResponse();
+        GeneralResponse response = new GeneralResponse();
 
-        if(request.getType().equals("blog")){
-          boolean val =   blogCommentRepository.addStudentBlogCommentRequest(request);
-            if(val==true){
+        if (request.getType().equals("blog")) {
+            boolean val = blogCommentRepository.addStudentBlogCommentRequest(request);
+            if (val == true) {
+
                 response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
-            }else{
+
+
+            } else {
                 response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
-        }else if(request.getType().equals("currentAffair")){
-           boolean val= affair_comment_repository.addCurrentAffairCommentRequest(request);
-            if(val==true){
+        } else if (request.getType().equals("currentAffair")) {
+            boolean val = affair_comment_repository.addCurrentAffairCommentRequest(request);
+            if (val == true) {
+
                 response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
-            }else{
+            } else {
                 response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
-        }else if(request.getType().equals("studentPost")){
-           boolean val =  postCommentRepository.addPostCommentRequest(request);
-            if(val==true){
+        } else if (request.getType().equals("studentPost")) {
+            boolean val = postCommentRepository.addPostCommentRequest(request);
+            if (val == true) {
+
+
+                sentNotification(request.getAdded_by());
+
                 response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
-            }else{
+            } else {
                 response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
             }
-        }else if(request.getType().equals("notes")){
-            boolean val =  notesComentRepository.addNotesCommentRequest(request);
-            if(val==true){
+        } else if (request.getType().equals("notes")) {
+            boolean val = notesComentRepository.addNotesCommentRequest(request);
+            if (val == true) {
                 response.seterrorCode(0);
                 response.setMessage("Comment added");
                 response.setStatus(true);
-            }else{
+            } else {
                 response.seterrorCode(1);
                 response.setMessage("Unable to add comment");
                 response.setStatus(true);
@@ -101,5 +124,28 @@ public class AddCommentController {
         return response;
 
     }
+
+        public  void sentNotification (long stud_id){
+            StudentModel students = studentRepository.find("id", stud_id).firstResult();
+            //  System.out.println(new Gson().toJson(StudentModel));
+
+            Message message = Message.builder()
+                    .setToken(students.getDeviceId())
+                    .setNotification(Notification.builder()
+                            .setTitle("Post Comment")
+                            .setBody("Commented on your doubt")
+                            .build()).build();
+
+            try {
+                System.out.println(message);
+                FirebaseMessaging.getInstance(firebaseApp).send(message);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
 
 }
