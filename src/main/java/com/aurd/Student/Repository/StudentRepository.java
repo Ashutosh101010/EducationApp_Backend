@@ -2,10 +2,7 @@ package com.aurd.Student.Repository;
 
 
 import com.aurd.Student.Model.Entity.StudentModel;
-import com.aurd.Student.Model.Request.GetProfileRequest;
-import com.aurd.Student.Model.Request.GetStudentDetailRequest;
-import com.aurd.Student.Model.Request.LoginRequest;
-import com.aurd.Student.Model.Request.UpDateRequest;
+import com.aurd.Student.Model.Request.*;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
@@ -76,6 +73,18 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
                 request.getId(),request.getUsername()).firstResult();
         return  model;
     }
+
+
+    public int addDeviceToken(DeviceTokenRequest request) {
+
+        Query query = getEntityManager().createQuery("update Students Students set " +
+                "Students.deviceId=:deviceid where " + "Students.id=:id ");
+        query.setParameter("deviceid", request.getDeviceId());
+        query.setParameter("id", request.getUserId());
+        return query.executeUpdate();
+
+    }
+    
 
 
 

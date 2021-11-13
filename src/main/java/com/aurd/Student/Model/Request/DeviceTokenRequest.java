@@ -1,6 +1,6 @@
 package com.aurd.Student.Model.Request;
 
-public class StudentRequest {
+public class DeviceTokenRequest {
      private int userId;
     private String deviceId;
 

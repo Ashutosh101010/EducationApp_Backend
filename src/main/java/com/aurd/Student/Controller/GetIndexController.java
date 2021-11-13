@@ -127,11 +127,13 @@ public class GetIndexController {
 
                 if(request.getDate()!=null && !request.getDate().isEmpty())
                 {
-                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
+//                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
+                   String startDate = request.getDate()+" 00:00:00";
                     System.out.println(startDate);
                     query.setParameter("startDate",startDate);
 //                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
-                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
+//                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
+                    String endDate = request.getDate()+" 23:59:59";
                     System.out.println(endDate);
                     query.setParameter("endDate",endDate);
 
@@ -162,11 +164,21 @@ public class GetIndexController {
                 }
             if(request.getDate()!=null && !request.getDate().isEmpty())
             {
-                Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime()-86400000);
+
+//                String startDate = request.getDate()+" 00:00:00";
+//                System.out.println(startDate);
+//                query.setParameter("startDate",startDate);
+////                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+////                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
+//                String endDate = request.getDate()+" 23:59:59";
+//                System.out.println(endDate);
+//                query.setParameter("endDate",endDate);
+
+                Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
                 System.out.println(startDate);
                 query.setParameter("startDate",startDate);
 
-                Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime()+86400000);
+                Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
                 System.out.println(endDate);
                 query.setParameter("endDate",endDate);
 
