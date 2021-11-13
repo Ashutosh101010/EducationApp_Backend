@@ -174,29 +174,6 @@ public class QuizSubmitController {
 
             System.out.println("Marks Obtained"+marksObtained);
             skippedAns=quizModel.getTotal_ques()-request.getArrayList().size();
-//            ArrayList<Quiz_Submit_Model> arrayList = repository.getStudentPracticeTestResult
-//                    (request.getArrayList().get(0).getInst_id(),
-//                            request.getArrayList().get(0).getStud_id(),
-//                            request.getArrayList().get(0).getQuiz_id());
-//            for(Quiz_Submit_Model quizSubmitModel :arrayList){
-//                marksObtained = marksObtained + quizSubmitModel.getMarks_ob();
-//
-//                quizQuestionModel = quizQuestionRepository.
-//                        getQuestions(quizSubmitModel.getQues_id());
-//                if(quizQuestionModel.getQuestion_id()==quizSubmitModel.getQues_id()){
-//                    if(quizQuestionModel.getAnswer().equals(quizSubmitModel.getAns())){
-//                        correctAns = correctAns+1;
-//                    }else{
-//                        wrongAns = wrongAns+1;
-//                        skippedAns = skippedAns+1;
-//                    }
-//                }
-//
-//                if(quizQuestionModel.getQuestion_id()!=quizSubmitModel.getQues_id()){
-//                    skippedAns = skippedAns+1;
-//                }
-//
-//            }
 
 
 
@@ -215,24 +192,6 @@ public class QuizSubmitController {
 
 
 
-//            if(quizModel.getNegative_marking()!=null
-//                    && !quizModel.getNegative_marking().equals("0")){
-//                System.out.println(quizModel.getNegative_marking());
-//
-//                String[] frac = quizModel.getNegative_marking().split("/");
-//              int  num = Integer.parseInt(frac[0]);
-//               int den = Integer.parseInt(frac[1]);
-//
-//               System.out.println(num);
-//               System.out.println(den);
-//
-//               double neg_mark = (num%den);
-//
-//
-////                marksObtained = marksObtained *(num%den)*wrongAns;
-//                marksObtained = marksObtained *neg_mark *wrongAns;
-//                System.out.println("========"+marksObtained);
-//            }
 
 
             resultModel.setMarks_obtained(marksObtained);
@@ -244,16 +203,7 @@ public class QuizSubmitController {
 
             double  percent = (marksObtained *100)/totalMarks;
             resultModel.setPercent(percent);
-//            DecimalFormat decimalFormat = new DecimalFormat();
-//            decimalFormat.setMaximumFractionDigits(2);
-//            decimalFormat.format(percent);
-//
-//            System.out.println(  decimalFormat.format(percent));
-//            System.out.println(Double.parseDouble(decimalFormat.format(percent)));
-//
-//            resultModel.setPercent( Double.parseDouble(decimalFormat.format(percent)));
 
-///////////////////////////////
 
             if(quizModel.getCutoff()!=null){
                 resultModel.setCut_off(quizModel.getCutoff());
@@ -273,25 +223,7 @@ public class QuizSubmitController {
 
 
             insertData(resultModel);
-//            resultRepository.flush();
 
-
-//            ArrayList<SaveResultModel> arrayList1 =
-//                    resultRepository.getResultList(quizModel.getQuiz_id(),quizModel.getInst_id());
-////                    (ArrayList<SaveResultModel>) resultRepository.list("quiz_id=?1 and inst_id =?2" +
-////                                    " order by marks_obtained DESC",
-////                            quizModel.getQuiz_id(),quizModel.getInst_id().longValue());
-////
-//
-//            ArrayList<LeaderBoardModel> leaderBoardArrayList = new ArrayList<>();
-//            for(SaveResultModel result :arrayList1){
-//                LeaderBoardModel leaderBoardModel = new Gson().fromJson(new Gson().toJson(result),
-//                        LeaderBoardModel.class);
-//                if(resultModel.getStudentModel()!=null)
-//                leaderBoardModel.setName(resultModel.getStudentModel().getFname());
-//                leaderBoardArrayList.add(leaderBoardModel);
-//
-//            }
 
             response.setErrorCode(0);
             response.setStatus(true);
