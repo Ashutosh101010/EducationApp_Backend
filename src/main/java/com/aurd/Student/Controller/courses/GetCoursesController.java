@@ -41,6 +41,10 @@ public class GetCoursesController {
     VideoLectureRepository videoLectureRepository;
 
 
+    @Inject
+    StudentCourseRepository studentCourseRepository;
+
+
     @POST
     @Transactional
     public GetCoursesResponse getCourses(GetCoursesRequest request){
@@ -52,12 +56,30 @@ public class GetCoursesController {
             CourseEntity courseEntity  = new Gson().fromJson
                   (new Gson().toJson(courseModelArrayList.get(i)),CourseEntity.class);
 
-          ArrayList<RunningBatchesModel> runningBatchList = runningBatchRepository.getBatchesList(
-                  courseModelArrayList.get(i).getInst_id(),courseModelArrayList.get(i).getId());
+          StudentCourseModel courseModel = studentCourseRepository.find("courseId=?1 and userId=?2",
+                  courseEntity.getId(),request.getStud_id()).firstResult();
 
-          courseEntity.setBatchList(runningBatchList);
+          if(courseModel!=null){
+              courseEntity.setPurchased(true);
+          }else{
+              courseEntity.setPurchased(false);
+          }
+
+       Integer notes=   getNotesCount(courseEntity);
+          courseEntity.setNotesCount(getNotesCount(courseEntity).longValue());
+          courseEntity.setVideoCount(getVideoCount(courseEntity));
+          courseEntity.setRunningBatch(getRunningBatchesCount(courseEntity).intValue());
+
+//          ArrayList<RunningBatchesModel> runningBatchList = runningBatchRepository.getBatchesList(
+//                  courseModelArrayList.get(i).getInst_id(),courseModelArrayList.get(i).getId());
+//
+//          courseEntity.setBatchList(runningBatchList);
+
 
           courses.add(courseEntity);
+
+
+
       }
 
 //        ArrayList<NotesModel>notesList = notesRepository.getNotesList(request.getInst_id());
@@ -78,6 +100,34 @@ public class GetCoursesController {
 
         return getCoursesResponse;
 
+    }
+
+
+   Integer getNotesCount(CourseEntity entity){
+
+
+        Integer instId = Math.toIntExact(entity.getInst_id());
+      Long count= notesRepository.count("course_id=?1 and inst_id=?2 ",String.valueOf(entity.getId()),
+             instId );
+      return count.intValue();
+    }
+
+    Long getVideoCount(CourseEntity entity){
+        Integer courseId = Math.toIntExact(entity.getId());
+        Integer instId = Math.toIntExact(entity.getInst_id());
+
+        Long count = videoLectureRepository.count
+                ("course_id=?1 and inst_id=?2",courseId,instId);
+        return  count;
+    }
+
+    Long getRunningBatchesCount(CourseEntity entity){
+        Integer courseId = Math.toIntExact(entity.getId());
+        Integer instId = Math.toIntExact(entity.getInst_id());
+
+        Long count = runningBatchRepository.count("courseId =?1 and inst_id=?2",
+                courseId,instId);
+        return count;
     }
 
 

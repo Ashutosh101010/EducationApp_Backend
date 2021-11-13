@@ -17,9 +17,36 @@ public class CourseEntity {
     private int course_active;
     private String banner_img;
     private String language;
-    private ArrayList<RunningBatchesModel> batchList = new ArrayList<>();
+//    private ArrayList<RunningBatchesModel> batchList = new ArrayList<>();
+    private boolean purchased ;
 
 
+    private Long notesCount;
+    private Long videoCount;
+
+    public Long getNotesCount() {
+        return notesCount;
+    }
+
+    public void setNotesCount(Long notesCount) {
+        this.notesCount = notesCount;
+    }
+
+    public Long getVideoCount() {
+        return videoCount;
+    }
+
+    public void setVideoCount(Long videoCount) {
+        this.videoCount = videoCount;
+    }
+
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+    }
 
     public long getId() {
         return id;
@@ -117,11 +144,11 @@ public class CourseEntity {
         this.language = language;
     }
 
-    public ArrayList<RunningBatchesModel> getBatchList() {
-        return batchList;
-    }
-
-    public void setBatchList(ArrayList<RunningBatchesModel> batchList) {
-        this.batchList = batchList;
-    }
+//    public ArrayList<RunningBatchesModel> getBatchList() {
+//        return batchList;
+//    }
+//
+//    public void setBatchList(ArrayList<RunningBatchesModel> batchList) {
+//        this.batchList = batchList;
+//    }
 }
