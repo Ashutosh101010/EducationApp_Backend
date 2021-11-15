@@ -32,81 +32,79 @@ public class ForgotPasswordController {
 
     @Inject
     OtpRepository otpRepository;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public GeneralResponse forgotPassword(SendOtpRequest request){
-        GeneralResponse response= new GeneralResponse();
+    public GeneralResponse forgotPassword(SendOtpRequest request) {
+        GeneralResponse response = new GeneralResponse();
 
 
-        try{
+        try {
             StudentModel model = repository.find("contact",
                     request.getMobileNumber().trim()).firstResult();
 
-            if(model==null){
-                String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
+            if (model == null) {
+                String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
                 System.out.println(otp);
 
 
-                String text = "Welcome, your onetime verification code is " +otp+
+                String text = "Welcome, your onetime verification code is " + otp +
                         " regards - backyard picaso private limited.";
 
-                String msgUrl="https://www.smsgatewayhub.com/api/mt/SendSMS?" +
-                        "APIKey="+ Constants.apiKey+"&senderid="+Constants.senderId+
-                        "&channel=2&DCS=0&flashsms=0&number="+
-                        "91"+request.getMobileNumber()+"&text="+ URLEncoder.encode(text)+
-                        "&route=clickhere&EntityId="+Constants.entityId+
-                        "&dlttemplateid="+Constants.dltTemplateId;
+                String msgUrl = "https://www.smsgatewayhub.com/api/mt/SendSMS?" +
+                        "APIKey=" + Constants.apiKey + "&senderid=" + Constants.senderId +
+                        "&channel=2&DCS=0&flashsms=0&number=" +
+                        "91" + request.getMobileNumber() + "&text=" + URLEncoder.encode(text) +
+                        "&route=clickhere&EntityId=" + Constants.entityId +
+                        "&dlttemplateid=" + Constants.dltTemplateId;
 
 
                 System.out.println(msgUrl);
 
-                HttpGet httpGet= new HttpGet(msgUrl);
+                HttpGet httpGet = new HttpGet(msgUrl);
                 CloseableHttpClient client = HttpClientBuilder.create().build();
                 CloseableHttpResponse httpResponse = client.execute(httpGet);
 
-                int i=0;
+                int i = 0;
                 InputStream io = httpResponse.getEntity().getContent();
-                String resp ="";
+                String resp = "";
 
-                while ((i = io.read())!=-1){
-                    resp = resp+(char)i;
+                while ((i = io.read()) != -1) {
+                    resp = resp + (char) i;
                 }
 
-                JSONObject jsonObject= new JSONObject(resp);
+                JSONObject jsonObject = new JSONObject(resp);
                 System.out.println(jsonObject);
 
-                if(jsonObject.getString("ErrorCode").equals("000")
-                        &&jsonObject.getString("ErrorMessage").equals("Success")){
+                if (jsonObject.getString("ErrorCode").equals("000")
+                        && jsonObject.getString("ErrorMessage").equals("Success")) {
 
-                    OtpModel otpModel  = new OtpModel();
+                    OtpModel otpModel = new OtpModel();
                     otpModel.setOtp(otp);
                     otpModel.setMobileNumber(request.getMobileNumber());
                     otpRepository.persist(otpModel);
                     response.setStatus(true);
                     response.seterrorCode(0);
                     response.setMessage("Otp send successfully");
-                }else{
+                } else {
                     response.setStatus(false);
                     response.seterrorCode(3);
                     response.setMessage("Something went wrong Otp cannot send");
                 }
-
-            }else{
+            } else {
                 response.setStatus(false);
                 response.seterrorCode(1);
                 response.setMessage("Mobile Number Already Existed");
             }
-
             return response;
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             e.printStackTrace();
             response.setStatus(false);
             response.seterrorCode(2);
             response.setMessage("Something went wrong");
-
             return response;
 
         }
