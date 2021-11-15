@@ -36,7 +36,7 @@ public class CommentReplyRequest {
         this.post_id = post_id;
     }
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
