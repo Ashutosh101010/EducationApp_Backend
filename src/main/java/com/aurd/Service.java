@@ -28,6 +28,7 @@ public class Service {
     public static FirebaseApp firebaseApp;
     public static AmazonS3 s3;
 
+
     public void  onStart(@Observes StartupEvent event){
 
         final String s3Endpoint = "https://s3.wasabisys.com";
