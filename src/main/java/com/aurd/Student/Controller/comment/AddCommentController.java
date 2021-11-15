@@ -1,15 +1,14 @@
 package com.aurd.Student.Controller.comment;
 
 
+import com.aurd.Student.Model.Entity.NotificationModel;
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Entity.StudentPostModel;
 import com.aurd.Student.Model.Entity.Student_Posts_Commented;
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Model.Students;
-import com.aurd.Student.Repository.NotesCommentRepository;
-import com.aurd.Student.Repository.StudentPostCommentRepository;
-import com.aurd.Student.Repository.StudentRepository;
+import com.aurd.Student.Repository.*;
 
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;
 import com.aurd.Student.Repository.comment.Current_Affair_Comment_Repository;
@@ -49,6 +48,13 @@ public class AddCommentController {
     @Inject
     StudentRepository studentRepository;
 
+
+    @Inject
+    StudentPostRepository postRepository;
+
+    @Inject
+    NotificationRepository notificationRepository;
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -59,10 +65,7 @@ public class AddCommentController {
 
 
         java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
-//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Calendar calendar = Calendar.getInstance();
-        //  request.setAdded_on(Timestamp.valueOf(simpleDateFormat.format(calendar.getTime())));
-        request.setAdded_on(date);
+request.setAdded_on(date);
 
         System.out.println(request);
 
@@ -98,8 +101,10 @@ public class AddCommentController {
             boolean val = postCommentRepository.addPostCommentRequest(request);
             if (val == true) {
 
+           StudentPostModel postModel  =
+                   postRepository.find("id",Long.valueOf(request.getPost_id())).firstResult();
 
-                sentNotification(request.getAdded_by());
+                sentNotification(request.getAdded_by(),Long.valueOf(postModel.getAdded_by()));
 
                 response.seterrorCode(0);
                 response.setMessage("Comment added");
@@ -125,15 +130,37 @@ public class AddCommentController {
 
     }
 
-        public  void sentNotification (long stud_id){
-            StudentModel students = studentRepository.find("id", stud_id).firstResult();
-            //  System.out.println(new Gson().toJson(StudentModel));
+        public  void sentNotification (Long added_by,Long posted_by){
 
+            StudentModel students = studentRepository.find("id", added_by).firstResult();
+
+            StudentModel model = studentRepository.find("id",posted_by).firstResult();
+
+
+            SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+
+
+        if(students.getId()!=model.getId()){
+
+
+            String body = students.getFname()+" commented on your doubt";
+            String title = "Comment Added";
+            NotificationModel notification = new NotificationModel();
+            notification.setNotification_body(body);
+            notification.setNotification_title(title);
+            notification.setSender_id(added_by.intValue());
+            notification.setReceiver_id(posted_by.intValue());
+            notification.setTime(Timestamp.valueOf(sdf.format(calendar.getTime())));
+            notification.setSender_type("Student");
+            notification.setInst_id(students.getInst_id());
+
+            notificationRepository.insertNotification(notification);
             Message message = Message.builder()
-                    .setToken(students.getDeviceId())
+                    .setToken(model.getDeviceId())
                     .setNotification(Notification.builder()
-                            .setTitle("Post Comment")
-                            .setBody("Commented on your doubt")
+                            .setTitle(title)
+                            .setBody(body)
                             .build()).build();
 
             try {
@@ -144,6 +171,9 @@ public class AddCommentController {
                 e.printStackTrace();
             }
         }
+
+
+    }
 
 
 

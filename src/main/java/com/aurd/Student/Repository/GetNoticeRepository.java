@@ -14,12 +14,9 @@ import java.util.List;
 public class GetNoticeRepository implements PanacheRepository<NoticeModel> {
 
     public ArrayList getNotice(GetNoticeRequest request){
-
-
         ArrayList<NoticeModel> arrayList = (ArrayList<NoticeModel>)
                 list("inst_id=?1 ORDER BY created_on DESC ", request.getInst_id());
         return arrayList;
-
     }
 
 
