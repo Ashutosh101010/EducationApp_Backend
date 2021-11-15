@@ -1,11 +1,18 @@
-package com.aurd.Student.Controller.otp;
+package com.aurd.Student.Controller.forgotPassword;
 
+import com.aurd.Student.Constant.Constants;
 import com.aurd.Student.Model.Entity.OtpModel;
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Request.SendOtpRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.OtpRepository;
 import com.aurd.Student.Repository.StudentRepository;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.JSONObject;
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -17,31 +24,19 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.Random;
-import com.aurd.Student.Constant.Constants;
-import com.google.gson.JsonObject;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.json.JSONObject;
 
-
-@Path("/sendOtp")
-public class SendOtpController {
-
+@Path("/forgot")
+public class ForgotPasswordController {
     @Inject
     StudentRepository repository;
 
     @Inject
     OtpRepository otpRepository;
-
-
-
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Transactional
-    public GeneralResponse sendOtp(SendOtpRequest request){
+    public GeneralResponse forgotPassword(SendOtpRequest request){
         GeneralResponse response= new GeneralResponse();
 
 
@@ -58,7 +53,7 @@ public class SendOtpController {
                         " regards - backyard picaso private limited.";
 
                 String msgUrl="https://www.smsgatewayhub.com/api/mt/SendSMS?" +
-                        "APIKey="+Constants.apiKey+"&senderid="+Constants.senderId+
+                        "APIKey="+ Constants.apiKey+"&senderid="+Constants.senderId+
                         "&channel=2&DCS=0&flashsms=0&number="+
                         "91"+request.getMobileNumber()+"&text="+ URLEncoder.encode(text)+
                         "&route=clickhere&EntityId="+Constants.entityId+
@@ -83,14 +78,12 @@ public class SendOtpController {
                 System.out.println(jsonObject);
 
                 if(jsonObject.getString("ErrorCode").equals("000")
-                &&jsonObject.getString("ErrorMessage").equals("Success")){
+                        &&jsonObject.getString("ErrorMessage").equals("Success")){
 
                     OtpModel otpModel  = new OtpModel();
                     otpModel.setOtp(otp);
                     otpModel.setMobileNumber(request.getMobileNumber());
                     otpRepository.persist(otpModel);
-
-
                     response.setStatus(true);
                     response.seterrorCode(0);
                     response.setMessage("Otp send successfully");
@@ -107,8 +100,6 @@ public class SendOtpController {
             }
 
             return response;
-
-
         }catch (Exception e){
             System.out.println(e);
             e.printStackTrace();
@@ -122,4 +113,5 @@ public class SendOtpController {
 
 
     }
+
 }
