@@ -1,7 +1,7 @@
 package com.aurd.Student.Model.Request;
 
 public class DeviceTokenRequest {
-     private int userId;
+     private long userId;
     private String deviceId;
 
     public String getDeviceId() {
@@ -13,12 +13,11 @@ public class DeviceTokenRequest {
     }
 
 
-
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 }

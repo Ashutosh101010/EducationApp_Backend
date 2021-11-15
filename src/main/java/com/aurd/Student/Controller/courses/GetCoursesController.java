@@ -44,6 +44,9 @@ public class GetCoursesController {
     @Inject
     StudentCourseRepository studentCourseRepository;
 
+    @Inject
+    QuizRepository quizRepository;
+
 
     @POST
     @Transactional
@@ -65,10 +68,10 @@ public class GetCoursesController {
               courseEntity.setPurchased(false);
           }
 
-       Integer notes=   getNotesCount(courseEntity);
           courseEntity.setNotesCount(getNotesCount(courseEntity).longValue());
           courseEntity.setVideoCount(getVideoCount(courseEntity));
           courseEntity.setRunningBatch(getRunningBatchesCount(courseEntity).intValue());
+          courseEntity.setPractiseTestCount(getPractiseTestCount(courseEntity));
 
 //          ArrayList<RunningBatchesModel> runningBatchList = runningBatchRepository.getBatchesList(
 //                  courseModelArrayList.get(i).getInst_id(),courseModelArrayList.get(i).getId());
@@ -130,6 +133,14 @@ public class GetCoursesController {
         return count;
     }
 
+    Long getPractiseTestCount(CourseEntity entity){
+        Integer courseId = Math.toIntExact(entity.getId());
+        Integer instId = Math.toIntExact(entity.getInst_id());
+
+        Long count = quizRepository.count("course_id =?1 and inst_id=?2",
+                courseId,instId);
+        return count;
+    }
 
 
 }

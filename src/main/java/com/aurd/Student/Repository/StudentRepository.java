@@ -77,11 +77,22 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
     public int addDeviceToken(DeviceTokenRequest request) {
 
-        Query query = getEntityManager().createQuery("update Students Students set " +
+        Query query = getEntityManager().createQuery("update StudentModel Students set " +
                 "Students.deviceId=:deviceid where " + "Students.id=:id ");
         query.setParameter("deviceid", request.getDeviceId());
         query.setParameter("id", request.getUserId());
         return query.executeUpdate();
+
+    }
+    
+    
+    public int removeDeviceToken(DeviceTokenRequest request){
+        Query query = getEntityManager().createQuery("update StudentModel Students set " +
+                "Students.deviceId=:deviceid where " + "Students.id=:id");
+        query.setParameter("deviceid",null);
+        query.setParameter("id",request.getUserId());
+
+        return  query.executeUpdate();
 
     }
     

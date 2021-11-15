@@ -26,7 +26,8 @@ public class GetNotificationController {
 
     public GetNotificationResponse getNotification(GetNotificationRequest request){
 
-      ArrayList<NotificationModel> list = (ArrayList<NotificationModel>) notificationRepository.list("inst_id=?1 and receiver_id=?2",request.getInst_id(),request.getStud_id());
+      ArrayList<NotificationModel> list = (ArrayList<NotificationModel>) notificationRepository.
+              list("inst_id=?1 and receiver_id=?2",request.getInst_id(),request.getStud_id());
       GetNotificationResponse response = new GetNotificationResponse();
 
       response.setNotifications(list);

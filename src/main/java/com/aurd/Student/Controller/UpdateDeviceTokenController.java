@@ -22,7 +22,7 @@ public class UpdateDeviceTokenController {
 
     @POST
     @Transactional
-    public GeneralResponse updateStudentPost(DeviceTokenRequest request) {
+    public GeneralResponse updateToken(DeviceTokenRequest request) {
         GeneralResponse response = new GeneralResponse();
         studentsRepository.addDeviceToken(request);
         response.setMessage("Device Token Added");
@@ -37,8 +37,8 @@ public class UpdateDeviceTokenController {
 
     @Path("/removeDeviceToken")
     @Transactional
-    public GeneralResponse removeDeviceToken(DeviceTokenRequest request){
-//        studentsRepository.removeDeviceToken(request);
+    public GeneralResponse removeToken(DeviceTokenRequest request){
+        studentsRepository.removeDeviceToken(request);
 
         GeneralResponse response = new GeneralResponse();
         response.seterrorCode(0);

@@ -23,6 +23,47 @@ public class StudentCourseEntity {
     String banner_img;
     String language;
 
+
+
+
+
+    private Long notesCount;
+    private Long videoCount;
+    private Long runningBatch;
+    private Long practiseTestCount;
+
+    public Long getPractiseTestCount() {
+        return practiseTestCount;
+    }
+
+    public void setPractiseTestCount(Long practiseTestCount) {
+        this.practiseTestCount = practiseTestCount;
+    }
+
+    public Long getNotesCount() {
+        return notesCount;
+    }
+
+    public void setNotesCount(Long notesCount) {
+        this.notesCount = notesCount;
+    }
+
+    public Long getVideoCount() {
+        return videoCount;
+    }
+
+    public void setVideoCount(Long videoCount) {
+        this.videoCount = videoCount;
+    }
+
+    public Long getRunningBatch() {
+        return runningBatch;
+    }
+
+    public void setRunningBatch(Long runningBatch) {
+        this.runningBatch = runningBatch;
+    }
+
     public long getCourseId() {
         return courseId;
     }

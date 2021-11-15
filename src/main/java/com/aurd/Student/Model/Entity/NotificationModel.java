@@ -19,6 +19,10 @@ public class NotificationModel {
     private Timestamp time;
     private int inst_id;
 
+
+
+
+
     public int getInst_id() {
         return inst_id;
     }

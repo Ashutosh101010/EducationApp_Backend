@@ -1,12 +1,12 @@
 package com.aurd.Student.Controller.courses;
 
+import com.aurd.Student.Model.BeanClass.CourseEntity;
 import com.aurd.Student.Model.BeanClass.StudentCourseEntity;
 import com.aurd.Student.Model.Entity.CourseModel;
 import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Request.GetStudentCourseRequest;
 import com.aurd.Student.Model.Response.GetStudentCourseResponse;
-import com.aurd.Student.Repository.CoursesRepository;
-import com.aurd.Student.Repository.StudentCourseRepository;
+import com.aurd.Student.Repository.*;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -26,6 +26,22 @@ public class GetStudentCoursesController {
 
     @Inject
     StudentCourseRepository studentCourseRepository;
+
+    @Inject
+    NotesRepository notesRepository;
+
+    @Inject
+    VideoLectureRepository videoLectureRepository;
+
+
+    @Inject
+    RunningBatchRepository runningBatchRepository;
+
+
+    @Inject
+    QuizRepository quizRepository;
+
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -59,6 +75,13 @@ public class GetStudentCoursesController {
             studentCourseEntity.setBanner_img(courseModel.getBanner_img());
             studentCourseEntity.setLanguage(courseModel.getLanguage());
 
+            studentCourseEntity.setNotesCount(getNotesCount(courseModel).longValue());
+            studentCourseEntity.setVideoCount(getVideoCount(courseModel));
+            studentCourseEntity.setRunningBatch(getRunningBatchesCount(courseModel));
+
+            studentCourseEntity.setPractiseTestCount(getPractiseTestCount(courseModel));
+
+
             mainList.add(studentCourseEntity);
 
         });
@@ -70,4 +93,42 @@ public class GetStudentCoursesController {
         response.setMessage("Get Student Course Successfully");
         return  response;
     }
+
+    Integer getNotesCount(CourseModel entity){
+
+
+        Integer instId = Math.toIntExact(entity.getInst_id());
+        Long count= notesRepository.count("course_id=?1 and inst_id=?2 ",String.valueOf(entity.getId()),
+                instId );
+        return count.intValue();
+    }
+
+    Long getVideoCount(CourseModel entity){
+        Integer courseId = Math.toIntExact(entity.getId());
+        Integer instId = Math.toIntExact(entity.getInst_id());
+
+        Long count = videoLectureRepository.count
+                ("course_id=?1 and inst_id=?2",courseId,instId);
+        return  count;
+    }
+
+    Long getRunningBatchesCount(CourseModel entity){
+        Integer courseId = Math.toIntExact(entity.getId());
+        Integer instId = Math.toIntExact(entity.getInst_id());
+
+        Long count = runningBatchRepository.count("courseId =?1 and inst_id=?2",
+                courseId,instId);
+        return count;
+    }
+
+    Long getPractiseTestCount(CourseModel entity){
+        Integer courseId = Math.toIntExact(entity.getId());
+        Integer instId = Math.toIntExact(entity.getInst_id());
+
+        Long count = quizRepository.count("course_id =?1 and inst_id=?2",
+                courseId,instId);
+        return count;
+    }
+
+
 }

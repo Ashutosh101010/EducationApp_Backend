@@ -4,10 +4,9 @@ package com.aurd.Student.Controller.comment;
 import com.aurd.Student.Model.Entity.NotificationModel;
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Entity.StudentPostModel;
-import com.aurd.Student.Model.Entity.Student_Posts_Commented;
 import com.aurd.Student.Model.Request.AddPostCommentRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
-import com.aurd.Student.Model.Students;
+
 import com.aurd.Student.Repository.*;
 
 import com.aurd.Student.Repository.comment.Blog_Comment_Repository;

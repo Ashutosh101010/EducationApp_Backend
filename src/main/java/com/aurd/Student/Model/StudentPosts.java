@@ -1,5 +1,6 @@
 package com.aurd.Student.Model;
 
+import com.aurd.Student.Model.Entity.StudentModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.smallrye.common.constraint.Nullable;
 import org.hibernate.annotations.NotFound;
@@ -48,7 +49,7 @@ public class StudentPosts {
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "added_by", insertable = false, updatable = false)
-    private Students students;
+    private StudentModel students;
 
     @Transient
     private String fname;
@@ -78,14 +79,14 @@ public class StudentPosts {
     }
 
     //    private Timestamp updated_on;
-    public Students getStudents() {
+
+    public StudentModel getStudents() {
         return students;
     }
 
-    public void setStudents(Students students) {
+    public void setStudents(StudentModel students) {
         this.students = students;
     }
-
 
     public int getId() {
         return id;

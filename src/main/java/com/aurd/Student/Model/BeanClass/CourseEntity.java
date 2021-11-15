@@ -23,6 +23,16 @@ public class CourseEntity {
 
     private Long notesCount;
     private Long videoCount;
+    private Long practiseTestCount;
+
+    public Long getPractiseTestCount() {
+        return practiseTestCount;
+    }
+
+    public void setPractiseTestCount(Long practiseTestCount) {
+        this.practiseTestCount = practiseTestCount;
+    }
+
 
     public Long getNotesCount() {
         return notesCount;
