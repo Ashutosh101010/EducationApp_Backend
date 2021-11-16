@@ -112,6 +112,9 @@ public class CommentReplyController {
             notification.setSender_type("Student");
             notification.setInst_id(students.getInst_id());
 
+            System.out.println(model.getDeviceId());
+            System.out.println();
+
             notificationRepository.insertNotification(notification);
             Message message = Message.builder()
                     .setToken(model.getDeviceId())

@@ -24,8 +24,10 @@ import java.io.InputStream;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
-@Path("/forgot")
+@Path("/forgetPassword")
 public class ForgotPasswordController {
     @Inject
     StudentRepository repository;
@@ -39,13 +41,14 @@ public class ForgotPasswordController {
     @Transactional
     public GeneralResponse forgotPassword(SendOtpRequest request) {
         GeneralResponse response = new GeneralResponse();
-
+        boolean load = false;
 
         try {
+            OtpModel otpModel = new OtpModel();
             StudentModel model = repository.find("contact",
                     request.getMobileNumber().trim()).firstResult();
 
-            if (model == null) {
+            if (model != null) {
                 String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
                 System.out.println(otp);
 
@@ -80,8 +83,6 @@ public class ForgotPasswordController {
 
                 if (jsonObject.getString("ErrorCode").equals("000")
                         && jsonObject.getString("ErrorMessage").equals("Success")) {
-
-                    OtpModel otpModel = new OtpModel();
                     otpModel.setOtp(otp);
                     otpModel.setMobileNumber(request.getMobileNumber());
                     otpRepository.persist(otpModel);
@@ -96,8 +97,18 @@ public class ForgotPasswordController {
             } else {
                 response.setStatus(false);
                 response.seterrorCode(1);
-                response.setMessage("Mobile Number Already Existed");
+                response.setMessage("Mobile Number is not Existed");
             }
+
+
+//            Timer timer = new Timer();
+//            timer.schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//                    System.out.println("Timer is running");
+//                }
+//            },0,1000);
+
             return response;
         } catch (Exception e) {
             System.out.println(e);

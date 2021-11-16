@@ -191,6 +191,7 @@ public class GetStudentPostsController {
 
                 en.setName(sm.getFname());
                 en.setTimeStamp(ps.getAdded_on().getTime());
+                en.setImage(sm.getProfile());
 
                 Integer count = getCommentCount(en);
                 en.setComment(count.longValue());

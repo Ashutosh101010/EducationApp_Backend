@@ -1,4 +1,4 @@
-package com.aurd.Student.Controller;
+package com.aurd.Student.Controller.otp;
 
 import com.aurd.Student.Model.Entity.OtpModel;
 import com.aurd.Student.Model.Request.VerifyOtpRequest;

@@ -165,6 +165,7 @@ request.setAdded_on(date);
 
             try {
                 System.out.println(message);
+
                 FirebaseMessaging.getInstance(firebaseApp).send(message);
 
             } catch (Exception e) {
