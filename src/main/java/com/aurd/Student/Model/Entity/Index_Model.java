@@ -18,7 +18,7 @@ public class Index_Model {
     private  int post_id;
 
     @Column(name = "created_on",nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-mm-dd hh:mm:ss")
+   // @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-mm-dd hh:mm:ss")
     private Timestamp created_on;
 
     @Column(name = "type",nullable = false)
