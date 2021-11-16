@@ -101,7 +101,7 @@ public class GetIndexController {
             System.out.println("Some filter entry");
 
 
-        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         if(request.getFilter()!=null && !request.getFilter().isEmpty())
             {
                 Query query=null;
@@ -130,12 +130,12 @@ public class GetIndexController {
 //                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
                    String startDate = request.getDate()+" 00:00:00";
                     System.out.println(startDate);
-                    query.setParameter("startDate",startDate);
-//                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+                    query.setParameter("startDate",new Date(formatter.parse(startDate).getTime()));
+                //    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
 //                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
                     String endDate = request.getDate()+" 23:59:59";
                     System.out.println(endDate);
-                    query.setParameter("endDate",endDate);
+                    query.setParameter("endDate",new Date(formatter.parse(endDate).getTime()));
 
                 }
                 else{
@@ -184,16 +184,12 @@ public class GetIndexController {
 
             }
             else{
-                query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
+                query.setParameter("startDate",new Date(formatter.parse("2000-01-01"+" 00:00:00").getTime()));
                 query.setParameter("endDate",new Date(System.currentTimeMillis()));
             }
 
             arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
             }
-
-
-
-
 
          System.out.println(arrayList.size());
 
@@ -201,7 +197,6 @@ public class GetIndexController {
 
              model.setTimeStamp(model.getCreated_on().getTime());
              if(model.getType().equals("blog")){
-             //    Long value = Long.valueOf(model.getPost_id());
 
                  BlogEntity blogEntity = getBlogs(model,request);
                  blogEntity.setIndexId(model.getId());
@@ -348,8 +343,6 @@ public class GetIndexController {
         if(teacherModel.getProfile()!=null){
             caEntity.setImage(teacherModel.getProfile());
         }
-
-
 
         return caEntity;
 
@@ -570,7 +563,7 @@ public class GetIndexController {
        if(videoModel.getCourse_id()!=null){
            CourseModel courseModel = coursesRepository.find("id",
                    videoModel.getCourse_id().longValue()).firstResult();
-           entity.setCourse(courseModel.getCourse());
+              entity.setCourse(courseModel.getCourse());
        }
 
        if(videoModel.getTopicId()!=null){

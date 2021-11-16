@@ -38,8 +38,8 @@ public class VideoModel {
 
 
 
-    @Column(name = "video_type",nullable = false)
-    private String video_type;
+//    @Column(name = "video_type",nullable = false)
+//    private String video_type;
 
 
     @Column(name = "fee_type",nullable = true)
@@ -165,11 +165,11 @@ public class VideoModel {
     }
 
 
-    public String getVideo_type() {
-        return video_type;
-    }
-
-    public void setVideo_type(String video_type) {
-        this.video_type = video_type;
-    }
+//    public String getVideo_type() {
+//        return video_type;
+//    }
+//
+//    public void setVideo_type(String video_type) {
+//        this.video_type = video_type;
+//    }
 }
