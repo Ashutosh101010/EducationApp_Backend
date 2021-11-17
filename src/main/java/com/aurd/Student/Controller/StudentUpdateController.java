@@ -71,7 +71,13 @@ public class StudentUpdateController {
             StudentModel studentModel = repository.find("id",studId).firstResult();
 
             if(input.get("bio")!=null){
-                request.setBio(input.get("bio").get(0).getBodyAsString());
+                if(input.get("bio").equals("")){
+                    request.setBio(null);
+
+                }else{
+                    request.setBio(input.get("bio").get(0).getBodyAsString());
+
+                }
             }else{
                 request.setBio(studentModel.getBio());
             }
@@ -85,13 +91,18 @@ public class StudentUpdateController {
 
 
             if(input.get("state_id")!=null){
-                request.setState_id(Integer.parseInt(input.get("state_id").get(0).getBodyAsString()));
+                if(input.get("state_id").get(0).getBodyAsString().equals("0")){
+                    request.setState_id(null);
+                }else{
+                    request.setState_id(Integer.parseInt(input.get("state_id").get(0).getBodyAsString()));
+                }
 
             }else{
                 request.setState_id(studentModel.getStateId());
             }
 
             if(input.get("dob")!=null){
+
                 request.setDOB(input.get("dob").get(0).getBodyAsString());
 
             }else{

@@ -28,11 +28,11 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
                 lastId = request.getLastId();
             }
 
-            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and created_at <? ORDER BY `time` DESC";
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ?  ORDER BY `created_at` DESC";
             Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1,request.getInst_id());
-            currentAffair.setParameter(2,lastId);
+//            currentAffair.setParameter(2,lastId);
           //  currentAffair.setParameter(2, Timestamp.valueOf(lastId));
 
           arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
@@ -49,11 +49,11 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
                     lastId = request.getLastId();
                 }
 
-                String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and created_at<? ORDER BY `time` DESC";
+                String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ORDER BY `created_at` DESC";
                 Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                         CurrentAffairModel.class);
                 currentAffair.setParameter(1,request.getInst_id());
-                currentAffair.setParameter(2,lastId);
+//                currentAffair.setParameter(2,lastId);
 
                 arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
 

@@ -36,7 +36,7 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 //        Date langDate = sdf.parse(request.getDOB());
 
 
-        DateFormat formatter = new SimpleDateFormat("yyyy-mm-dd");
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         java.sql.Date sqlDate;
         if(request.getDOB()!=null){
             java.util.Date date = formatter.parse(request.getDOB());
@@ -71,6 +71,7 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
     public StudentModel getDetails(GetStudentDetailRequest request){
         StudentModel model = find("id =?1 and username = ?2",
                 request.getId(),request.getUsername()).firstResult();
+        System.out.println(new Gson().toJson(model));
         return  model;
     }
 

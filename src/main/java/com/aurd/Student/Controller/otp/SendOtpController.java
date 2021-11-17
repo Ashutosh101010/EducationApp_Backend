@@ -15,7 +15,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 import com.aurd.Student.Constant.Constants;
 import com.google.gson.JsonObject;
@@ -84,10 +87,13 @@ public class SendOtpController {
 
                 if(jsonObject.getString("ErrorCode").equals("000")
                 &&jsonObject.getString("ErrorMessage").equals("Success")){
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Calendar now = Calendar.getInstance();
 
                     OtpModel otpModel  = new OtpModel();
                     otpModel.setOtp(otp);
                     otpModel.setMobileNumber(request.getMobileNumber());
+                    otpModel.setCreatedOn(Timestamp.valueOf(sdf.format(now.getTime())));
                     otpRepository.persist(otpModel);
 
 

@@ -84,8 +84,12 @@ public class ForgotPasswordController {
                 OtpModel otpModel = new OtpModel();
                 if (jsonObject.getString("ErrorCode").equals("000")
                         && jsonObject.getString("ErrorMessage").equals("Success")) {
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Calendar now = Calendar.getInstance();
+
                     otpModel.setOtp(otp);
                     otpModel.setMobileNumber(request.getMobileNumber());
+                    otpModel.setCreatedOn(Timestamp.valueOf(sdf.format(now.getTime())));
 
 
                     otpRepository.persist(otpModel);

@@ -65,11 +65,11 @@ public class GetStudentPostsController {
                 "student_posts.added_on, students.fname FROM `student_posts` " +
                 "INNER JOIN students ON students.id=student_posts.added_by " +
                 "WHERE student_posts.inst_id = ? and student_posts.added_by = ? " +
-                "and student_posts.added_on < ? ORDER BY added_on DESC";
+                " ORDER BY added_on DESC";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,request.getInst_id());
         studentPost.setParameter(2,request.getStud_id().longValue());
-        studentPost.setParameter(3,lastId);
+//        studentPost.setParameter(3,lastId);
 
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.setMaxResults(5).getResultList();
         ArrayList<StudentPostEntity> postList = new ArrayList<>();
