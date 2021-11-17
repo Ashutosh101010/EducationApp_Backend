@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Entity;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Entity(name = "otp")
 public class OtpModel {
@@ -14,6 +15,17 @@ public class OtpModel {
 
     @Column(name = "otp",nullable = false)
     private String otp;
+
+    @Column(name ="created_on",nullable = false)
+    private Timestamp createdOn;
+
+    public Timestamp getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
+    }
 
     public int getId() {
         return id;

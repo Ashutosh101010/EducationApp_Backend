@@ -24,6 +24,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -49,10 +51,8 @@ public class ForgotPasswordController {
 
             StudentModel model = repository.find("contact",
                     request.getMobileNumber().trim()).firstResult();
-            int id = 0;
             if (model != null) {
                 String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
-                System.out.println(otp);
 
 
                 String text = "Welcome, your onetime verification code is " + otp +
@@ -66,7 +66,6 @@ public class ForgotPasswordController {
                         "&dlttemplateid=" + Constants.dltTemplateId;
 
 
-                System.out.println(msgUrl);
 
                 HttpGet httpGet = new HttpGet(msgUrl);
                 CloseableHttpClient client = HttpClientBuilder.create().build();
@@ -81,7 +80,7 @@ public class ForgotPasswordController {
                 }
 
                 JSONObject jsonObject = new JSONObject(resp);
-                System.out.println(jsonObject);
+
                 OtpModel otpModel = new OtpModel();
                 if (jsonObject.getString("ErrorCode").equals("000")
                         && jsonObject.getString("ErrorMessage").equals("Success")) {
@@ -100,25 +99,7 @@ public class ForgotPasswordController {
                 }
 
 
-                deleteOtp();
 
-//                final Timer t = new Timer();
-//                t.scheduleAtFixedRate(
-//                        new TimerTask() {
-//                            long t0 = System.currentTimeMillis();
-//                            int count=0;
-//                            public void run() {
-//                                System.out.println(t0 > 12 * 10000);
-//                                System.out.println(System.currentTimeMillis() - t0 > 12 * 10000);
-//                                if (System.currentTimeMillis() - t0 > 12 * 10000) {
-//                                    t.cancel();
-//                                    System.out.println("Canceling");
-////
-//                                } else {
-//                                    System.out.println("Timer is running"+ count++);
-//                                }
-//                            }
-//                        }, 0, 1000);
 
 
             } else {
@@ -127,13 +108,7 @@ public class ForgotPasswordController {
                 response.setMessage("Mobile Number is not Existed");
             }
 
-//            Timer timer = new Timer();
-//            timer.schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//                    System.out.println("Timer is running");
-//                }
-//            },0,1000);
+
 
             return response;
         } catch (Exception e) {
@@ -153,11 +128,11 @@ public class ForgotPasswordController {
    @Scheduled(every = "1s")
    @Transactional
    public void deleteOtp(){
-       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-       Calendar calendar = Calendar.getInstance();
-     String query ="Delete from otp where created_on<?";
-     Query q = otpRepository.getEntityManager().createNativeQuery(query);
-     q.setParameter(1,format.format(System.currentTimeMillis()-12000));
+
+
+     String query ="Delete from otp otp where otp.createdOn<:createdOn";
+     Query q = otpRepository.getEntityManager().createQuery(query);
+     q.setParameter("createdOn",new Timestamp(System.currentTimeMillis()-60000));
      q.executeUpdate();
 
    }
