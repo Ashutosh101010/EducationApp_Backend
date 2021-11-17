@@ -64,6 +64,12 @@ public class LiveClassModel {
     @Column(name = "thumbnail",nullable = false)
     private String thumbnail;
 
+    @Column(name = "fee_type",nullable = true)
+    private String fee_type;
+
+
+
+
     @Transient
     String courseName;
 
@@ -72,6 +78,25 @@ public class LiveClassModel {
 
     @Transient
     String image;
+
+    @Transient
+    boolean purchased;
+
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+    }
+
+    public String getFee_type() {
+        return fee_type;
+    }
+
+    public void setFee_type(String fee_type) {
+        this.fee_type = fee_type;
+    }
 
     public String getImage() {
         return image;

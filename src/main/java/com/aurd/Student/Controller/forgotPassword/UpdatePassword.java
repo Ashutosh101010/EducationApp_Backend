@@ -32,6 +32,7 @@ public class UpdatePassword {
        query.setParameter("password",request.getPassword());
        query.setParameter("contact",request.getMobileNumber());
 
+       System.out.println(query.executeUpdate());
        query.executeUpdate();
 
        response.setStatus(true);

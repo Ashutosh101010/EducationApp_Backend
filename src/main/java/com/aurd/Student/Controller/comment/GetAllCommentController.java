@@ -47,7 +47,7 @@ public class GetAllCommentController {
     @Inject
     StudentRepository studentRepository;
 
-    @Transactional
+
     @POST
 
 

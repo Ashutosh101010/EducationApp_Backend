@@ -7,6 +7,7 @@ import com.aurd.Student.Model.Request.SendOtpRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.OtpRepository;
 import com.aurd.Student.Repository.StudentRepository;
+import io.quarkus.scheduler.Scheduled;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -14,6 +15,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.json.JSONObject;
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -23,9 +25,8 @@ import javax.ws.rs.core.MediaType;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Path("/forgetPassword")
 public class ForgotPasswordController {
@@ -41,13 +42,14 @@ public class ForgotPasswordController {
     @Transactional
     public GeneralResponse forgotPassword(SendOtpRequest request) {
         GeneralResponse response = new GeneralResponse();
-        boolean load = false;
+
+
 
         try {
-            OtpModel otpModel = new OtpModel();
+
             StudentModel model = repository.find("contact",
                     request.getMobileNumber().trim()).firstResult();
-
+            int id = 0;
             if (model != null) {
                 String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
                 System.out.println(otp);
@@ -80,11 +82,13 @@ public class ForgotPasswordController {
 
                 JSONObject jsonObject = new JSONObject(resp);
                 System.out.println(jsonObject);
-
+                OtpModel otpModel = new OtpModel();
                 if (jsonObject.getString("ErrorCode").equals("000")
                         && jsonObject.getString("ErrorMessage").equals("Success")) {
                     otpModel.setOtp(otp);
                     otpModel.setMobileNumber(request.getMobileNumber());
+
+
                     otpRepository.persist(otpModel);
                     response.setStatus(true);
                     response.seterrorCode(0);
@@ -94,12 +98,34 @@ public class ForgotPasswordController {
                     response.seterrorCode(3);
                     response.setMessage("Something went wrong Otp cannot send");
                 }
+
+
+                deleteOtp();
+
+//                final Timer t = new Timer();
+//                t.scheduleAtFixedRate(
+//                        new TimerTask() {
+//                            long t0 = System.currentTimeMillis();
+//                            int count=0;
+//                            public void run() {
+//                                System.out.println(t0 > 12 * 10000);
+//                                System.out.println(System.currentTimeMillis() - t0 > 12 * 10000);
+//                                if (System.currentTimeMillis() - t0 > 12 * 10000) {
+//                                    t.cancel();
+//                                    System.out.println("Canceling");
+////
+//                                } else {
+//                                    System.out.println("Timer is running"+ count++);
+//                                }
+//                            }
+//                        }, 0, 1000);
+
+
             } else {
                 response.setStatus(false);
                 response.seterrorCode(1);
                 response.setMessage("Mobile Number is not Existed");
             }
-
 
 //            Timer timer = new Timer();
 //            timer.schedule(new TimerTask() {
@@ -123,4 +149,17 @@ public class ForgotPasswordController {
 
     }
 
+
+   @Scheduled(every = "1s")
+   @Transactional
+   public void deleteOtp(){
+       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+       Calendar calendar = Calendar.getInstance();
+     String query ="Delete from otp where created_on<?";
+     Query q = otpRepository.getEntityManager().createNativeQuery(query);
+     q.setParameter(1,format.format(System.currentTimeMillis()-12000));
+     q.executeUpdate();
+
+   }
 }
+

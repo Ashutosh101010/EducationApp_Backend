@@ -3,11 +3,13 @@ package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.Entity.CourseModel;
 import com.aurd.Student.Model.Entity.LiveClassModel;
+import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Entity.TeacherModel;
 import com.aurd.Student.Model.Request.LiveClassesRequest;
 import com.aurd.Student.Model.Response.GetLiveClassResponse;
 import com.aurd.Student.Repository.CoursesRepository;
 import com.aurd.Student.Repository.LiveClassesRepository;
+import com.aurd.Student.Repository.StudentCourseRepository;
 import com.aurd.Student.Repository.TeacherRepository;
 
 import javax.inject.Inject;
@@ -34,6 +36,9 @@ public class GetLiveClassController {
     @Inject
     TeacherRepository teacherRepository;
 
+    @Inject
+    StudentCourseRepository studentCourseRepository;
+
     @POST
     @Transactional
 
@@ -47,6 +52,14 @@ public class GetLiveClassController {
          CourseModel courseModel = coursesRepository.find("id",course.longValue()).firstResult();
          if(courseModel!=null){
              liveClassModel.setCourseName(courseModel.getCourse());
+             StudentCourseModel scm = studentCourseRepository.find("courseId=?1 and userId=?2",
+                     course.longValue(),request.getStud_id()).firstResult();
+             if(scm!=null){
+                 liveClassModel.setPurchased(true);
+             }else{
+                 liveClassModel.setPurchased(false);
+             }
+
 
          }
 
