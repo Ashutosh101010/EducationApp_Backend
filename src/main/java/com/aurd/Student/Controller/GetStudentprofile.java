@@ -61,11 +61,14 @@ public class GetStudentprofile {
                 "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                 "student_posts.added_on, students.fname FROM `student_posts` " +
                 "INNER JOIN students ON students.id=student_posts.added_by " +
-                "WHERE student_posts.inst_id = ? and student_posts.added_by = ? and student_posts.added_on < ? ORDER  BY added_on DESC ";
+                "WHERE student_posts.inst_id = ?" +
+                " and student_posts.added_by = ?" +
+                "and student_posts.post_status =?" +
+                "ORDER  BY added_on DESC ";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,studentModel.getInst_id());
         studentPost.setParameter(2,request.getId());
-        studentPost.setParameter(3,lastId);
+        studentPost.setParameter(3,1);
 
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         ArrayList<StudentPostEntity> postList = new ArrayList<>();

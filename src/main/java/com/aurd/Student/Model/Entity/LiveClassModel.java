@@ -82,6 +82,8 @@ public class LiveClassModel {
     @Transient
     boolean purchased;
 
+
+
     public boolean isPurchased() {
         return purchased;
     }

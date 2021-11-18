@@ -20,7 +20,6 @@ public class CourseEntity {
 //    private ArrayList<RunningBatchesModel> batchList = new ArrayList<>();
     private boolean purchased ;
 
-
     private Long notesCount;
     private Long videoCount;
     private Long practiseTestCount;

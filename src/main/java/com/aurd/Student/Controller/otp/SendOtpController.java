@@ -96,7 +96,6 @@ public class SendOtpController {
                     otpModel.setCreatedOn(Timestamp.valueOf(sdf.format(now.getTime())));
                     otpRepository.persist(otpModel);
 
-
                     response.setStatus(true);
                     response.seterrorCode(0);
                     response.setMessage("Otp send successfully");

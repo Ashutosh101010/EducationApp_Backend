@@ -7,6 +7,7 @@ import com.aurd.Student.Model.Request.SendOtpRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Repository.OtpRepository;
 import com.aurd.Student.Repository.StudentRepository;
+import com.google.gson.Gson;
 import io.quarkus.scheduler.Scheduled;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -92,7 +93,11 @@ public class ForgotPasswordController {
                     otpModel.setCreatedOn(Timestamp.valueOf(sdf.format(now.getTime())));
 
 
+
                     otpRepository.persist(otpModel);
+
+                    System.out.println(new Gson().toJson(otpModel));
+
                     response.setStatus(true);
                     response.seterrorCode(0);
                     response.setMessage("Otp send successfully");
@@ -129,12 +134,12 @@ public class ForgotPasswordController {
     }
 
 
-   @Scheduled(every = "1s")
+   @Scheduled(every = "10s")
    @Transactional
    public void deleteOtp(){
 
 
-     String query ="Delete from otp otp where otp.createdOn<:createdOn";
+     String query ="Delete from OtpModel OtpModel where OtpModel.createdOn<:createdOn";
      Query q = otpRepository.getEntityManager().createQuery(query);
      q.setParameter("createdOn",new Timestamp(System.currentTimeMillis()-60000));
      q.executeUpdate();

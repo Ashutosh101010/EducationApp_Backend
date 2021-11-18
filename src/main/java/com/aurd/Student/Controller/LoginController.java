@@ -32,17 +32,19 @@ public class LoginController {
        StudentModel studentModel  = repository.login(request);
         LoginResponse response = new LoginResponse();
        if(studentModel!=null){
-           if(studentModel.getPassword().equals(request.getPassword())){
-               response.setStudent(studentModel);
-               response.setMessage("Login Success");
-               response.setStatus(true);
-               response.seterrorCode(0);
-           }else{
-
-               response.setMessage("Login Fail! Password does not matches");
-               response.setStatus(false);
-               response.seterrorCode(1);
+           if(studentModel.isIs_active()==false){
+               if(studentModel.getPassword().equals(request.getPassword())){
+                   response.setStudent(studentModel);
+                   response.setMessage("Login Success");
+                   response.setStatus(true);
+                   response.seterrorCode(0);
+               }else{
+                   response.setMessage("Login Fail! Password does not matches");
+                   response.setStatus(false);
+                   response.seterrorCode(2);
+               }
            }
+
 
        }else{
            response.setMessage("Login Failure");

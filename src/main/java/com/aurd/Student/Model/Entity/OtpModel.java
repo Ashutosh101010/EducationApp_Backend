@@ -3,12 +3,13 @@ package com.aurd.Student.Model.Entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-@Entity(name = "otp")
+@Entity
+@Table(name = "otp")
 public class OtpModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id ;
 
     @Column(name = "mobileNumber",nullable = false)
    private String mobileNumber;

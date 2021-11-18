@@ -95,7 +95,7 @@ public class GetIndexController {
         ArrayList<Index_Model> arrayList = new ArrayList<>();
         ArrayList<Object[]> list = null;
         ArrayList<Object> vList = new ArrayList<>();
-        int maxResultCount =5;
+
 
             System.out.println(request.getFilter());
             System.out.println("Some filter entry");
@@ -143,7 +143,7 @@ public class GetIndexController {
                     query.setParameter("endDate",new Date(System.currentTimeMillis()));
                 }
 
-                arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
+                arrayList=new ArrayList<>(query.getResultList());
             }
             else{
             Query query=null;
@@ -188,7 +188,7 @@ public class GetIndexController {
                 query.setParameter("endDate",new Date(System.currentTimeMillis()));
             }
 
-            arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
+            arrayList=new ArrayList<>(query.getResultList());
             }
 
          System.out.println(arrayList.size());
@@ -226,9 +226,12 @@ public class GetIndexController {
 
              }else if(model.getType().equals("post")){
                  StudentPostEntity entity= getPost(model,request);
-                 entity.setIndexId(model.getId());
-                 entity.setTimeStamp(model.getCreated_on().getTime());
-                 vList.add(entity);
+                 if(entity.getPostStatus()==1){
+                     entity.setIndexId(model.getId());
+                     entity.setTimeStamp(model.getCreated_on().getTime());
+                     vList.add(entity);
+                 }
+
              }else if(model.getType().equals("quiz")){
                  QuizEntity quizEntity = getQuizzes(model,request);
                  quizEntity.setIndexId(model.getId());
@@ -455,7 +458,6 @@ public class GetIndexController {
 //
 //        entity.setType("post");
 //
-
         String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
                 "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
                 "student_posts.added_on, students.fname, students.profile FROM `student_posts` " +

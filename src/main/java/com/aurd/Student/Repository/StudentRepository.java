@@ -22,8 +22,8 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
     public StudentModel login(LoginRequest request){
         try {
-            return  find("contact=?1 and password = ?2 and inst_id = ?3",
-                    request.getContact(),request.getPassword(),request.getInst_id()).firstResult();
+            return  find("contact=?1 and password = ?2 and inst_id = ?3 and login_status =?4",
+                    request.getContact(),request.getPassword(),request.getInst_id(),0).firstResult();
         }catch (Exception e){
             e.printStackTrace();
             return  new StudentModel();
@@ -78,8 +78,9 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
     public int addDeviceToken(DeviceTokenRequest request) {
 
-        Query query = getEntityManager().createQuery("update StudentModel Students set " +
+        Query query = getEntityManager().createQuery("update StudentModel Students set Students.is_active =:isActive, " +
                 "Students.deviceId=:deviceid where " + "Students.id=:id ");
+        query.setParameter("isActive",true);
         query.setParameter("deviceid", request.getDeviceId());
         query.setParameter("id", request.getUserId());
         return query.executeUpdate();
@@ -88,8 +89,9 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
     
     
     public int removeDeviceToken(DeviceTokenRequest request){
-        Query query = getEntityManager().createQuery("update StudentModel Students set " +
+        Query query = getEntityManager().createQuery("update StudentModel Students set Students.is_active =:active, " +
                 "Students.deviceId=:deviceid where " + "Students.id=:id");
+        query.setParameter("active",false);
         query.setParameter("deviceid",null);
         query.setParameter("id",request.getUserId());
 
