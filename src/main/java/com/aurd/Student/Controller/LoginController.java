@@ -32,6 +32,7 @@ public class LoginController {
        StudentModel studentModel  = repository.login(request);
         LoginResponse response = new LoginResponse();
        if(studentModel!=null){
+           System.out.println("sdawdewdscdsf       " +studentModel.isIs_active());
            if(studentModel.isIs_active()==false){
                if(studentModel.getPassword().equals(request.getPassword())){
                    response.setStudent(studentModel);

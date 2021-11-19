@@ -63,8 +63,8 @@ public class GetStudentprofile {
                 "INNER JOIN students ON students.id=student_posts.added_by " +
                 "WHERE student_posts.inst_id = ?" +
                 " and student_posts.added_by = ?" +
-                "and student_posts.post_status =?" +
-                "ORDER  BY added_on DESC ";
+                " and student_posts.post_status =?" +
+                " ORDER  BY added_on DESC ";
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1,studentModel.getInst_id());
         studentPost.setParameter(2,request.getId());

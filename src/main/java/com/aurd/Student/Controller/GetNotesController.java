@@ -10,6 +10,7 @@ import com.aurd.Student.Repository.NotesCommentRepository;
 import com.aurd.Student.Repository.NotesLikeDislikeRepository;
 import com.aurd.Student.Repository.NotesRepository;
 import com.aurd.Student.Repository.TeacherRepository;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -94,7 +95,8 @@ public class GetNotesController {
                 list = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
 
 
-            }else{
+            }
+            else{
 
                 if(request.getLastId().equals("")){
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
@@ -118,7 +120,8 @@ public class GetNotesController {
                             "FROM notes INNER JOIN employees ON employees.id= notes.created_by INNER JOIN" +
                             " topics ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
-                            "WHERE notes.inst_id = ? and notes.fee_type=? and notes.created_at<? ORDER BY created_at DESC";
+                            "WHERE notes.inst_id = ? and notes.fee_type=? and" +
+                            " notes.created_at<? ORDER BY created_at DESC";
 
                     query = repository.getEntityManager().createNativeQuery(string);
                     query.setParameter(1,request.getInst_id());
@@ -144,6 +147,7 @@ public class GetNotesController {
                 notesEntity.setTopic(objects[6].toString());
                 notesEntity.setTopicId(Integer.parseInt(objects[7].toString()));
                 notesEntity.setDescription(objects[8].toString());
+                notesEntity.setCourse_id(Integer.parseInt(objects[11].toString()));
                 notesEntity.setSubject(objects[12].toString());
                 notesEntity.setCourse(objects[13].toString());
                 notesEntity.setFee_type(objects[14].toString());
@@ -177,6 +181,8 @@ public class GetNotesController {
                 Integer likeCount =  likeList.size();
                 notesEntity.setLike(likeCount.longValue());
 
+
+                System.out.println(new Gson().toJson(notesEntity));
 
 
 
