@@ -113,8 +113,8 @@ public class GetCourseDetailController {
         Integer courseId = Math.toIntExact(entity.getId());
         Integer instId = Math.toIntExact(entity.getInst_id());
 
-        Long count = quizRepository.count("course_id =?1 and inst_id=?2",
-                courseId,instId);
+        Long count = quizRepository.count("course_id =?1 and inst_id=?2 and type = ?3",
+                courseId,instId,"Monthly Test");
         return count;
     }
 

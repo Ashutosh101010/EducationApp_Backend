@@ -228,7 +228,7 @@ public class GetAllCommentController {
      ArrayList<Comment_Reply_Model> list = (ArrayList<Comment_Reply_Model>)
              replyRepository.list("comment_id=?1 ORDER BY added_on DESC",entity.getComment_id());
      list.forEach(comment_reply_model -> {
-         System.out.println(new Gson().toJson(comment_reply_model));
+//         System.out.println(new Gson().toJson(comment_reply_model));
 
          if(comment_reply_model.getUser_type().equals("faculty")){
              comment_reply_model.setFname(comment_reply_model.getTeacherModel().getFname());
