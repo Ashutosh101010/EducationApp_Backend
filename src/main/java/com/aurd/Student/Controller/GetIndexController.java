@@ -95,7 +95,7 @@ public class GetIndexController {
         ArrayList<Index_Model> arrayList = new ArrayList<>();
         ArrayList<Object[]> list = null;
         ArrayList<Object> vList = new ArrayList<>();
-        int maxResultCount =5;
+
 
             System.out.println(request.getFilter());
             System.out.println("Some filter entry");
@@ -143,7 +143,11 @@ public class GetIndexController {
                     query.setParameter("endDate",new Date(System.currentTimeMillis()));
                 }
 
-                arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
+                if(request.getPageCount()>0)
+                {
+                    query.setMaxResults(request.getPageCount());
+                }
+                arrayList=new ArrayList<>(query.getResultList());
             }
             else{
             Query query=null;
@@ -165,14 +169,7 @@ public class GetIndexController {
             if(request.getDate()!=null && !request.getDate().isEmpty())
             {
 
-//                String startDate = request.getDate()+" 00:00:00";
-//                System.out.println(startDate);
-//                query.setParameter("startDate",startDate);
-////                    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
-////                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
-//                String endDate = request.getDate()+" 23:59:59";
-//                System.out.println(endDate);
-//                query.setParameter("endDate",endDate);
+//
 
                 Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
                 System.out.println(startDate);
@@ -187,8 +184,11 @@ public class GetIndexController {
                 query.setParameter("startDate",new Date(formatter.parse("2000-01-01"+" 00:00:00").getTime()));
                 query.setParameter("endDate",new Date(System.currentTimeMillis()));
             }
-
-            arrayList=new ArrayList<>(query.setMaxResults(maxResultCount).getResultList());
+            if(request.getPageCount()>0)
+            {
+                query.setMaxResults(request.getPageCount());
+            }
+            arrayList=new ArrayList<>(query.getResultList());
             }
 
          System.out.println(arrayList.size());
@@ -246,7 +246,7 @@ public class GetIndexController {
          });
 
 
-         System.out.println(vList.size());
+
 
         GetIndexResponse getIndexResponse= new GetIndexResponse();
         getIndexResponse.setIndex(arrayList);
@@ -406,55 +406,7 @@ public class GetIndexController {
 
     StudentPostEntity getPost(Index_Model model, GetIndexRequest request){
         System.out.println("Get Post");
-//      Integer val =  model.getPost_id();
-//
-//     Query query = postRepository.getEntityManager().createQuery("select StudentPostModel from StudentPostModel" +
-//              " Student where StudentPostModel.inst_id=: instId and StudentPostModel .id =:postId");
-//
-//     query.setParameter("instId",request.getInst_id());
-//     query.setParameter("postId",model.getPost_id());
-//        StudentPostModel p = (StudentPostModel) query.getSingleResult();
-//
-//        System.out.println(p.getId());
-//
-//       StudentPostModel postModel = postRepository.find("inst_id =?1 and id =?2",
-//               request.getInst_id(),val.longValue()).firstResult();
-//
-//
-//       StudentPostEntity entity = new Gson().fromJson(new Gson().toJson(postModel),StudentPostEntity.class);
-//        String likeQuery = "SELECT * FROM `student_posts_liked` WHERE post_id =?";
-//        Query like = likedRepository.getEntityManager().createNativeQuery(likeQuery);
-//        like.setParameter(1, postModel.getId());
-//        ArrayList<Object[]> likeList = (ArrayList<Object[]>) like.getResultList();
-//        likeList.forEach(likeObject -> {
-//            if (request.getStudId() == Long.parseLong(likeObject[1].toString())) {
-//                System.out.println("Liked");
-//                entity.setLiked(true);
-//            }
-//        });
-//
-//        Integer likeCount = likeList.size();
-//        entity.setLike(likeCount.longValue());
-//
-//
-//      if(  postModel.getStudentModel().getProfile()!=null){
-//          entity.setImage(postModel.getStudentModel().getProfile());
-//      }
-//
-//        ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
-//                bookMarkRepository.list("type=?1 and post_id=?2",
-//                        "post",postModel.getId());
-//        arrayList.forEach(bookMarkModel -> {
-//
-//            if(bookMarkModel.getAdded_by()==request.getStudId()){
-//                entity.setAdded(true);
-//            }else{
-//                entity.setAdded(false);
-//            }
-//        });
-//
-//        entity.setType("post");
-//
+
 
         String studentPostQuery = "SELECT student_posts.id,student_posts.description," +
                 "student_posts.pic,student_posts.post_status,student_posts.added_by,\n" +
