@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class StudentCourseEntity {
-    long courseId;
+    long id;
     double actualFee;
     double discount;
     double courseFee;
@@ -64,12 +64,12 @@ public class StudentCourseEntity {
         this.runningBatch = runningBatch;
     }
 
-    public long getCourseId() {
-        return courseId;
+    public long getId() {
+        return id;
     }
 
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public double getActualFee() {

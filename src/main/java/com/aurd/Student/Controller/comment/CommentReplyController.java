@@ -116,20 +116,25 @@ public class CommentReplyController {
             System.out.println();
 
             notificationRepository.insertNotification(notification);
-            Message message = Message.builder()
-                    .setToken(model.getDeviceId())
-                    .setNotification(Notification.builder()
-                            .setTitle(title)
-                            .setBody(body)
-                            .build()).build();
+            if(model.getDeviceId()!=null)
+            {
+                Message message = Message.builder()
+                        .setToken(model.getDeviceId())
+                        .setNotification(Notification.builder()
+                                .setTitle(title)
+                                .setBody(body)
+                                .build()).build();
 
-            try {
-                System.out.println(message);
-                FirebaseMessaging.getInstance(firebaseApp).send(message);
+                try {
+                    System.out.println(message);
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                    FirebaseMessaging.getInstance(firebaseApp).send(message);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         }
 
     }

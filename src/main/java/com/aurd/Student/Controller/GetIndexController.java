@@ -226,9 +226,11 @@ public class GetIndexController {
 
              }else if(model.getType().equals("post")){
                  StudentPostEntity entity= getPost(model,request);
-                 entity.setIndexId(model.getId());
-                 entity.setTimeStamp(model.getCreated_on().getTime());
-                 vList.add(entity);
+                 if(entity.getPostStatus()==1){
+                     entity.setIndexId(model.getId());
+                     entity.setTimeStamp(model.getCreated_on().getTime());
+                     vList.add(entity);
+                 }
              }else if(model.getType().equals("quiz")){
                  QuizEntity quizEntity = getQuizzes(model,request);
                  quizEntity.setIndexId(model.getId());
@@ -348,7 +350,6 @@ public class GetIndexController {
 
     }
 
-
     NotesEntity getNotes(Index_Model model,GetIndexRequest request){
         System.out.println("Get Notes");
         Long val = Long.valueOf(model.getPost_id());
@@ -402,7 +403,6 @@ public class GetIndexController {
         return  entity;
 
     }
-
 
     StudentPostEntity getPost(Index_Model model, GetIndexRequest request){
         System.out.println("Get Post");
@@ -489,8 +489,6 @@ public class GetIndexController {
         return postModel;
 
     }
-
-
 
     QuizEntity getQuizzes(Index_Model model, GetIndexRequest request){
         System.out.println("Get Quiz");

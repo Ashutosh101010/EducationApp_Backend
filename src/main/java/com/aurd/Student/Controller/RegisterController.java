@@ -48,7 +48,7 @@ public class RegisterController {
         studentModel.setGender(null);
         studentModel.setHostel(0);
         studentModel.setTownId(null);
-        studentModel.setLogin_status(0);
+        studentModel.setLogin_status(1);
         studentModel.setProfile(null);
         studentModel.setReg_status(request.getReg_status());
         studentModel.setStateId(null);
@@ -58,6 +58,7 @@ public class RegisterController {
         studentModel.setUsername(request.getFname());
         studentModel.setDeviceId(null);
         studentModel.setCreated_at(Timestamp.valueOf(sdf.format(cal.getTime())));
+        studentModel.setIs_active(false);
 
 //
 //        String passwordToHash =request.getPassword();

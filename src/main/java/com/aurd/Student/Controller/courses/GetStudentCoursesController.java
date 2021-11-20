@@ -61,6 +61,7 @@ public class GetStudentCoursesController {
             Gson gson = new Gson();
             StudentCourseEntity studentCourseEntity = gson.fromJson(new Gson().toJson(studentCourseModel),
                     StudentCourseEntity.class);
+            studentCourseEntity.setId(studentCourseModel.getCourseId());
 
             System.out.println(studentCourseModel.getCourseId());
 

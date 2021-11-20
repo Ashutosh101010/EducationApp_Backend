@@ -34,22 +34,17 @@ public class LoginController {
        if(studentModel!=null){
            System.out.println("sdawdewdscdsf       " +studentModel.isIs_active());
            if(studentModel.getLogin_status()==1){
-               if(studentModel.isIs_active()==false){
-                   if(studentModel.getPassword().equals(request.getPassword()) ){
-                       response.setStudent(studentModel);
-                       response.setMessage("Login Success");
-                       response.setStatus(true);
-                       response.seterrorCode(0);
-                   }else{
-                       response.setMessage("Login Fail! Password does not matches");
-                       response.setStatus(false);
-                       response.seterrorCode(2);
-                   }
+               if(studentModel.getPassword().equals(request.getPassword()) ){
+                   response.setStudent(studentModel);
+                   response.setMessage("Login Success");
+                   response.setStatus(true);
+                   response.seterrorCode(0);
                }else{
-                   response.setMessage("Device already logged in");
+                   response.setMessage("Login Fail! Password does not matches");
                    response.setStatus(false);
-                   response.seterrorCode(3);
+                   response.seterrorCode(2);
                }
+
              }else{
                response.setStatus(false);
                response.seterrorCode(4);

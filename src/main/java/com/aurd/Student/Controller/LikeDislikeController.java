@@ -125,20 +125,24 @@ public class LikeDislikeController {
             notification.setInst_id(students.getInst_id());
 
             notificationRepository.insertNotification(notification);
-            Message message = Message.builder()
-                    .setToken(model.getDeviceId())
-                    .setNotification(Notification.builder()
-                            .setTitle(title)
-                            .setBody(body)
-                            .build()).build();
 
-            try {
-                System.out.println(message);
-                FirebaseMessaging.getInstance(firebaseApp).send(message);
+            if(model.getDeviceId()!=null){
+                Message message = Message.builder()
+                        .setToken(model.getDeviceId())
+                        .setNotification(Notification.builder()
+                                .setTitle(title)
+                                .setBody(body)
+                                .build()).build();
 
-            } catch (Exception e) {
-                e.printStackTrace();
+                try {
+                    System.out.println(message);
+                    FirebaseMessaging.getInstance(firebaseApp).send(message);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+
         }
 
     }
