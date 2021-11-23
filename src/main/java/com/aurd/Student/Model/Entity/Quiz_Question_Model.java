@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.Entity;
 
 import io.smallrye.common.constraint.Nullable;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -58,6 +60,20 @@ public class Quiz_Question_Model {
 
     @Column(name = "subject_id",nullable = false)
     private  long subject_id;
+
+
+    @ManyToOne
+    @JoinColumn(name="subject_id",insertable = false,updatable = false)
+    @NotFound(action = NotFoundAction.IGNORE)
+    SubjectModel subjectModel;
+
+    public SubjectModel getSubjectModel() {
+        return subjectModel;
+    }
+
+    public void setSubjectModel(SubjectModel subjectModel) {
+        this.subjectModel = subjectModel;
+    }
 
     public long getQuestion_id() {
         return question_id;

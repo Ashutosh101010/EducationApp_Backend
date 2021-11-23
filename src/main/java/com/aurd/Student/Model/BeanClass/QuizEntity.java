@@ -32,6 +32,15 @@ public class QuizEntity
     private long indexId;
 
     private long timeStamp;
+    private boolean purchased ;
+
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+    }
 
     public long getTimeStamp() {
         return timeStamp;

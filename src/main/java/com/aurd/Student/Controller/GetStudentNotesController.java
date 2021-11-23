@@ -6,6 +6,7 @@ import com.aurd.Student.Model.Request.GetStudentNotesRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Model.Response.StudentNotesResponse;
 import com.aurd.Student.Repository.StudentNotesRepository;
+import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.persistence.Query;
@@ -28,11 +29,11 @@ public class GetStudentNotesController {
     @Inject
     StudentNotesRepository repository;
     @POST
-    @Transactional
+//    @Transactional
 
     public StudentNotesResponse getStudNotes(GetStudentNotesRequest request){
 
-        System.out.println(request);
+        System.out.println(new Gson().toJson(request));
 
         ArrayList<StudentNotesEntity> arrayList =new ArrayList<>();
 
@@ -47,14 +48,15 @@ public class GetStudentNotesController {
        }
 
         String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
-                "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? and student_notes.inst_id = ?  and student_notes.added_on < ? ORDER BY added_on DESC ";
+                "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? " +
+                "and student_notes.inst_id = ?  ORDER BY added_on DESC ";
 
 
         Query query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getStud_id());
         query.setParameter(2,request.getInst_id());
       //  query.setParameter(3,request.getLastId());
-        query.setParameter(3,lastId);
+//        query.setParameter(3,lastId);
 
         ArrayList<Object[]> objList = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
         System.out.println(objList.size());
@@ -75,9 +77,14 @@ public class GetStudentNotesController {
 //            model.setDescription(objects[10].toString());
 //            model.setTopic(objects[11].toString());
 
+            System.out.println(new Gson().toJson(model));
             arrayList.add(model);
 
         });
+
+        System.out.println(arrayList.size());
+
+
 
        StudentNotesResponse response = new StudentNotesResponse();
        response.setNotes(arrayList);

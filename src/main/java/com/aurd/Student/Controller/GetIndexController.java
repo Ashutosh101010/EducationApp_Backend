@@ -510,10 +510,14 @@ public class GetIndexController {
                request.getInst_id().intValue(),val).firstResult();
        VideoEntity entity = new Gson().fromJson(new Gson().toJson(videoModel),VideoEntity.class);
 
+
+
        if(videoModel.getCourse_id()!=null){
            CourseModel courseModel = coursesRepository.find("id",
                    videoModel.getCourse_id().longValue()).firstResult();
               entity.setCourse(courseModel.getCourse());
+
+              entity.setCourse_id(videoModel.getCourse_id());
        }
 
        if(videoModel.getTopicId()!=null){

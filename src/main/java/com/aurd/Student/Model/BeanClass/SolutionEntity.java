@@ -12,6 +12,15 @@ public class SolutionEntity {
     ArrayList<Question_Option_Model> options = new ArrayList<>();
     int markForReview =0;
     int skipped = 0;
+    String subject;
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
     public int getSkipped() {
         return skipped;

@@ -2,10 +2,12 @@ package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.QuizEntity;
 import com.aurd.Student.Model.Entity.QuizModel;
+import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Request.GetQuizRequest;
 import com.aurd.Student.Model.Response.GetQuizResponse;
 import com.aurd.Student.Repository.QuizRepository;
 import com.aurd.Student.Repository.ResultRepository;
+import com.aurd.Student.Repository.StudentCourseRepository;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -28,6 +30,9 @@ public class GetAllPractiseTestController {
     @Inject
     ResultRepository resultRepository;
 
+    @Inject
+    StudentCourseRepository studentCourseRepository;
+
 
     @POST
     @Transactional
@@ -47,6 +52,14 @@ public class GetAllPractiseTestController {
             query.setParameter(1, request.getInst_id());
             query.setParameter(2,request.getStud_id());
             query.setParameter(3,quizModel.getQuiz_id());
+            Integer course = quizModel.getCourse_id();
+            StudentCourseModel scm = studentCourseRepository.find("courseId=?1 and userId=?2",
+                    course.longValue(),request.getStud_id()).firstResult();
+            if(scm!=null){
+                quizEntity.setPurchased(true);
+            }else{
+                quizEntity.setPurchased(false);
+            }
 
             System.out.println(query);
 
