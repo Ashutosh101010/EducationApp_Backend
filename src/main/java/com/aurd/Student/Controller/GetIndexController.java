@@ -81,6 +81,9 @@ public class GetIndexController {
     @Inject
     QuizRepository quizRepository;
 
+    @Inject
+    StudentCourseRepository studentCourseRepository;
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -338,6 +341,31 @@ public class GetIndexController {
         Integer likeCount = likeList.size();
         caEntity.setLike(likeCount.longValue());
 
+        BookMarkModel bookMarkModel = bookMarkRepository.find("type=?1 and post_id=?2" +
+                " and added_by =?3","currentAffair",currentAffairModel.getId(),request.getStudId() ).firstResult();
+
+        if(bookMarkModel!=null){
+            caEntity.setAdded(true);
+        }else{
+            caEntity.setAdded(false);
+        }
+
+
+//        ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
+//                bookMarkRepository.list("type=?1 and post_id=?2",
+//                        "currentAffair",currentAffairModel.getId());
+//        arrayList.forEach(bookMarkModel -> {
+//
+//            if(request.getStudId()!=0){
+//                if(bookMarkModel.getAdded_by()==request.getStudId()){
+//                    caEntity.setAdded(true);
+//                }else{
+//                    caEntity.setAdded(false);
+//                }
+//            }
+//
+//        });
+
 
         TeacherModel teacherModel = teacherRepository.find("id",
                 caEntity.getAdded_by().longValue()).firstResult();
@@ -394,6 +422,14 @@ public class GetIndexController {
         }
 
 
+      StudentCourseModel scModel = studentCourseRepository.find("userId=?1 and courseId=?2",Long.valueOf(request.getStudId()),Long.valueOf(courseModel.getId())).firstResult();
+        if(scModel!=null){
+            entity.setPurchased(true);
+        }else{
+            entity.setPurchased(false);
+        }
+
+
         TopicModel topicModel = topicsRepository.find("id",
                 notesModel.getTopicId().longValue()).firstResult();
         entity.setTopic(topicModel.getTopic());
@@ -416,7 +452,6 @@ public class GetIndexController {
         Query studentPost = postRepository.getEntityManager().createNativeQuery(studentPostQuery);
         studentPost.setParameter(1, request.getInst_id());
         studentPost.setParameter(2,model.getPost_id());
-//        studentPost.setParameter(3,1);
         StudentPostEntity postModel = new StudentPostEntity();
         ArrayList<Object[]> tempPostList = (ArrayList<Object[]>) studentPost.getResultList();
         tempPostList.forEach(objects -> {
@@ -467,20 +502,26 @@ public class GetIndexController {
             postModel.setLike(likeCount.longValue());
 
 
-            ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
-                    bookMarkRepository.list("type=?1 and post_id=?2",
-                            "post",postModel.getId());
-            arrayList.forEach(bookMarkModel -> {
-
-                if(request.getStudId()!=0){
-                    if(bookMarkModel.getAdded_by()==request.getStudId()){
-                        postModel.setAdded(true);
-                    }else{
-                        postModel.setAdded(false);
-                    }
-                }
-
-            });
+            BookMarkModel bookMarkModel = bookMarkRepository.find("type= ?1 and post_id=?2  and added_by =?3","post",postModel.getId(),request.getStudId()).firstResult();
+            if(bookMarkModel!=null){
+                postModel.setAdded(true);
+            }else{
+                postModel.setAdded(false);
+            }
+//            ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
+//                    bookMarkRepository.list("type=?1 and post_id=?2",
+//                            "post",postModel.getId());
+//            arrayList.forEach(bookMarkModel -> {
+//
+//                if(request.getStudId()!=0){
+//                    if(bookMarkModel.getAdded_by()==request.getStudId()){
+//                        postModel.setAdded(true);
+//                    }else{
+//                        postModel.setAdded(false);
+//                    }
+//                }
+//
+//            });
 
             postModel.setType("post");
 
@@ -519,6 +560,14 @@ public class GetIndexController {
 
               entity.setCourse_id(videoModel.getCourse_id());
        }
+
+      StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),Long.valueOf(videoModel.getCourse_id())).firstResult();
+       if(scModel!=null){
+           entity.setPurchased(true);
+       }else{
+           entity.setPurchased(false);
+       }
+
 
        if(videoModel.getTopicId()!=null){
             TopicModel topicModel = topicsRepository.find("id",

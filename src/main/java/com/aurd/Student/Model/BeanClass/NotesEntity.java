@@ -26,6 +26,15 @@ public class NotesEntity
 
 
     int course_id;
+    boolean purchased;
+
+    public boolean isPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(boolean purchased) {
+        this.purchased = purchased;
+    }
 
     public int getCourse_id() {
         return course_id;

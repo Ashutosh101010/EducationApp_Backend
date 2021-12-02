@@ -18,17 +18,23 @@ import java.util.*;
 public class StudentNotesRepository implements PanacheRepository<StudentNotesModel> {
 
     public boolean addStudentNotes(AddNotesRequest request){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Calendar now = Calendar.getInstance();
-        System.out.println(sdf.format(now.getTime()));
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Calendar now = Calendar.getInstance();
+            System.out.println(sdf.format(now.getTime()));
 
-        StudentNotesModel studentNotesModel = new Gson().fromJson(new Gson().toJson(request),
-                StudentNotesModel.class);
-        studentNotesModel.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
-        studentNotesModel.setUpdated_on(Timestamp.valueOf(sdf.format(now.getTime())));
+            StudentNotesModel studentNotesModel = new Gson().fromJson(new Gson().toJson(request),
+                    StudentNotesModel.class);
+            studentNotesModel.setAdded_on(Timestamp.valueOf(sdf.format(now.getTime())));
+            studentNotesModel.setUpdated_on(Timestamp.valueOf(sdf.format(now.getTime())));
 
-        persist(studentNotesModel);
-        return true;
+            persist(studentNotesModel);
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
     }
 
 

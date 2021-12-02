@@ -17,9 +17,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 @Path("/students/getStudentNotes")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -31,7 +33,7 @@ public class GetStudentNotesController {
     @POST
 //    @Transactional
 
-    public StudentNotesResponse getStudNotes(GetStudentNotesRequest request){
+    public StudentNotesResponse getStudNotes(GetStudentNotesRequest request) throws ParseException {
 
         System.out.println(new Gson().toJson(request));
 
@@ -39,26 +41,53 @@ public class GetStudentNotesController {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Calendar calendar = Calendar.getInstance();
+        Query query =null;
 
-       String lastId;
-        if ( request.getLastId()==null || request.getLastId().equals("")) {
-            lastId = sdf.format(calendar.getTime());
-       } else {
-            lastId = request.getLastId();
-       }
-
+//        if ( request.getLastId()==null || request.getLastId().equals("")) {
+//
+//            String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
+//                    "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? " +
+//                    "and student_notes.inst_id = ? ORDER BY added_on DESC ";
+//
+//
+//             query = repository.getEntityManager().createNativeQuery(string);
+//            query.setParameter(1,request.getStud_id());
+//            query.setParameter(2,request.getInst_id());
+//
+//
+//       }
+//        else {
+////            String lastId;
+////            lastId = String.valueOf(Timestamp.valueOf(request.getLastId()));
+//
+//
+//
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+//            Date parsedDate = dateFormat.parse(request.getLastId());
+//            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+//
+//
+//            String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
+//                    "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? " +
+//                    "and student_notes.inst_id = ? and student_notes.added_on<? ORDER BY added_on DESC ";
+//
+//
+//            query = repository.getEntityManager().createNativeQuery(string);
+//            query.setParameter(1,request.getStud_id());
+//            query.setParameter(2,request.getInst_id());
+//            query.setParameter(3,timestamp);
+//       }
         String string = "SELECT student_notes.id,student_notes.note,student_notes.added_on,student_notes.title," +
                 "student_notes.vid_id FROM student_notes WHERE student_notes.stud_id=? " +
-                "and student_notes.inst_id = ?  ORDER BY added_on DESC ";
+                "and student_notes.inst_id = ? ORDER BY added_on DESC ";
 
 
-        Query query = repository.getEntityManager().createNativeQuery(string);
+        query = repository.getEntityManager().createNativeQuery(string);
         query.setParameter(1,request.getStud_id());
         query.setParameter(2,request.getInst_id());
-      //  query.setParameter(3,request.getLastId());
-//        query.setParameter(3,lastId);
 
-        ArrayList<Object[]> objList = (ArrayList<Object[]>) query.setMaxResults(5).getResultList();
+
+        ArrayList<Object[]> objList = (ArrayList<Object[]>) query.getResultList();
         System.out.println(objList.size());
         objList.forEach(objects -> {
 

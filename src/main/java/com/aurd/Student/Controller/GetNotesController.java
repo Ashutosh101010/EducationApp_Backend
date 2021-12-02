@@ -2,14 +2,12 @@ package com.aurd.Student.Controller;
 
 
 import com.aurd.Student.Model.BeanClass.NotesEntity;
+import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Entity.TeacherModel;
 import com.aurd.Student.Model.Entity.TopicModel;
 import com.aurd.Student.Model.Request.GetNotesRequest;
 import com.aurd.Student.Model.Response.GetNotesResponse;
-import com.aurd.Student.Repository.NotesCommentRepository;
-import com.aurd.Student.Repository.NotesLikeDislikeRepository;
-import com.aurd.Student.Repository.NotesRepository;
-import com.aurd.Student.Repository.TeacherRepository;
+import com.aurd.Student.Repository.*;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -42,6 +40,9 @@ public class GetNotesController {
 
     @Inject
     NotesCommentRepository notesComentRepository;
+
+    @Inject
+    StudentCourseRepository studentCourseRepository;
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -150,7 +151,12 @@ public class GetNotesController {
                 notesEntity.setCourse_id(Integer.parseInt(objects[11].toString()));
                 notesEntity.setSubject(objects[12].toString());
                 notesEntity.setCourse(objects[13].toString());
-                notesEntity.setFee_type(objects[14].toString());
+                if(objects[14]==null){
+                    notesEntity.setFee_type("Free");
+                }else{
+                    notesEntity.setFee_type(objects[14].toString());
+                }
+
                 notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
 
 
@@ -181,6 +187,15 @@ public class GetNotesController {
                 Integer likeCount =  likeList.size();
                 notesEntity.setLike(likeCount.longValue());
 
+                Integer course = notesEntity.getCourse_id();
+
+               StudentCourseModel studentCourseModel = studentCourseRepository.
+                       find("userId=?1 and courseId =?2", Long.valueOf(request.getStudId()),course.longValue()).firstResult();
+                if(studentCourseModel!=null){
+                    notesEntity.setPurchased(true);
+                }else{
+                    notesEntity.setPurchased(false);
+                }
 
                 System.out.println(new Gson().toJson(notesEntity));
 

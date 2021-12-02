@@ -27,7 +27,7 @@ public class BuyCoursesRepository implements PanacheRepository<StudentCourseMode
 
         request.setCreated_at(Timestamp.valueOf(sdf.format(now.getTime())));
         request.setUpdated_at(Timestamp.valueOf(sdf.format(now.getTime())));
-//        request.setDue_date(Date.valueOf(sdf.toLocalizedPattern()));
+
         StudentCourseModel studentCourseModel = new Gson().fromJson
                 (new Gson().toJson(request), StudentCourseModel.class);
         persist(studentCourseModel);
