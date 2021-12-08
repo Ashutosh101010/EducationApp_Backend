@@ -111,6 +111,18 @@ public class QuizModel {
     @Column(name = "test_end",nullable = true)
     private String test_end;
 
+
+    @Transient
+    boolean testSeriesPurchased;
+
+    public boolean isTestSeriesPurchased() {
+        return testSeriesPurchased;
+    }
+
+    public void setTestSeriesPurchased(boolean testSeriesPurchased) {
+        this.testSeriesPurchased = testSeriesPurchased;
+    }
+
     public String getTest_end() {
         return test_end;
     }

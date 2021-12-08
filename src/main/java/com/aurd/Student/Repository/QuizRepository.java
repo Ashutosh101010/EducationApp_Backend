@@ -119,7 +119,6 @@ public class QuizRepository implements PanacheRepository<QuizModel> {
     }
 
     public ArrayList<QuizModel> getAllTestSeries(Integer inst_id, String type) {
-
         ArrayList<QuizModel> arrayList = (ArrayList<QuizModel>)
                 find("inst_id=?1 and type=?2", inst_id, type).list();
         return arrayList;

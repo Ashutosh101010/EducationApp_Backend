@@ -63,8 +63,6 @@ public class StudentCourseModel {
     private  Timestamp updated_at;
 
     @Column(name = "transaction_id",nullable = true)
-    @Nullable
-    @Null
     private  String transaction_id;
 
     @Column(name = "inst_id",nullable = false)

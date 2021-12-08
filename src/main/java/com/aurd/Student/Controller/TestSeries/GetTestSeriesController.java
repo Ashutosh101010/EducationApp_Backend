@@ -1,12 +1,14 @@
 package com.aurd.Student.Controller.TestSeries;
 
 import com.aurd.Student.Model.Entity.QuizModel;
+import com.aurd.Student.Model.Entity.StudentTestModel;
 import com.aurd.Student.Model.Entity.TestSeriesModel;
 import com.aurd.Student.Model.Request.GetQuizRequest;
 import com.aurd.Student.Model.Request.testseries.Get_TestSeries_Request;
 import com.aurd.Student.Model.Response.TestSeries.PractiseTestSeries_Response;
 import com.aurd.Student.Model.Response.TestSeries.TestSeriesResponse;
 import com.aurd.Student.Repository.QuizRepository;
+import com.aurd.Student.Repository.StudentTestRepository;
 import com.aurd.Student.Repository.TestSeries_Repository;
 
 import javax.inject.Inject;
@@ -22,6 +24,9 @@ public class GetTestSeriesController {
    // TestSeries_Repository repository;
     QuizRepository quizRepository;
 
+    @Inject
+    StudentTestRepository testRepository;
+
     @POST
     @Transactional
 
@@ -31,8 +36,20 @@ public class GetTestSeriesController {
         TestSeriesResponse response = new TestSeriesResponse();
 
 
-        ArrayList<QuizModel>testSeries= quizRepository.
+        ArrayList<QuizModel>testSeries = quizRepository.
                 getAllTestSeries(request.getInst_id(),request.getType());
+
+
+        testSeries.forEach(quizModel -> {
+          StudentTestModel model = testRepository.find("test_series_id =?1 and student =?2",
+                    quizModel.getQuiz_id().toString(),Long.valueOf(request.getStud_id()).intValue()).firstResult();
+
+          if(model==null){
+              quizModel.setTestSeriesPurchased(false);
+          }else{
+              quizModel.setTestSeriesPurchased(true);
+          }
+        });
 
 
         if(testSeries.isEmpty()){
