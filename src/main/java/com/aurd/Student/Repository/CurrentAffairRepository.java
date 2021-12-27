@@ -32,12 +32,8 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
             Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1,request.getInst_id());
-//            currentAffair.setParameter(2,lastId);
-          //  currentAffair.setParameter(2, Timestamp.valueOf(lastId));
 
           arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
-//            List<CurrentAffairModel> list = list("inst_id  ORDER BY created_at ",request.getInst_id());
-//            arrayList.addAll(list);
 
         }else{
             if(request.getDate().equals(formatter.format(calendar.getTime()))){
@@ -53,7 +49,6 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
                 Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                         CurrentAffairModel.class);
                 currentAffair.setParameter(1,request.getInst_id());
-//                currentAffair.setParameter(2,lastId);
 
                 arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
 
@@ -80,10 +75,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
 
     }
 
-    public CurrentAffairModel getBookmarkCurrentAffair(long id){
-        CurrentAffairModel currentAffairModel = find("id",id).firstResult();
-        return  currentAffairModel;
-    }
+
 
 
 

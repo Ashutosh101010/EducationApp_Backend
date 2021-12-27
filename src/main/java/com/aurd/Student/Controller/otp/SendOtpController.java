@@ -49,67 +49,71 @@ public class SendOtpController {
 
 
         try{
-            StudentModel model = repository.find("contact",
-                    request.getMobileNumber().trim()).firstResult();
+//            StudentModel model = repository.find("contact",
+//                    request.getMobileNumber().trim()).firstResult();
 
-            if(model==null){
-                String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
-                System.out.println(otp);
-
-
-                String text = "Welcome, your onetime verification code is " +otp+
-                        " regards - backyard picaso private limited.";
-
-                String msgUrl="https://www.smsgatewayhub.com/api/mt/SendSMS?" +
-                        "APIKey="+Constants.apiKey+"&senderid="+Constants.senderId+
-                        "&channel=2&DCS=0&flashsms=0&number="+
-                        "91"+request.getMobileNumber()+"&text="+ URLEncoder.encode(text)+
-                        "&route=clickhere&EntityId="+Constants.entityId+
-                        "&dlttemplateid="+Constants.dltTemplateId;
+//            if(model==null){
+//
+//            }else{
+//                response.setStatus(false);
+//                response.seterrorCode(1);
+//                response.setMessage("Mobile Number Already Existed");
+//            }
 
 
-                System.out.println(msgUrl);
 
-                HttpGet httpGet= new HttpGet(msgUrl);
-                CloseableHttpClient client = HttpClientBuilder.create().build();
-                CloseableHttpResponse httpResponse = client.execute(httpGet);
+            String otp= new DecimalFormat("000000").format(new Random().nextInt(999999));
+            System.out.println(otp);
 
-                int i=0;
-                InputStream io = httpResponse.getEntity().getContent();
-                String resp ="";
 
-                while ((i = io.read())!=-1){
-                    resp = resp+(char)i;
-                }
+            String text = "Welcome, your onetime verification code is " +otp+
+                    " regards - backyard picaso private limited.";
 
-                JSONObject jsonObject= new JSONObject(resp);
-                System.out.println(jsonObject);
+            String msgUrl="https://www.smsgatewayhub.com/api/mt/SendSMS?" +
+                    "APIKey="+Constants.apiKey+"&senderid="+Constants.senderId+
+                    "&channel=2&DCS=0&flashsms=0&number="+
+                    "91"+request.getMobileNumber()+"&text="+ URLEncoder.encode(text)+
+                    "&route=clickhere&EntityId="+Constants.entityId+
+                    "&dlttemplateid="+Constants.dltTemplateId;
 
-                if(jsonObject.getString("ErrorCode").equals("000")
-                &&jsonObject.getString("ErrorMessage").equals("Success")){
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Calendar now = Calendar.getInstance();
 
-                    OtpModel otpModel  = new OtpModel();
-                    otpModel.setOtp(otp);
-                    otpModel.setMobileNumber(request.getMobileNumber());
-                    otpModel.setCreatedOn(Timestamp.valueOf(sdf.format(now.getTime())));
-                    otpRepository.persist(otpModel);
+            System.out.println(msgUrl);
 
-                    response.setStatus(true);
-                    response.seterrorCode(0);
-                    response.setMessage("Otp send successfully");
-                }else{
-                    response.setStatus(false);
-                    response.seterrorCode(3);
-                    response.setMessage("Something went wrong Otp cannot send");
-                }
+            HttpGet httpGet= new HttpGet(msgUrl);
+            CloseableHttpClient client = HttpClientBuilder.create().build();
+            CloseableHttpResponse httpResponse = client.execute(httpGet);
 
+            int i=0;
+            InputStream io = httpResponse.getEntity().getContent();
+            String resp ="";
+
+            while ((i = io.read())!=-1){
+                resp = resp+(char)i;
+            }
+
+            JSONObject jsonObject= new JSONObject(resp);
+            System.out.println(jsonObject);
+
+            if(jsonObject.getString("ErrorCode").equals("000")
+                    &&jsonObject.getString("ErrorMessage").equals("Success")){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Calendar now = Calendar.getInstance();
+
+                OtpModel otpModel  = new OtpModel();
+                otpModel.setOtp(otp);
+                otpModel.setMobileNumber(request.getMobileNumber());
+                otpModel.setCreatedOn(Timestamp.valueOf(sdf.format(now.getTime())));
+                otpRepository.persist(otpModel);
+
+                response.setStatus(true);
+                response.seterrorCode(0);
+                response.setMessage("Otp send successfully");
             }else{
                 response.setStatus(false);
-                response.seterrorCode(1);
-                response.setMessage("Mobile Number Already Existed");
+                response.seterrorCode(3);
+                response.setMessage("Something went wrong Otp cannot send");
             }
+
 
             return response;
 

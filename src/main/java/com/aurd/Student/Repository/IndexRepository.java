@@ -12,10 +12,4 @@ import java.util.ArrayList;
 public class IndexRepository implements PanacheRepository<Index_Model> {
 
 
-    public ArrayList getIndex(GetIndexRequest request){
-
-        ArrayList<Index_Model> arrayList = (ArrayList<Index_Model>) list("inst_id =?1 ", request.getInst_id());
-        return arrayList;
-
-    }
 }

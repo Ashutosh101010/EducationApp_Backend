@@ -27,9 +27,21 @@ public class Index_Model {
     @Column(name="inst_id",nullable = false)
     private Long inst_id;
 
+    @Column(name = "added_by",nullable = false)
+    private String added_by;
+
 
     @Transient
     private long timeStamp;
+
+
+    public String getAdded_by() {
+        return added_by;
+    }
+
+    public void setAdded_by(String added_by) {
+        this.added_by = added_by;
+    }
 
     public long getTimeStamp() {
         return timeStamp;
@@ -78,4 +90,8 @@ public class Index_Model {
     public void setType(String type) {
         this.type = type;
     }
+}
+
+enum Added_By{
+    employee, admin, student
 }

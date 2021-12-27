@@ -55,7 +55,7 @@ public class RegisterController {
         studentModel.setLibrary(0);
         studentModel.setPhone_verify(0);
         studentModel.setDob(null);
-        studentModel.setUsername(request.getFname());
+        studentModel.setUsername(request.getContact());
         studentModel.setDeviceId(null);
         studentModel.setCreated_at(Timestamp.valueOf(sdf.format(cal.getTime())));
         studentModel.setIs_active(false);
@@ -86,6 +86,8 @@ public class RegisterController {
 
 //        studentModel.setPassword_salt(salt.toString());
 //        studentModel.setPassword(securePassword);
+
+
         repository.persist(studentModel);
 
         generalResponse.setMessage("Register Success");

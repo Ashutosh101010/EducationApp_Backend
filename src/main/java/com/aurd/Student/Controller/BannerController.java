@@ -28,7 +28,7 @@ public class BannerController {
 
     public LatestUpdateResponse getImage(@PathParam("id") String instID) throws IOException {
         ArrayList<Banners> bannerList = (ArrayList<Banners>)
-                imageRepository.list("inst_id",Long.parseLong(instID));
+                imageRepository.list("inst_id=?1 and status=?2",Long.parseLong(instID),1);
 
         LatestUpdateResponse response = new LatestUpdateResponse();
         response.setImageList(bannerList);

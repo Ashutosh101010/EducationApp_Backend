@@ -84,6 +84,12 @@ public class GetIndexController {
     @Inject
     StudentCourseRepository studentCourseRepository;
 
+    @Inject
+    ResultRepository resultRepository;
+
+    @Inject
+    AdminRepository adminRepository;
+
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -295,12 +301,22 @@ public class GetIndexController {
         blogEntity.setLike(likeCount.longValue());
 
 
-        TeacherModel teacherModel = teacherRepository.find("id",
-                blogEntity.getAdded_by().longValue()).firstResult();
-        blogEntity.setName(teacherModel.getFname());
-        if(teacherModel.getProfile()!=null){
-            blogEntity.setImage(teacherModel.getProfile());
-        }
+       if(model.getAdded_by().equals("employee")){
+           TeacherModel teacherModel = teacherRepository.find("id",
+                   blogEntity.getAdded_by().longValue()).firstResult();
+           blogEntity.setName(teacherModel.getFname());
+           if(teacherModel.getProfile()!=null){
+               blogEntity.setImage(teacherModel.getProfile());
+           }
+       }else if(model.getAdded_by().equals("admin")){
+           AdminModel adminModel = adminRepository.find("id",blogEntity.getAdded_by().longValue())
+                   .firstResult();
+           if(adminModel.getProfile()!=null){
+               blogEntity.setImage(adminModel.getProfile());
+           }
+           blogEntity.setName(adminModel.getName());
+
+       }
 
 
 
@@ -351,28 +367,30 @@ public class GetIndexController {
         }
 
 
-//        ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>)
-//                bookMarkRepository.list("type=?1 and post_id=?2",
-//                        "currentAffair",currentAffairModel.getId());
-//        arrayList.forEach(bookMarkModel -> {
-//
-//            if(request.getStudId()!=0){
-//                if(bookMarkModel.getAdded_by()==request.getStudId()){
-//                    caEntity.setAdded(true);
-//                }else{
-//                    caEntity.setAdded(false);
-//                }
-//            }
-//
-//        });
 
+        if(model.getAdded_by().equals("employee")){
+            TeacherModel teacherModel = teacherRepository.find("id",
+                    caEntity.getAdded_by().longValue()).firstResult();
+            caEntity.setName(teacherModel.getFname());
+            if(teacherModel.getProfile()!=null){
+                caEntity.setImage(teacherModel.getProfile());
+            }
+        }else if(model.getAdded_by().equals("admin")){
+            AdminModel adminModel = adminRepository.find("id",caEntity.getAdded_by().longValue())
+                    .firstResult();
+            caEntity.setName(adminModel.getName());
+            if(adminModel.getProfile()!=null){
+                caEntity.setImage(adminModel.getProfile());
+            }
 
-        TeacherModel teacherModel = teacherRepository.find("id",
-                caEntity.getAdded_by().longValue()).firstResult();
-        caEntity.setName(teacherModel.getFname());
-        if(teacherModel.getProfile()!=null){
-            caEntity.setImage(teacherModel.getProfile());
         }
+
+
+
+
+
+
+
 
         return caEntity;
 
@@ -413,14 +431,25 @@ public class GetIndexController {
                 Long.parseLong(notesModel.getCourse_id())).firstResult();
         entity.setCourse(courseModel.getCourse());
 
-        TeacherModel teacherModel = teacherRepository.find("id",
-                entity.getCreated_by().longValue()).firstResult();
-        entity.setTeacherName(teacherModel.getFname());
+        if(model.getAdded_by().equals("employee")){
+            TeacherModel teacherModel = teacherRepository.find("id",
+                    entity.getCreated_by().longValue()).firstResult();
+            entity.setTeacherName(teacherModel.getFname());
 
-        if(teacherModel.getProfile()!=null){
-            entity.setImage(teacherModel.getProfile());
+            if(teacherModel.getProfile()!=null){
+                entity.setImage(teacherModel.getProfile());
+            }
+
+        }else{
+            AdminModel adminModel = adminRepository.find("id",
+                    entity.getCreated_by().longValue()).firstResult();
+            entity.setTeacherName(adminModel.getName());
+
+            if(adminModel.getProfile()!=null){
+                entity.setImage(adminModel.getProfile());
+            }
+
         }
-
 
       StudentCourseModel scModel = studentCourseRepository.find("userId=?1 and courseId=?2",Long.valueOf(request.getStudId()),Long.valueOf(courseModel.getId())).firstResult();
         if(scModel!=null){
@@ -537,7 +566,22 @@ public class GetIndexController {
         QuizModel quizModel =  quizRepository.find("id =?1 and inst_id = ?2 and type = ?3",
                 val,request.getInst_id().intValue(),"Quiz").firstResult();
 
+
+        SaveResultModel resultModel = resultRepository.find("quiz_id =?1 and inst_id =?2 and stud_id =?3",
+                quizModel.getQuiz_id(),request.getInst_id(),request.getStudId()).firstResult();
+
+
+
+
         QuizEntity entity= new Gson().fromJson(new Gson().toJson(quizModel),QuizEntity.class);
+        if(resultModel==null){
+            entity.setAttempt(false);
+        }else{
+            entity.setAttempt(true);
+        }
+
+
+
         entity.setType("quiz");
 
         return  entity;
@@ -587,12 +631,21 @@ public class GetIndexController {
 
         entity.setType("video");
 
-        TeacherModel teacherModel = teacherRepository.find("id",
-                videoModel.getCreated_by()).firstResult();
-        entity.setTeacherName(teacherModel.getFname());
-        if(teacherModel.getProfile()!=null){
-            entity.setImage(teacherModel.getProfile());
-        }
+       if(model.getAdded_by().equals("employee")){
+           TeacherModel teacherModel = teacherRepository.find("id",
+                   videoModel.getCreated_by()).firstResult();
+           entity.setTeacherName(teacherModel.getFname());
+           if(teacherModel.getProfile()!=null){
+               entity.setImage(teacherModel.getProfile());
+           }
+       }else{
+           AdminModel adminModel = adminRepository.find("id",
+                   videoModel.getCreated_by()).firstResult();
+           entity.setTeacherName(adminModel.getName());
+           if(adminModel.getProfile()!=null){
+               entity.setImage(adminModel.getProfile());
+           }
+       }
 
         return  entity;
     }
@@ -644,6 +697,15 @@ public class GetIndexController {
         entity.setTime(quizModel.getTime());
         entity.setTest_end(quizModel.getTest_end());
 
+
+        SaveResultModel resultModel = resultRepository.find("quiz_id =?1 and inst_id =?2 and stud_id =?3",
+                quizModel.getQuiz_id(),request.getInst_id(),request.getStudId()).firstResult();
+
+        if (resultModel == null) {
+            entity.setAttempt(false);
+        }else{
+            entity.setAttempt(true);
+        }
 
 
         entity.setType("practiseTest");
