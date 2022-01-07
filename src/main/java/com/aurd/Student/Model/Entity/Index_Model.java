@@ -92,6 +92,3 @@ public class Index_Model {
     }
 }
 
-enum Added_By{
-    employee, admin, student
-}

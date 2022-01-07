@@ -133,6 +133,7 @@ public class AddStudentPostController
             index_model.setInst_id((long) studentPostModel.getInst_id());
             index_model.setType("post");
             index_model.setCreated_on(studentPostModel.getAdded_on());
+            index_model.setAdded_by("student");
             indexRepository.persist(index_model);
 
             response.seterrorCode(0);

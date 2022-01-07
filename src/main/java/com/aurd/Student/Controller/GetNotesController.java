@@ -2,6 +2,7 @@ package com.aurd.Student.Controller;
 
 
 import com.aurd.Student.Model.BeanClass.NotesEntity;
+import com.aurd.Student.Model.Entity.AdminModel;
 import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Entity.TeacherModel;
 import com.aurd.Student.Model.Entity.TopicModel;
@@ -44,6 +45,9 @@ public class GetNotesController {
     @Inject
     StudentCourseRepository studentCourseRepository;
 
+    @Inject
+    AdminRepository adminRepository;
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -67,9 +71,10 @@ public class GetNotesController {
                 if(request.getLastId().equals("")){
 
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at, " +
-                            "employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
-                            " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course, notes.fee_type FROM notes" +
-                            " INNER JOIN employees ON employees.id= notes.created_by INNER JOIN topics " +
+                            "topics.topic, notes.topicId, notes.description, notes.subject_id," +
+                            " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course," +
+                            " notes.fee_type, notes.user_type FROM notes" +
+                            " INNER JOIN topics " +
                             "ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
                             "WHERE notes.inst_id = ?  ORDER BY created_at DESC ";
@@ -80,9 +85,10 @@ public class GetNotesController {
 
                 }else{
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at, " +
-                            "employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
-                            " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course, notes.fee_type FROM notes" +
-                            " INNER JOIN employees ON employees.id= notes.created_by INNER JOIN topics " +
+                            "topics.topic, notes.topicId, notes.description, notes.subject_id," +
+                            " notes.sub_subject_id, notes.course_id, subjects.subject, " +
+                            "courses.course, notes.fee_type, notes.user_type,  FROM notes" +
+                            " INNER JOIN topics " +
                             "ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
                             "WHERE notes.inst_id = ? and notes.created_at <? ORDER BY created_at DESC ";
@@ -101,10 +107,10 @@ public class GetNotesController {
 
                 if(request.getLastId().equals("")){
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
-                            " employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
+                            " topics.topic, notes.topicId, notes.description, notes.subject_id," +
                             " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course," +
-                            " notes.fee_type " +
-                            "FROM notes INNER JOIN employees ON employees.id= notes.created_by INNER JOIN" +
+                            " notes.fee_type, notes.user_type " +
+                            "FROM notes INNER JOIN" +
                             " topics ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
                             "WHERE notes.inst_id = ? and notes.fee_type=? ORDER BY created_at DESC";
@@ -115,10 +121,10 @@ public class GetNotesController {
 
                 }else{
                     string = "SELECT notes.name, notes.file, notes.created_by, notes.id, notes.created_at," +
-                            " employees.fname,topics.topic, notes.topicId, notes.description, notes.subject_id," +
+                            " topics.topic, notes.topicId, notes.description, notes.subject_id," +
                             " notes.sub_subject_id, notes.course_id, subjects.subject, courses.course," +
-                            " notes.fee_type " +
-                            "FROM notes INNER JOIN employees ON employees.id= notes.created_by INNER JOIN" +
+                            " notes.fee_type, notes.user_type " +
+                            "FROM notes INNER JOIN" +
                             " topics ON topics.id= notes.topicId INNER JOIN subjects ON subjects.id = notes.subject_id " +
                             "INNER JOIN courses ON courses.id = notes.course_id " +
                             "WHERE notes.inst_id = ? and notes.fee_type=? and" +
@@ -144,27 +150,39 @@ public class GetNotesController {
                 notesEntity.setCreated_by(Integer.parseInt(objects[2].toString()));
                 notesEntity.setId(Long.parseLong(objects[3].toString()));
                 notesEntity.setCreated_at(Timestamp.valueOf(objects[4].toString()));
-                notesEntity.setTeacherName(objects[5].toString());
-                notesEntity.setTopic(objects[6].toString());
-                notesEntity.setTopicId(Integer.parseInt(objects[7].toString()));
-                notesEntity.setDescription(objects[8].toString());
-                notesEntity.setCourse_id(Integer.parseInt(objects[11].toString()));
-                notesEntity.setSubject(objects[12].toString());
-                notesEntity.setCourse(objects[13].toString());
-                if(objects[14]==null){
+//                notesEntity.setTeacherName(objects[5].toString());
+                notesEntity.setTopic(objects[5].toString());
+                notesEntity.setTopicId(Integer.parseInt(objects[6].toString()));
+                notesEntity.setDescription(objects[7].toString());
+                notesEntity.setCourse_id(Integer.parseInt(objects[10].toString()));
+                notesEntity.setSubject(objects[11].toString());
+                notesEntity.setCourse(objects[12].toString());
+                if(objects[13]==null){
                     notesEntity.setFee_type("Free");
                 }else{
-                    notesEntity.setFee_type(objects[14].toString());
+                    notesEntity.setFee_type(objects[13].toString());
                 }
+
 
                 notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
 
 
+                if(objects[14].toString() .equals("employee")){
+                    TeacherModel teacherModel = teacherRepository.find("id",
+                            notesEntity.getCreated_by().longValue()).firstResult();
 
-                TeacherModel teacherModel = teacherRepository.find("id",
-                        notesEntity.getCreated_by().longValue()).firstResult();
+                    notesEntity.setTeacherName(teacherModel.getFname());
+                    notesEntity.setImage(teacherModel.getProfile());
+                }else if(objects[14].toString().equals("admin")){
+                    AdminModel adminModel = adminRepository.find("id",
+                            notesEntity.getCreated_by()).firstResult();
+                    notesEntity.setTeacherName(adminModel.getName());
+                    notesEntity.setImage(adminModel.getProfile());
 
-                notesEntity.setTeacherName(teacherModel.getFname());
+                }
+
+
+
 
                 String commentQuery = "SELECT COUNT(*) FROM `notes_comment` WHERE notes_id =? ";
                 Query comment = notesComentRepository.getEntityManager().createNativeQuery(commentQuery);

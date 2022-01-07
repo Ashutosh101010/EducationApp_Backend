@@ -22,11 +22,13 @@ public class GetBlogController {
 
     @Inject
     BlogRepository repository;
+
+
     @Transactional
     @POST
 
 
-    public GetBlogResponse getBlogs(GetBlogRequest request) throws ParseException {
+    public GetBlogResponse getBlogs(GetBlogRequest request)  {
 
       ArrayList<BlogModel> arrayList = repository.getBlogs(request);
       GetBlogResponse getBlogResponse= new GetBlogResponse();
@@ -34,7 +36,6 @@ public class GetBlogController {
       getBlogResponse.setMessage("Get Blogs Successfully");
       getBlogResponse.setStatus(0);
       getBlogResponse.seterrorCode(true);
-
 
       return getBlogResponse;
 

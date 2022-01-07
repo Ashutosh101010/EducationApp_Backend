@@ -167,7 +167,6 @@ public class GetIndexController {
                     query.setParameter("instId",request.getInst_id());
                     query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
 
-
                 }
                 else{
                      query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
@@ -177,8 +176,6 @@ public class GetIndexController {
                 }
             if(request.getDate()!=null && !request.getDate().isEmpty())
             {
-
-//
 
                 Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
                 System.out.println(startDate);
@@ -309,7 +306,7 @@ public class GetIndexController {
                blogEntity.setImage(teacherModel.getProfile());
            }
        }else if(model.getAdded_by().equals("admin")){
-           AdminModel adminModel = adminRepository.find("id",blogEntity.getAdded_by().longValue())
+           AdminModel adminModel = adminRepository.find("id",blogEntity.getAdded_by().intValue())
                    .firstResult();
            if(adminModel.getProfile()!=null){
                blogEntity.setImage(adminModel.getProfile());
@@ -376,7 +373,7 @@ public class GetIndexController {
                 caEntity.setImage(teacherModel.getProfile());
             }
         }else if(model.getAdded_by().equals("admin")){
-            AdminModel adminModel = adminRepository.find("id",caEntity.getAdded_by().longValue())
+            AdminModel adminModel = adminRepository.find("id",caEntity.getAdded_by().intValue())
                     .firstResult();
             caEntity.setName(adminModel.getName());
             if(adminModel.getProfile()!=null){
@@ -440,9 +437,9 @@ public class GetIndexController {
                 entity.setImage(teacherModel.getProfile());
             }
 
-        }else{
+        }else if(model.getAdded_by().equals("admin")){
             AdminModel adminModel = adminRepository.find("id",
-                    entity.getCreated_by().longValue()).firstResult();
+                    entity.getCreated_by().intValue()).firstResult();
             entity.setTeacherName(adminModel.getName());
 
             if(adminModel.getProfile()!=null){
@@ -632,15 +629,17 @@ public class GetIndexController {
         entity.setType("video");
 
        if(model.getAdded_by().equals("employee")){
+
+
            TeacherModel teacherModel = teacherRepository.find("id",
                    videoModel.getCreated_by()).firstResult();
            entity.setTeacherName(teacherModel.getFname());
            if(teacherModel.getProfile()!=null){
                entity.setImage(teacherModel.getProfile());
            }
-       }else{
+       }else if(model.getAdded_by().equals("admin")){
            AdminModel adminModel = adminRepository.find("id",
-                   videoModel.getCreated_by()).firstResult();
+                   Long.valueOf(videoModel.getCreated_by()).intValue()).firstResult();
            entity.setTeacherName(adminModel.getName());
            if(adminModel.getProfile()!=null){
                entity.setImage(adminModel.getProfile());

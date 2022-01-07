@@ -51,6 +51,8 @@ public class BlogModel {
 //    @Column(name = "time",nullable = false)
 //    private Long time;
 
+    String user_type;
+
 
     public int getAdded_by() {
         return added_by;

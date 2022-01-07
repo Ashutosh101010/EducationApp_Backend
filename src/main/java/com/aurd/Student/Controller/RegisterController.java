@@ -59,6 +59,7 @@ public class RegisterController {
         studentModel.setDeviceId(null);
         studentModel.setCreated_at(Timestamp.valueOf(sdf.format(cal.getTime())));
         studentModel.setIs_active(false);
+        studentModel.setInst_id(request.getInst_id());
 
 //
 //        String passwordToHash =request.getPassword();

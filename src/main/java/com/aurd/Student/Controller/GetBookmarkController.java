@@ -57,6 +57,8 @@ public class GetBookmarkController {
     StudentRepository studentRepository;
 
 
+    @Inject
+    AdminRepository adminRepository;
 
 
     @POST
@@ -101,10 +103,6 @@ public class GetBookmarkController {
 
 
 
-    BlogModel getBlogData(long id){
-        BlogModel blogModel = blogRepository.find("id",id).firstResult();
-        return  blogModel;
-    }
 
 
     StudentPostEntity getStudentPost(long id,long studId){
@@ -148,8 +146,20 @@ public class GetBookmarkController {
                 toJson(currentAffairModel),CurrentAffairEntity.class);
 
 
-        TeacherModel teacherModel= teacherRepository.findTeacher(entity.getAdded_by().longValue());
-        entity.setName(teacherModel.getFname());
+        if(currentAffairModel.getUser_type().equals("employee")){
+            TeacherModel teacherModel= teacherRepository.findTeacher(entity.getAdded_by().longValue());
+            entity.setName(teacherModel.getFname());
+            if(teacherModel.getProfile()!=null|| !teacherModel.getProfile().isEmpty()){
+                entity.setImage(teacherModel.getProfile());
+            }
+        }else{
+            AdminModel adminModel = adminRepository.find("id",entity.getAdded_by()).firstResult();
+            entity.setName(adminModel.getName());
+            if(adminModel.getProfile()!=null){
+                entity.setImage(adminModel.getProfile());
+            }
+        }
+
 
         String commentQuery = "SELECT COUNT(*) FROM `current_affairs_comments` WHERE current_affair_id =? ";
         Query comment = caCommentRepository.getEntityManager().createNativeQuery(commentQuery);

@@ -32,6 +32,8 @@ public class GetCurrentAffairController {
     @Inject
     BookMarkRepository bookMarkRepository;
 
+
+
     @POST
 
     @Transactional
@@ -59,7 +61,6 @@ public class GetCurrentAffairController {
                         new Gson().fromJson(new Gson().toJson(model),CurrentAffairEntity.class);
 
                 System.out.println(new Gson().toJson(currentAffairEntity));
-
 
                 ArrayList<BookMarkModel> arrayList = (ArrayList<BookMarkModel>) bookMarkRepository.list("type=?1 and post_id=?2",
                         "currentAffair",model.getId());

@@ -33,7 +33,7 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
                     CurrentAffairModel.class);
             currentAffair.setParameter(1,request.getInst_id());
 
-          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
+          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
 
         }else{
             if(request.getDate().equals(formatter.format(calendar.getTime()))){

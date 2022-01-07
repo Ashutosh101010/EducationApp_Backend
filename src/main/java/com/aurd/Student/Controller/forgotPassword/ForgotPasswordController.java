@@ -134,16 +134,16 @@ public class ForgotPasswordController {
     }
 
 
-   @Scheduled(every = "10s")
-   @Transactional
-   public void deleteOtp(){
-
-
-     String query ="Delete from OtpModel OtpModel where OtpModel.createdOn<:createdOn";
-     Query q = otpRepository.getEntityManager().createQuery(query);
-     q.setParameter("createdOn",new Timestamp(System.currentTimeMillis()-60000));
-     q.executeUpdate();
-
-   }
+//   @Scheduled(every = "10s")
+//   @Transactional
+//   public void deleteOtp(){
+//
+//
+//     String query ="Delete from OtpModel OtpModel where OtpModel.createdOn<:createdOn";
+//     Query q = otpRepository.getEntityManager().createQuery(query);
+//     q.setParameter("createdOn",new Timestamp(System.currentTimeMillis()-60000));
+//     q.executeUpdate();
+//
+//   }
 }
 
