@@ -60,6 +60,7 @@ public class GetNotesController {
         GetNotesResponse getNotesResponse = new GetNotesResponse();
         try{
 
+            System.out.println(request);
             ArrayList<NotesEntity> notesList = new ArrayList();
             ArrayList<Object[]> list = null;
             String string="";
@@ -229,6 +230,7 @@ public class GetNotesController {
             getNotesResponse.setMessage("Get notes success");
             getNotesResponse.setStatus(true);
 
+            System.out.println(getNotesResponse);
             return  getNotesResponse;
 
         }catch (Exception e){

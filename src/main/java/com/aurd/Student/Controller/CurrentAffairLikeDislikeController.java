@@ -22,7 +22,8 @@ import static io.quarkus.hibernate.orm.panache.Panache.getEntityManager;
 
 @Path("/currentAffairLikeDislike")
 
-public class CurrentAffairLikeDislikeController {
+public class
+CurrentAffairLikeDislikeController {
 
 @Inject
     CurrentAffairLikeDislikeRepository repository;

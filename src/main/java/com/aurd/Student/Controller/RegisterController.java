@@ -89,6 +89,7 @@ public class RegisterController {
 //        studentModel.setPassword(securePassword);
 
 
+
         repository.persist(studentModel);
 
         generalResponse.setMessage("Register Success");

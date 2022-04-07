@@ -219,5 +219,32 @@ public class NotesEntity
         this.created_by = created_by;
     }
 
-
+    @Override
+    public String toString() {
+        return "NotesEntity{" +
+                "teacherName='" + teacherName + '\'' +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", file='" + file + '\'' +
+                ", created_at=" + created_at +
+                ", topicId=" + topicId +
+                ", inst_id=" + inst_id +
+                ", created_by=" + created_by +
+                ", topic='" + topic + '\'' +
+                ", comment=" + comment +
+                ", like=" + like +
+                ", isLiked=" + isLiked +
+                ", fee_type='" + fee_type + '\'' +
+                ", type='" + type + '\'' +
+                ", indexId=" + indexId +
+                ", timeStamp=" + timeStamp +
+                ", image='" + image + '\'' +
+                ", course_id=" + course_id +
+                ", purchased=" + purchased +
+                ", description='" + description + '\'' +
+                ", subject='" + subject + '\'' +
+                ", course='" + course + '\'' +
+                ", subSubject='" + subSubject + '\'' +
+                '}';
+    }
 }

@@ -24,6 +24,8 @@ public class UpdateDeviceTokenController {
     @POST
     @Transactional
     public GeneralResponse updateToken(DeviceTokenRequest request) {
+
+        System.out.println(request);
         GeneralResponse response = new GeneralResponse();
         studentsRepository.addDeviceToken(request);
         response.setMessage("Device Token Added");

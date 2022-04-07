@@ -1,8 +1,10 @@
 package com.aurd.Student.Model.Request;
 
-public class DeviceTokenRequest {
-     private long userId;
-    private String deviceId;
+public class AuthCheckRequest {
+
+    Long user_id;
+    String deviceId;
+
 
     public String getDeviceId() {
         return deviceId;
@@ -12,20 +14,18 @@ public class DeviceTokenRequest {
         this.deviceId = deviceId;
     }
 
-
-    public long getUserId() {
-        return userId;
+    public Long getUser_id() {
+        return user_id;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
     }
-
 
     @Override
     public String toString() {
-        return "DeviceTokenRequest{" +
-                "userId=" + userId +
+        return "AuthCheckRequest{" +
+                "user_id=" + user_id +
                 ", deviceId='" + deviceId + '\'' +
                 '}';
     }

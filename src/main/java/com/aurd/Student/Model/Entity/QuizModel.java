@@ -115,6 +115,17 @@ public class QuizModel {
     @Transient
     boolean testSeriesPurchased;
 
+    @Transient
+    private  boolean attempt;
+
+    public boolean isAttempt() {
+        return attempt;
+    }
+
+    public void setAttempt(boolean attempt) {
+        this.attempt = attempt;
+    }
+
     public boolean isTestSeriesPurchased() {
         return testSeriesPurchased;
     }

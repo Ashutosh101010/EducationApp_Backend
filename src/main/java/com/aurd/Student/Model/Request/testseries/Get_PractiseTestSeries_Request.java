@@ -9,6 +9,15 @@ public class Get_PractiseTestSeries_Request {
     int subject_id;
     String filter;
     String lastId;
+    int user_id;
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public String getFilter() {
         return filter;

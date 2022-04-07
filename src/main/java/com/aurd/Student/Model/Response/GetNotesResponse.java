@@ -42,4 +42,15 @@ public class GetNotesResponse {
     public void setNotes(ArrayList<NotesEntity> notes) {
         this.notes = notes;
     }
+
+
+    @Override
+    public String toString() {
+        return "GetNotesResponse{" +
+                "message='" + message + '\'' +
+                ", errorCode=" + errorCode +
+                ", status=" + status +
+                ", notes=" + notes +
+                '}';
+    }
 }

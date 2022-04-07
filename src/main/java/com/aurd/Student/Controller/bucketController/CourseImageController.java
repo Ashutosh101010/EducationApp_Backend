@@ -21,10 +21,11 @@ public class CourseImageController {
     public Response getNotes(@PathParam("id") String imageId) throws IOException {
         final String bucketName = "educationapp";
 
+        System.out.println(imageId);
         S3Object object =  s3.getObject(new GetObjectRequest(bucketName,"image/"+imageId));
         byte[] data = object.getObjectContent().readAllBytes();
 
-        System.out.println(data);
+//        System.out.println(data);
 
 
         return  Response.ok(data).build();

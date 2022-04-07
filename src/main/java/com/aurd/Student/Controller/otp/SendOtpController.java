@@ -49,16 +49,17 @@ public class SendOtpController {
 
 
         try{
-//            StudentModel model = repository.find("contact",
-//                    request.getMobileNumber().trim()).firstResult();
+            StudentModel model = repository.find("contact=?1 and inst_id=?2",
+                    request.getMobileNumber().trim(),request.getInst_id()).firstResult();
 
-//            if(model==null){
-//
-//            }else{
-//                response.setStatus(false);
-//                response.seterrorCode(1);
-//                response.setMessage("Mobile Number Already Existed");
-//            }
+            if(model==null){
+
+            }else{
+                response.setStatus(false);
+                response.seterrorCode(1);
+                response.setMessage("Mobile Number Already Existed");
+                return response;
+            }
 
 
 

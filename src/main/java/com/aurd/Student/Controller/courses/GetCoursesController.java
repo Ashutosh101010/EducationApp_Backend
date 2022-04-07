@@ -51,6 +51,7 @@ public class GetCoursesController {
     @POST
     @Transactional
     public GetCoursesResponse getCourses(GetCoursesRequest request){
+        System.out.println(new Gson().toJson(request));
         GetCoursesResponse getCoursesResponse = new GetCoursesResponse();
       ArrayList<CourseModel> courseModelArrayList = repository.getCourses(request.getInst_id());
       ArrayList<CourseEntity> courses = new ArrayList<>();

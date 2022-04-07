@@ -21,36 +21,38 @@ public class CurrentAffairRepository implements PanacheRepository<CurrentAffairM
         Calendar calendar = Calendar.getInstance();
         if(request.getDate().isEmpty()|| request.getDate().equals("")){
 
-            String lastId;
-            if (request.getLastId()==null || request.getLastId().equals("")) {
-                lastId = formatter.format(calendar.getTime());
-            } else {
-                lastId = request.getLastId();
-            }
+//            String lastId;
+//            if (request.getLastId()==null || request.getLastId().equals("")) {
+//                lastId = formatter.format(calendar.getTime());
+//            } else {
+//                lastId = request.getLastId();
+//            }
 
-            String caQuery = "SELECT * from `current_affairs` where  inst_id = ?  ORDER BY `created_at` DESC";
+            String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and `id`<? ORDER BY `id` DESC";
             Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                     CurrentAffairModel.class);
             currentAffair.setParameter(1,request.getInst_id());
+            currentAffair.setParameter(2,1000000000000000000l);
 
-          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.getResultList();
+          arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(10).getResultList();
 
         }else{
             if(request.getDate().equals(formatter.format(calendar.getTime()))){
 
-                String lastId;
-                if (request.getLastId()==null || request.getLastId().equals("")) {
-                    lastId = formatter.format(calendar.getTime());
-                } else {
-                    lastId = request.getLastId();
-                }
+//                String lastId;
+//                if (request.getLastId()==null || request.getLastId().equals("")) {
+//                    lastId = formatter.format(calendar.getTime());
+//                } else {
+//                    lastId = request.getLastId();
+//                }
 
-                String caQuery = "SELECT * from `current_affairs` where  inst_id = ? ORDER BY `created_at` DESC";
+                String caQuery = "SELECT * from `current_affairs` where  inst_id = ? and id<? ORDER BY `id` DESC";
                 Query currentAffair = getEntityManager().createNativeQuery(caQuery,
                         CurrentAffairModel.class);
                 currentAffair.setParameter(1,request.getInst_id());
+                currentAffair.setParameter(2,1000000000000000000l);
 
-                arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(5).getResultList();
+                arrayList = (ArrayList<CurrentAffairModel>) currentAffair.setMaxResults(10).getResultList();
 
             }else{
                 String start = request.getDate()+" 00:00:00";

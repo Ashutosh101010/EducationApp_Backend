@@ -19,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 @Path("/institute/getPractiseTest")
 @Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +46,20 @@ public class GetAllPractiseTestController {
 
 
         arrayList.forEach(quizModel -> {
+            System.out.println("From Database"+quizModel.getTest_start());
+
+
+            Calendar calendar = Calendar.getInstance();
+           calendar.setTimeInMillis(quizModel.getTest_start().getTime());
+
+            System.out.println("Calender time "+calendar.getTime());
+
+
+
+
             QuizEntity quizEntity = new Gson().fromJson(new Gson().toJson(quizModel),QuizEntity.class);
+
+            System.out.println(quizEntity.getTest_start());
 
             String string = "SELECT * FROM `result` WHERE inst_id= ? and stud_id = ? and quiz_id=?";
             Query query = resultRepository.getEntityManager().createNativeQuery(string);

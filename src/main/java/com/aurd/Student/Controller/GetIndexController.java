@@ -200,56 +200,58 @@ public class GetIndexController {
          System.out.println(arrayList.size());
 
          arrayList.forEach(model -> {
+try {
+    model.setTimeStamp(model.getCreated_on().getTime());
+    if (model.getType().equals("blog")) {
 
-             model.setTimeStamp(model.getCreated_on().getTime());
-             if(model.getType().equals("blog")){
-
-                 BlogEntity blogEntity = getBlogs(model,request);
-                 blogEntity.setIndexId(model.getId());
-                 blogEntity.setTimeStamp(blogEntity.getCreated_on().getTime());
-                 vList.add(blogEntity);
-
-
-             } else if(model.getType().equals("current_affair")){
-                 CurrentAffairEntity entity = getCurrentAffair(model,request);
-                 entity.setIndexId(model.getId());
-                 entity.setTimeStamp(entity.getCreated_at().getTime());
-                 vList.add(entity);
+        BlogEntity blogEntity = getBlogs(model, request);
+        blogEntity.setIndexId(model.getId());
+        blogEntity.setTimeStamp(blogEntity.getCreated_on().getTime());
+        vList.add(blogEntity);
 
 
-             }else if(model.getType().equals("notes")){
-                 NotesEntity notesEntity = getNotes(model,request);
-                 notesEntity.setIndexId(model.getId());
-                 notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
-                 vList.add(notesEntity);
+    } else if (model.getType().equals("current_affair")) {
+        CurrentAffairEntity entity = getCurrentAffair(model, request);
+        entity.setIndexId(model.getId());
+        entity.setTimeStamp(entity.getCreated_at().getTime());
+        vList.add(entity);
 
-             }else if(model.getType().equals("video")){
-                 VideoEntity videoEntity = getVideos(model,request);
 
-                 videoEntity.setIndexId(model.getId());
-                 videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
-                 vList.add(videoEntity);
+    } else if (model.getType().equals("notes")) {
+        NotesEntity notesEntity = getNotes(model, request);
+        notesEntity.setIndexId(model.getId());
+        notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
+        vList.add(notesEntity);
 
-             }else if(model.getType().equals("post")){
-                 StudentPostEntity entity= getPost(model,request);
-                 if(entity.getPostStatus()==1){
-                     entity.setIndexId(model.getId());
-                     entity.setTimeStamp(model.getCreated_on().getTime());
-                     vList.add(entity);
-                 }
-             }else if(model.getType().equals("quiz")){
-                 QuizEntity quizEntity = getQuizzes(model,request);
-                 quizEntity.setIndexId(model.getId());
-                 quizEntity.setTimeStamp(model.getCreated_on().getTime());
-                 vList.add(quizEntity);
-             }
-             else if(model.getType().equals("practiceTest"))
-             {
-                 QuizEntity quizEntity =getAllTestSeries(model,request);
-                 quizEntity.setIndexId(model.getId());
-                 quizEntity.setTimeStamp(quizEntity.getAdded_on().getTime());
-                 vList.add(quizEntity);
-             }
+    } else if (model.getType().equals("video")) {
+        VideoEntity videoEntity = getVideos(model, request);
+
+        videoEntity.setIndexId(model.getId());
+        videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
+        vList.add(videoEntity);
+
+    } else if (model.getType().equals("post")) {
+        StudentPostEntity entity = getPost(model, request);
+        if (entity.getPostStatus() == 1) {
+            entity.setIndexId(model.getId());
+            entity.setTimeStamp(model.getCreated_on().getTime());
+            vList.add(entity);
+        }
+    } else if (model.getType().equals("quiz")) {
+        QuizEntity quizEntity = getQuizzes(model, request);
+        quizEntity.setIndexId(model.getId());
+        quizEntity.setTimeStamp(model.getCreated_on().getTime());
+        vList.add(quizEntity);
+    } else if (model.getType().equals("test")) {
+        QuizEntity quizEntity = getAllTest(model, request);
+        quizEntity.setIndexId(model.getId());
+        quizEntity.setTimeStamp(quizEntity.getAdded_on().getTime());
+        vList.add(quizEntity);
+    }
+}catch (Exception e)
+{
+    e.printStackTrace();
+}
 
          });
 
@@ -650,7 +652,7 @@ public class GetIndexController {
     }
 
 
-    QuizEntity getAllTestSeries(Index_Model model, GetIndexRequest request) {
+    QuizEntity getAllTest(Index_Model model, GetIndexRequest request) {
         System.out.println("Get Test Series");
         System.out.println(model.getPost_id());
         //  System.out.println(request.getInst_id());

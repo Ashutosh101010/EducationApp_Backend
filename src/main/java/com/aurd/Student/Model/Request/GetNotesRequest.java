@@ -55,4 +55,15 @@ public class GetNotesRequest {
     public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
     }
+
+    @Override
+    public String toString() {
+        return "GetNotesRequest{" +
+                "inst_id=" + inst_id +
+                ", topicId=" + topicId +
+                ", studId=" + studId +
+                ", filter='" + filter + '\'' +
+                ", lastId='" + lastId + '\'' +
+                '}';
+    }
 }

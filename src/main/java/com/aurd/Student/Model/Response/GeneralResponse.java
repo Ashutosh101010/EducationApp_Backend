@@ -30,5 +30,12 @@ public class GeneralResponse {
         this.status = status;
     }
 
-
+    @Override
+    public String toString() {
+        return "GeneralResponse{" +
+                "message='" + message + '\'' +
+                ", errorCode=" + errorCode +
+                ", status=" + status +
+                '}';
+    }
 }

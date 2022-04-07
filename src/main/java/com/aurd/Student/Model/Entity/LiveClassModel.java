@@ -1,5 +1,9 @@
 package com.aurd.Student.Model.Entity;
 
+import io.quarkus.runtime.annotations.IgnoreProperty;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
@@ -67,8 +71,19 @@ public class LiveClassModel {
     @Column(name = "fee_type",nullable = true)
     private String fee_type;
 
+    @OneToOne
+    @JoinColumn(name = "youtubeLiveSession")
+    @NotFound(action = NotFoundAction.IGNORE)
+    private YoutubeLiveSession youtubeLiveSession;
 
 
+    public YoutubeLiveSession getYoutubeLiveSession() {
+        return youtubeLiveSession;
+    }
+
+    public void setYoutubeLiveSession(YoutubeLiveSession youtubeLiveSession) {
+        this.youtubeLiveSession = youtubeLiveSession;
+    }
 
     @Transient
     String courseName;

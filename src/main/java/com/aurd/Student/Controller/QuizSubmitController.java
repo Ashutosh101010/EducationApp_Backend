@@ -73,9 +73,11 @@ public class QuizSubmitController {
             ArrayList<TopicAnalysisModel> tList = new ArrayList<>();
 
 
-            System.out.println("Quiz ID "+request.getArrayList().get(0).getQuiz_id());
+//            System.out.println("Quiz ID "+request.getArrayList().get(0).getQuiz_id());
 
-            long quizId = request.getArrayList().get(0).getQuiz_id();
+            Long quizId = request.getQuizId();
+            Long studentId = request.getStudentId();
+            Long instId = request.getInstId();
 
             ArrayList<Quiz_Question_Map_Model> quizQuestionIDList  =
                     (ArrayList<Quiz_Question_Map_Model>) questionID_repository.
@@ -109,7 +111,7 @@ public class QuizSubmitController {
 
 
             QuizModel quizModel = quizRepository.find("quiz_id",
-                    request.getArrayList().get(0).getQuiz_id()).firstResult();
+                    quizId).firstResult();
 
 
 
@@ -184,9 +186,9 @@ public class QuizSubmitController {
 
 
             SaveResultModel resultModel = new SaveResultModel();
-            resultModel.setStud_id(request.getArrayList().get(0).getStud_id());
-            resultModel.setInst_id(request.getArrayList().get(0).getInst_id());
-            resultModel.setQuiz_id(request.getArrayList().get(0).getQuiz_id());
+            resultModel.setStud_id(studentId);
+            resultModel.setInst_id(instId);
+            resultModel.setQuiz_id(quizId);
             resultModel.setSkipped(skippedAns);
             resultModel.setTime(request.getTime());
 

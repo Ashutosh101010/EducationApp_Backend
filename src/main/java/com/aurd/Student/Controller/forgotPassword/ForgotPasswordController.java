@@ -50,8 +50,8 @@ public class ForgotPasswordController {
 
         try {
 
-            StudentModel model = repository.find("contact",
-                    request.getMobileNumber().trim()).firstResult();
+            StudentModel model = repository.find("contact=?1 and inst_id=?2",
+                    request.getMobileNumber().trim(),request.getInst_id()).firstResult();
             if (model != null) {
                 String otp = new DecimalFormat("000000").format(new Random().nextInt(999999));
 

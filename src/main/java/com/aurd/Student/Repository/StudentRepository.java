@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 @ApplicationScoped
@@ -104,5 +105,10 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
     
 
 
+//    public boolean checkAuth(AuthCheckRequest request)
+//    {
+//
+//
+//    }
 
 }

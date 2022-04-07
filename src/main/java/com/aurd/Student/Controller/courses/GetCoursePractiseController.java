@@ -1,9 +1,11 @@
 package com.aurd.Student.Controller.courses;
 
 import com.aurd.Student.Model.Entity.QuizModel;
+import com.aurd.Student.Model.Entity.SaveResultModel;
 import com.aurd.Student.Model.Request.testseries.Get_PractiseTestSeries_Request;
 import com.aurd.Student.Model.Response.GetCourse_PractiseTest_Response;
 import com.aurd.Student.Repository.QuizRepository;
+import com.aurd.Student.Repository.ResultRepository;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
@@ -17,6 +19,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @Path("/courses/getPractiseTest")
 public class GetCoursePractiseController {
@@ -24,6 +27,10 @@ public class GetCoursePractiseController {
 
     @Inject
     QuizRepository quizRepository;
+
+
+    @Inject
+    ResultRepository resultRepository;
 
 
     @POST
@@ -191,6 +198,22 @@ public class GetCoursePractiseController {
 
 
 
+         list.forEach(quizModel -> {
+             String string = "SELECT * FROM `result` WHERE inst_id= ? and stud_id = ? and quiz_id=?";
+             Query query = resultRepository.getEntityManager().createNativeQuery(string);
+             query.setParameter(1, request.getInst_id());
+             query.setParameter(2,request.getUser_id());
+             query.setParameter(3,quizModel.getQuiz_id());
+
+             List<SaveResultModel> result=query.getResultList();
+             if(result.isEmpty())
+             {
+                 quizModel.setAttempt(false);
+             }
+             else{
+                 quizModel.setAttempt(true);
+             }
+         });
 
         GetCourse_PractiseTest_Response response = new GetCourse_PractiseTest_Response();
         response.setPractiseTestList(list);

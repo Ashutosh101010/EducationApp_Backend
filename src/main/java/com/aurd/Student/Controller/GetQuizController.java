@@ -57,9 +57,9 @@ public class GetQuizController {
 
          ArrayList<Object[]> rList = (ArrayList<Object[]>) query.getResultList();
          rList.forEach(objects -> {
-             System.out.println(objects[0].toString());
-             System.out.println(objects[1].toString());
-             System.out.println(request.getStud_id());
+//             System.out.println(objects[0].toString());
+//             System.out.println(objects[1].toString());
+//             System.out.println(request.getStud_id());
 
 
              if(Integer.parseInt(objects[1].toString())==request.getStud_id()){

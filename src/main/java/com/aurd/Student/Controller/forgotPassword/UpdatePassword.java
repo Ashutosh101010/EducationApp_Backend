@@ -28,9 +28,10 @@ public class UpdatePassword {
 
         GeneralResponse response = new GeneralResponse();
        Query query = repository.getEntityManager().createQuery("update StudentModel StudentModel set " +
-                "StudentModel.password =: password where StudentModel .contact =:contact");
+                "StudentModel.password =: password where StudentModel .contact =:contact AND StudentModel.inst_id=:instId");
        query.setParameter("password",request.getPassword());
        query.setParameter("contact",request.getMobileNumber());
+       query.setParameter("instId",request.getInst_id());
 
        System.out.println(query.executeUpdate());
        query.executeUpdate();
