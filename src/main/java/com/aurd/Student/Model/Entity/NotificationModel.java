@@ -1,12 +1,12 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity(name = "notification")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class NotificationModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +18,64 @@ public class NotificationModel {
     private String sender_type;
     private Timestamp time;
     private int inst_id;
+    private String type;
+    private Long entityId;
+    @Transient
+    BlogModel blog;
+    @Transient
+    CurrentAffairModel currentAffair;
+    @Transient
+    VideoModel video;
+    @Transient
+    NotesModel notes;
 
+    public BlogModel getBlog() {
+        return blog;
+    }
 
+    public void setBlog(BlogModel blog) {
+        this.blog = blog;
+    }
 
+    public CurrentAffairModel getCurrentAffair() {
+        return currentAffair;
+    }
 
+    public void setCurrentAffair(CurrentAffairModel currentAffair) {
+        this.currentAffair = currentAffair;
+    }
+
+    public VideoModel getVideo() {
+        return video;
+    }
+
+    public void setVideo(VideoModel video) {
+        this.video = video;
+    }
+
+    public NotesModel getNotes() {
+        return notes;
+    }
+
+    public void setNotes(NotesModel notes) {
+        this.notes = notes;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Long entityId) {
+        this.entityId = entityId;
+    }
 
     public int getInst_id() {
         return inst_id;

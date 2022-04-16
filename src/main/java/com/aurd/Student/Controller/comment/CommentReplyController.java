@@ -1,6 +1,7 @@
 package com.aurd.Student.Controller.comment;
 
 
+import com.aurd.Student.Constant.Constants;
 import com.aurd.Student.Model.Entity.NotificationModel;
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Entity.StudentPostModel;
@@ -111,6 +112,9 @@ public class CommentReplyController {
             notification.setTime(Timestamp.valueOf(sdf.format(calendar.getTime())));
             notification.setSender_type("Student");
             notification.setInst_id(students.getInst_id());
+            notification.setType("");
+            notification.setEntityId(0L);
+
 
             System.out.println(model.getDeviceId());
             System.out.println();

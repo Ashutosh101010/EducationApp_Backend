@@ -84,6 +84,7 @@ public class GetCoursesController {
 
 
 
+
       }
 
 //        ArrayList<NotesModel>notesList = notesRepository.getNotesList(request.getInst_id());
@@ -101,7 +102,7 @@ public class GetCoursesController {
         getCoursesResponse.setStatus(true);
         getCoursesResponse.seterrorCode(0);
 
-
+        System.out.println(new Gson().toJson(getCoursesResponse));
         return getCoursesResponse;
 
     }

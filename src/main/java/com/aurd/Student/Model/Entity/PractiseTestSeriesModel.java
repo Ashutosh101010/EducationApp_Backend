@@ -9,249 +9,156 @@ import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "test_series_practice_test")
+@Table(name = "test_series_course")
 public class PractiseTestSeriesModel {
     @Id
-
-    @Column(name = "test_series_id",nullable = false)
-    private  int test_series_id;
-
-    @Column(name = "topic_id",nullable = true)
-    @Nullable
-    @Null
-    private  Integer topic_id;
-
-    @Column(name = "subject_id",nullable = true)
-    @Nullable
-    @Null
-    private  Integer subject_id;
-
-    @Column(name = "sub_subject_id",nullable = true)
-    @Nullable
-    @Null
-    private  Integer getSubject_id;
-
-    @Column(name = "course_id",nullable = true)
-    @Nullable
-    @Null
-    private  Integer course_id;
-
-    @Column(name = "title",nullable = false)
-    private  String title;
-
-    @Column(name = "discription",nullable = true)
-    private  String discription;
-
-    @Column(name = "pic",nullable = false)
-    private String pic;
-
-    @Column(name = "price",nullable = false)
-    private String price;
-
-    @Column(name = "test_start",nullable = false)
-    private Timestamp test_start;
-
-    @Column(name = "test_duration",nullable = false)
-    private String test_duration;
-
-    @Column(name = "added_on",nullable = false)
-    private Timestamp added_on;
-
-    @Column(name = "added_by",nullable = false)
-    private  int added_by;
-
-    @Column(name = "updated_by",nullable = false)
-    private  int updated_by;
-
-    @Column(name = "inst_id",nullable = true)
-    @Nullable
-    @Null
-    private  Integer inst_id;
-
-    @Column(name = "is_active",nullable = false)
-    private  int is_active;
-
-    @Column(name = "marks_per_ques",nullable = true)
-    private Integer marks_per_ques;
-
-    @Column(name = "total_ques",nullable = true)
-    private  Integer total_ques;
-
-    @Column(name = "cutoff",nullable = true)
-    private  int cutoff;
-
-    @Column(name="instruction",nullable = false)
-    private String instruction;
-
-    @Column(name = "time",nullable = false)
-    private  Timestamp 	time;
-
-    @Column(name = "negative_marking",nullable = true)
-    private  String negative_marking;
-
-    @Column(name = "code",nullable = false)
-    private  String code;
-
-    @Column(name = "test_end",nullable = false)
-    private String test_end;
+    private int id;
 
 
-    @Column(name = "test_id",nullable = false)
-    private int test_id;
 
-    public int getTest_id() {
-        return test_id;
+    @Column(name = "course_name",nullable = false)
+    private  String courseName;
+
+    @Column(name = "test_type",nullable = true)
+    private  String testType;
+
+    @Column(name = "price",nullable = true)
+    private  Integer price;
+
+    @Column(name = "image",nullable = true)
+
+    private  String image;
+
+    @Column(name = "num_of_quis",nullable = true)
+    private  Integer numOfQuiz;
+
+    @Column(name = "languages",nullable = false)
+    private  String languages;
+
+    @Column(name = "series_id",nullable = true)
+    private  String seriesId;
+
+    @Column(name = "duration",nullable = false)
+    private String duration;
+
+    @Column(name = "status",nullable = false)
+    private Integer status;
+
+    @Column(name = "created_at",nullable = false)
+    private Timestamp created_at;
+
+    @Column(name = "updated_at",nullable = false)
+    private String updated_at;
+
+    @Column(name = "marks_per_ques",nullable = false)
+    private String marks_per_ques;
+
+    @Column(name = "negative_marking",nullable = false)
+    private  String  negative_marking;
+
+
+    public int getId() {
+        return id;
     }
 
-    public void setTest_id(int test_id) {
-        this.test_id = test_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getTest_series_id() {
-        return test_series_id;
+    public String getCourseName() {
+        return courseName;
     }
 
-    public void setTest_series_id(int test_series_id) {
-        this.test_series_id = test_series_id;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
-
-    public Integer getTopic_id() {
-        return topic_id;
+    public String getTestType() {
+        return testType;
     }
 
-    public void setTopic_id(Integer topic_id) {
-        this.topic_id = topic_id;
+    public void setTestType(String testType) {
+        this.testType = testType;
     }
 
-    public Integer getSubject_id() {
-        return subject_id;
-    }
-
-    public void setSubject_id(Integer subject_id) {
-        this.subject_id = subject_id;
-    }
-
-    public Integer getGetSubject_id() {
-        return getSubject_id;
-    }
-
-    public void setGetSubject_id(Integer getSubject_id) {
-        this.getSubject_id = getSubject_id;
-    }
-
-    public Integer getCourse_id() {
-        return course_id;
-    }
-
-    public void setCourse_id(Integer course_id) {
-        this.course_id = course_id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDiscription() {
-        return discription;
-    }
-
-    public void setDiscription(String discription) {
-        this.discription = discription;
-    }
-
-    public String getPic() {
-        return pic;
-    }
-
-    public void setPic(String pic) {
-        this.pic = pic;
-    }
-
-    public String getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
-    public Timestamp getTest_start() {
-        return test_start;
+    public String getImage() {
+        return image;
     }
 
-    public void setTest_start(Timestamp test_start) {
-        this.test_start = test_start;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getTest_duration() {
-        return test_duration;
+    public Integer getNumOfQuiz() {
+        return numOfQuiz;
     }
 
-    public void setTest_duration(String test_duration) {
-        this.test_duration = test_duration;
+    public void setNumOfQuiz(Integer numOfQuiz) {
+        this.numOfQuiz = numOfQuiz;
     }
 
-    public Timestamp getAdded_on() {
-        return added_on;
+    public String getLanguages() {
+        return languages;
     }
 
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
+    public void setLanguages(String languages) {
+        this.languages = languages;
     }
 
-    public int getAdded_by() {
-        return added_by;
+    public String getSeriesId() {
+        return seriesId;
     }
 
-    public void setAdded_by(int added_by) {
-        this.added_by = added_by;
+    public void setSeriesId(String seriesId) {
+        this.seriesId = seriesId;
     }
 
-    public int getUpdated_by() {
-        return updated_by;
+    public String getDuration() {
+        return duration;
     }
 
-    public void setUpdated_by(int updated_by) {
-        this.updated_by = updated_by;
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
-
-    public int getIs_active() {
-        return is_active;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setIs_active(int is_active) {
-        this.is_active = is_active;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-
-    public int getCutoff() {
-        return cutoff;
+    public Timestamp getCreated_at() {
+        return created_at;
     }
 
-    public void setCutoff(int cutoff) {
-        this.cutoff = cutoff;
+    public void setCreated_at(Timestamp created_at) {
+        this.created_at = created_at;
     }
 
-    public String getInstruction() {
-        return instruction;
+    public String getUpdated_at() {
+        return updated_at;
     }
 
-    public void setInstruction(String instruction) {
-        this.instruction = instruction;
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
     }
 
-    public Timestamp getTime() {
-        return time;
+    public String getMarks_per_ques() {
+        return marks_per_ques;
     }
 
-    public void setTime(Timestamp time) {
-        this.time = time;
+    public void setMarks_per_ques(String marks_per_ques) {
+        this.marks_per_ques = marks_per_ques;
     }
 
     public String getNegative_marking() {
@@ -260,45 +167,5 @@ public class PractiseTestSeriesModel {
 
     public void setNegative_marking(String negative_marking) {
         this.negative_marking = negative_marking;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getTest_end() {
-        return test_end;
-    }
-
-    public void setTest_end(String test_end) {
-        this.test_end = test_end;
-    }
-
-    public Integer getInst_id() {
-        return inst_id;
-    }
-
-    public void setInst_id(Integer inst_id) {
-        this.inst_id = inst_id;
-    }
-
-    public Integer getMarks_per_ques() {
-        return marks_per_ques;
-    }
-
-    public void setMarks_per_ques(Integer marks_per_ques) {
-        this.marks_per_ques = marks_per_ques;
-    }
-
-    public Integer getTotal_ques() {
-        return total_ques;
-    }
-
-    public void setTotal_ques(Integer total_ques) {
-        this.total_ques = total_ques;
     }
 }

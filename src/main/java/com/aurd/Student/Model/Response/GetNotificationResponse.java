@@ -1,8 +1,10 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.NotificationModel;
+import com.aurd.Student.Model.Entity.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.ArrayList;
+
 
 public class GetNotificationResponse {
 
@@ -10,6 +12,8 @@ public class GetNotificationResponse {
     int errorCode;
     boolean status;
     ArrayList<NotificationModel> notifications = new ArrayList<>();
+
+
 
     public String getMessage() {
         return message;

@@ -9,4 +9,6 @@ public class Constants {
     public static String razorPay_Key_Id = "rzp_test_uRCYcABAaeAsrO";
     public static String razorPay_Key_Secret="cS6YJNbBc28hd12YVEVBWRBk";
 
+    public static enum NotificatioType{doubt,currentAffair,blog,video,notes};
+
 }

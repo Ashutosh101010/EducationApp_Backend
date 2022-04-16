@@ -1,5 +1,6 @@
 package com.aurd.Student.Controller;
 
+import com.aurd.Student.Constant.Constants;
 import com.aurd.Student.Model.Entity.NotificationModel;
 import com.aurd.Student.Model.Entity.StudentModel;
 import com.aurd.Student.Model.Entity.StudentPostModel;
@@ -66,7 +67,7 @@ public class LikeDislikeController {
             StudentPostModel postModel  =
                     postRepository.find("id",Long.valueOf(request.getPostId())).firstResult();
 
-            sentNotification(Long.valueOf(request.getStud_id()),Long.valueOf(postModel.getAdded_by()));
+            sentNotification(Long.valueOf(request.getStud_id()),Long.valueOf(postModel.getAdded_by()),postModel.getId());
 
 
 
@@ -96,7 +97,7 @@ public class LikeDislikeController {
         return  response;
 
     }
-    public  void  sentNotification(Long added_by, Long posted_by) {
+    public  void  sentNotification(Long added_by, Long posted_by,Long entityId) {
 
 
         StudentModel students = studentRepository.find("id", added_by).firstResult();
@@ -123,6 +124,9 @@ public class LikeDislikeController {
             notification.setTime(Timestamp.valueOf(sdf.format(calendar.getTime())));
             notification.setSender_type("Student");
             notification.setInst_id(students.getInst_id());
+            notification.setType(Constants.NotificatioType.doubt.name());
+            notification.setEntityId(entityId);
+
 
             notificationRepository.insertNotification(notification);
 
