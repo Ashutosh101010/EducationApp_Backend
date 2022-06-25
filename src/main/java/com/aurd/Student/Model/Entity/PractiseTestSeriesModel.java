@@ -1,19 +1,20 @@
 package com.aurd.Student.Model.Entity;
 import io.smallrye.common.constraint.Nullable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Null;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "test_series_course")
+@Table(name = "testseries_course")
 public class PractiseTestSeriesModel {
     @Id
     private int id;
 
+
+
+    @Column(name="cut_off")
+    private Integer cut_off;
 
 
     @Column(name = "course_name",nullable = false)
@@ -56,6 +57,20 @@ public class PractiseTestSeriesModel {
     @Column(name = "negative_marking",nullable = false)
     private  String  negative_marking;
 
+    @Transient
+    private  boolean attempt;
+
+    public boolean isAttempt() {
+        return attempt;
+    }
+
+    public void setAttempt(boolean attempt) {
+        this.attempt = attempt;
+    }
+
+    public void setCut_off(Integer cut_off) {
+        this.cut_off = cut_off;
+    }
 
     public int getId() {
         return id;
@@ -167,5 +182,13 @@ public class PractiseTestSeriesModel {
 
     public void setNegative_marking(String negative_marking) {
         this.negative_marking = negative_marking;
+    }
+
+    public Integer getCut_off() {
+        return cut_off;
+    }
+
+    public void setCut_off(int cut_off) {
+        this.cut_off = cut_off;
     }
 }

@@ -28,7 +28,6 @@ public class GetTestSeriesController {
     StudentTestRepository testRepository;
 
     @POST
-    @Transactional
 
 
        public TestSeriesResponse getTestSeries(Get_TestSeries_Request request){

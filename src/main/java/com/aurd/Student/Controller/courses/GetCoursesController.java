@@ -49,7 +49,6 @@ public class GetCoursesController {
 
 
     @POST
-    @Transactional
     public GetCoursesResponse getCourses(GetCoursesRequest request){
         System.out.println(new Gson().toJson(request));
         GetCoursesResponse getCoursesResponse = new GetCoursesResponse();

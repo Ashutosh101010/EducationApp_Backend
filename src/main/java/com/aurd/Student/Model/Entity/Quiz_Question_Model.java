@@ -22,12 +22,10 @@ public class Quiz_Question_Model {
 
     @Column(name = "question_type",nullable = false)
     @NotBlank
-    @Max(20)
     private String question_type;
 
     @Column(name = "question",nullable = false)
     @NotBlank
-    @Max(1001)
     private  String question;
 
     @Column(name = "marks",nullable = false)

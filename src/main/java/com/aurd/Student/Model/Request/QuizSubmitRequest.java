@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 public class QuizSubmitRequest {
     ArrayList<Quiz_Submit_Model> arrayList = new ArrayList();
+//    ArrayList arrayList = new ArrayList();
     String time;
     Long quizId;
     Long studentId;

@@ -17,7 +17,7 @@ public class QuizQuestionEntity {
     String pic;
     Timestamp added_on;
     long quiz_id;
-    ArrayList<Question_Option_Model> options = new ArrayList<>();
+    ArrayList options = new ArrayList<>();
     long subject_id;
     long option_id;
     String option_discription;
@@ -59,7 +59,7 @@ public class QuizQuestionEntity {
         return options;
     }
 
-    public void setOptions(ArrayList<Question_Option_Model> options) {
+    public void setOptions(ArrayList options) {
         this.options = options;
     }
 
