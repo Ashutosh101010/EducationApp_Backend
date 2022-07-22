@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+
+import static com.aurd.Service.bucket;
 import static  com.aurd.Service.s3;
 
 @Path("/addStudentPost")
@@ -50,7 +52,7 @@ public class AddStudentPostController
 
 
 
-        final String bucketName = "educationapp";
+        final String bucketName = bucket;
 
         GeneralResponse response = new GeneralResponse();
         try {

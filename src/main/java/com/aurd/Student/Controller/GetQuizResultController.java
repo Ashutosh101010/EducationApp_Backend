@@ -44,7 +44,6 @@ public class GetQuizResultController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
-    @Transactional
     public  Result_Response getResult(GetQuizResultRequest request){
 
         ArrayList<LeaderBoardModel> leaderBoardList = new ArrayList<>();
@@ -162,7 +161,7 @@ public class GetQuizResultController {
 
                 if(quiz_submit_model.getSubjectId()==subjectModel.getId())
                 {
-                    subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
+//                    subjectObtainedMarks+=quiz_submit_model.getMarks_ob();
 
 
 

@@ -28,11 +28,7 @@ public class GetProfileController {
     @Inject
     StudentRepository repository;
 
-
-    @Transactional
     @POST
-
-
     public GetProfileResponse getProfile(GetProfileRequest request) {
 
        StudentModel model = repository.find("id=?1",request.getId()).firstResult();

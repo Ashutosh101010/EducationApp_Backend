@@ -25,6 +25,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.*;
 
+import static com.aurd.Service.bucket;
 import static com.aurd.Service.s3;
 
 @Path("/updateProfile")
@@ -42,7 +43,7 @@ public class StudentUpdateController {
     public UpdateResponse update(@MultipartForm MultipartFormDataInput inputRequest) throws ParseException {
 
 
-        final String bucketName = "educationapp";
+        final String bucketName = bucket;
 
         Map<String, List<InputPart>> input = inputRequest.getFormDataMap();
         UpDateRequest request = new UpDateRequest();

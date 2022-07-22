@@ -3,7 +3,6 @@ package com.aurd.Student.Model.Request;
 public class GetVideoLectureRequest {
     long instID;
     long topicID;
-
     String filter;
 
 

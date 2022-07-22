@@ -1,0 +1,31 @@
+apiVersion: apps/ v1
+kind: Deployment
+metadata:
+  name: educationapp
+  namespace: educationapp
+spec:
+  replicas: 2
+  selector:
+    matchLables:
+      app: educationapp
+      namespace: educationapp
+  template:
+    metadata:
+      labels:
+        app: educationapp
+        namespace: educationapp
+    spec:
+      containers:
+        - name: educationapp
+          image: ashutosh96/educationapp
+          imagePullPolicy: Always
+          ports:
+            - conatinerPort: 6060
+          livenessProbe:
+            httpGet:
+              port: 6060
+              path: /health/live
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 6060
