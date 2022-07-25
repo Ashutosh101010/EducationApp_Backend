@@ -24,7 +24,7 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
     public StudentModel login(LoginRequest request){
         try {
             System.out.println(new Gson().toJson(request));
-            return  find("contact=?1 and d_password = ?2 and inst_id = ?3 " ,
+            return  find("contact=?1 and password = ?2 and inst_id = ?3 " ,
                     request.getContact(),
                     request.getPassword(),
                     request.getInst_id()).firstResult();
