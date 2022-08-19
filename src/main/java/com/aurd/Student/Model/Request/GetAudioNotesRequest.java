@@ -1,25 +1,29 @@
 package com.aurd.Student.Model.Request;
 
 public class GetAudioNotesRequest {
-    long instID;
-    long topicID;
+    int instID;
+    int topicID;
     String filter;
+
+    public void setInstID(int instID) {
+        this.instID = instID;
+    }
+
+    public int getTopicID() {
+        return topicID;
+    }
+
+    public void setTopicID(int topicID) {
+        this.topicID = topicID;
+    }
 
     public long getInstID() {
         return instID;
     }
 
-    public void setInstID(long instID) {
-        this.instID = instID;
-    }
 
-    public long getTopicID() {
-        return topicID;
-    }
 
-    public void setTopicID(long topicID) {
-        this.topicID = topicID;
-    }
+
 
     public String getFilter() {
         return filter;

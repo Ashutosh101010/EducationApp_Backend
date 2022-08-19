@@ -34,9 +34,9 @@ public class UpDateRequest {
     @PartType(MediaType.TEXT_PLAIN)
     Integer state_id;
 
-    @FormParam("district_id")
+    @FormParam("cityId")
     @PartType(MediaType.TEXT_PLAIN)
-    String district_id;
+    Integer cityId;
     @FormParam("dob")
     @PartType(MediaType.TEXT_PLAIN)
     String DOB;
@@ -125,12 +125,12 @@ public class UpDateRequest {
         this.state_id = state_id;
     }
 
-    public String getDistrict_id() {
-        return district_id;
+    public Integer getCityId() {
+        return cityId;
     }
 
-    public void setDistrict_id(String district_id) {
-        this.district_id = district_id;
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 
     public Long getStudent_id() {

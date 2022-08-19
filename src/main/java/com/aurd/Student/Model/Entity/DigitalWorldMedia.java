@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "digital_world_media")
-public class DigitalWorlMedia {
+public class DigitalWorldMedia {
     private Long id;
     @Column(name = "folder_id")
     private Long folderId;
@@ -12,6 +12,7 @@ public class DigitalWorlMedia {
     private String media;
     private String type;
 
+    @Column(name = "folder_id")
     public Long getFolderId() {
         return folderId;
     }

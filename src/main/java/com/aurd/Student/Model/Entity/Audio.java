@@ -11,9 +11,9 @@ public class Audio {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String video;
+    private String audio;
     private String thumb;
-    private int topicId;
+    private Integer topicId;
     @Transient
     long timeStamp;
 
@@ -23,9 +23,9 @@ public class Audio {
     private String description;
 
     //    private String video_type;
-    private int subject_id;
-    private int sub_subject_id;
-    private int course_id;
+    private Integer subject_id;
+    private Integer sub_subject_id;
+    private Integer course_id;
     private String fee_type;
 
 
@@ -49,7 +49,7 @@ public class Audio {
         this.timeStamp = timeStamp;
     }
 
-    public void setTopicId(int topicId) {
+    public void setTopicId(Integer topicId) {
         this.topicId = topicId;
     }
 
@@ -98,16 +98,13 @@ public class Audio {
         this.name = name;
     }
 
-    public String getVideo() {
-        return video;
+    public String getAudio() {
+        return audio;
     }
 
-    public void setVideo(String video) {
-        this.video = video;
+    public void setAudio(String audio) {
+        this.audio = audio;
     }
-
-
-
 
     public int getInst_id() {
         return inst_id;
@@ -131,27 +128,27 @@ public class Audio {
 
 
 
-    public int getSubject_id() {
+    public Integer getSubject_id() {
         return subject_id;
     }
 
-    public void setSubject_id(int subject_id) {
+    public void setSubject_id(Integer subject_id) {
         this.subject_id = subject_id;
     }
 
-    public int getSub_subject_id() {
+    public Integer getSub_subject_id() {
         return sub_subject_id;
     }
 
-    public void setSub_subject_id(int sub_subject_id) {
+    public void setSub_subject_id(Integer sub_subject_id) {
         this.sub_subject_id = sub_subject_id;
     }
 
-    public int getCourse_id() {
+    public Integer getCourse_id() {
         return course_id;
     }
 
-    public void setCourse_id(int course_id) {
+    public void setCourse_id(Integer course_id) {
         this.course_id = course_id;
     }
 
@@ -163,7 +160,7 @@ public class Audio {
         this.fee_type = fee_type;
     }
 
-    public int getTopicId() {
+    public Integer getTopicId() {
         return topicId;
     }
 

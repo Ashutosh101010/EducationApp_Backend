@@ -161,8 +161,8 @@ public class GetAllCommentController {
                     }
                 }
 
-               Integer integer = Math.toIntExact(model.getAdded_by());
-                entity.setUser_id(integer);
+//               Integer integer = Math.toIntExact(model.getAdded_by());
+                entity.setUser_id(model.getAdded_by());
                 entity.setAdded_on(model.getAdded_on());
                 entity.setTime(model.getAdded_on().toString());
 
@@ -204,8 +204,8 @@ public class GetAllCommentController {
                 }
 
 
-                Integer integer = Math.toIntExact(model.getAdded_by());
-                entity.setUser_id(integer);
+//                Integer integer = Math.toIntExact(model.getAdded_by());
+                entity.setUser_id(model.getAdded_by());
                 entity.setAdded_on(model.getAdded_on());
                 entity.setTime(model.getAdded_on().toString());
 

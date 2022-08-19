@@ -62,7 +62,7 @@ public class StudentUpdateController {
 
             System.out.println(input.get("state_id").get(0).getBodyAsString());
             System.out.println(input.get("dob").get(0).getBodyAsString());
-            System.out.println(input.get("district_id").get(0).getBodyAsString());
+            System.out.println(input.get("cityId").get(0).getBodyAsString());
 
             System.out.println(input.get("address").get(0).getBodyAsString());
 
@@ -110,11 +110,11 @@ public class StudentUpdateController {
                 request.setDOB(studentModel.getDob().toString());
             }
 
-            if(input.get("district_id")!=null){
-                request.setDistrict_id(input.get("district_id").get(0).getBodyAsString());
+            if(input.get("cityId")!=null){
+                request.setCityId(Integer.valueOf(input.get("cityId").get(0).getBodyAsString()));
 
             }else{
-                request.setDistrict_id(studentModel.getDistrictId());
+                request.setCityId(studentModel.getDistrictId());
             }
 
             if(input.get("address")!=null){

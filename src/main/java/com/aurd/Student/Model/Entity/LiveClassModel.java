@@ -76,6 +76,19 @@ public class LiveClassModel {
     @NotFound(action = NotFoundAction.IGNORE)
     private YoutubeLiveSession youtubeLiveSession;
 
+    @OneToOne
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name="vimeoLiveSession")
+    private VimeoLiveSession vimeoLiveSession;
+
+
+    public VimeoLiveSession getVimeoLiveSession() {
+        return vimeoLiveSession;
+    }
+
+    public void setVimeoLiveSession(VimeoLiveSession vimeoLiveSession) {
+        this.vimeoLiveSession = vimeoLiveSession;
+    }
 
     public YoutubeLiveSession getYoutubeLiveSession() {
         return youtubeLiveSession;

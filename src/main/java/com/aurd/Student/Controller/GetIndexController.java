@@ -1,6 +1,7 @@
 package com.aurd.Student.Controller;
 
 
+import com.aurd.Student.Constant.Constants;
 import com.aurd.Student.Model.BeanClass.*;
 import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.GetIndexRequest;
@@ -48,6 +49,8 @@ public class GetIndexController {
 
     @Inject
     TeacherRepository teacherRepository;
+    @Inject
+    AudioNotesRepository audioNotesRepository;
 
 
     @Inject
@@ -202,7 +205,7 @@ public class GetIndexController {
          arrayList.forEach(model -> {
 try {
     model.setTimeStamp(model.getCreated_on().getTime());
-    if (model.getType().equals("blog")) {
+    if (model.getType().equals(Constants.indexType.blog.name())) {
 
         BlogEntity blogEntity = getBlogs(model, request);
         blogEntity.setIndexId(model.getId());
@@ -210,44 +213,53 @@ try {
         vList.add(blogEntity);
 
 
-    } else if (model.getType().equals("current_affair")) {
+    } else if (model.getType().equals(Constants.indexType.current_affair.name())) {
         CurrentAffairEntity entity = getCurrentAffair(model, request);
         entity.setIndexId(model.getId());
         entity.setTimeStamp(entity.getCreated_at().getTime());
         vList.add(entity);
 
 
-    } else if (model.getType().equals("notes")) {
+    } else if (model.getType().equals(Constants.indexType.notes.name())) {
         NotesEntity notesEntity = getNotes(model, request);
         notesEntity.setIndexId(model.getId());
         notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
         vList.add(notesEntity);
 
-    } else if (model.getType().equals("video")) {
+    } else if (model.getType().equals(Constants.indexType.video.name())) {
         VideoEntity videoEntity = getVideos(model, request);
 
         videoEntity.setIndexId(model.getId());
         videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
         vList.add(videoEntity);
 
-    } else if (model.getType().equals("post")) {
+    } else if (model.getType().equals(Constants.indexType.post.name())) {
         StudentPostEntity entity = getPost(model, request);
         if (entity.getPostStatus() == 1) {
             entity.setIndexId(model.getId());
             entity.setTimeStamp(model.getCreated_on().getTime());
             vList.add(entity);
         }
-    } else if (model.getType().equals("quiz")) {
+    } else if (model.getType().equals(Constants.indexType.quiz.name())) {
         QuizEntity quizEntity = getQuizzes(model, request);
         quizEntity.setIndexId(model.getId());
         quizEntity.setTimeStamp(model.getCreated_on().getTime());
         vList.add(quizEntity);
-    } else if (model.getType().equals("test")) {
+    }
+    else if (model.getType().equals(Constants.indexType.test.name())) {
         QuizEntity quizEntity = getAllTest(model, request);
         quizEntity.setIndexId(model.getId());
         quizEntity.setTimeStamp(quizEntity.getAdded_on().getTime());
         vList.add(quizEntity);
     }
+    else if (model.getType().equals(Constants.indexType.audio.name())) {
+        AudioEntity audioEntity = getAudio(model, request);
+
+        audioEntity.setIndexId(model.getId());
+        audioEntity.setTimeStamp(audioEntity.getCreated_at().getTime());
+        vList.add(audioEntity);
+    }
+
 }catch (Exception e)
 {
     e.printStackTrace();
@@ -650,6 +662,70 @@ try {
 
         return  entity;
     }
+    AudioEntity getAudio(Index_Model model, GetIndexRequest request){
+        System.out.println("Get Audio");
+        Long val = (long) model.getPost_id();
+
+       Audio audioModel = audioNotesRepository.find("inst_id =?1 and id =?2",
+               request.getInst_id().intValue(),val).firstResult();
+       AudioEntity entity = new Gson().fromJson(new Gson().toJson(audioModel),AudioEntity.class);
+
+
+
+       if(audioModel.getCourse_id()!=null){
+           CourseModel courseModel = coursesRepository.find("id",
+                   audioModel.getCourse_id().longValue()).firstResult();
+              entity.setCourse(courseModel.getCourse());
+
+              entity.setCourse_id(audioModel.getCourse_id());
+       }
+
+      StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),Long.valueOf(audioModel.getCourse_id())).firstResult();
+       if(scModel!=null){
+           entity.setPurchased(true);
+       }else{
+           entity.setPurchased(false);
+       }
+
+
+       if(audioModel.getTopicId()!=null){
+            TopicModel topicModel = topicsRepository.find("id",
+                    audioModel.getTopicId()).firstResult();
+            entity.setTopic(topicModel.getTopic());
+        }
+        if(audioModel.getSubject_id()!=null){
+
+            SubjectModel subjectModel = subjectRepository.find("id",
+                    audioModel.getSubject_id().intValue()).firstResult();
+            entity.setSubject(subjectModel.getSubject());
+
+        }
+
+
+
+
+        entity.setType(Constants.indexType.audio.name());
+
+       if(model.getAdded_by().equals("employee")){
+
+
+           TeacherModel teacherModel = teacherRepository.find("id",
+                   audioModel.getCreated_by()).firstResult();
+           entity.setTeacherName(teacherModel.getFname());
+           if(teacherModel.getProfile()!=null){
+               entity.setImage(teacherModel.getProfile());
+           }
+       }else if(model.getAdded_by().equals("admin")){
+           AdminModel adminModel = adminRepository.find("id",
+                   Long.valueOf(audioModel.getCreated_by()).intValue()).firstResult();
+           entity.setTeacherName(adminModel.getName());
+           if(adminModel.getProfile()!=null){
+               entity.setImage(adminModel.getProfile());
+           }
+       }
+
+        return  entity;
+    }
 
 
     QuizEntity getAllTest(Index_Model model, GetIndexRequest request) {
@@ -714,6 +790,8 @@ try {
 
         return entity;
     }
+
+
 
 
 }
