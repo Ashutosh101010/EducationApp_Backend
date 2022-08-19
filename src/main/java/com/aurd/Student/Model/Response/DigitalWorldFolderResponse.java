@@ -1,6 +1,6 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.DigitalWorld;
+//import com.aurd.Student.Model.Entity.DigitalWorld;
 import com.aurd.Student.Model.Entity.DigitalWorldMedia;
 import com.aurd.Student.Model.Entity.FunBox;
 
@@ -10,7 +10,7 @@ public class DigitalWorldFolderResponse {
     private String message;
     private int errorCode;
     private boolean status;
-    private List<DigitalWorld>  folderList;
+//    private List<DigitalWorld>  folderList;
     private List<DigitalWorldMedia>  mediaList;
 
     public List<DigitalWorldMedia> getMediaList() {
@@ -45,11 +45,11 @@ public class DigitalWorldFolderResponse {
         this.status = status;
     }
 
-    public List<DigitalWorld> getFolderList() {
-        return folderList;
-    }
-
-    public void setFolderList(List<DigitalWorld> folderList) {
-        this.folderList = folderList;
-    }
+//    public List<DigitalWorld> getFolderList() {
+//        return folderList;
+//    }
+//
+//    public void setFolderList(List<DigitalWorld> folderList) {
+//        this.folderList = folderList;
+//    }
 }

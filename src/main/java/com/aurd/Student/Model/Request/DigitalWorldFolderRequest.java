@@ -1,15 +1,13 @@
 package com.aurd.Student.Model.Request;
 
 public class DigitalWorldFolderRequest {
-    private Integer instId;
+    private Long instId;
 
-
-
-    public Integer getInstId() {
+    public Long getInstId() {
         return instId;
     }
 
-    public void setInstId(Integer instId) {
+    public void setInstId(Long instId) {
         this.instId = instId;
     }
 }

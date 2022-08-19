@@ -11,16 +11,20 @@ public class DigitalWorldMedia {
 
     private String media;
     private String type;
+    private Long inst_id;
 
-    private Long folder_map_id;
 
-    public Long getFolder_map_id() {
-        return folder_map_id;
+
+
+
+    public Long getInst_id() {
+        return inst_id;
     }
 
-    public void setFolder_map_id(Long folder_map_id) {
-        this.folder_map_id = folder_map_id;
+    public void setInst_id(Long inst_id) {
+        this.inst_id = inst_id;
     }
+
 
     @Column(name = "folder_id")
     public Long getFolderId() {

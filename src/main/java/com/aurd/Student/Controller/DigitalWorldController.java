@@ -1,11 +1,11 @@
 package com.aurd.Student.Controller;
 
-import com.aurd.Student.Model.Entity.DigitalWorld;
+//import com.aurd.Student.Model.Entity.DigitalWorld;
 import com.aurd.Student.Model.Entity.DigitalWorldMedia;
 import com.aurd.Student.Model.Request.DigitalWorldFolderRequest;
 import com.aurd.Student.Model.Response.DigitalWorldFolderResponse;
 import com.aurd.Student.Model.Response.DigitalWorldMediaResponse;
-import com.aurd.Student.Repository.DigitalWorldFolderRepository;
+//import com.aurd.Student.Repository.DigitalWorldFolderRepository;
 import com.aurd.Student.Repository.DigitalWorldMediaRepository;
 
 import javax.inject.Inject;
@@ -17,8 +17,8 @@ import java.util.List;
 public class DigitalWorldController {
 
 
-    @Inject
-    DigitalWorldFolderRepository repository;
+//    @Inject
+//    DigitalWorldFolderRepository repository;
 
     @Inject
     DigitalWorldMediaRepository digitalWorldMediaRepository;
@@ -38,13 +38,12 @@ public class DigitalWorldController {
             return response;
         }
 
-        List<DigitalWorld> list =repository.getDigitalWorldRootFolder(request);
-        List<DigitalWorldMedia> mediaList=digitalWorldMediaRepository.digitalWorldMedia((long) -1);
+
+        List<DigitalWorldMedia> mediaList=digitalWorldMediaRepository.digitalWorldMedia((long) -1,request.getInstId());
 
 
         response.setStatus(true);
         response.setErrorCode(0);
-        response.setFolderList(list);
         response.setMediaList(mediaList);
         return response;
     }

@@ -11,10 +11,16 @@ import java.util.List;
 @ApplicationScoped
 public class DigitalWorldMediaRepository implements PanacheRepository<DigitalWorldMedia> {
 
-    public List<DigitalWorldMedia> digitalWorldMedia(Long folderId)
+    public List<DigitalWorldMedia> digitalWorldMedia(Long folderId , Long instId)
     {
-        Query query=getEntityManager().createQuery("select DigitalWorldMedia from DigitalWorldMedia  DigitalWorldMedia where DigitalWorldMedia.folderId=:folderId");
-        List<DigitalWorldMedia> digitalWorldMediaList=find("folderId",folderId).list();
-        return digitalWorldMediaList;
+        Query query=getEntityManager().createQuery("select DigitalWorldMedia from DigitalWorldMedia  DigitalWorldMedia where DigitalWorldMedia.folderId=:folderId and DigitalWorldMedia.inst_id=:instId");
+       query.setParameter("folderId",folderId);
+       query.setParameter("instId",instId);
+
+       List<DigitalWorldMedia> list=query.getResultList();
+
+        return list;
     }
+
+
 }
