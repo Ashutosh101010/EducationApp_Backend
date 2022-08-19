@@ -27,8 +27,6 @@ import java.util.ArrayList;
 
         @Transactional
         @GET
-
-
         public MetaDataResponse getState() {
 
             ArrayList<StateModel>  states= getStates();

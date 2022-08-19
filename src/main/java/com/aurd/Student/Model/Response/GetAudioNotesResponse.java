@@ -7,17 +7,17 @@ import java.util.ArrayList;
 
 public class GetAudioNotesResponse {
 
-    ArrayList<Audio> videoList = new ArrayList<>();
+    ArrayList<Audio> audioList = new ArrayList<>();
     int errorCode;
     boolean status;
     String message;
 
-    public ArrayList<Audio> getVideoList() {
-        return videoList;
+    public ArrayList<Audio> getAudioList() {
+        return audioList;
     }
 
-    public void setAudioList(ArrayList<Audio> videoList) {
-        this.videoList = videoList;
+    public void setAudioList(ArrayList<Audio> audioList) {
+        this.audioList = audioList;
     }
 
     public int getErrorCode() {

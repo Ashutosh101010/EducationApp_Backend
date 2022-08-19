@@ -2,6 +2,7 @@ package com.aurd.Student.Model.Entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 
 @Entity
@@ -15,6 +16,9 @@ public class StateModel {
     @Column(name = "Name", nullable = false)
     @NotBlank
     private String name;
+
+
+
 
     public int getId() {
         return id;

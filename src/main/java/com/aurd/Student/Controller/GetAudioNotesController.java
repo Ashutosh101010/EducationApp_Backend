@@ -2,6 +2,7 @@ package com.aurd.Student.Controller;
 
 
 import com.aurd.Student.Model.Entity.Audio;
+import com.aurd.Student.Model.Request.GetAudioNotesRequest;
 import com.aurd.Student.Model.Request.GetVideoLectureRequest;
 import com.aurd.Student.Model.Response.GetAudioNotesResponse;
 import com.aurd.Student.Repository.AudioNotesRepository;
@@ -25,14 +26,13 @@ public class GetAudioNotesController {
     AudioNotesRepository audioNotesRepository;
 
     @POST
-    @Transactional
 
-    public GetAudioNotesResponse getVideos(GetVideoLectureRequest request) {
+    public GetAudioNotesResponse getVideos(GetAudioNotesRequest request) {
 
-        ArrayList<Audio> arrayList = audioNotesRepository.getAudioNotesList(request.getInstID());
+        ArrayList<Audio> arrayList = audioNotesRepository.getCourseAudioList(request);
         GetAudioNotesResponse response = new GetAudioNotesResponse();
         response.setErrorCode(0);
-        response.setMessage("Get videos success");
+        response.setMessage("Get audios success");
         response.setStatus(true);
         response.setAudioList(arrayList);
 

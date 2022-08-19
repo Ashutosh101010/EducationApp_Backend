@@ -55,14 +55,14 @@ public class StudentRepository implements PanacheRepository<StudentModel> {
 
 
    return update("fname=?1 , contact=?2   ,address=?3 ," +
-                   "email=?4 , stateId=?5   ,districtId=?6 ,dob=?7, bio=?8 , gender=?9, profile=?10 " +
+                   "email=?4 , stateId=?5   ,cityId=?6 ,dob=?7, bio=?8 , gender=?9, profile=?10 " +
                    " where id=?11"
         ,request.getF_name()
         ,request.getMobile_no()
         ,request.getAddress()
         ,request.getEmail()
         ,request.getState_id()
-        ,request.getDistrict_id()
+        ,request.getCityId()
         ,sqlDate,
            request.getBio(),
         request.getGender(),request.getImageId()

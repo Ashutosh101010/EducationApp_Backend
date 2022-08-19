@@ -17,8 +17,8 @@ public class AudioNotesRepository implements PanacheRepository<Audio> {
     }
 
 
-    public ArrayList getAudioNotesList(long inst_id){
-        ArrayList<Audio> arrayList = (ArrayList<Audio>) list("inst_id",inst_id);
+    public ArrayList getAudioNotesList(Long inst_id){
+        ArrayList<Audio> arrayList = (ArrayList<Audio>) list("inst_id",inst_id.intValue());
         return  arrayList;
     }
 

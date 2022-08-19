@@ -1,7 +1,7 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.DigitalWorlMedia;
 
+import com.aurd.Student.Model.Entity.DigitalWorldMedia;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public class DigitalWorldMediaResponse {
     private String message;
     private int errorCode;
     private boolean status;
-    private List<DigitalWorlMedia> mediaList;
+    private List<DigitalWorldMedia> mediaList;
 
     public String getMessage() {
         return message;
@@ -35,11 +35,11 @@ public class DigitalWorldMediaResponse {
         this.status = status;
     }
 
-    public List<DigitalWorlMedia> getMediaList() {
+    public List<DigitalWorldMedia> getMediaList() {
         return mediaList;
     }
 
-    public void setMediaList(List<DigitalWorlMedia> mediaList) {
+    public void setMediaList(List<DigitalWorldMedia> mediaList) {
         this.mediaList = mediaList;
     }
 }

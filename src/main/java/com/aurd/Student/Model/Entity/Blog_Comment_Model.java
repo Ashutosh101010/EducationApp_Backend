@@ -30,7 +30,7 @@ public class Blog_Comment_Model {
     private Timestamp added_on;
 
     @Column(name = "added_by",nullable = false)
-    private int added_by;
+    private Long added_by;
 
     @Column(name = "type",nullable = false)
     private String type;
@@ -120,11 +120,11 @@ public class Blog_Comment_Model {
         this.added_on = added_on;
     }
 
-    public int getAdded_by() {
+    public Long getAdded_by() {
         return added_by;
     }
 
-    public void setAdded_by(int added_by) {
+    public void setAdded_by(Long added_by) {
         this.added_by = added_by;
     }
 }

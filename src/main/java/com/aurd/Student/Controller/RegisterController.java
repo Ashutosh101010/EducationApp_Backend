@@ -39,7 +39,7 @@ public class RegisterController {
         GeneralResponse generalResponse = new GeneralResponse();
         Gson gson = new Gson();
         StudentModel studentModel = gson.fromJson(gson.toJson(request),StudentModel.class);
-        studentModel.setPassword_salt(request.getPassword());
+        studentModel.setPassword(request.getPassword());
         studentModel.setAddress(null);
         studentModel.setBio(null);
         studentModel.setCoursecheck(0);
@@ -51,15 +51,18 @@ public class RegisterController {
         studentModel.setLogin_status(1);
         studentModel.setProfile(null);
         studentModel.setReg_status(request.getReg_status());
-        studentModel.setStateId(null);
+
         studentModel.setLibrary(0);
         studentModel.setPhone_verify(0);
-        studentModel.setDob(null);
         studentModel.setUsername(request.getContact());
         studentModel.setDeviceId(null);
         studentModel.setCreated_at(Timestamp.valueOf(sdf.format(cal.getTime())));
         studentModel.setIs_active(false);
         studentModel.setInst_id(request.getInst_id());
+        studentModel.setDob(request.getDob());
+        studentModel.setStateId(request.getStateId());
+        studentModel.setDistrictId(request.getCityId());
+        studentModel.setPassword_salt("");
 
 //
 //        String passwordToHash =request.getPassword();
@@ -98,38 +101,38 @@ public class RegisterController {
         return  generalResponse;
     }
 
-    private byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException
-    {
-        //Always use a SecureRandom generator
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
-        //Create array for salt
-        byte[] salt = new byte[16];
-        //Get a random salt
-        sr.nextBytes(salt);
-        //return salt
-        return salt;
-    }
+//    private byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException
+//    {
+//        //Always use a SecureRandom generator
+//        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
+//        //Create array for salt
+//        byte[] salt = new byte[16];
+//        //Get a random salt
+//        sr.nextBytes(salt);
+//        //return salt
+//        return salt;
+//    }
 
-    private static String get_SHA_1_SecurePassword(String passwordToHash, byte[] salt)
-    {
-        String generatedPassword = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-1");
-            md.update(salt);
-            byte[] bytes = md.digest(passwordToHash.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            generatedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        return generatedPassword;
-    }
+//    private static String get_SHA_1_SecurePassword(String passwordToHash, byte[] salt)
+//    {
+//        String generatedPassword = null;
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("SHA-1");
+//            md.update(salt);
+//            byte[] bytes = md.digest(passwordToHash.getBytes());
+//            StringBuilder sb = new StringBuilder();
+//            for(int i=0; i< bytes.length ;i++)
+//            {
+//                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+//            }
+//            generatedPassword = sb.toString();
+//        }
+//        catch (NoSuchAlgorithmException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        return generatedPassword;
+//    }
 
 
 }

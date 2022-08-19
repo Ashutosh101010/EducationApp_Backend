@@ -70,6 +70,27 @@ public class CourseModel {
     @Column(name = "created_at",nullable = true)
     private Timestamp created_at;
 
+    @Column(name = "banner_url",nullable = true)
+private String banner_url;
+    @Column(name = "url_content_type",nullable = true)
+private String url_content_type;
+
+    public String getBanner_url() {
+        return banner_url;
+    }
+
+    public void setBanner_url(String banner_url) {
+        this.banner_url = banner_url;
+    }
+
+    public String getUrl_content_type() {
+        return url_content_type;
+    }
+
+    public void setUrl_content_type(String url_content_type) {
+        this.url_content_type = url_content_type;
+    }
+
     public Timestamp getCreated_at() {
         return created_at;
     }

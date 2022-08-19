@@ -16,7 +16,7 @@ public class CommentEntity {
 
     ArrayList<Comment_Reply_Model> ReplyList = new ArrayList<>();
     int reply_id;
-    int user_id;
+    Long user_id;
     String comment_reply;
     String type;
     String time;
@@ -94,11 +94,11 @@ public class CommentEntity {
         this.reply_id = reply_id;
     }
 
-    public int getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(Long user_id) {
         this.user_id = user_id;
     }
 

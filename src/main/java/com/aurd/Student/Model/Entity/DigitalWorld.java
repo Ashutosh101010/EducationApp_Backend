@@ -1,17 +1,28 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "digital_world_folder")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DigitalWorld {
 
     private Long id;
     private Integer inst_id;
     private String name;
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Integer getInst_id() {
         return inst_id;

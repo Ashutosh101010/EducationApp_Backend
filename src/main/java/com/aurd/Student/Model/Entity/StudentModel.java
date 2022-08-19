@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 public class StudentModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name="fname", nullable = false)
     @NotBlank
@@ -40,8 +40,6 @@ public class StudentModel {
     private String username;
 
     @Column(name="password", nullable = false)
-    @NotBlank
-    @Size(max = 256)
     private String password;
 
 
@@ -70,15 +68,13 @@ public class StudentModel {
     private Integer townId;
 
     @Column(name="stateId", nullable = true)
-    @Null
-    @Nullable
     private Integer stateId;
 
+    @Column(name="cityId", nullable = true)
+    private Integer cityId;
+
     @Column(name="districtId", nullable = true)
-    @Size(max = 50)
-    @Null
-    @Nullable
-    private String districtId;
+    private Integer districtId;
 
     @Column(name="reg_status", nullable = false)
     @NotBlank
@@ -153,11 +149,11 @@ public class StudentModel {
         this.bio = bio;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -167,6 +163,14 @@ public class StudentModel {
 
     public void setFname(String fname) {
         this.fname = fname;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 
     public String getLastName() {
@@ -257,11 +261,11 @@ public class StudentModel {
         this.stateId = stateId;
     }
 
-    public String getDistrictId() {
+    public Integer getDistrictId() {
         return districtId;
     }
 
-    public void setDistrictId(String districtId) {
+    public void setDistrictId(Integer districtId) {
         this.districtId = districtId;
     }
 
