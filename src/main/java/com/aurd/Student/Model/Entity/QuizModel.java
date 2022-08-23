@@ -115,6 +115,16 @@ public class QuizModel {
     @Transient
     boolean testSeriesPurchased;
 
+    private String test;
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
+
     @Transient
     private  boolean attempt;
 

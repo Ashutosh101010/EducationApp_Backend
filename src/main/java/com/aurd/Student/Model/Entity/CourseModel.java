@@ -75,6 +75,7 @@ private String banner_url;
     @Column(name = "url_content_type",nullable = true)
 private String url_content_type;
 
+
     public String getBanner_url() {
         return banner_url;
     }

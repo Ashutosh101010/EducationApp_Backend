@@ -24,6 +24,25 @@ public class CourseEntity {
     private Long videoCount;
     private Long practiseTestCount;
 
+    private String banner_url;
+    private String url_content_type;
+
+    public String getBanner_url() {
+        return banner_url;
+    }
+
+    public void setBanner_url(String banner_url) {
+        this.banner_url = banner_url;
+    }
+
+    public String getUrl_content_type() {
+        return url_content_type;
+    }
+
+    public void setUrl_content_type(String url_content_type) {
+        this.url_content_type = url_content_type;
+    }
+
     public Long getPractiseTestCount() {
         return practiseTestCount;
     }

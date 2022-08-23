@@ -57,8 +57,21 @@ public class PractiseTestSeriesModel {
     @Column(name = "negative_marking",nullable = false)
     private  String  negative_marking;
 
+    @Column(name = "test",nullable = true)
+    private String test;
+
+
+
     @Transient
     private  boolean attempt;
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
 
     public boolean isAttempt() {
         return attempt;
