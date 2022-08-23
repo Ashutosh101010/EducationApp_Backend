@@ -16,7 +16,13 @@ public class PractiseTestSeriesRepository  implements PanacheRepository<Practise
 
     public ArrayList getTestSeries_PractiseTest(Get_PractiseTestSeries_Request request){
         ArrayList<PractiseTestSeriesModel> list = (ArrayList<PractiseTestSeriesModel>)
-                find("series_id",request.getTest_series_id()).list();
+                find("series_id ",request.getTest_series_id()).list();
+        return list;
+
+    }
+    public ArrayList getTestSeries_PractiseTestByTest(Get_PractiseTestSeries_Request request,String testName){
+        ArrayList<PractiseTestSeriesModel> list = (ArrayList<PractiseTestSeriesModel>)
+                find("series_id=?1 and test=?2",request.getTest_series_id()).list();
         return list;
 
     }
