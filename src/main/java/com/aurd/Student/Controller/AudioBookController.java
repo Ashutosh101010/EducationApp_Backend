@@ -1,0 +1,41 @@
+package com.aurd.Student.Controller;
+
+
+import com.aurd.Student.Model.Entity.AudioBook;
+import com.aurd.Student.Model.Request.AudioBookRequest;
+import com.aurd.Student.Model.Response.AudioBookResponse;
+import com.aurd.Student.Repository.AudioBookRepository;
+
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.List;
+
+@Path("/audioBook")
+public class AudioBookController {
+
+
+    @Inject
+    AudioBookRepository audioBookRepository;
+
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public AudioBookResponse audioBookResponse(AudioBookRequest request)
+    {
+
+        AudioBookResponse response=new AudioBookResponse();
+
+       List<AudioBook> audioBooks=audioBookRepository.find("inst_id",request.getInst_id()).list();
+
+        response.setErrorCode(0);
+        response.setStatus(true);
+        response.setAudioBookList(audioBooks);
+        response.setMessage("success");
+        return response;
+    }
+}
