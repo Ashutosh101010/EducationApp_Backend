@@ -26,6 +26,15 @@ public class AudioBookMedia {
     private Timestamp created_on;
     private Timestamp updated_on;
     private Integer audio_book_id;
+    private Integer s_no;
+
+    public Integer getS_no() {
+        return s_no;
+    }
+
+    public void setS_no(Integer s_no) {
+        this.s_no = s_no;
+    }
 
     public String getName() {
         return name;

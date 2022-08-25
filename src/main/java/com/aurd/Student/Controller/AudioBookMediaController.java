@@ -9,6 +9,7 @@ import com.aurd.Student.Repository.AudioBookMediaRepository;
 
 
 import javax.inject.Inject;
+import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,7 +31,10 @@ public class AudioBookMediaController {
     {
         AudioBookMediaResponse response=new AudioBookMediaResponse();
 
-        List<AudioBookMedia> audioBooks=audioBookMediaRepository.find("audio_book_id",request.getAudioBookId()).list();
+
+        Query query=audioBookMediaRepository.getEntityManager().createQuery("select AudioBookMedia from AudioBookMedia AudioBookMedia where AudioBookMedia.audio_book_id=:audioBookId order by AudioBookMedia.s_no asc ");
+        query.setParameter("audioBookId",request.getAudioBookId());
+        List<AudioBookMedia> audioBooks=query.getResultList();
 
         response.setErrorCode(0);
         response.setStatus(true);
