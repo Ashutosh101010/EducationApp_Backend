@@ -26,6 +26,15 @@ public class CourseEntity {
 
     private String banner_url;
     private String url_content_type;
+    private String intro_video;
+
+    public String getIntro_video() {
+        return intro_video;
+    }
+
+    public void setIntro_video(String intro_video) {
+        this.intro_video = intro_video;
+    }
 
     public String getBanner_url() {
         return banner_url;

@@ -56,8 +56,8 @@ import java.sql.Timestamp;
         @Column(name = "inst_id",nullable = false)
         private long inst_id;
 
-        @Column(name = "subject_id",nullable = false)
-        private  long subject_id;
+        @Column(name = "subject_id",nullable = true)
+        private  Long subject_id;
 
 
         @ManyToOne
@@ -161,11 +161,11 @@ import java.sql.Timestamp;
             this.inst_id = inst_id;
         }
 
-        public long getSubject_id() {
+        public Long getSubject_id() {
             return subject_id;
         }
 
-        public void setSubject_id(long subject_id) {
+        public void setSubject_id(Long subject_id) {
             this.subject_id = subject_id;
         }
     }
