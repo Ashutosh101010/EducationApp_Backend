@@ -7,18 +7,20 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class TestSeriesQuestionMapRepository implements PanacheRepository<TestSeriesQuestionMap> {
-    public ArrayList getQuestionID(long quizID){
+    public List<TestSeriesQuestionMap> getQuestionID(ArrayList<Long> quizIDs){
 
-        ArrayList<TestSeriesQuestionMap>  list =
-                (ArrayList<TestSeriesQuestionMap>) find("quiz_id",quizID).list();
+        Query query=getEntityManager().createQuery("select TestSeriesQuestionMap from TestSeriesQuestionMap TestSeriesQuestionMap where TestSeriesQuestionMap.quiz_id in :ids");
+       query.setParameter("ids",quizIDs);
 
-//        Query query= getEntityManager().createQuery("select Quiz_Question_Map_Model from Quiz_Question_Map_Model Quiz_Question_Map_Model join SubjectModel SubjectModel on  Quiz_Question_Map_Model.subject_id =SubjectModel.id where Quiz_Question_Map_Model.quiz_id= : quizId ");
-//
-//
-//       query.setParameter("quizId",quizID);
+      List<TestSeriesQuestionMap>  list = query.getResultList();
+
+   list.forEach(testSeriesQuestionMap -> {
+       System.out.println(testSeriesQuestionMap);
+   });
 
         return  list;
 

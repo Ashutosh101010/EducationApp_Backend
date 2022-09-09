@@ -7,11 +7,13 @@ import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 @ApplicationScoped
 public class TestSeriesSubmitRepository implements PanacheRepository<TestSeriesSubmitModel> {
@@ -61,10 +63,15 @@ public class TestSeriesSubmitRepository implements PanacheRepository<TestSeriesS
     }
 
 
-    public ArrayList<TestSeriesSubmitModel> getStudentPracticeTestResult(int instID, long studID, long quizID){
-        ArrayList<TestSeriesSubmitModel> arrayList = (ArrayList<TestSeriesSubmitModel>)
-                list("quiz_id =?1 and inst_id = ?2 and stud_id = ?3",quizID,instID,studID);
-        return  arrayList;
+    public List<TestSeriesSubmitModel> getStudentPracticeTestResults(int instID, long studID, List<Long> quizIDs){
+
+
+        Query query=getEntityManager().createQuery("select TestSeriesSubmitModel from TestSeriesSubmitModel TestSeriesSubmitModel where TestSeriesSubmitModel.stud_id=:studId and TestSeriesSubmitModel.inst_id=:instId and  TestSeriesSubmitModel.quiz_id in :ids ");
+       query.setParameter("instId",instID);
+       query.setParameter("ids",quizIDs);
+       query.setParameter("studId",studID);
+
+       return query.getResultList();
 
     }
 

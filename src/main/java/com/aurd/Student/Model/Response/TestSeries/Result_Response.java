@@ -7,6 +7,7 @@ import com.aurd.Student.Model.Entity.LeaderBoardModel;
 import com.aurd.Student.Model.Entity.SaveResultModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Result_Response {
     String message;
@@ -16,10 +17,14 @@ public class Result_Response {
     ArrayList<SolutionEntity> solutions = new ArrayList<>();
     ArrayList<LeaderBoardModel> resultList = new ArrayList<>();
 
-    ArrayList<TopicAnalysisModel> topics = new ArrayList<>();
+ List<TopicAnalysisModel> topics = new ArrayList<>();
 
-    public ArrayList<TopicAnalysisModel> getTopics() {
+    public List<TopicAnalysisModel> getTopics() {
         return topics;
+    }
+
+    public void setTopics(List<TopicAnalysisModel> topics) {
+        this.topics = topics;
     }
 
     public void setTopics(ArrayList<TopicAnalysisModel> topics) {

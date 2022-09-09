@@ -4,6 +4,15 @@ public class GetQuizResultRequest {
     Long instID;
     Long studID;
     Long quizID;
+    String testName;
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
 
     public Long getInstID() {
         return instID;

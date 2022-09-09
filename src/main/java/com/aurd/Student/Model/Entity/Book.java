@@ -1,10 +1,8 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -39,6 +37,20 @@ public class Book {
     private String discount_price;
     private String enroll_student;
     private String discounted_price;
+
+    @OneToMany
+    private List<BooksMedia> media;
+
+
+    @OneToMany(mappedBy = "book_id")
+    public List<BooksMedia> getMedia() {
+        return media;
+    }
+
+
+    public void setMedia(List<BooksMedia> media) {
+        this.media = media;
+    }
 
     public String getTest_type() {
         return test_type;

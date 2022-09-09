@@ -2,6 +2,15 @@ package com.aurd.Student.Model.Request;
 
 public class GetQuestionRequest {
     long quiz_id;
+    String testName;
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
 
     public long getQuiz_id() {
         return quiz_id;

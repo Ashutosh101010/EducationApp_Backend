@@ -23,17 +23,18 @@ public class PurchaseBook {
     }
 
     private Integer booksid;
-    private Integer stude_id;
+    private Integer stud_id;
     private String phone;
     private Long purchase_amount;
     private Long total_amount;
-    private Long discount;
+    private Long discounted_amount;
     private String method;
     private String details;
     private String address;
     private String delivery_status;
     private String trans_id;
     private Timestamp timestamp;
+
 
     public Integer getBooksid() {
         return booksid;
@@ -43,12 +44,12 @@ public class PurchaseBook {
         this.booksid = booksid;
     }
 
-    public Integer getStude_id() {
-        return stude_id;
+    public Integer getStud_id() {
+        return stud_id;
     }
 
-    public void setStude_id(Integer stude_id) {
-        this.stude_id = stude_id;
+    public void setStud_id(Integer stud_id) {
+        this.stud_id = stud_id;
     }
 
     public String getPhone() {
@@ -75,12 +76,12 @@ public class PurchaseBook {
         this.total_amount = total_amount;
     }
 
-    public Long getDiscount() {
-        return discount;
+    public Long getDiscounted_amount() {
+        return discounted_amount;
     }
 
-    public void setDiscount(Long discount) {
-        this.discount = discount;
+    public void setDiscounted_amount(Long discounted_amount) {
+        this.discounted_amount = discounted_amount;
     }
 
     public String getMethod() {

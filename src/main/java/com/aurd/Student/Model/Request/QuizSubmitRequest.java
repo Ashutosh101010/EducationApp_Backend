@@ -9,9 +9,18 @@ public class QuizSubmitRequest {
     ArrayList<Quiz_Submit_Model> arrayList = new ArrayList();
 //    ArrayList arrayList = new ArrayList();
     String time;
-    Long quizId;
+    Long quizId; //series id in practisetestseries
     Long studentId;
     Long instId;
+    String testName;
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
+    }
 
     public Long getStudentId() {
         return studentId;
