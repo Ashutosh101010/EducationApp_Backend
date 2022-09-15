@@ -36,7 +36,7 @@ public class AudioBook {
     private Integer is_active;
     private Timestamp time;
     private Timestamp updated_on;
-    private String discounted_price;
+    private String discount_price;
     private String enroll_student;
 
     public String getTest_type() {
@@ -143,12 +143,12 @@ public class AudioBook {
         this.updated_on = updated_on;
     }
 
-    public String getDiscounted_price() {
-        return discounted_price;
+    public String getDiscount_price() {
+        return discount_price;
     }
 
-    public void setDiscounted_price(String discounted_price) {
-        this.discounted_price = discounted_price;
+    public void setDiscount_price(String discount_price) {
+        this.discount_price = discount_price;
     }
 
     public String getEnroll_student() {
