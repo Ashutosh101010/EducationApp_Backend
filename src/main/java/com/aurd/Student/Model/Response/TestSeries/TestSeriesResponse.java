@@ -1,14 +1,21 @@
 package com.aurd.Student.Model.Response.TestSeries;
 
+import com.aurd.Student.Model.Entity.PractiseTestSeriesModel;
 import com.aurd.Student.Model.Entity.QuizModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TestSeriesResponse {
     String message;
     int errorCode;
     boolean status;
     ArrayList<QuizModel> testSeriesList = new ArrayList<QuizModel>();
+
+
+
+
+
 
     public String getMessage() {
         return message;

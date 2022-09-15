@@ -21,6 +21,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.List;
 
 @Path("/getLiveClasses")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -47,21 +48,23 @@ public class GetLiveClassController {
        ArrayList<LiveClassModel> arrayList = repository.getLiveSessions(request);
 
        arrayList.forEach(liveClassModel -> {
-           Integer course = liveClassModel.getCourse();
+           List<Integer> courses = liveClassModel.getCourses();
            Integer faculty = liveClassModel.getFaculty_id();
-         CourseModel courseModel = coursesRepository.find("id",course.longValue()).firstResult();
-         if(courseModel!=null){
-             liveClassModel.setCourseName(courseModel.getCourse());
-             StudentCourseModel scm = studentCourseRepository.find("courseId=?1 and userId=?2",
-                     course.longValue(),request.getStud_id()).firstResult();
-             if(scm!=null){
-                 liveClassModel.setPurchased(true);
-             }else{
-                 liveClassModel.setPurchased(false);
-             }
 
 
-         }
+//         CourseModel courseModel = coursesRepository.find("id",course.longValue()).firstResult();
+//         if(courseModel!=null){
+//             liveClassModel.setCourseName(courseModel.getCourse());
+//             StudentCourseModel scm = studentCourseRepository.find("courseId=?1 and userId=?2",
+//                     course.longValue(),request.getStud_id()).firstResult();
+//             if(scm!=null){
+//                 liveClassModel.setPurchased(true);
+//             }else{
+//                 liveClassModel.setPurchased(false);
+//             }
+//
+//
+//         }
 
        TeacherModel model = teacherRepository.find("id",faculty.longValue()).firstResult();
          if(model!=null){

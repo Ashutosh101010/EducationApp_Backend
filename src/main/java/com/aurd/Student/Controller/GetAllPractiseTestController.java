@@ -36,7 +36,6 @@ public class GetAllPractiseTestController {
 
 
     @POST
-    @Transactional
 
     public GetQuizResponse getPractiseTest(GetQuizRequest request){
         ArrayList<QuizModel> arrayList =   quizRepository.getQuizzes(request);

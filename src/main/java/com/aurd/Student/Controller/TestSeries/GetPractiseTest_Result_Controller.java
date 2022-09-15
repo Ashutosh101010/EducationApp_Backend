@@ -73,7 +73,7 @@ public class GetPractiseTest_Result_Controller {
         Result_Response response = new Result_Response();
 
 
-        QuizModel seriesModel=seriesRepository.find("id",request.getQuizID()).firstResult();
+        QuizModel seriesModel=seriesRepository.find("id",request.getQuizID().intValue()).firstResult();
 
 
         List<PractiseTestSeriesModel> testSeriesModelList=practiseTestSeriesRepository.find("series_id=?1 and test=?2",request.getQuizID(),request.getTestName()).list();
@@ -112,14 +112,29 @@ public class GetPractiseTest_Result_Controller {
         testSeriesModelList.forEach(practiseTestSeriesModel -> {
             TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
             topicAnalysisModel.setSubject(practiseTestSeriesModel.getTest());
-            TestSeriesResult topicResult=resultListMap.get(((long) practiseTestSeriesModel.getId()));
+            if(resultListMap.containsKey((long) practiseTestSeriesModel.getId()))
+            {
+                TestSeriesResult topicResult=resultListMap.get(((long) practiseTestSeriesModel.getId()));
 
-            totalSkipped.getAndAdd(topicResult.getSkipped());
-            totalMarksObtained.getAndAdd(resultModel.getMarks_obtained());
-            totalMarks.getAndAdd((int) resultModel.getTotal_marks());
-            totalWrongAns.getAndAdd((int) resultModel.getWrong_ans());
-            totalCorrectAns.getAndAdd((int) resultModel.getCorrect_ans());
-            totalPercent.getAndAdd(resultModel.getPercent());
+
+                totalSkipped.getAndAdd(topicResult.getSkipped());
+                totalMarksObtained.getAndAdd(topicResult.getMarks_obtained());
+                totalMarks.getAndAdd((int) topicResult.getTotal_marks());
+                totalWrongAns.getAndAdd((int) topicResult.getWrong_ans());
+                totalCorrectAns.getAndAdd((int) topicResult.getCorrect_ans());
+                totalPercent.getAndAdd(topicResult.getPercent());
+
+            }
+            else{
+                totalSkipped.getAndAdd(practiseTestSeriesModel.getNumOfQuiz());
+                totalMarksObtained.getAndAdd(0);
+                totalMarks.getAndAdd(0);
+                totalWrongAns.getAndAdd(0);
+                totalCorrectAns.getAndAdd(0);
+                totalPercent.getAndAdd(0);
+
+            }
+
 
             topicAnalysisModel.setQuestions(practiseTestSeriesModel.getNumOfQuiz());
             topicAnalysisModel.setPercent(resultModel.getPercent());
@@ -142,8 +157,21 @@ public class GetPractiseTest_Result_Controller {
         resultModel.setTotal_marks(totalMarks.get());
         resultModel.setWrong_ans(totalWrongAns.get());
         resultModel.setCorrect_ans(totalCorrectAns.get());
-        resultModel.setPercent(totalPercent.get()/resultListMap.keySet().size());
-        resultModel.setCut_off(seriesModel.getCutoff());
+        if(resultListMap.keySet().size()==0)
+        {
+            resultModel.setPercent(0);
+        }else{
+            resultModel.setPercent(totalPercent.get()/resultListMap.keySet().size());
+        }
+
+
+
+        try {
+            resultModel.setCut_off(seriesModel.getCutoff());
+        }catch (Exception e)
+        {
+            resultModel.setCut_off(0);
+        }
 
 
 
@@ -152,7 +180,7 @@ public class GetPractiseTest_Result_Controller {
 
         response.setErrorCode(0);
         response.setStatus(true);
-        response.setMessage("Quiz submitted Successfully");
+        response.setMessage("Get Result");
         response.setResult(new Gson().fromJson(new Gson().toJson(resultModel),SaveResultModel.class));
 //            response.setResultList(leaderBoardArrayList);
         response.setTopics(topicList);

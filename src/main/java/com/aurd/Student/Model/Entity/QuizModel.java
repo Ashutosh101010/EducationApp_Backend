@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Null;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "quiz_master")
@@ -17,7 +18,7 @@ public class QuizModel {
     @Id
     @PrimaryKeyJoinColumn
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long quiz_id;
+    private Integer quiz_id;
 
     @Column(name = "subject_id",nullable = true)
     private Integer subject_id;
@@ -115,6 +116,17 @@ public class QuizModel {
     @Transient
     boolean testSeriesPurchased;
 
+    @Transient
+    List<TestEntity> testList;
+
+    public List<TestEntity> getTestList() {
+        return testList;
+    }
+
+    public void setTestList(List<TestEntity> testList) {
+        this.testList = testList;
+    }
+
     private String test;
 
     private String test_type;
@@ -191,11 +203,11 @@ public class QuizModel {
 //    private Long time;
 
 
-    public Long getQuiz_id() {
+    public Integer getQuiz_id() {
         return quiz_id;
     }
 
-    public void setQuiz_id(Long quiz_id) {
+    public void setQuiz_id(Integer quiz_id) {
         this.quiz_id = quiz_id;
     }
 

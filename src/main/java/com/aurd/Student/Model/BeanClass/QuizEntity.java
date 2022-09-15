@@ -36,6 +36,16 @@ public class QuizEntity
 
     private  Long timestamp;
 
+    private String test_type;
+
+    public String getTest_type() {
+        return test_type;
+    }
+
+    public void setTest_type(String test_type) {
+        this.test_type = test_type;
+    }
+
     public Long getTimestamp() {
         return timestamp;
     }

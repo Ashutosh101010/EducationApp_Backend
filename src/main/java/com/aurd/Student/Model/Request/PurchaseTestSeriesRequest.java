@@ -10,6 +10,36 @@ public class PurchaseTestSeriesRequest {
     Timestamp created_on;
     long purchase_amount;
 
+    private String phone;
+
+    private String transactionId;
+
+    private String method;
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public int getId() {
         return id;
     }

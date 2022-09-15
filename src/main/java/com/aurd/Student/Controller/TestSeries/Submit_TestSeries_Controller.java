@@ -78,7 +78,7 @@ public class Submit_TestSeries_Controller {
 //                            getQuestionID(sectionIdList);
 
 
-            QuizModel seriesModel=seriesRepository.find("id",request.getQuizId()).firstResult();
+            QuizModel seriesModel=seriesRepository.find("quiz_id",request.getQuizId().intValue()).firstResult();
 
             Map<Long,TestSeriesResult> resultListMap=new HashMap<>();
 
@@ -164,10 +164,13 @@ public class Submit_TestSeries_Controller {
 
 
 
+                    resultModel.setStatus("pass");
                     insertData(resultModel);
 
 
                     resultListMap.put(resultModel.getQuiz_id(),resultModel);
+                    System.out.println(resultModel.getQuiz_id());
+                    System.out.println(resultModel);
 
                 });
             });
@@ -192,17 +195,39 @@ public class Submit_TestSeries_Controller {
             AtomicDouble totalPercent=new AtomicDouble(0);
 
 
+
             testSeriesModelList.forEach(practiseTestSeriesModel -> {
                 TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
                 topicAnalysisModel.setSubject(practiseTestSeriesModel.getTest());
-                TestSeriesResult topicResult=resultListMap.get(((long) practiseTestSeriesModel.getId()));
+                if(resultListMap.containsKey((long) practiseTestSeriesModel.getId()))
+                {
+                    TestSeriesResult topicResult=resultListMap.get(((long) practiseTestSeriesModel.getId()));
 
-                totalSkipped.getAndAdd(topicResult.getSkipped());
-                totalMarksObtained.getAndAdd(resultModel.getMarks_obtained());
-                totalMarks.getAndAdd((int) resultModel.getTotal_marks());
-                totalWrongAns.getAndAdd((int) resultModel.getWrong_ans());
-                totalCorrectAns.getAndAdd((int) resultModel.getCorrect_ans());
-                totalPercent.getAndAdd(resultModel.getPercent());
+
+                    totalSkipped.getAndAdd(topicResult.getSkipped());
+                    totalMarksObtained.getAndAdd(topicResult.getMarks_obtained());
+                    totalMarks.getAndAdd((int) topicResult.getTotal_marks());
+                    totalWrongAns.getAndAdd((int) topicResult.getWrong_ans());
+                    totalCorrectAns.getAndAdd((int) topicResult.getCorrect_ans());
+                    totalPercent.getAndAdd(topicResult.getPercent());
+
+                }
+                else{
+                    totalSkipped.getAndAdd(practiseTestSeriesModel.getNumOfQuiz());
+                    totalMarksObtained.getAndAdd(0);
+                    totalMarks.getAndAdd(0);
+                    totalWrongAns.getAndAdd(0);
+                    totalCorrectAns.getAndAdd(0);
+                    totalPercent.getAndAdd(0);
+
+                }
+
+
+//                totalMarksObtained.getAndAdd(resultModel.getMarks_obtained());
+//                totalMarks.getAndAdd((int) resultModel.getTotal_marks());
+//                totalWrongAns.getAndAdd((int) resultModel.getWrong_ans());
+//                totalCorrectAns.getAndAdd((int) resultModel.getCorrect_ans());
+//                totalPercent.getAndAdd(resultModel.getPercent());
 
                 topicAnalysisModel.setQuestions(practiseTestSeriesModel.getNumOfQuiz());
                 topicAnalysisModel.setPercent(resultModel.getPercent());
@@ -225,8 +250,18 @@ public class Submit_TestSeries_Controller {
             resultModel.setTotal_marks(totalMarks.get());
             resultModel.setWrong_ans(totalWrongAns.get());
             resultModel.setCorrect_ans(totalCorrectAns.get());
-            resultModel.setPercent(totalPercent.get()/resultListMap.keySet().size());
-            resultModel.setCut_off(seriesModel.getCutoff());
+            if(resultListMap.keySet().size()==0)
+            {
+                resultModel.setPercent(0);
+            }else{
+                resultModel.setPercent(totalPercent.get()/resultListMap.keySet().size());
+            }
+            try {
+                resultModel.setCut_off(seriesModel.getCutoff());
+            }catch (Exception e)
+            {
+                resultModel.setCut_off(0);
+            }
 
 
 

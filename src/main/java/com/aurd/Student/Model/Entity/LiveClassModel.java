@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import java.sql.Timestamp;
+import java.util.List;
 
 
 @Entity
@@ -19,8 +20,8 @@ public class LiveClassModel {
     private int live_session_id;
 
 
-    @Column(name = "course",nullable = false)
-    private int course;
+//    @Column(name = "course",nullable = false)
+//    private int course;
 
 
     @Column(name = "title",nullable = false)
@@ -110,6 +111,17 @@ public class LiveClassModel {
     @Transient
     boolean purchased;
 
+    @ElementCollection(targetClass = Integer.class)
+    private List<Integer> courses;
+
+    @ElementCollection(targetClass = Integer.class)
+    public List<Integer> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Integer> courses) {
+        this.courses = courses;
+    }
 
 
     public boolean isPurchased() {
@@ -168,13 +180,13 @@ public class LiveClassModel {
         this.live_session_id = live_session_id;
     }
 
-    public int getCourse() {
-        return course;
-    }
-
-    public void setCourse(int course) {
-        this.course = course;
-    }
+//    public int getCourse() {
+//        return course;
+//    }
+//
+//    public void setCourse(int course) {
+//        this.course = course;
+//    }
 
     public String getTitle() {
         return title;

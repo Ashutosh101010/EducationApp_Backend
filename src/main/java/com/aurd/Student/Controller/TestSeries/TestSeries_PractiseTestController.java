@@ -101,6 +101,43 @@ public class TestSeries_PractiseTestController {
         return response;
 
     }
+ @Path("series")
+    @POST
+    public PractiseTestSeries_Response getPractiseTestBySeries(Get_PractiseTestSeries_Request request){
+
+       ArrayList<PractiseTestSeriesModel> arrayList =
+               repository.getTestSeries_PractiseTestBySeries(request);
+
+
+       arrayList.forEach(practiseTestSeriesModel -> {
+
+
+           Query query=testSeriesResultRepository.getEntityManager().createQuery("select TestSeriesResult from TestSeriesResult TestSeriesResult where TestSeriesResult.inst_id=:instId and TestSeriesResult.stud_id=:stud_id and TestSeriesResult.quiz_id=:quizId");
+         query.setParameter("instId",request.getInst_id());
+         query.setParameter("stud_id",request.getUser_id());
+         query.setParameter("quizId",Long.parseLong(String.valueOf(practiseTestSeriesModel.getId())));
+
+
+
+
+           List list= query.getResultList();
+         if(!list.isEmpty())
+         {
+             practiseTestSeriesModel.setAttempt(true);
+         }
+
+
+       });
+       PractiseTestSeries_Response response = new PractiseTestSeries_Response();
+
+
+        response.setPractiseTestList(arrayList);
+        response.setStatus(true);
+        response.setErrorCode(0);
+        response.setMessage("Get Practise Test Success");
+        return response;
+
+    }
 
 
 }
