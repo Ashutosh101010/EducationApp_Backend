@@ -79,4 +79,16 @@ public class Result_Response {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return "Result_Response{" +
+                "message='" + message + '\'' +
+                ", errorCode=" + errorCode +
+                ", status=" + status +
+                ", result=" + result +
+                ", solutions=" + solutions +
+                ", resultList=" + resultList +
+                ", topics=" + topics +
+                '}';
+    }
 }

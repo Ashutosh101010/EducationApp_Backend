@@ -54,17 +54,17 @@ public class StudentUpdateController {
 
         try {
 
-
-            System.out.println(input.get("pic"));
-            System.out.println(input.get("bio").get(0).getBodyAsString());
-
-            System.out.println(input.get("gender").get(0).getBodyAsString());
-
-            System.out.println(input.get("state_id").get(0).getBodyAsString());
-            System.out.println(input.get("dob").get(0).getBodyAsString());
-            System.out.println(input.get("cityId").get(0).getBodyAsString());
-
-            System.out.println(input.get("address").get(0).getBodyAsString());
+//
+//            System.out.println(input.get("pic"));
+//            System.out.println(input.get("bio").get(0).getBodyAsString());
+//
+//            System.out.println(input.get("gender").get(0).getBodyAsString());
+//
+//            System.out.println(input.get("state_id").get(0).getBodyAsString());
+//            System.out.println(input.get("dob").get(0).getBodyAsString());
+//            System.out.println(input.get("cityId").get(0).getBodyAsString());
+//
+//            System.out.println(input.get("address").get(0).getBodyAsString());
 
 
             Long studId = Long.parseLong(input.get("stud_id").get(0).getBodyAsString());

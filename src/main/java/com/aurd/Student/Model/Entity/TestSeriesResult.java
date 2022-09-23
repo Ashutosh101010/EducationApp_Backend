@@ -27,7 +27,7 @@ public class TestSeriesResult {
 
 
         @Column(name = "total_marks",nullable = false)
-        private long total_marks;
+        private double total_marks;
 
         @Column(name = "marks_obtained",nullable = false)
         private  double marks_obtained;
@@ -145,15 +145,16 @@ public class TestSeriesResult {
             this.marks_obtained = marks_obtained;
         }
 
-        public long getTotal_marks() {
-            return total_marks;
-        }
 
-        public void setTotal_marks(long total_marks) {
-            this.total_marks = total_marks;
-        }
+    public double getTotal_marks() {
+        return total_marks;
+    }
 
-        public double getMarks_obtained() {
+    public void setTotal_marks(double total_marks) {
+        this.total_marks = total_marks;
+    }
+
+    public double getMarks_obtained() {
             return marks_obtained;
         }
 

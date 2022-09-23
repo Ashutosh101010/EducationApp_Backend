@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.Entity;
 
 import io.quarkus.runtime.annotations.IgnoreProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -111,10 +113,13 @@ public class LiveClassModel {
     @Transient
     boolean purchased;
 
-    @ElementCollection(targetClass = Integer.class)
+    @ElementCollection(targetClass = Integer.class,fetch = FetchType.EAGER)
+    @JoinTable(name="LiveSession_courses",joinColumns=@JoinColumn(name="LiveSession_live_session_id"))
     private List<Integer> courses;
 
-    @ElementCollection(targetClass = Integer.class)
+    @ElementCollection(targetClass = Integer.class,fetch = FetchType.EAGER)
+    @JoinTable(name="LiveSession_courses",joinColumns=@JoinColumn(name="LiveSession_live_session_id"))
+
     public List<Integer> getCourses() {
         return courses;
     }
@@ -282,5 +287,33 @@ public class LiveClassModel {
 
     public void setEnd_time(Timestamp end_time) {
         this.end_time = end_time;
+    }
+
+    @Override
+    public String toString() {
+        return "LiveClassModel{" +
+                "live_session_id=" + live_session_id +
+                ", title='" + title + '\'' +
+                ", batch='" + batch + '\'' +
+                ", subject='" + subject + '\'' +
+                ", sub_subject='" + sub_subject + '\'' +
+                ", topic='" + topic + '\'' +
+                ", quiz_id=" + quiz_id +
+                ", inst_id=" + inst_id +
+                ", faculty_id=" + faculty_id +
+                ", status=" + status +
+                ", date_time=" + date_time +
+                ", start_time=" + start_time +
+                ", end_time=" + end_time +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", fee_type='" + fee_type + '\'' +
+                ", youtubeLiveSession=" + youtubeLiveSession +
+                ", vimeoLiveSession=" + vimeoLiveSession +
+                ", courseName='" + courseName + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", image='" + image + '\'' +
+                ", purchased=" + purchased +
+                ", courses=" + courses +
+                '}';
     }
 }

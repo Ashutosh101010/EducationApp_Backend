@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Path("/testSeries/submitTestSeries")
 
@@ -69,7 +71,7 @@ public class Submit_TestSeries_Controller {
             ArrayList<Long> sectionIdList=new ArrayList<>();
             testSeriesModelList.forEach(practiseTestSeriesModel -> {
                 System.out.println(practiseTestSeriesModel.getId());
-                sectionIdList.add(Long.valueOf(practiseTestSeriesModel.getId()));
+                sectionIdList.add((long) practiseTestSeriesModel.getId());
             });
 
 //            List<TestSeriesQuestionMap> quizQuestionIDList  =
@@ -99,54 +101,46 @@ public class Submit_TestSeries_Controller {
 
             });
 
+            System.out.println(courseMap.toString());
 
 
             courseMap.forEach((aLong, testSeriesSubmitModels) -> {
+                PractiseTestSeriesModel testModel=getTestSeriesModel(testSeriesModelList,testSeriesSubmitModels.get(0).getQuiz_id());
+
+                TestSeriesResult resultModel = new TestSeriesResult();
+                resultModel.setTotal_marks((Double.parseDouble(testModel.getMarks_per_ques()) *testModel.getNumOfQuiz()));
+                AtomicReference<Double> marksObtained = new AtomicReference<>(0.0);
+                AtomicLong correctAns = new AtomicLong();
+                AtomicLong wrongAns = new AtomicLong();
+                int skippedAns = 0;
                 testSeriesSubmitModels.forEach(testSeriesSubmitModel -> {
-                    PractiseTestSeriesModel testModel=getTestSeriesModel(testSeriesModelList,testSeriesSubmitModel.getQuiz_id());
-                    long totalMarks = (long) Integer.parseInt(testModel.getMarks_per_ques()) *testModel.getNumOfQuiz();
-                    Double marksObtained = 0.0;
-                    long correctAns =0;
-                    long wrongAns = 0;
-                    int skippedAns = 0;
+
+
+//
                     TestSeriesQuestion quizQuestion = testSeriesQuestionRepository.
                             getQuestions(testSeriesSubmitModel.getQues_id());
                     if(testSeriesSubmitModel.getAns().equals(quizQuestion.getAnswer()))
                     {
-                        correctAns++;
-                        marksObtained = marksObtained + seriesModel.getMarks_per_ques();
+                        correctAns.getAndIncrement();
+                        marksObtained.set(marksObtained.get() + Double.parseDouble(testModel.getMarks_per_ques()));
 
 
                     }
                     else {
-                        wrongAns++;
-                        if (seriesModel.getNegative_marking() != null && !seriesModel.getNegative_marking().equals("0")) {
-                            double num = Integer.parseInt(seriesModel.getNegative_marking().split("/")[0]);
-                            double den = Integer.parseInt(seriesModel.getNegative_marking().split("/")[1]);
+                        wrongAns.getAndIncrement();
+                        if (testModel.getNegative_marking() != null && !testModel.getNegative_marking().equals("0")) {
+                            double num = Integer.parseInt(testModel.getNegative_marking().split("/")[0]);
+                            double den = Integer.parseInt(testModel.getNegative_marking().split("/")[1]);
 
-                            marksObtained = marksObtained - ((num / den) * seriesModel.getMarks_per_ques());
+                            marksObtained.set(marksObtained.get() - ((num / den) * Double.parseDouble(testModel.getMarks_per_ques())));
 
                         }
                     }
-// spell mistake in quiz as ques
-                    Integer numOfQues=testModel.getNumOfQuiz();
-                    skippedAns=numOfQues-testSeriesSubmitModels.size();
-
-                    TestSeriesResult resultModel = new TestSeriesResult();
-                    resultModel.setStud_id(studentId);
-                    resultModel.setInst_id(instId);
-                    resultModel.setQuiz_id(testSeriesSubmitModel.getQuiz_id());
-                    resultModel.setSkipped(skippedAns);
-                    resultModel.setTime(request.getTime());
+//// spell mistake in quiz as ques
+//
 
 
-                    resultModel.setMarks_obtained(marksObtained);
-                    resultModel.setTotal_marks(totalMarks);
-                    resultModel.setWrong_ans(wrongAns);
-                    resultModel.setCorrect_ans(correctAns);
 
-                    double  percent = (marksObtained *100)/totalMarks;
-                    resultModel.setPercent(percent);
 
 
 //                    if(seriesModel.getCutoff()!=null){
@@ -164,17 +158,38 @@ public class Submit_TestSeries_Controller {
 
 
 
-                    resultModel.setStatus("pass");
-                    insertData(resultModel);
 
-
-                    resultListMap.put(resultModel.getQuiz_id(),resultModel);
-                    System.out.println(resultModel.getQuiz_id());
-                    System.out.println(resultModel);
 
                 });
+                Integer numOfQues=testModel.getNumOfQuiz();
+                    skippedAns=numOfQues-testSeriesSubmitModels.size();
+
+                resultModel.setStud_id(studentId);
+                resultModel.setInst_id(instId);
+                resultModel.setQuiz_id(testModel.getId());
+                resultModel.setSkipped(skippedAns);
+                resultModel.setTime(request.getTime());
+
+
+                resultModel.setMarks_obtained(marksObtained.get());
+                resultModel.setWrong_ans(wrongAns.get());
+                resultModel.setCorrect_ans(correctAns.get());
+
+                double  percent = (marksObtained.get() *100)/resultModel.getTotal_marks();
+                resultModel.setPercent(percent);
+
+                resultModel.setStatus("pass");
+                insertData(resultModel);
+
+
+
+                resultListMap.put(resultModel.getQuiz_id(),resultModel);
+                System.out.println(resultModel.getQuiz_id());
+                System.out.println(resultModel);
+
             });
 
+            System.out.println(resultListMap.toString());
             List<TopicAnalysisModel> topicList=new ArrayList<>();
 
 
@@ -195,52 +210,27 @@ public class Submit_TestSeries_Controller {
             AtomicDouble totalPercent=new AtomicDouble(0);
 
 
-
-            testSeriesModelList.forEach(practiseTestSeriesModel -> {
+            resultListMap.forEach((aLong, testSeriesResult) -> {
                 TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
-                topicAnalysisModel.setSubject(practiseTestSeriesModel.getTest());
-                if(resultListMap.containsKey((long) practiseTestSeriesModel.getId()))
-                {
-                    TestSeriesResult topicResult=resultListMap.get(((long) practiseTestSeriesModel.getId()));
+                topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList,testSeriesResult.getQuiz_id()).getTest());
+
+                totalSkipped.getAndAdd(testSeriesResult.getSkipped());
+                totalMarksObtained.getAndAdd(testSeriesResult.getMarks_obtained());
+                totalMarks.getAndAdd((int) testSeriesResult.getTotal_marks());
+                totalWrongAns.getAndAdd((int) testSeriesResult.getWrong_ans());
+                totalCorrectAns.getAndAdd((int) testSeriesResult.getCorrect_ans());
+                totalPercent.getAndAdd(testSeriesResult.getPercent());
+
+                topicAnalysisModel.setTotalMarks(testSeriesResult.getTotal_marks());
+                topicAnalysisModel.setSkipped(testSeriesResult.getSkipped());
+                topicAnalysisModel.setMarksObtained(testSeriesResult.getMarks_obtained());
+                topicAnalysisModel.setWrongAns((int) testSeriesResult.getWrong_ans());
+                topicAnalysisModel.setCorrectAns((int) testSeriesResult.getCorrect_ans());
+                topicAnalysisModel.setPercent(testSeriesResult.getPercent());
 
 
-                    totalSkipped.getAndAdd(topicResult.getSkipped());
-                    totalMarksObtained.getAndAdd(topicResult.getMarks_obtained());
-                    totalMarks.getAndAdd((int) topicResult.getTotal_marks());
-                    totalWrongAns.getAndAdd((int) topicResult.getWrong_ans());
-                    totalCorrectAns.getAndAdd((int) topicResult.getCorrect_ans());
-                    totalPercent.getAndAdd(topicResult.getPercent());
-
-                }
-                else{
-                    totalSkipped.getAndAdd(practiseTestSeriesModel.getNumOfQuiz());
-                    totalMarksObtained.getAndAdd(0);
-                    totalMarks.getAndAdd(0);
-                    totalWrongAns.getAndAdd(0);
-                    totalCorrectAns.getAndAdd(0);
-                    totalPercent.getAndAdd(0);
-
-                }
-
-
-//                totalMarksObtained.getAndAdd(resultModel.getMarks_obtained());
-//                totalMarks.getAndAdd((int) resultModel.getTotal_marks());
-//                totalWrongAns.getAndAdd((int) resultModel.getWrong_ans());
-//                totalCorrectAns.getAndAdd((int) resultModel.getCorrect_ans());
-//                totalPercent.getAndAdd(resultModel.getPercent());
-
-                topicAnalysisModel.setQuestions(practiseTestSeriesModel.getNumOfQuiz());
-                topicAnalysisModel.setPercent(resultModel.getPercent());
-                topicAnalysisModel.setSkipped(resultModel.getSkipped());
-                topicAnalysisModel.setCorrectAns((int) resultModel.getCorrect_ans());
-                topicAnalysisModel.setWrongAns((int) resultModel.getWrong_ans());
-                topicAnalysisModel.setCorrectAns((int) resultModel.getCorrect_ans());
-                topicAnalysisModel.setTotalMarks((int) resultModel.getTotal_marks());
-                topicAnalysisModel.setMarksObtained(resultModel.getMarks_obtained());
 
                 topicList.add(topicAnalysisModel);
-
-
 
             });
 
@@ -274,6 +264,8 @@ public class Submit_TestSeries_Controller {
             response.setResult(new Gson().fromJson(new Gson().toJson(resultModel),SaveResultModel.class));
 //            response.setResultList(leaderBoardArrayList);
             response.setTopics(topicList);
+
+            System.out.println(response);
         }else{
             response.setErrorCode(1);
             response.setStatus(false);

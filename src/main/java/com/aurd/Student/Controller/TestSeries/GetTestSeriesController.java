@@ -48,7 +48,7 @@ public class GetTestSeriesController {
 //          StudentTestModel model = testRepository.find("test_series_id =?1 and student =?2",
 //                    quizModel.getQuiz_id().toString(),Long.valueOf(request.getStud_id()).intValue()).firstResult();
 
-            PurchaseTestModel purchaseTestModel=repository.find("test_seriesId=?1 and stud_id=?2", ((int) request.getStud_id()),quizModel.getQuiz_id()).firstResult();
+            PurchaseTestModel purchaseTestModel=repository.find("test_seriesId=?1 and stud_id=?2", quizModel.getQuiz_id(), ((int) request.getStud_id())).firstResult();
 
             List<TestEntity> testList=new ArrayList<>();
             String[] test=quizModel.getTest().substring(1,quizModel.getTest().length()-1).split(",");
@@ -124,6 +124,7 @@ public class GetTestSeriesController {
             response.setErrorCode(1);
             response.setMessage("No Test Series Found");
         }else{
+            System.out.println(testSeries);
             response.setTestSeriesList(testSeries);
             response.setStatus(true);
             response.setErrorCode(0);

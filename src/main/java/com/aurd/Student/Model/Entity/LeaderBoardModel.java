@@ -82,4 +82,19 @@ public class LeaderBoardModel {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "LeaderBoardModel{" +
+                "id=" + id +
+                ", stud_id=" + stud_id +
+                ", inst_id=" + inst_id +
+                ", marks_obtained=" + marks_obtained +
+                ", total_marks=" + total_marks +
+                ", status='" + status + '\'' +
+                ", percent=" + percent +
+                ", name='" + name + '\'' +
+                ", image='" + image + '\'' +
+                '}';
+    }
 }

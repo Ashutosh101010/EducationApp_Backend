@@ -52,6 +52,8 @@ public class TestSeries_PractiseTestController {
 
 
        });
+
+       System.out.println(arrayList);
        PractiseTestSeries_Response response = new PractiseTestSeries_Response();
 
 
@@ -101,7 +103,7 @@ public class TestSeries_PractiseTestController {
         return response;
 
     }
- @Path("series")
+ @Path("/series")
     @POST
     public PractiseTestSeries_Response getPractiseTestBySeries(Get_PractiseTestSeries_Request request){
 

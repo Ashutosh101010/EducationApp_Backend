@@ -67,7 +67,7 @@ public class GetAllPractiseTestController {
             query.setParameter(3,quizModel.getQuiz_id());
             Integer course = quizModel.getCourse_id();
             StudentCourseModel scm = studentCourseRepository.find("courseId=?1 and userId=?2",
-                    course.longValue(),request.getStud_id()).firstResult();
+                    course.intValue(),request.getStud_id()).firstResult();
             if(scm!=null){
                 quizEntity.setPurchased(true);
             }else{

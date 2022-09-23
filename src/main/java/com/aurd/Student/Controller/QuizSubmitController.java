@@ -75,7 +75,7 @@ public class QuizSubmitController {
 
 //            System.out.println("Quiz ID "+request.getArrayList().get(0).getQuiz_id());
 
-            Long quizId = request.getQuizId();
+            Integer quizId = request.getQuizId().intValue();
             Long studentId = request.getStudentId();
             Long instId = request.getInstId();
 

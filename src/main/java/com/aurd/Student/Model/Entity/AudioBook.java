@@ -1,9 +1,6 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -21,6 +18,17 @@ public class AudioBook {
     @GeneratedValue
     public Integer getId() {
         return id;
+    }
+
+    @Transient
+    Boolean purchased;
+
+    public Boolean getPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(Boolean purchased) {
+        this.purchased = purchased;
     }
 
     private String test_type;

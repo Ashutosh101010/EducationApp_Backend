@@ -22,7 +22,7 @@ public class StudentCourseModel {
    private long userId;
 
     @Column(name = "courseId",nullable = false)
-    private long courseId;
+    private Integer courseId;
 
     @Column(name = "actualFee",nullable = false)
     private double actualFee;
@@ -86,11 +86,11 @@ public class StudentCourseModel {
     }
 
 
-    public long getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(long courseId) {
+    public void setCourseId(Integer courseId) {
         this.courseId = courseId;
     }
 

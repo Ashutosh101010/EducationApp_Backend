@@ -65,7 +65,7 @@ public class GetPractiseTest_Result_Controller {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
 
-    @Transactional
+
     public Result_Response getResult(GetQuizResultRequest request){
 
         List<TopicAnalysisModel> topicList=new ArrayList<>();
@@ -76,7 +76,7 @@ public class GetPractiseTest_Result_Controller {
         QuizModel seriesModel=seriesRepository.find("id",request.getQuizID().intValue()).firstResult();
 
 
-        List<PractiseTestSeriesModel> testSeriesModelList=practiseTestSeriesRepository.find("series_id=?1 and test=?2",request.getQuizID(),request.getTestName()).list();
+        List<PractiseTestSeriesModel> testSeriesModelList=practiseTestSeriesRepository.find("series_id=?1 and course_name=?2",request.getQuizID(),request.getTestName()).list();
 
         ArrayList<Long> sectionIdList=new ArrayList<>();
         testSeriesModelList.forEach(practiseTestSeriesModel -> {
@@ -84,8 +84,10 @@ public class GetPractiseTest_Result_Controller {
             sectionIdList.add(Long.valueOf(practiseTestSeriesModel.getId()));
         });
 
+
         List<TestSeriesResult> resultList=resultRepository.resultList(request,sectionIdList);
 
+        System.out.println(resultList.size());
         Map<Long,TestSeriesResult> resultListMap=new HashMap<>();
 
         resultList.forEach(testSeriesResult -> {
@@ -109,45 +111,29 @@ public class GetPractiseTest_Result_Controller {
         AtomicDouble totalPercent=new AtomicDouble(0);
 
 
-        testSeriesModelList.forEach(practiseTestSeriesModel -> {
+
+        resultList.forEach(testSeriesResult -> {
+
             TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
-            topicAnalysisModel.setSubject(practiseTestSeriesModel.getTest());
-            if(resultListMap.containsKey((long) practiseTestSeriesModel.getId()))
-            {
-                TestSeriesResult topicResult=resultListMap.get(((long) practiseTestSeriesModel.getId()));
+            topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList,testSeriesResult.getQuiz_id()).getTest());
+
+            totalSkipped.getAndAdd(testSeriesResult.getSkipped());
+            totalMarksObtained.getAndAdd(testSeriesResult.getMarks_obtained());
+            totalMarks.getAndAdd((int) testSeriesResult.getTotal_marks());
+            totalWrongAns.getAndAdd((int) testSeriesResult.getWrong_ans());
+            totalCorrectAns.getAndAdd((int) testSeriesResult.getCorrect_ans());
+            totalPercent.getAndAdd(testSeriesResult.getPercent());
+
+            topicAnalysisModel.setTotalMarks(testSeriesResult.getTotal_marks());
+            topicAnalysisModel.setSkipped(testSeriesResult.getSkipped());
+            topicAnalysisModel.setMarksObtained(testSeriesResult.getMarks_obtained());
+            topicAnalysisModel.setWrongAns((int) testSeriesResult.getWrong_ans());
+            topicAnalysisModel.setCorrectAns((int) testSeriesResult.getCorrect_ans());
+            topicAnalysisModel.setPercent(testSeriesResult.getPercent());
 
 
-                totalSkipped.getAndAdd(topicResult.getSkipped());
-                totalMarksObtained.getAndAdd(topicResult.getMarks_obtained());
-                totalMarks.getAndAdd((int) topicResult.getTotal_marks());
-                totalWrongAns.getAndAdd((int) topicResult.getWrong_ans());
-                totalCorrectAns.getAndAdd((int) topicResult.getCorrect_ans());
-                totalPercent.getAndAdd(topicResult.getPercent());
-
-            }
-            else{
-                totalSkipped.getAndAdd(practiseTestSeriesModel.getNumOfQuiz());
-                totalMarksObtained.getAndAdd(0);
-                totalMarks.getAndAdd(0);
-                totalWrongAns.getAndAdd(0);
-                totalCorrectAns.getAndAdd(0);
-                totalPercent.getAndAdd(0);
-
-            }
-
-
-            topicAnalysisModel.setQuestions(practiseTestSeriesModel.getNumOfQuiz());
-            topicAnalysisModel.setPercent(resultModel.getPercent());
-            topicAnalysisModel.setSkipped(resultModel.getSkipped());
-            topicAnalysisModel.setCorrectAns((int) resultModel.getCorrect_ans());
-            topicAnalysisModel.setWrongAns((int) resultModel.getWrong_ans());
-            topicAnalysisModel.setCorrectAns((int) resultModel.getCorrect_ans());
-            topicAnalysisModel.setTotalMarks((int) resultModel.getTotal_marks());
-            topicAnalysisModel.setMarksObtained(resultModel.getMarks_obtained());
 
             topicList.add(topicAnalysisModel);
-
-
 
         });
 
@@ -185,7 +171,21 @@ public class GetPractiseTest_Result_Controller {
 //            response.setResultList(leaderBoardArrayList);
         response.setTopics(topicList);
 
+        System.out.println(response);
 return response;
+    }
+
+    public PractiseTestSeriesModel getTestSeriesModel(List<PractiseTestSeriesModel> testSeriesModelList,Long id)
+    {
+        for (PractiseTestSeriesModel model:
+                testSeriesModelList) {
+            if(model.getId()==id)
+            {
+                return  model;
+            }
+        }
+
+        return null;
     }
 
 

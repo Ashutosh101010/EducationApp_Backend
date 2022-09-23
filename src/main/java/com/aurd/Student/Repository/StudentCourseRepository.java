@@ -1,11 +1,14 @@
 package com.aurd.Student.Repository;
 
+import com.aurd.Student.Model.Entity.CourseModel;
 import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Request.GetStudentCourseRequest;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class StudentCourseRepository implements PanacheRepository<StudentCourseModel> {
@@ -28,6 +31,15 @@ public class StudentCourseRepository implements PanacheRepository<StudentCourseM
 
     }
 
+    public List<StudentCourseModel> getPurchasedCourse(Long studId,List<Integer> courses)
+    {
+        Query query= getEntityManager().createQuery("select StudentCourseModel from StudentCourseModel StudentCourseModel  where StudentCourseModel.userId=:studId and StudentCourseModel.courseId in :list");
+        query.setParameter("studId",studId);
+        query.setParameter("list",courses);
+
+        return query.getResultList();
+
+    }
 
 
 

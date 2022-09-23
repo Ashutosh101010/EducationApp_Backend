@@ -60,7 +60,7 @@ public class GetCoursesController {
                   (new Gson().toJson(courseModelArrayList.get(i)),CourseEntity.class);
 
           StudentCourseModel courseModel = studentCourseRepository.find("courseId=?1 and userId=?2",
-                  courseEntity.getId(),request.getStud_id()).firstResult();
+                  ((int) courseEntity.getId()),request.getStud_id()).firstResult();
 
           if(courseModel!=null){
               courseEntity.setPurchased(true);

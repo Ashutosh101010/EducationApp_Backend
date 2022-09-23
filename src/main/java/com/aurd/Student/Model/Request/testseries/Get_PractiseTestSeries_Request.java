@@ -2,11 +2,11 @@ package com.aurd.Student.Model.Request.testseries;
 
 public class Get_PractiseTestSeries_Request {
     int topic_id;
-    Long inst_id;
+    Integer inst_id;
 
 
 
-    long course_id;
+    Integer course_id;
 
     int test_series_id;
     int subject_id;
@@ -46,14 +46,13 @@ public class Get_PractiseTestSeries_Request {
         this.test_series_id = test_series_id;
     }
 
-    public long getCourse_id() {
+    public Integer getCourse_id() {
         return course_id;
     }
 
-    public void setCourse_id(long course_id) {
+    public void setCourse_id(Integer course_id) {
         this.course_id = course_id;
     }
-
 
     public int getTopic_id() {
         return topic_id;
@@ -63,11 +62,11 @@ public class Get_PractiseTestSeries_Request {
         this.topic_id = topic_id;
     }
 
-    public Long getInst_id() {
+    public Integer getInst_id() {
         return inst_id;
     }
 
-    public void setInst_id(Long inst_id) {
+    public void setInst_id(Integer inst_id) {
         this.inst_id = inst_id;
     }
 

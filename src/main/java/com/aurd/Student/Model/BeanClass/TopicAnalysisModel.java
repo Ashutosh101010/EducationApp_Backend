@@ -5,7 +5,7 @@ public class TopicAnalysisModel {
     int questions;
     double percent;
     double marksObtained;
-    int totalMarks;
+    double totalMarks;
     int cutOff;
     String status;
     int correctAns;
@@ -52,11 +52,11 @@ public class TopicAnalysisModel {
         this.cutOff = cutOff;
     }
 
-    public int getTotalMarks() {
+    public double getTotalMarks() {
         return totalMarks;
     }
 
-    public void setTotalMarks(int totalMarks) {
+    public void setTotalMarks(double totalMarks) {
         this.totalMarks = totalMarks;
     }
 
@@ -90,5 +90,21 @@ public class TopicAnalysisModel {
 
     public void setMarksObtained(double marksObtained) {
         this.marksObtained = marksObtained;
+    }
+
+    @Override
+    public String toString() {
+        return "TopicAnalysisModel{" +
+                "subject='" + subject + '\'' +
+                ", questions=" + questions +
+                ", percent=" + percent +
+                ", marksObtained=" + marksObtained +
+                ", totalMarks=" + totalMarks +
+                ", cutOff=" + cutOff +
+                ", status='" + status + '\'' +
+                ", correctAns=" + correctAns +
+                ", wrongAns=" + wrongAns +
+                ", skipped=" + skipped +
+                '}';
     }
 }

@@ -168,6 +168,26 @@ public class TestSeriesSubmitModel {
         public void setInst_id(int inst_id) {
             this.inst_id = inst_id;
         }
+
+    @Override
+    public String toString() {
+        return "TestSeriesSubmitModel{" +
+                "id=" + id +
+                ", stud_id=" + stud_id +
+                ", quiz_id=" + quiz_id +
+                ", ques_id=" + ques_id +
+                ", ans='" + ans + '\'' +
+                ", marks_ob=" + marks_ob +
+                ", is_visited=" + is_visited +
+                ", is_ansered=" + is_ansered +
+                ", is_marked=" + is_marked +
+                ", added_on=" + added_on +
+                ", inst_id=" + inst_id +
+                ", markForReview=" + markForReview +
+                ", subjectId=" + subjectId +
+                ", subject='" + subject + '\'' +
+                '}';
     }
+}
 
 

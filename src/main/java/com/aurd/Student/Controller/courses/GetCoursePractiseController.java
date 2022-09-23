@@ -48,12 +48,12 @@ public class GetCoursePractiseController {
         ArrayList<QuizModel> list = new ArrayList<>();
          if(request.getFilter().equals("")|| request.getFilter().isEmpty()){
 
-             String lastId = "";
-             if(request.getLastId()==null||request.getLastId().equals("")){
-                 lastId = sdf.format(calendar.getTime());
-             }else{
-                 lastId = request.getLastId();
-             }
+//             String lastId = "";
+//             if(request.getLastId()==null||request.getLastId().equals("")){
+//                 lastId = sdf.format(calendar.getTime());
+//             }else{
+//                 lastId = request.getLastId();
+//             }
 
 //            String string = "SELECT quiz_master.quiz_id,quiz_master.course_id,quiz_master.title,quiz_master.discription," +
 //                    " quiz_master.pic,quiz_master.price,quiz_master.test_start,quiz_master.test_duration," +
@@ -62,61 +62,62 @@ public class GetCoursePractiseController {
 //                    "quiz_master.quiz_type,quiz_master.test_end FROM `quiz_master`" +
 //                    " WHERE quiz_master.course_id = ? AND quiz_master.type =? AND quiz_master.inst_id =? AND quiz_master.time <? ORDER BY time DESC ";
 
-         String string="select QuizModel from QuizModel where QuizModel.course_id=:courseId and QuizModel.type=:type and QuizModel.inst_id=:instId and QuizModel.time<:time order by time desc ";
+         String string="select QuizModel from QuizModel QuizModel where QuizModel.course_id=:courseId and QuizModel.type=:type and QuizModel.inst_id=:instId order by QuizModel.time desc ";
         Query query = quizRepository.getEntityManager().createQuery(string);
 
             query.setParameter("courseId",request.getCourse_id());
             query.setParameter("type","Monthly Test");
             query.setParameter("instId",request.getInst_id());
-            query.setParameter("time",lastId);
+//            query.setParameter("time",lastId);
 
-           list  = (ArrayList<QuizModel>) query.setMaxResults(10).getResultList();
+            System.out.println(query.toString());
+           list  = (ArrayList<QuizModel>) query.getResultList();
 
 
         }else{
             if(request.getFilter().equals("free")){
 
 
-                String lastId = "";
-                if(request.getLastId()==null || request.getLastId().equals("")){
-                    lastId = sdf.format(calendar.getTime());
-                }else{
-                    lastId = request.getLastId();
-                }
+//                String lastId = "";
+//                if(request.getLastId()==null || request.getLastId().equals("")){
+//                    lastId = sdf.format(calendar.getTime());
+//                }else{
+//                    lastId = request.getLastId();
+//                }
 
-                String string="select QuizModel from QuizModel where QuizModel.course_id=:courseId and QuizModel.test_type=:testType and QuizModel.type=:type and QuizModel.inst_id=:instId and QuizModel.time<:time order by time desc ";
+                String string="select QuizModel from QuizModel QuizModel where QuizModel.course_id=:courseId and QuizModel.test_type=:testType and QuizModel.type=:type and QuizModel.inst_id=:instId  order by QuizModel.time desc ";
                 Query query = quizRepository.getEntityManager().createQuery(string);
 
                 query.setParameter("courseId",request.getCourse_id());
                 query.setParameter("type","Monthly Test");
                 query.setParameter("instId",request.getInst_id());
-                query.setParameter("time",lastId);
+//                query.setParameter("time",lastId);
                 query.setParameter("testType","free");
 
-                list  = (ArrayList<QuizModel>) query.setMaxResults(10).getResultList();
+                list  = (ArrayList<QuizModel>) query.getResultList();
 
 
             }
             else{
 
-                String lastId = "";
-                if(request.getLastId()==null || request.getLastId().equals("")){
-                    lastId = sdf.format(calendar.getTime());
-                }else{
-                    lastId = request.getLastId();
-                }
+//                String lastId = "";
+//                if(request.getLastId()==null || request.getLastId().equals("")){
+//                    lastId = sdf.format(calendar.getTime());
+//                }else{
+//                    lastId = request.getLastId();
+//                }
 
 
-                String string="select QuizModel from QuizModel where QuizModel.course_id=:courseId and QuizModel.type=:type and QuizModel.price>:price and QuizModel.inst_id=:instId and QuizModel.time<:time order by time desc ";
+                String string="select QuizModel from QuizModel QuizModel where QuizModel.course_id=:courseId and QuizModel.type=:type and QuizModel.price>:price and QuizModel.inst_id=:instId  order by QuizModel.time desc ";
                 Query query = quizRepository.getEntityManager().createQuery(string);
 
                 query.setParameter("courseId",request.getCourse_id());
                 query.setParameter("type","Monthly Test");
                 query.setParameter("instId",request.getInst_id());
-                query.setParameter("time",lastId);
+//                query.setParameter("time",lastId);
                 query.setParameter("price",0);
 
-                list  = (ArrayList<QuizModel>) query.setMaxResults(10).getResultList();
+                list  = (ArrayList<QuizModel>) query.getResultList();
 
 
             }

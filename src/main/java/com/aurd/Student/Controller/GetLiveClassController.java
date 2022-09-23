@@ -41,17 +41,23 @@ public class GetLiveClassController {
     StudentCourseRepository studentCourseRepository;
 
     @POST
-    @Transactional
 
     public GetLiveClassResponse getLiveClasses(LiveClassesRequest request){
 
        ArrayList<LiveClassModel> arrayList = repository.getLiveSessions(request);
 
        arrayList.forEach(liveClassModel -> {
-           List<Integer> courses = liveClassModel.getCourses();
            Integer faculty = liveClassModel.getFaculty_id();
 
 
+          List<StudentCourseModel> studentCourseModels= studentCourseRepository.getPurchasedCourse(request.getStud_id(),liveClassModel.getCourses());
+
+          if(studentCourseModels==null || studentCourseModels.isEmpty())
+          {
+              liveClassModel.setPurchased(false);
+          }else{
+              liveClassModel.setPurchased(true);
+          }
 //         CourseModel courseModel = coursesRepository.find("id",course.longValue()).firstResult();
 //         if(courseModel!=null){
 //             liveClassModel.setCourseName(courseModel.getCourse());
@@ -72,6 +78,8 @@ public class GetLiveClassController {
              liveClassModel.setImage(model.getProfile());
          }
        });
+
+       System.out.println(arrayList);
 
 
         GetLiveClassResponse response = new GetLiveClassResponse();

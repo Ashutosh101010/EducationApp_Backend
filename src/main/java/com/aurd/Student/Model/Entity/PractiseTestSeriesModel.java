@@ -204,4 +204,27 @@ public class PractiseTestSeriesModel {
     public void setCut_off(int cut_off) {
         this.cut_off = cut_off;
     }
+
+    @Override
+    public String toString() {
+        return "PractiseTestSeriesModel{" +
+                "id=" + id +
+                ", cut_off=" + cut_off +
+                ", courseName='" + courseName + '\'' +
+                ", testType='" + testType + '\'' +
+                ", price=" + price +
+                ", image='" + image + '\'' +
+                ", numOfQuiz=" + numOfQuiz +
+                ", languages='" + languages + '\'' +
+                ", seriesId='" + seriesId + '\'' +
+                ", duration='" + duration + '\'' +
+                ", status=" + status +
+                ", created_at=" + created_at +
+                ", updated_at='" + updated_at + '\'' +
+                ", marks_per_ques='" + marks_per_ques + '\'' +
+                ", negative_marking='" + negative_marking + '\'' +
+                ", test='" + test + '\'' +
+                ", attempt=" + attempt +
+                '}';
+    }
 }

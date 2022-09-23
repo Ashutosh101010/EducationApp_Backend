@@ -77,4 +77,18 @@ public class SolutionEntity {
     public void setAnswer(String answer) {
         this.answer = answer;
     }
+
+    @Override
+    public String toString() {
+        return "SolutionEntity{" +
+                "question='" + question + '\'' +
+                ", myAnswer='" + myAnswer + '\'' +
+                ", answer='" + answer + '\'' +
+                ", description='" + description + '\'' +
+                ", options=" + options +
+                ", markForReview=" + markForReview +
+                ", skipped=" + skipped +
+                ", subject='" + subject + '\'' +
+                '}';
+    }
 }
