@@ -23,6 +23,16 @@ public class QuizQuestionEntity {
     String option_discription;
     String subject;
 
+    private String question_with_images;
+
+    public String getQuestion_with_images() {
+        return question_with_images;
+    }
+
+    public void setQuestion_with_images(String question_with_images) {
+        this.question_with_images = question_with_images;
+    }
+
     public String getSubject() {
         return subject;
     }

@@ -119,6 +119,9 @@ public class QuizModel {
     @Transient
     List<TestEntity> testList;
 
+
+
+
     public List<TestEntity> getTestList() {
         return testList;
     }

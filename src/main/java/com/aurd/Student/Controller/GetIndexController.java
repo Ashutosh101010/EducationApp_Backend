@@ -8,6 +8,7 @@ import com.aurd.Student.Model.Request.GetIndexRequest;
 import com.aurd.Student.Model.Response.GetIndexResponse;
 import com.aurd.Student.Repository.*;
 import com.google.gson.Gson;
+import org.apache.james.mime4j.dom.datetime.DateTime;
 
 
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Path("/getIndex")
@@ -104,7 +106,7 @@ public class GetIndexController {
 
         System.out.println(new Gson().toJson(request));
 
-        ArrayList<Index_Model> arrayList = new ArrayList<>();
+        List<Index_Model> indexList = new ArrayList<>();
         ArrayList<Object[]> list = null;
         ArrayList<Object> vList = new ArrayList<>();
 
@@ -113,165 +115,264 @@ public class GetIndexController {
             System.out.println("Some filter entry");
 
 
-        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        if(request.getFilter()!=null && !request.getFilter().isEmpty())
-            {
-                Query query=null;
-                if(request.getLastId()!=null && !request.getLastId().isEmpty())
-                {
-                     query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
-                            "Index_Model.type=:type and Index_Model.created_on < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
-                    query.setParameter("instId",request.getInst_id());
-                    query.setParameter("type",request.getFilter());
-                    query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
-
-//                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
-
-                }
-                else{
-                     query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
-                            "Index_Model.type=:type and Index_Model.created_on between :startDate and :endDate order by Index_Model.created_on desc ")
-                            .setParameter("instId",request.getInst_id())
-                            .setParameter("type",request.getFilter());
-
-
-                }
-
-                if(request.getDate()!=null && !request.getDate().isEmpty())
-                {
-//                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
-                   String startDate = request.getDate()+" 00:00:00";
-                    System.out.println(startDate);
-                    query.setParameter("startDate",new Date(formatter.parse(startDate).getTime()));
-                //    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
-//                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
-                    String endDate = request.getDate()+" 23:59:59";
-                    System.out.println(endDate);
-                    query.setParameter("endDate",new Date(formatter.parse(endDate).getTime()));
-
-                }
-                else{
-                    query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
-                    query.setParameter("endDate",new Date(System.currentTimeMillis()));
-                }
-
-                if(request.getPageCount()>0)
-                {
-                    query.setMaxResults(request.getPageCount());
-                }
-                arrayList=new ArrayList<>(query.getResultList());
-            }
-            else{
             Query query=null;
-                if(request.getLastId()!=null && !request.getLastId().isEmpty())
-                {
-                     query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
-                            " and Index_Model.created_on < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
-                    query.setParameter("instId",request.getInst_id());
-                    query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
-
-                }
-                else{
-                     query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
-                            " and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
-                            .setParameter("instId",request.getInst_id());
-
-                }
-            if(request.getDate()!=null && !request.getDate().isEmpty())
-            {
-
-                Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
-                System.out.println(startDate);
-                query.setParameter("startDate",startDate);
-
-                Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
-                System.out.println(endDate);
-                query.setParameter("endDate",endDate);
-
+            String startDate="";
+            String endDate="";
+            if(request.getDate()!=null && !request.getDate().isEmpty()){
+                startDate=request.getDate()+" 00:00:00";
+                endDate=request.getDate()+" 23:59:59";
             }
             else{
-                query.setParameter("startDate",new Date(formatter.parse("2000-01-01"+" 00:00:00").getTime()));
-                query.setParameter("endDate",new Date(System.currentTimeMillis()));
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                startDate="2000/01/01 00:00:00";
+                endDate=formatter.format(new Date())+" 23:59:59";
             }
-            if(request.getPageCount()>0)
+            if(request.getFilter()!=null && !request.getFilter().isEmpty())
             {
-                query.setMaxResults(request.getPageCount());
+                query=indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model " +
+                        "Index_Model where Index_Model.inst_id=:instId and Index_Model.created_on>=:startDate and Index_Model.created_on<=:endDate and Index_Model.type=:type order by Index_Model.id desc ");
+                query.setParameter("instId",request.getInst_id());
+                query.setParameter("startDate",new Date(startDate));
+                query.setParameter("endDate",new Date(endDate));
+                query.setParameter("type",request.getFilter());
+
             }
-            arrayList=new ArrayList<>(query.getResultList());
+           else
+            {
+                query=indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model " +
+                        "Index_Model where Index_Model.inst_id=:instId and Index_Model.created_on>=:startDate and Index_Model.created_on<=:endDate order by Index_Model.id desc ");
+                query.setParameter("instId",request.getInst_id());
+                query.setParameter("startDate",new Date(startDate));
+                query.setParameter("endDate",new Date(endDate));
+
             }
 
-         System.out.println(arrayList.size());
-
-         arrayList.forEach(model -> {
-try {
-    model.setTimeStamp(model.getCreated_on().getTime());
-    if (model.getType().equals(Constants.indexType.blog.name())) {
-
-        BlogEntity blogEntity = getBlogs(model, request);
-        blogEntity.setIndexId(model.getId());
-        blogEntity.setTimeStamp(blogEntity.getCreated_on().getTime());
-        vList.add(blogEntity);
 
 
-    } else if (model.getType().equals(Constants.indexType.current_affair.name())) {
-        CurrentAffairEntity entity = getCurrentAffair(model, request);
-        entity.setIndexId(model.getId());
-        entity.setTimeStamp(entity.getCreated_at().getTime());
-        vList.add(entity);
+           query.setFirstResult(request.getPage());
+           query.setMaxResults(request.getPageCount());
+
+           indexList=query.getResultList();
 
 
-    } else if (model.getType().equals(Constants.indexType.notes.name())) {
-        NotesEntity notesEntity = getNotes(model, request);
-        notesEntity.setIndexId(model.getId());
-        notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
-        vList.add(notesEntity);
+           indexList.forEach(index_model -> {
+               if(index_model.getType().equals(Constants.indexType.blog.name()))
+               {
+                   BlogEntity blogEntity=getBlogs(index_model,request);
+                   blogEntity.setIndexId(index_model.getId());
+                   blogEntity.setTimeStamp(index_model.getTimeStamp());
+                   vList.add(blogEntity);
+               }
+               else if (index_model.getType().equals(Constants.indexType.current_affair.name())) {
+                   CurrentAffairEntity entity = getCurrentAffair(index_model, request);
+                   entity.setIndexId(index_model.getId());
+                   entity.setTimeStamp(entity.getCreated_at().getTime());
+                   vList.add(entity);
+               }
+               else if (index_model.getType().equals(Constants.indexType.notes.name())) {
+                   NotesEntity notesEntity = getNotes(index_model, request);
+                   notesEntity.setIndexId(index_model.getId());
+                   notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
+                   vList.add(notesEntity);
+               }
+               else if (index_model.getType().equals(Constants.indexType.video.name())) {
+                   VideoEntity videoEntity = getVideos(index_model, request);
+                   videoEntity.setIndexId(index_model.getId());
+                   videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
+                   vList.add(videoEntity);
+               }
+               else if (index_model.getType().equals(Constants.indexType.doubt.name())) {
+                   StudentPostEntity entity = getPost(index_model, request);
+                   if (entity.getPostStatus() == 1) {
+                       entity.setIndexId(index_model.getId());
+                       entity.setTimeStamp(index_model.getCreated_on().getTime());
+                       vList.add(entity);
+                   }
+               }
+               else if (index_model.getType().equals(Constants.indexType.quiz.name())) {
+                   QuizEntity quizEntity = getQuizzes(index_model, request);
+                   quizEntity.setIndexId(index_model.getId());
+                   quizEntity.setTimeStamp(index_model.getCreated_on().getTime());
+                   vList.add(quizEntity);
+               }
+               else if (index_model.getType().equals(Constants.indexType.test.name())) {
+                   QuizEntity quizEntity = getAllTest(index_model, request);
+                   quizEntity.setIndexId(index_model.getId());
+                   quizEntity.setTimeStamp(quizEntity.getAdded_on().getTime());
+                   vList.add(quizEntity);
+               }
+               else if (index_model.getType().equals(Constants.indexType.audio.name())) {
+                   AudioEntity audioEntity = getAudio(index_model, request);
+                   audioEntity.setIndexId(index_model.getId());
+                   audioEntity.setTimeStamp(audioEntity.getCreated_at().getTime());
+                   vList.add(audioEntity);
+               }
 
-    } else if (model.getType().equals(Constants.indexType.video.name())) {
-        VideoEntity videoEntity = getVideos(model, request);
+           });
 
-        videoEntity.setIndexId(model.getId());
-        videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
-        vList.add(videoEntity);
+//        if(request.getFilter()!=null && !request.getFilter().isEmpty())
+//            {
+//                Query query=null;
+//                if(request.getLastId()!=null && !request.getLastId().isEmpty())
+//                {
+//                     query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
+//                            "Index_Model.type=:type and Index_Model.created_on < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
+//                    query.setParameter("instId",request.getInst_id());
+//                    query.setParameter("type",request.getFilter());
+//                    query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
+//
+////                    arrayList=new ArrayList<>(query.setMaxResults(10).getResultList());
+//
+//                }
+//                else{
+//                     query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId and " +
+//                            "Index_Model.type=:type and Index_Model.created_on between :startDate and :endDate order by Index_Model.created_on desc ")
+//                            .setParameter("instId",request.getInst_id())
+//                            .setParameter("type",request.getFilter());
+//
+//
+//                }
+//
+//                if(request.getDate()!=null && !request.getDate().isEmpty())
+//                {
+////                    Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
+//                   String startDate = request.getDate()+" 00:00:00";
+//                    System.out.println(startDate);
+//                    query.setParameter("startDate",new Date(formatter.parse(startDate).getTime()));
+//                //    query.setParameter("startDate",formatter.parse(request.getDate()+" 00:00:00"));
+////                    Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
+//                    String endDate = request.getDate()+" 23:59:59";
+//                    System.out.println(endDate);
+//                    query.setParameter("endDate",new Date(formatter.parse(endDate).getTime()));
+//
+//                }
+//                else{
+//                    query.setParameter("startDate",formatter.parse("2000-01-01"+" 00:00:00"));
+//                    query.setParameter("endDate",new Date(System.currentTimeMillis()));
+//                }
+//
+//                if(request.getPageCount()>0)
+//                {
+//                    query.setMaxResults(request.getPageCount());
+//                }
+//                arrayList=new ArrayList<>(query.getResultList());
+//            }
+//            else{
+//            Query query=null;
+//                if(request.getLastId()!=null && !request.getLastId().isEmpty())
+//                {
+//                     query =  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
+//                            " and Index_Model.created_on < : lastId and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ");
+//                    query.setParameter("instId",request.getInst_id());
+//                    query.setParameter("lastId",new Date(Long.valueOf(request.getLastId())));
+//
+//                }
+//                else{
+//                     query=  indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model Index_Model where Index_Model.inst_id = : instId " +
+//                            " and Index_Model.created_on between :startDate and : endDate order by Index_Model.created_on desc ")
+//                            .setParameter("instId",request.getInst_id());
+//
+//                }
+//            if(request.getDate()!=null && !request.getDate().isEmpty())
+//            {
+//
+//                Date startDate=new Date(formatter.parse(request.getDate()+" 00:00:00").getTime());
+//                System.out.println(startDate);
+//                query.setParameter("startDate",startDate);
+//
+//                Date endDate=new Date(formatter.parse(request.getDate()+" 23:59:59").getTime());
+//                System.out.println(endDate);
+//                query.setParameter("endDate",endDate);
+//
+//            }
+//            else{
+//                query.setParameter("startDate",new Date(formatter.parse("2000-01-01"+" 00:00:00").getTime()));
+//                query.setParameter("endDate",new Date(System.currentTimeMillis()));
+//            }
+//            if(request.getPageCount()>0)
+//            {
+//                query.setMaxResults(request.getPageCount());
+//            }
+//            arrayList=new ArrayList<>(query.getResultList());
+//            }
 
-    } else if (model.getType().equals(Constants.indexType.post.name())) {
-        StudentPostEntity entity = getPost(model, request);
-        if (entity.getPostStatus() == 1) {
-            entity.setIndexId(model.getId());
-            entity.setTimeStamp(model.getCreated_on().getTime());
-            vList.add(entity);
-        }
-    } else if (model.getType().equals(Constants.indexType.quiz.name())) {
-        QuizEntity quizEntity = getQuizzes(model, request);
-        quizEntity.setIndexId(model.getId());
-        quizEntity.setTimeStamp(model.getCreated_on().getTime());
-        vList.add(quizEntity);
-    }
-    else if (model.getType().equals(Constants.indexType.test.name())) {
-        QuizEntity quizEntity = getAllTest(model, request);
-        quizEntity.setIndexId(model.getId());
-        quizEntity.setTimeStamp(quizEntity.getAdded_on().getTime());
-        vList.add(quizEntity);
-    }
-    else if (model.getType().equals(Constants.indexType.audio.name())) {
-        AudioEntity audioEntity = getAudio(model, request);
+//         System.out.println(arrayList.size());
 
-        audioEntity.setIndexId(model.getId());
-        audioEntity.setTimeStamp(audioEntity.getCreated_at().getTime());
-        vList.add(audioEntity);
-    }
+//         arrayList.forEach(model -> {
+//try {
+//    model.setTimeStamp(model.getCreated_on().getTime());
+//    if (model.getType().equals(Constants.indexType.blog.name())) {
+//
+//        BlogEntity blogEntity = getBlogs(model, request);
+//        blogEntity.setIndexId(model.getId());
+//        blogEntity.setTimeStamp(blogEntity.getCreated_on().getTime());
+//        vList.add(blogEntity);
+//
+//
+//    }
+//    else if (model.getType().equals(Constants.indexType.current_affair.name())) {
+//        CurrentAffairEntity entity = getCurrentAffair(model, request);
+//        entity.setIndexId(model.getId());
+//        entity.setTimeStamp(entity.getCreated_at().getTime());
+//        vList.add(entity);
+//
+//
+//    }
+//    else if (model.getType().equals(Constants.indexType.notes.name())) {
+//        NotesEntity notesEntity = getNotes(model, request);
+//        notesEntity.setIndexId(model.getId());
+//        notesEntity.setTimeStamp(notesEntity.getCreated_at().getTime());
+//        vList.add(notesEntity);
+//
+//    }
+//    else if (model.getType().equals(Constants.indexType.video.name())) {
+//        VideoEntity videoEntity = getVideos(model, request);
+//
+//        videoEntity.setIndexId(model.getId());
+//        videoEntity.setTimeStamp(videoEntity.getCreated_at().getTime());
+//        vList.add(videoEntity);
+//
+//    }
+//    else if (model.getType().equals(Constants.indexType.post.name())) {
+//        StudentPostEntity entity = getPost(model, request);
+//        if (entity.getPostStatus() == 1) {
+//            entity.setIndexId(model.getId());
+//            entity.setTimeStamp(model.getCreated_on().getTime());
+//            vList.add(entity);
+//        }
+//    }
+//    else if (model.getType().equals(Constants.indexType.quiz.name())) {
+//        QuizEntity quizEntity = getQuizzes(model, request);
+//        quizEntity.setIndexId(model.getId());
+//        quizEntity.setTimeStamp(model.getCreated_on().getTime());
+//        vList.add(quizEntity);
+//    }
+//    else if (model.getType().equals(Constants.indexType.test.name())) {
+//        QuizEntity quizEntity = getAllTest(model, request);
+//        quizEntity.setIndexId(model.getId());
+//        quizEntity.setTimeStamp(quizEntity.getAdded_on().getTime());
+//        vList.add(quizEntity);
+//    }
+//    else if (model.getType().equals(Constants.indexType.audio.name())) {
+//        AudioEntity audioEntity = getAudio(model, request);
+//
+//        audioEntity.setIndexId(model.getId());
+//        audioEntity.setTimeStamp(audioEntity.getCreated_at().getTime());
+//        vList.add(audioEntity);
+//    }
+//
+//}catch (Exception e)
+//{
+//    e.printStackTrace();
+//}
 
-}catch (Exception e)
-{
-    e.printStackTrace();
-}
-
-         });
+//         });
 
 
 
 
         GetIndexResponse getIndexResponse= new GetIndexResponse();
-        getIndexResponse.setIndex(arrayList);
+        getIndexResponse.setIndex(indexList);
         getIndexResponse.setMessage("Get Index Successfully");
         getIndexResponse.setStatus(true);
         getIndexResponse.setErrorCode(0);
@@ -462,7 +563,7 @@ try {
 
         }
 
-      StudentCourseModel scModel = studentCourseRepository.find("userId=?1 and courseId=?2",Long.valueOf(request.getStudId()),Long.valueOf(courseModel.getId())).firstResult();
+      StudentCourseModel scModel = studentCourseRepository.find("userId=?1 and courseId=?2",Long.valueOf(request.getStudId()), ((int) courseModel.getId())).firstResult();
         if(scModel!=null){
             entity.setPurchased(true);
         }else{
@@ -573,13 +674,13 @@ try {
 
     QuizEntity getQuizzes(Index_Model model, GetIndexRequest request){
         System.out.println("Get Quiz");
-        Long val = Long.valueOf(model.getPost_id());
+//        Long val = Long.valueOf(model.getPost_id());
         QuizModel quizModel =  quizRepository.find("id =?1 and inst_id = ?2 and type = ?3",
-                val,request.getInst_id().intValue(),"Quiz").firstResult();
+                model.getPost_id(),request.getInst_id().intValue(),"Quiz").firstResult();
 
 
         SaveResultModel resultModel = resultRepository.find("quiz_id =?1 and inst_id =?2 and stud_id =?3",
-                quizModel.getQuiz_id(),request.getInst_id(),request.getStudId()).firstResult();
+                quizModel.getQuiz_id().longValue(),request.getInst_id(),request.getStudId()).firstResult();
 
 
 
@@ -616,7 +717,7 @@ try {
               entity.setCourse_id(videoModel.getCourse_id());
        }
 
-      StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),Long.valueOf(videoModel.getCourse_id())).firstResult();
+      StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),videoModel.getCourse_id()).firstResult();
        if(scModel!=null){
            entity.setPurchased(true);
        }else{
@@ -626,7 +727,7 @@ try {
 
        if(videoModel.getTopicId()!=null){
             TopicModel topicModel = topicsRepository.find("id",
-                    videoModel.getTopicId()).firstResult();
+                    videoModel.getTopicId().longValue()).firstResult();
             entity.setTopic(topicModel.getTopic());
         }
         if(videoModel.getSubject_id()!=null){
@@ -735,7 +836,7 @@ try {
 
         Long val = Long.valueOf(model.getPost_id());
 
-        QuizModel quizModel = quizRepository.find("inst_id=?1 and quiz_id = ?2 and type = ?3 ", request.getInst_id().intValue(), val, "Monthly Test").firstResult();
+        QuizModel quizModel = quizRepository.find("inst_id=?1 and quiz_id = ?2 and type = ?3 ", request.getInst_id().intValue(), val.intValue(), "Monthly Test").firstResult();
         QuizEntity entity = new QuizEntity();
         entity.setQuiz_id(quizModel.getQuiz_id());
         entity.setInst_id(quizModel.getInst_id());
@@ -776,7 +877,7 @@ try {
 
 
         SaveResultModel resultModel = resultRepository.find("quiz_id =?1 and inst_id =?2 and stud_id =?3",
-                quizModel.getQuiz_id(),request.getInst_id(),request.getStudId()).firstResult();
+                quizModel.getQuiz_id().longValue(),request.getInst_id(),request.getStudId()).firstResult();
 
         if (resultModel == null) {
             entity.setAttempt(false);

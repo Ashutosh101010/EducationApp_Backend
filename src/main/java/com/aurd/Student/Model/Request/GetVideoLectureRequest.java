@@ -1,8 +1,8 @@
 package com.aurd.Student.Model.Request;
 
 public class GetVideoLectureRequest {
-    long instID;
-    long topicID;
+    Integer instID;
+    Integer topicID;
     String filter;
 
 
@@ -14,19 +14,19 @@ public class GetVideoLectureRequest {
         this.filter = filter;
     }
 
-    public long getTopicID() {
+    public Integer getTopicID() {
         return topicID;
     }
 
-    public void setTopicID(long topicID) {
+    public void setTopicID(Integer topicID) {
         this.topicID = topicID;
     }
 
-    public long getInstID() {
+    public Integer getInstID() {
         return instID;
     }
 
-    public void setInstID(long instID) {
+    public void setInstID(Integer instID) {
         this.instID = instID;
     }
 }

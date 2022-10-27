@@ -19,9 +19,11 @@ import java.util.List;
 public class TestSeriesSubmitRepository implements PanacheRepository<TestSeriesSubmitModel> {
 
     @Transactional
-    public boolean submitStudentQuizResponses(QuizSubmitRequest request){
+    public List<TestSeriesSubmitModel> submitStudentQuizResponses(QuizSubmitRequest request){
 
+        List<TestSeriesSubmitModel> testSeriesSubmitModels=new ArrayList<>();
         try{
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Calendar now = Calendar.getInstance();
             System.out.println(sdf.format(now.getTime()));
@@ -48,15 +50,18 @@ public class TestSeriesSubmitRepository implements PanacheRepository<TestSeriesS
 
 
 
+                testSeriesSubmitModels.add(testSeriesSubmitModel);
                 persistAndFlush(testSeriesSubmitModel);
+
                 System.out.println("After persisted "+new Gson().toJson(testSeriesSubmitModel));
+
 //                getEntityManager().flush();
             }
 
-            return  true;
+            return testSeriesSubmitModels;
         }catch (Exception e){
             e.printStackTrace();
-            return  false;
+            return  null;
         }
 
 

@@ -1,5 +1,7 @@
 package com.aurd.Student.Controller.TestSeries;
 
+import com.aurd.Student.Model.BeanClass.QuizQuestionEntity;
+import com.aurd.Student.Model.BeanClass.SolutionEntity;
 import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
 import com.aurd.Student.Model.Entity.*;
 import com.aurd.Student.Model.Request.QuizSubmitRequest;
@@ -41,6 +43,13 @@ public class Submit_TestSeries_Controller {
     @Inject
     PractiseTestSeriesRepository practiseTestSeriesRepository;
 
+    @Inject
+    TestSeriesQuestionMapRepository testSeriesQuestionMapRepository;
+
+    @Inject
+    TestSeriesQuestionOptionModelRepository testSeriesQuestionOptionModelRepository;
+
+
 //    @Inject StudentRepository studentRepository;
 
     @Inject
@@ -56,11 +65,12 @@ public class Submit_TestSeries_Controller {
         System.out.println(new Gson().toJson(request));
         Result_Response response = new Result_Response();
 
-        boolean value = repository.submitStudentQuizResponses(request);
-        System.out.println(value);
+        List<TestSeriesSubmitModel> submitModels  = repository.submitStudentQuizResponses(request);
 
 
-        if(value==true){
+        List<SolutionEntity> solutions=new ArrayList<>();
+
+        if(submitModels!=null){
 
 
             Long studentId = request.getStudentId();
@@ -115,24 +125,19 @@ public class Submit_TestSeries_Controller {
                 int skippedAns = 0;
                 testSeriesSubmitModels.forEach(testSeriesSubmitModel -> {
 
-
-//
                     TestSeriesQuestion quizQuestion = testSeriesQuestionRepository.
                             getQuestions(testSeriesSubmitModel.getQues_id());
                     if(testSeriesSubmitModel.getAns().equals(quizQuestion.getAnswer()))
                     {
                         correctAns.getAndIncrement();
                         marksObtained.set(marksObtained.get() + Double.parseDouble(testModel.getMarks_per_ques()));
-
-
                     }
                     else {
                         wrongAns.getAndIncrement();
-                        if (testModel.getNegative_marking() != null && !testModel.getNegative_marking().equals("0")) {
+                        if (testModel.getNegative_marking() != null && !testModel.getNegative_marking().isEmpty() && !testModel.getNegative_marking().equals("0")) {
                             double num = Integer.parseInt(testModel.getNegative_marking().split("/")[0]);
                             double den = Integer.parseInt(testModel.getNegative_marking().split("/")[1]);
-
-                            marksObtained.set(marksObtained.get() - ((num / den) * Double.parseDouble(testModel.getMarks_per_ques())));
+                                marksObtained.set(marksObtained.get() - ((num / den) * Double.parseDouble(testModel.getMarks_per_ques())));
 
                         }
                     }
@@ -210,27 +215,59 @@ public class Submit_TestSeries_Controller {
             AtomicDouble totalPercent=new AtomicDouble(0);
 
 
+
+
+            testSeriesModelList.forEach(practiseTestSeriesModel -> {
+                if(resultListMap.containsKey(Long.valueOf(practiseTestSeriesModel.getId())))
+                {
+                    TestSeriesResult seriesResult=resultListMap.get(Long.valueOf(practiseTestSeriesModel.getId()));
+
+                    TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
+                    topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList,seriesResult.getQuiz_id()).getTest());
+
+                    totalSkipped.getAndAdd(seriesResult.getSkipped());
+                    totalMarksObtained.getAndAdd(seriesResult.getMarks_obtained());
+                    totalMarks.getAndAdd((int) seriesResult.getTotal_marks());
+                    totalWrongAns.getAndAdd((int) seriesResult.getWrong_ans());
+                    totalCorrectAns.getAndAdd((int) seriesResult.getCorrect_ans());
+                    totalPercent.getAndAdd(seriesResult.getPercent());
+
+                    topicAnalysisModel.setTotalMarks(seriesResult.getTotal_marks());
+                    topicAnalysisModel.setSkipped(seriesResult.getSkipped());
+                    topicAnalysisModel.setMarksObtained(seriesResult.getMarks_obtained());
+                    topicAnalysisModel.setWrongAns((int) seriesResult.getWrong_ans());
+                    topicAnalysisModel.setCorrectAns((int) seriesResult.getCorrect_ans());
+                    topicAnalysisModel.setPercent(seriesResult.getPercent());
+
+
+                    resultModel.setTime(seriesResult.getTime());
+                    topicList.add(topicAnalysisModel);
+                }else{
+
+
+                    TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
+                    topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList, (long) practiseTestSeriesModel.getId()).getTest());
+
+                    totalSkipped.getAndAdd(practiseTestSeriesModel.getNumOfQuiz());
+                    totalMarksObtained.getAndAdd(0);
+                    totalMarks.getAndAdd((int) Double.parseDouble(practiseTestSeriesModel.getMarks_per_ques())*practiseTestSeriesModel.getNumOfQuiz());
+                    totalWrongAns.getAndAdd(0);
+                    totalCorrectAns.getAndAdd(0);
+                    totalPercent.getAndAdd(0);
+
+                    topicAnalysisModel.setTotalMarks(Double.parseDouble(practiseTestSeriesModel.getMarks_per_ques())*practiseTestSeriesModel.getNumOfQuiz());
+                    topicAnalysisModel.setSkipped(0);
+                    topicAnalysisModel.setMarksObtained(0);
+                    topicAnalysisModel.setWrongAns(0);
+                    topicAnalysisModel.setCorrectAns(0);
+                    topicAnalysisModel.setPercent(0);
+                    resultModel.setTime(request.getTime());
+                    topicList.add(topicAnalysisModel);
+                }
+
+            });
             resultListMap.forEach((aLong, testSeriesResult) -> {
-                TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
-                topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList,testSeriesResult.getQuiz_id()).getTest());
 
-                totalSkipped.getAndAdd(testSeriesResult.getSkipped());
-                totalMarksObtained.getAndAdd(testSeriesResult.getMarks_obtained());
-                totalMarks.getAndAdd((int) testSeriesResult.getTotal_marks());
-                totalWrongAns.getAndAdd((int) testSeriesResult.getWrong_ans());
-                totalCorrectAns.getAndAdd((int) testSeriesResult.getCorrect_ans());
-                totalPercent.getAndAdd(testSeriesResult.getPercent());
-
-                topicAnalysisModel.setTotalMarks(testSeriesResult.getTotal_marks());
-                topicAnalysisModel.setSkipped(testSeriesResult.getSkipped());
-                topicAnalysisModel.setMarksObtained(testSeriesResult.getMarks_obtained());
-                topicAnalysisModel.setWrongAns((int) testSeriesResult.getWrong_ans());
-                topicAnalysisModel.setCorrectAns((int) testSeriesResult.getCorrect_ans());
-                topicAnalysisModel.setPercent(testSeriesResult.getPercent());
-
-
-
-                topicList.add(topicAnalysisModel);
 
             });
 
@@ -253,6 +290,92 @@ public class Submit_TestSeries_Controller {
                 resultModel.setCut_off(0);
             }
 
+            ArrayList<QuizQuestionEntity> questions = new ArrayList<>();
+            List<TestSeriesQuestionMap> quizQuestionIDList  =
+
+                    testSeriesQuestionMapRepository.
+                            getQuestionID(sectionIdList);
+
+            for(int i=0;i<quizQuestionIDList.size();i++){
+
+
+                QuizQuestionEntity model = new QuizQuestionEntity();
+                TestSeriesQuestion testSeriesQuestion = testSeriesQuestionRepository.
+                        getQuestions(quizQuestionIDList.get(i).getQues_id());
+
+                model.setQues_id(quizQuestionIDList.get(i).getQues_id());
+                model.setQuiz_id(quizQuestionIDList.get(i).getQuiz_id());
+                model.setQuestion(testSeriesQuestion.getQuestion());
+                model.setQuestion_type(testSeriesQuestion.getQuestion_type());
+                model.setMarks(quizQuestionIDList.get(i).getMarks());
+                model.setAnswer(testSeriesQuestion.getAnswer());
+                model.setAns_description(testSeriesQuestion.getAns_description());
+                model.setAdded_on(testSeriesQuestion.getAdded_on());
+                model.setPic(testSeriesQuestion.getPic());
+                model.setSubject(getTestSeriesCourseNameFromSubject(testSeriesModelList, ((int) model.getQuiz_id())));
+
+                ArrayList<TestSeriesQuestionOptionModel> optionList =  testSeriesQuestionOptionModelRepository.
+                        getOptions(quizQuestionIDList.get(i).getQues_id());
+                model.setOptions(optionList);
+
+                questions.add(model);
+
+            }
+
+            questions.forEach(quizQuestionEntity -> {
+
+                SolutionEntity entity = new SolutionEntity();
+
+                ArrayList<Question_Option_Model> optionList =
+                        testSeriesQuestionOptionModelRepository.
+                                getOptions(quizQuestionEntity.getQues_id());
+
+                entity.setOptions(optionList);
+                entity.setQuestion(quizQuestionEntity.getQuestion());
+                entity.setAnswer(quizQuestionEntity.getAnswer());
+
+                entity.setSubject(quizQuestionEntity.getSubject());
+                if (quizQuestionEntity.getAns_description() == null) {
+                    entity.setDescription("");
+                }else{
+                    entity.setDescription(quizQuestionEntity.getAns_description());
+                }
+
+
+                for(int i=0;i<submitModels.size();i++)
+                {
+                    TestSeriesSubmitModel testSeriesSubmitModel=submitModels.get(i);
+
+                    if(  testSeriesSubmitModel.getQues_id()==quizQuestionEntity.getQues_id()){
+                        entity.setMarkForReview(submitModels.get(i).getMarkForReview());
+                        entity.setSkipped(0);
+                    }else{
+                        entity.setMarkForReview(0);
+                        entity.setSkipped(1);
+                    }
+
+
+
+                    if(testSeriesSubmitModel.getQues_id()==quizQuestionEntity.getQues_id())
+                    {
+                        entity.setMyAnswer(testSeriesSubmitModel.getAns());
+                        break;
+                    }
+                }
+
+                if(entity.getMyAnswer()==null)
+                {
+                    entity.setMyAnswer("");
+                }
+
+
+
+
+                solutions.add(entity);
+
+
+
+            });
 
 
 
@@ -262,6 +385,7 @@ public class Submit_TestSeries_Controller {
             response.setStatus(true);
             response.setMessage("Quiz submitted Successfully");
             response.setResult(new Gson().fromJson(new Gson().toJson(resultModel),SaveResultModel.class));
+            response.setSolutions((ArrayList<SolutionEntity>) solutions);
 //            response.setResultList(leaderBoardArrayList);
             response.setTopics(topicList);
 
@@ -287,15 +411,31 @@ public class Submit_TestSeries_Controller {
 
     public PractiseTestSeriesModel getTestSeriesModel(List<PractiseTestSeriesModel> testSeriesModelList,Long id)
     {
+        System.out.println("id........"+id);
+
         for (PractiseTestSeriesModel model:
              testSeriesModelList) {
+            System.out.println(model);
             if(model.getId()==id)
             {
+
                 return  model;
             }
         }
 
         return null;
+    }
+
+    public String getTestSeriesCourseNameFromSubject(  List<PractiseTestSeriesModel> testSeriesModels,Integer id)
+    {
+        for(int i=0;i<testSeriesModels.size();i++)
+        {
+            if(id ==testSeriesModels.get(i).getId())
+            {
+                return testSeriesModels.get(i).getCourseName();
+            }
+        }
+        return "";
     }
 
 }

@@ -11,7 +11,8 @@ import java.util.List;
 public class FunBoxRepository implements PanacheRepository<FunBox> {
 
     public List<FunBox> getFunList(int page,int pageSize,int inst_id){
-        List<FunBox> list= (ArrayList<FunBox>) find("inst_id",inst_id).page(page,pageSize).list();
+
+        List<FunBox> list= (ArrayList<FunBox>) find("inst_id=?1 ORDER BY id desc",inst_id).page(page,pageSize).list();
         return list;
     }
 

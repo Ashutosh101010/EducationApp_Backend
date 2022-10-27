@@ -67,4 +67,13 @@ public class SubjectModel {
     public void setInst_id(int inst_id) {
         this.inst_id = inst_id;
     }
+
+    @Override
+    public String toString() {
+        return "SubjectModel{" +
+                "id=" + id +
+                ", subject='" + subject + '\'' +
+                ", inst_id=" + inst_id +
+                '}';
+    }
 }

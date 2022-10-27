@@ -12,10 +12,15 @@ public class DigitalWorldMedia {
     private String media;
     private String type;
     private Long inst_id;
+    private String name;
 
+    public String getName() {
+        return name;
+    }
 
-
-
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Long getInst_id() {
         return inst_id;

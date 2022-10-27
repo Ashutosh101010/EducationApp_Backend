@@ -21,9 +21,10 @@ package com.aurd.Student.Controller.TestSeries;
 //import java.util.ArrayList;
 //
 
+import com.aurd.Student.Model.BeanClass.QuizQuestionEntity;
+import com.aurd.Student.Model.BeanClass.SolutionEntity;
 import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
 import com.aurd.Student.Model.Entity.*;
-import com.aurd.Student.Model.Entity.map.Quiz_Question_Map_Model;
 import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import com.aurd.Student.Model.Response.TestSeries.Result_Response;
 import com.aurd.Student.Repository.*;
@@ -31,7 +32,6 @@ import com.google.common.util.concurrent.AtomicDouble;
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -42,6 +42,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Path("/testSeries/getResult")
 public class GetPractiseTest_Result_Controller {
@@ -59,7 +60,22 @@ public class GetPractiseTest_Result_Controller {
     PractiseTestSeriesRepository practiseTestSeriesRepository;
 
     @Inject
+    TestSeriesQuestionMapRepository testSeriesQuestionMapRepository;
+
+
+    @Inject
     QuizRepository seriesRepository;
+
+    @Inject
+    TestSeriesQuestionRepository testSeriesQuestionRepository;
+
+    @Inject
+    TestSeriesQuestionOptionModelRepository testSeriesQuestionOptionModelRepository;
+
+    @Inject
+    TestSeriesSubmitRepository submitRepository;
+
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -69,6 +85,7 @@ public class GetPractiseTest_Result_Controller {
     public Result_Response getResult(GetQuizResultRequest request){
 
         List<TopicAnalysisModel> topicList=new ArrayList<>();
+        ArrayList<SolutionEntity> solutions = new ArrayList<>();
 
         Result_Response response = new Result_Response();
 
@@ -76,7 +93,7 @@ public class GetPractiseTest_Result_Controller {
         QuizModel seriesModel=seriesRepository.find("id",request.getQuizID().intValue()).firstResult();
 
 
-        List<PractiseTestSeriesModel> testSeriesModelList=practiseTestSeriesRepository.find("series_id=?1 and course_name=?2",request.getQuizID(),request.getTestName()).list();
+        List<PractiseTestSeriesModel> testSeriesModelList=practiseTestSeriesRepository.find("series_id=?1 and test=?2",request.getQuizID(),request.getTestName()).list();
 
         ArrayList<Long> sectionIdList=new ArrayList<>();
         testSeriesModelList.forEach(practiseTestSeriesModel -> {
@@ -87,7 +104,7 @@ public class GetPractiseTest_Result_Controller {
 
         List<TestSeriesResult> resultList=resultRepository.resultList(request,sectionIdList);
 
-        System.out.println(resultList.size());
+
         Map<Long,TestSeriesResult> resultListMap=new HashMap<>();
 
         resultList.forEach(testSeriesResult -> {
@@ -98,7 +115,7 @@ public class GetPractiseTest_Result_Controller {
         resultModel.setInst_id(request.getInstID());
         resultModel.setQuiz_id(seriesModel.getQuiz_id());
 //
-//        resultModel.setTime(request.getTime());
+
 
 
 
@@ -112,28 +129,62 @@ public class GetPractiseTest_Result_Controller {
 
 
 
+
+        testSeriesModelList.forEach(practiseTestSeriesModel -> {
+
+            TestSeriesResult seriesResult=getResultModel(resultList, Long.valueOf(practiseTestSeriesModel.getId()));
+            if(seriesResult==null)
+            {
+                TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
+                topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList, Long.valueOf(practiseTestSeriesModel.getId())).getCourseName());
+
+                totalSkipped.getAndAdd(practiseTestSeriesModel.getNumOfQuiz());
+                totalMarksObtained.getAndAdd(0);
+                totalMarks.getAndAdd((int) Double.parseDouble(practiseTestSeriesModel.getMarks_per_ques())*practiseTestSeriesModel.getNumOfQuiz());
+                totalWrongAns.getAndAdd(0);
+                totalCorrectAns.getAndAdd(0);
+                totalPercent.getAndAdd(0);
+
+                topicAnalysisModel.setTotalMarks(Double.parseDouble(practiseTestSeriesModel.getMarks_per_ques())*practiseTestSeriesModel.getNumOfQuiz());
+                topicAnalysisModel.setSkipped(0);
+                topicAnalysisModel.setMarksObtained(0);
+                topicAnalysisModel.setWrongAns(0);
+                topicAnalysisModel.setCorrectAns(0);
+                topicAnalysisModel.setPercent(0);
+                topicAnalysisModel.setStatus("pass");
+
+
+                topicList.add(topicAnalysisModel);
+
+            }
+            else{
+                TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
+                topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList,seriesResult.getQuiz_id()).getCourseName());
+
+                totalSkipped.getAndAdd(seriesResult.getSkipped());
+                totalMarksObtained.getAndAdd(seriesResult.getMarks_obtained());
+                totalMarks.getAndAdd((int) seriesResult.getTotal_marks());
+                totalWrongAns.getAndAdd((int) seriesResult.getWrong_ans());
+                totalCorrectAns.getAndAdd((int) seriesResult.getCorrect_ans());
+                totalPercent.getAndAdd(seriesResult.getPercent());
+
+                topicAnalysisModel.setTotalMarks(seriesResult.getTotal_marks());
+                topicAnalysisModel.setSkipped(seriesResult.getSkipped());
+                topicAnalysisModel.setMarksObtained(seriesResult.getMarks_obtained());
+                topicAnalysisModel.setWrongAns((int) seriesResult.getWrong_ans());
+                topicAnalysisModel.setCorrectAns((int) seriesResult.getCorrect_ans());
+                topicAnalysisModel.setPercent(seriesResult.getPercent());
+                topicAnalysisModel.setStatus("pass");
+                resultModel.setTime(seriesResult.getTime());
+                topicList.add(topicAnalysisModel);
+            }
+
+
+
+
+        });
         resultList.forEach(testSeriesResult -> {
 
-            TopicAnalysisModel topicAnalysisModel=new TopicAnalysisModel();
-            topicAnalysisModel.setSubject(getTestSeriesModel(testSeriesModelList,testSeriesResult.getQuiz_id()).getTest());
-
-            totalSkipped.getAndAdd(testSeriesResult.getSkipped());
-            totalMarksObtained.getAndAdd(testSeriesResult.getMarks_obtained());
-            totalMarks.getAndAdd((int) testSeriesResult.getTotal_marks());
-            totalWrongAns.getAndAdd((int) testSeriesResult.getWrong_ans());
-            totalCorrectAns.getAndAdd((int) testSeriesResult.getCorrect_ans());
-            totalPercent.getAndAdd(testSeriesResult.getPercent());
-
-            topicAnalysisModel.setTotalMarks(testSeriesResult.getTotal_marks());
-            topicAnalysisModel.setSkipped(testSeriesResult.getSkipped());
-            topicAnalysisModel.setMarksObtained(testSeriesResult.getMarks_obtained());
-            topicAnalysisModel.setWrongAns((int) testSeriesResult.getWrong_ans());
-            topicAnalysisModel.setCorrectAns((int) testSeriesResult.getCorrect_ans());
-            topicAnalysisModel.setPercent(testSeriesResult.getPercent());
-
-
-
-            topicList.add(topicAnalysisModel);
 
         });
 
@@ -161,6 +212,97 @@ public class GetPractiseTest_Result_Controller {
 
 
 
+        ArrayList<QuizQuestionEntity> questions = new ArrayList<>();
+        List<TestSeriesQuestionMap> quizQuestionIDList  =
+
+                testSeriesQuestionMapRepository.
+                        getQuestionID(sectionIdList);
+
+
+        List<TestSeriesSubmitModel> submitList = submitRepository.getStudentPracticeTestResults(
+                request.getInstID().intValue(),request.getStudID(),sectionIdList);
+
+
+        for(int i=0;i<quizQuestionIDList.size();i++){
+
+
+            QuizQuestionEntity model = new QuizQuestionEntity();
+            TestSeriesQuestion testSeriesQuestion = testSeriesQuestionRepository.
+                    getQuestions(quizQuestionIDList.get(i).getQues_id());
+
+            model.setQues_id(quizQuestionIDList.get(i).getQues_id());
+            model.setQuiz_id(quizQuestionIDList.get(i).getQuiz_id());
+            model.setQuestion(testSeriesQuestion.getQuestion());
+            model.setQuestion_type(testSeriesQuestion.getQuestion_type());
+            model.setMarks(quizQuestionIDList.get(i).getMarks());
+            model.setAnswer(testSeriesQuestion.getAnswer());
+            model.setAns_description(testSeriesQuestion.getAns_description());
+            model.setAdded_on(testSeriesQuestion.getAdded_on());
+            model.setPic(testSeriesQuestion.getPic());
+            model.setSubject(getTestSeriesCourseNameFromSubject(testSeriesModelList, ((int) model.getQuiz_id())));
+
+            ArrayList<TestSeriesQuestionOptionModel> optionList =  testSeriesQuestionOptionModelRepository.
+                    getOptions(quizQuestionIDList.get(i).getQues_id());
+            model.setOptions(optionList);
+
+            questions.add(model);
+
+        }
+
+        questions.forEach(quizQuestionEntity -> {
+
+            SolutionEntity entity = new SolutionEntity();
+
+            ArrayList<Question_Option_Model> optionList =
+                    testSeriesQuestionOptionModelRepository.
+                            getOptions(quizQuestionEntity.getQues_id());
+
+            entity.setOptions(optionList);
+            entity.setQuestion(quizQuestionEntity.getQuestion());
+            entity.setAnswer(quizQuestionEntity.getAnswer());
+
+            entity.setSubject(quizQuestionEntity.getSubject());
+            if (quizQuestionEntity.getAns_description() == null) {
+                entity.setDescription("");
+            }else{
+                entity.setDescription(quizQuestionEntity.getAns_description());
+            }
+
+
+            for(int i=0;i<submitList.size();i++)
+            {
+                TestSeriesSubmitModel testSeriesSubmitModel=submitList.get(i);
+
+                if(  testSeriesSubmitModel.getQues_id()==quizQuestionEntity.getQues_id()){
+                    entity.setMarkForReview(submitList.get(i).getMarkForReview());
+                    entity.setSkipped(0);
+                }else{
+                    entity.setMarkForReview(0);
+                    entity.setSkipped(1);
+                }
+
+
+
+                if(testSeriesSubmitModel.getQues_id()==quizQuestionEntity.getQues_id())
+                {
+                    entity.setMyAnswer(testSeriesSubmitModel.getAns());
+                    break;
+                }
+            }
+
+            if(entity.getMyAnswer()==null)
+            {
+                entity.setMyAnswer("");
+            }
+
+
+
+
+            solutions.add(entity);
+
+
+
+        });
 
 
 
@@ -170,6 +312,7 @@ public class GetPractiseTest_Result_Controller {
         response.setResult(new Gson().fromJson(new Gson().toJson(resultModel),SaveResultModel.class));
 //            response.setResultList(leaderBoardArrayList);
         response.setTopics(topicList);
+        response.setSolutions(solutions);
 
         System.out.println(response);
 return response;
@@ -188,5 +331,28 @@ return response;
         return null;
     }
 
+    public String getTestSeriesCourseNameFromSubject(  List<PractiseTestSeriesModel> testSeriesModels,Integer id)
+    {
+        for(int i=0;i<testSeriesModels.size();i++)
+        {
+            if(id ==testSeriesModels.get(i).getId())
+            {
+                return testSeriesModels.get(i).getCourseName();
+            }
+        }
+        return "";
+    }
+
+    public TestSeriesResult getResultModel(List<TestSeriesResult> list,Long id){
+        AtomicReference<TestSeriesResult> testSeriesResult=new AtomicReference<>(null);
+        list.forEach(testSeriesResult1 -> {
+            if(testSeriesResult1.getQuiz_id()==id)
+            {
+                testSeriesResult.set(testSeriesResult1);
+            }
+        });
+
+        return testSeriesResult.get();
+    }
 
 }

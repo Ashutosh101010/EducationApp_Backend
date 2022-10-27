@@ -10,7 +10,7 @@ public class Constants {
     public static String razorPay_Key_Secret="cS6YJNbBc28hd12YVEVBWRBk";
 
     public enum NotificatioType{doubt,currentAffair,blog,video,notes,testSeries,audioBook,physicalBook,notice};
-    public enum indexType{blog,current_affair,notes,video,post,quiz,test,audio}
+    public enum indexType{blog,current_affair,notes,video,doubt,quiz,test,audio}
     public enum folderType{root,sub}
 
 }

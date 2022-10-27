@@ -79,7 +79,7 @@ public class GetQuizResultController {
 //        });
 
         QuizModel quizModel = quizRepository.find("quiz_id",
-                request.getQuizID()).firstResult();
+                request.getQuizID().intValue()).firstResult();
 
         ArrayList<TopicAnalysisModel> topicList =new ArrayList<>();
 
@@ -97,7 +97,7 @@ public class GetQuizResultController {
 
         System.out.println("Questions main List Size"+questions.size());
 
-        System.out.println("Question List Size"+ questions.size());
+        System.out.println( questions);
         for (Quiz_Question_Map_Model question: questions) {
             boolean exists=false;
 
@@ -111,6 +111,7 @@ public class GetQuizResultController {
                     }
                 }
 
+                System.out.println(question.getSubjectModel());
 
 
                 if(!exists)
@@ -189,6 +190,8 @@ public class GetQuizResultController {
 
             }
 
+            System.out.println(request.getQuizID().intValue());
+            System.out.println(subjectModel.getId());
 
           Quiz_Section_Model sectionModel  = section_repository.find("quiz_id =?1 and subject_id=?2",
                     request.getQuizID().intValue(),subjectModel.getId()).firstResult();

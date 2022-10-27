@@ -40,6 +40,7 @@ public class Service {
                 new AWSStaticCredentialsProvider(
                         new BasicAWSCredentials("RO3PDA6CRJSQC4JH65QH", "dtB4aV9tharNtWaW2eaZMK08zCzqHlleBMvlmRof"));
 
+
         s3 = AmazonS3ClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region))
                 .withCredentials(credentials)

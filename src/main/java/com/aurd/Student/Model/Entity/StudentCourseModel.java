@@ -190,4 +190,25 @@ public class StudentCourseModel {
     public void setInst_id(long inst_id) {
         this.inst_id = inst_id;
     }
+
+    @Override
+    public String toString() {
+        return "StudentCourseModel{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", courseId=" + courseId +
+                ", actualFee=" + actualFee +
+                ", discount=" + discount +
+                ", courseFee=" + courseFee +
+                ", paidFee=" + paidFee +
+                ", remainingFee=" + remainingFee +
+                ", last_paid=" + last_paid +
+                ", due_date=" + due_date +
+                ", reason='" + reason + '\'' +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                ", transaction_id='" + transaction_id + '\'' +
+                ", inst_id=" + inst_id +
+                '}';
+    }
 }

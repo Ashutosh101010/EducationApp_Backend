@@ -114,4 +114,17 @@ public class Quiz_Question_Map_Model {
     public void setId(long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Quiz_Question_Map_Model{" +
+                "id=" + id +
+                ", quiz_id=" + quiz_id +
+                ", ques_id=" + ques_id +
+                ", marks=" + marks +
+                ", subject_id=" + subject_id +
+                ", updated_by=" + updated_by +
+                ", subjectModel=" + subjectModel +
+                '}';
+    }
 }

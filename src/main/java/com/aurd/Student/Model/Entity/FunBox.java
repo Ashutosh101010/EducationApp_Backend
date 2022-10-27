@@ -14,6 +14,16 @@ public class FunBox {
     private Timestamp timestamp;
     private String media;
     private String type;
+     private Integer inst_id;
+
+
+    public Integer getInst_id() {
+        return inst_id;
+    }
+
+    public void setInst_id(Integer inst_id) {
+        this.inst_id = inst_id;
+    }
 
     public Timestamp getTimestamp() {
         return timestamp;

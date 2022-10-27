@@ -21,7 +21,17 @@ public class TestSeriesQuestionOptionModel {
         @NotBlank
         private String option_discription;
 
-        public long getOption_id() {
+        private String option_discription_with_images;
+
+    public String getOption_discription_with_images() {
+        return option_discription_with_images;
+    }
+
+    public void setOption_discription_with_images(String option_discription_with_images) {
+        this.option_discription_with_images = option_discription_with_images;
+    }
+
+    public long getOption_id() {
             return option_id;
         }
 

@@ -52,6 +52,7 @@ public class GetLiveClassController {
 
           List<StudentCourseModel> studentCourseModels= studentCourseRepository.getPurchasedCourse(request.getStud_id(),liveClassModel.getCourses());
 
+          System.out.println(studentCourseModels);
           if(studentCourseModels==null || studentCourseModels.isEmpty())
           {
               liveClassModel.setPurchased(false);

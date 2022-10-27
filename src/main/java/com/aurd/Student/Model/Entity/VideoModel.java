@@ -25,7 +25,7 @@ public class VideoModel {
     private  String thumb;
 
     @Column(name = "topicId",nullable = false)
-    private  Long topicId;
+    private  Integer topicId;
 
     @Column(name = "created_at",nullable = false)
     private Timestamp created_at;
@@ -57,6 +57,35 @@ public class VideoModel {
 
     @Column(name = "inst_id",nullable = false)
     private Integer inst_id;
+
+    private String ldVideo;
+    private String sdVideo;
+    private String hdVideo;
+
+
+    public String getLdVideo() {
+        return ldVideo;
+    }
+
+    public void setLdVideo(String ldVideo) {
+        this.ldVideo = ldVideo;
+    }
+
+    public String getSdVideo() {
+        return sdVideo;
+    }
+
+    public void setSdVideo(String sdVideo) {
+        this.sdVideo = sdVideo;
+    }
+
+    public String getHdVideo() {
+        return hdVideo;
+    }
+
+    public void setHdVideo(String hdVideo) {
+        this.hdVideo = hdVideo;
+    }
 
     public Integer getInst_id() {
         return inst_id;
@@ -132,11 +161,11 @@ public class VideoModel {
     }
 
 
-    public Long getTopicId() {
+    public Integer getTopicId() {
         return topicId;
     }
 
-    public void setTopicId(Long topicId) {
+    public void setTopicId(Integer topicId) {
         this.topicId = topicId;
     }
 

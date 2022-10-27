@@ -75,6 +75,7 @@ public class GetTestSeriesQuestions {
             model.setAns_description(testSeriesQuestion.getAns_description());
             model.setAdded_on(testSeriesQuestion.getAdded_on());
             model.setPic(testSeriesQuestion.getPic());
+            model.setQuestion_with_images(testSeriesQuestion.getQuestion_with_images());
 
             ArrayList<TestSeriesQuestionOptionModel> optionList =  testSeriesQuestionOptionModelRepository.
                     getOptions(quizQuestionIDList.get(i).getQues_id());
@@ -94,18 +95,18 @@ public class GetTestSeriesQuestions {
         return response;
     }
 
-    QuizQuestionEntity getQuestionWithOption(ArrayList<QuizQuestionEntity> arrayList,Long ques_Id){
-        QuizQuestionEntity entity = null;
-        System.out.println("arraylist size================="+arrayList.size());
-        for(int i=0;i<arrayList.size();i++){
-            if(arrayList.get(i).getQues_id() == ques_Id){
-                entity = arrayList.get(i);
-                break;
-            }
-        }
-        return entity;
-
-    }
+//    QuizQuestionEntity getQuestionWithOption(ArrayList<QuizQuestionEntity> arrayList,Long ques_Id){
+//        QuizQuestionEntity entity = null;
+//        System.out.println("arraylist size================="+arrayList.size());
+//        for(int i=0;i<arrayList.size();i++){
+//            if(arrayList.get(i).getQues_id() == ques_Id){
+//                entity = arrayList.get(i);
+//                break;
+//            }
+//        }
+//        return entity;
+//
+//    }
 
     @Path("/{series_id}")
   @GET
@@ -115,16 +116,11 @@ public class GetTestSeriesQuestions {
 
 
         QuizQuestionEntity model;
-        TestSeriesQuestion testSeriesQuestion;
+//        TestSeriesQuestion testSeriesQuestion;
 
 
         ArrayList<QuizQuestionEntity> arrayList = new ArrayList<>();
-//        ArrayList<TestSeriesQuestionMap> quizQuestionIDList  =
-//
-//                (ArrayList<TestSeriesQuestionMap>) testSeriesQuestionMapRepository.
-//                        getQuestionID(request.getQuiz_id());
 
-//        System.out.println("List size==="+quizQuestionIDList.size());
 
         List<TestSeriesQuestion> list=testSeriesQuestionRepository.find("series",Integer.parseInt(seriesId)).list();
 

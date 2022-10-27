@@ -12,6 +12,15 @@ public class GetIndexRequest {
 
     int pageCount;
     String lastId;
+    int page;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 
     public String getLastId() {
         return lastId;

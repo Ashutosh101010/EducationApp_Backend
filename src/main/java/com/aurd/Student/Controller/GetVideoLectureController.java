@@ -23,7 +23,6 @@ public class GetVideoLectureController {
     @Inject
     VideoLectureRepository videoLectureRepository;
     @POST
-    @Transactional
 
     public GetVideoLectureResponse getVideos(GetVideoLectureRequest request){
 

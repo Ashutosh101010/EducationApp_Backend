@@ -65,6 +65,16 @@ import java.sql.Timestamp;
         @NotFound(action = NotFoundAction.IGNORE)
         SubjectModel subjectModel;
 
+        private String question_with_images;
+
+        public String getQuestion_with_images() {
+            return question_with_images;
+        }
+
+        public void setQuestion_with_images(String question_with_images) {
+            this.question_with_images = question_with_images;
+        }
+
         public SubjectModel getSubjectModel() {
             return subjectModel;
         }
