@@ -123,7 +123,7 @@ public class GetIndexController {
                 endDate=request.getDate()+" 23:59:59";
             }
             else{
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
                 startDate="2000/01/01 00:00:00";
                 endDate=formatter.format(new Date())+" 23:59:59";
             }
@@ -142,7 +142,7 @@ public class GetIndexController {
                 query=indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model " +
                         "Index_Model where Index_Model.inst_id=:instId and Index_Model.created_on>=:startDate and Index_Model.created_on<=:endDate order by Index_Model.id desc ");
                 query.setParameter("instId",request.getInst_id());
-                query.setParameter("startDate",new Date(startDate));
+                query.setParameter("startDate",new Timestamp(new Date(startDate).getTime()));
                 query.setParameter("endDate",new Date(endDate));
 
             }

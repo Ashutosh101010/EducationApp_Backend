@@ -23,8 +23,6 @@ public class GetBlogController {
     @Inject
     BlogRepository repository;
 
-
-    @Transactional
     @POST
 
 
