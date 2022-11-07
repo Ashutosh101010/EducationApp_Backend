@@ -1,10 +1,10 @@
 package com.aurd.Student.Model.Response.TestSeries;
 
-import com.aurd.Student.Model.BeanClass.ResultEntity;
 import com.aurd.Student.Model.BeanClass.SolutionEntity;
 import com.aurd.Student.Model.BeanClass.TopicAnalysisModel;
-import com.aurd.Student.Model.Entity.LeaderBoardModel;
-import com.aurd.Student.Model.Entity.SaveResultModel;
+import com.aurd.Student.Model.BeanClass.LeaderBoardModel;
+import com.aurd.Student.Model.Entity.Result;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Result_Response {
     String message;
     int errorCode;
     boolean status;
-    SaveResultModel result;
+    Result result;
     ArrayList<SolutionEntity> solutions = new ArrayList<>();
     ArrayList<LeaderBoardModel> resultList = new ArrayList<>();
 
@@ -47,11 +47,11 @@ public class Result_Response {
         this.solutions = solutions;
     }
 
-    public SaveResultModel getResult() {
+    public Result getResult() {
         return result;
     }
 
-    public void setResult(SaveResultModel result) {
+    public void setResult(Result result) {
         this.result = result;
     }
 

@@ -1,21 +1,21 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
-import com.aurd.Student.Model.Entity.StudentModel;
+import com.aurd.Student.Model.Entity.Student;
 
 import java.util.ArrayList;
 
 public class StudentProfileResponse {
-    StudentModel student;
+    Student student;
     int errorCode;
     boolean status;
     ArrayList<StudentPostEntity> list = new ArrayList<>();
 
-    public StudentModel getStudent() {
+    public Student getStudent() {
         return student;
     }
 
-    public void setStudent(StudentModel student) {
+    public void setStudent(Student student) {
         this.student = student;
     }
 

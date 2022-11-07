@@ -1,6 +1,5 @@
 package com.aurd.Student.Repository;
 
-import com.aurd.Student.Model.Entity.Quiz_Question_Model;
 import com.aurd.Student.Model.Entity.TestSeriesQuestion;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 

@@ -1,6 +1,6 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.StudentPosts;
+import com.aurd.Student.Model.Entity.StudentPosts;
 
 
 import java.util.ArrayList;

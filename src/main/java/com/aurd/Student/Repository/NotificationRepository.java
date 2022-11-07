@@ -1,22 +1,22 @@
 package com.aurd.Student.Repository;
 
-import com.aurd.Student.Model.Entity.NotificationModel;
+import com.aurd.Student.Model.Entity.Notification;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import java.util.ArrayList;
+
 
 @ApplicationScoped
-public class NotificationRepository implements PanacheRepository<NotificationModel> {
+public class NotificationRepository implements PanacheRepository<Notification> {
 
-    public void insertNotification(NotificationModel model){
-        persist(model);
-    }
-
-
-    public void getNotification(){
-
-    }
+//    public void insertNotification(NotificationModel model){
+//        persist(model);
+//    }
+//
+//
+//    public void getNotification(){
+//
+//    }
 
 
 }

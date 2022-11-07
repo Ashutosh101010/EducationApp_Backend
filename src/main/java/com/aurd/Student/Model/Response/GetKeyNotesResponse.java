@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.KeyNotesModel;
+import com.aurd.Student.Model.Entity.KeyNotes;
+
 import java.util.ArrayList;
 public class GetKeyNotesResponse {
 
@@ -9,7 +10,7 @@ public class GetKeyNotesResponse {
     String message;
     boolean status;
     int errorCode;
-    ArrayList<KeyNotesModel> keynotes = new ArrayList();
+    ArrayList<KeyNotes> keynotes = new ArrayList();
 
     public String getMessage() {
         return message;
@@ -35,11 +36,11 @@ public class GetKeyNotesResponse {
         this.errorCode = errorCode;
     }
 
-    public ArrayList<KeyNotesModel> getKeynotes() {
-        return keynotes;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public void setKeynotes(ArrayList<KeyNotesModel> keynotes) {
-        this.keynotes = keynotes;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 }

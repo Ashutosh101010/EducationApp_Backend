@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.LiveClassModel;
+
+import com.aurd.Student.Model.Entity.LiveClass;
 
 import java.util.ArrayList;
 
@@ -8,7 +9,7 @@ public class GetLiveClassResponse {
     String message;
     int errorCode;
     boolean status;
-    ArrayList<LiveClassModel> list = new ArrayList<>();
+    ArrayList<LiveClass> list = new ArrayList<>();
 
     public String getMessage() {
         return message;
@@ -34,11 +35,11 @@ public class GetLiveClassResponse {
         this.status = status;
     }
 
-    public ArrayList<LiveClassModel> getList() {
+    public ArrayList<LiveClass> getList() {
         return list;
     }
 
-    public void setList(ArrayList<LiveClassModel> list) {
+    public void setList(ArrayList<LiveClass> list) {
         this.list = list;
     }
 }

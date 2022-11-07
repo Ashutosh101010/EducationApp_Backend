@@ -1,7 +1,7 @@
 package com.aurd.Student.Model.Entity.map;
 
 
-import com.aurd.Student.Model.Entity.SubjectModel;
+import com.aurd.Student.Model.Entity.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.runtime.annotations.IgnoreProperty;
 import org.hibernate.annotations.NotFound;
@@ -17,114 +17,84 @@ public class Quiz_Question_Map_Model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long id;
+    private  Long id;
 
 
 
     @Column(name = "quiz_id",nullable = false)
-    private long quiz_id;
+    private Long quiz_id;
 
 
     @Column(name = "ques_id",nullable = false)
-    private long ques_id;
+    private Long quesId;
 
-    @Column(name = "marks",nullable = false)
-    @Max(12)
-    private  int marks;
+    private  Integer marks;
 
     @Column(name = "subject_id",nullable = false)
-    @Max(12)
-    private long subject_id;
-
-//    @Column(name = "updated_on",nullable = false)
-//    private Timestamp updated_on;
+    private Long subjectId;
 
     @Column(name = "updated_by",nullable = false)
-    @Max(12)
-    private long updated_by;
+    private Long updatedBy;
 
     @ManyToOne
     @JoinColumn(name="subject_id", nullable=false,insertable = false,updatable = false)
-    @NotFound(action = NotFoundAction.IGNORE)
     @JsonIgnore
-    private SubjectModel subjectModel;
+    private Subject subject;
 
 
-    public SubjectModel getSubjectModel() {
-        return subjectModel;
-    }
-
-    public void setSubjectModel(SubjectModel subjectModel) {
-        this.subjectModel = subjectModel;
-    }
-
-    public long getQuiz_id() {
-        return quiz_id;
-    }
-
-    public void setQuiz_id(long quiz_id) {
-        this.quiz_id = quiz_id;
-    }
-
-    public long getQues_id() {
-        return ques_id;
-    }
-
-    public void setQues_id(long ques_id) {
-        this.ques_id = ques_id;
-    }
-
-
-    public int getMarks() {
-        return marks;
-    }
-
-    public void setMarks(int marks) {
-        this.marks = marks;
-    }
-
-    public long getSubject_id() {
-        return subject_id;
-    }
-
-    public void setSubject_id(long subject_id) {
-        this.subject_id = subject_id;
-    }
-
-//    public Timestamp getUpdated_on() {
-//        return updated_on;
-//    }
-//
-//    public void setUpdated_on(Timestamp updated_on) {
-//        this.updated_on = updated_on;
-//    }
-
-    public long getUpdated_by() {
-        return updated_by;
-    }
-
-    public void setUpdated_by(long updated_by) {
-        this.updated_by = updated_by;
-    }
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "Quiz_Question_Map_Model{" +
-                "id=" + id +
-                ", quiz_id=" + quiz_id +
-                ", ques_id=" + ques_id +
-                ", marks=" + marks +
-                ", subject_id=" + subject_id +
-                ", updated_by=" + updated_by +
-                ", subjectModel=" + subjectModel +
-                '}';
+    public Long getQuiz_id() {
+        return quiz_id;
+    }
+
+    public void setQuiz_id(Long quiz_id) {
+        this.quiz_id = quiz_id;
+    }
+
+    public Long getQuesId() {
+        return quesId;
+    }
+
+    public void setQuesId(Long quesId) {
+        this.quesId = quesId;
+    }
+
+    public Integer getMarks() {
+        return marks;
+    }
+
+    public void setMarks(Integer marks) {
+        this.marks = marks;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Long getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }

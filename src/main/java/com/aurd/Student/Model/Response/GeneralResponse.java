@@ -1,10 +1,12 @@
 package com.aurd.Student.Model.Response;
 
-public class GeneralResponse {
-    String message;
-    int errorCode;
-    boolean status;
+import com.aurd.Student.Constant.ErrorDescription;
 
+public class GeneralResponse {
+    private String message;
+    private Integer errorCode;
+    private Boolean status;
+    private String errorDescription ;
 
     public String getMessage() {
         return message;
@@ -14,28 +16,27 @@ public class GeneralResponse {
         this.message = message;
     }
 
-    public int geterrorCode() {
+    public Integer getErrorCode() {
         return errorCode;
     }
 
-    public void seterrorCode(int errorCode) {
+    public void setErrorCode(Integer errorCode) {
         this.errorCode = errorCode;
     }
 
-    public boolean isStatus() {
+    public Boolean getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "GeneralResponse{" +
-                "message='" + message + '\'' +
-                ", errorCode=" + errorCode +
-                ", status=" + status +
-                '}';
+    public String getErrorDescription() {
+        return errorDescription;
+    }
+
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
     }
 }

@@ -1,7 +1,7 @@
 package com.aurd.Student.Model.Response;
 
 
-import com.aurd.Student.Model.Entity.Index_Model;
+import com.aurd.Student.Model.Entity.Index;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ public class GetIndexResponse {
     String message;
     int errorCode;
     boolean status;
- List<Index_Model> index = new ArrayList();
+ List<Index> index = new ArrayList();
     ArrayList<Object> objList = new ArrayList<>();
 
     public ArrayList<Object> getObjList() {
@@ -47,11 +47,11 @@ public class GetIndexResponse {
         this.status = status;
     }
 
-    public List<Index_Model> getIndex() {
+    public List<Index> getIndex() {
         return index;
     }
 
-    public void setIndex(List<Index_Model> index) {
+    public void setIndex(List<Index> index) {
         this.index = index;
     }
 }

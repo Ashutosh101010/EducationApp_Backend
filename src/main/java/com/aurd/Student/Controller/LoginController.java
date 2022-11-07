@@ -1,9 +1,11 @@
 package com.aurd.Student.Controller;
 
-import com.aurd.Student.Model.Entity.StudentModel;
+import com.aurd.Student.Constant.ErrorCode;
+import com.aurd.Student.Constant.ErrorDescription;
 import com.aurd.Student.Model.Request.LoginRequest;
 import com.aurd.Student.Model.Response.LoginResponse;
-import com.aurd.Student.Repository.StudentRepository;
+import com.aurd.Student.service.UserService;
+
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -13,57 +15,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/login")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-
 
 public class LoginController {
 
     @Inject
-    StudentRepository repository;
-
-
+    UserService userService;
 
     @POST
-    public LoginResponse loginStudent(LoginRequest request){
-
-
-
-       StudentModel studentModel  = repository.login(request);
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public LoginResponse loginStudent(LoginRequest request) {
         LoginResponse response = new LoginResponse();
-       if(studentModel!=null){
-           System.out.println("sdawdewdscdsf       " +studentModel.isIs_active());
-           if(studentModel.getLogin_status()==1){
-               if(studentModel.getPassword().equals(request.getPassword()) ){
-                   response.setStudent(studentModel);
-                   response.setMessage("Login Success");
-                   response.setStatus(true);
-                   response.seterrorCode(0);
-               }else{
-                   response.setMessage("Login Fail! Password does not matches");
-                   response.setStatus(false);
-                   response.seterrorCode(2);
-               }
-
-             }else{
-               response.setStatus(false);
-               response.seterrorCode(4);
-               response.setMessage("Inactive User");
-           }
-
-
-
-       }else{
-           response.setMessage("Login Failure");
-           response.setStatus(false);
-           response.seterrorCode(1);
-       }
-
-
-
-
-       return response;
+        if (request.getContact() == null || request.getContact().isEmpty() || request.getPassword() == null || request.getPassword().isEmpty() || request.getInstId() == null) {
+            response.setErrorCode(ErrorCode.ERROR_CODE_INVALID_REQUEST);
+            response.setErrorDescription(ErrorDescription.ERROR_DESCRIPTION_INVALID_REQUEST);
+            response.setStatus(false);
+            return response;
+        }
+        return userService.studentLogin(request, response);
     }
-
-
 }

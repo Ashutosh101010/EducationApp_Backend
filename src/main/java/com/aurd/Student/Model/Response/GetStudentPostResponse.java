@@ -1,8 +1,7 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
-import com.aurd.Student.Model.Entity.StudentModel;
-import com.aurd.Student.Model.Entity.StudentPostModel;
+import com.aurd.Student.Model.Entity.Student;
 
 import java.util.ArrayList;
 
@@ -11,13 +10,13 @@ public class GetStudentPostResponse {
     String message;
     int errorCode;
     boolean status;
-    StudentModel student;
+    Student student;
 
-    public StudentModel getStudent() {
+    public Student getStudent() {
         return student;
     }
 
-    public void setStudent(StudentModel student) {
+    public void setStudent(Student student) {
         this.student = student;
     }
 

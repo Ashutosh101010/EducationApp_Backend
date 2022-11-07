@@ -1,8 +1,6 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.BeanClass.StudentCourseEntity;
-import com.aurd.Student.Model.Entity.StudentCourseModel;
-
 import java.util.ArrayList;
 
 public class GetStudentCourseResponse {

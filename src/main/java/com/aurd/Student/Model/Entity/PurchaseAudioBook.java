@@ -1,53 +1,64 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.checkerframework.checker.units.qual.C;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Table(name = "purchase_audiobooks")
 @Entity
 public class PurchaseAudioBook {
-    private Integer id;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue
-    public Integer getId() {
+    private Long id;
+    @Column(name = "audio_book_id")
+    private Long audioBookId;
+
+    @Column(name = "stud_id")
+    private Long studId;
+    private String phone;
+
+
+    @Column(name = "purchase_amount")
+    private Long purchaseAmount;
+
+    @Column(name = "total_amount")
+    private Long totalAmount;
+
+    @Column(name = "discounted_amount")
+    private Long discountedAmount;
+
+    private String method;
+    private String details;
+
+    @Column(name = "trans_id")
+    private String transId;
+
+    @Column(name = "created_on")
+    private Timestamp createdOn;
+
+    public Long getId() {
         return id;
     }
 
-    private Integer audiobooksid;
-    private Integer stud_id;
-    private String phone;
-    private Integer assigned_by;
-    private Long purchase_amount;
-    private Long total_amount;
-    private Long discounted_amount;
-    private Long discount;
-    private String method;
-    private String details;
-    private String trans_id;
-    private Timestamp created_on;
-
-    public Integer getAudiobooksid() {
-        return audiobooksid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAudiobooksid(Integer audiobooksid) {
-        this.audiobooksid = audiobooksid;
+    public Long getAudioBookId() {
+        return audioBookId;
     }
 
-    public Integer getStud_id() {
-        return stud_id;
+    public void setAudioBookId(Long audioBookId) {
+        this.audioBookId = audioBookId;
     }
 
-    public void setStud_id(Integer stud_id) {
-        this.stud_id = stud_id;
+    public Long getStudId() {
+        return studId;
+    }
+
+    public void setStudId(Long studId) {
+        this.studId = studId;
     }
 
     public String getPhone() {
@@ -58,44 +69,28 @@ public class PurchaseAudioBook {
         this.phone = phone;
     }
 
-    public Integer getAssigned_by() {
-        return assigned_by;
+    public Long getPurchaseAmount() {
+        return purchaseAmount;
     }
 
-    public void setAssigned_by(Integer assigned_by) {
-        this.assigned_by = assigned_by;
+    public void setPurchaseAmount(Long purchaseAmount) {
+        this.purchaseAmount = purchaseAmount;
     }
 
-    public Long getPurchase_amount() {
-        return purchase_amount;
+    public Long getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setPurchase_amount(Long purchase_amount) {
-        this.purchase_amount = purchase_amount;
+    public void setTotalAmount(Long totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public Long getTotal_amount() {
-        return total_amount;
+    public Long getDiscountedAmount() {
+        return discountedAmount;
     }
 
-    public void setTotal_amount(Long total_amount) {
-        this.total_amount = total_amount;
-    }
-
-    public Long getDiscounted_amount() {
-        return discounted_amount;
-    }
-
-    public void setDiscounted_amount(Long discounted_amount) {
-        this.discounted_amount = discounted_amount;
-    }
-
-    public Long getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Long discount) {
-        this.discount = discount;
+    public void setDiscountedAmount(Long discountedAmount) {
+        this.discountedAmount = discountedAmount;
     }
 
     public String getMethod() {
@@ -114,19 +109,19 @@ public class PurchaseAudioBook {
         this.details = details;
     }
 
-    public String getTrans_id() {
-        return trans_id;
+    public String getTransId() {
+        return transId;
     }
 
-    public void setTrans_id(String trans_id) {
-        this.trans_id = trans_id;
+    public void setTransId(String transId) {
+        this.transId = transId;
     }
 
-    public Timestamp getCreated_on() {
-        return created_on;
+    public Timestamp getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
     }
 }

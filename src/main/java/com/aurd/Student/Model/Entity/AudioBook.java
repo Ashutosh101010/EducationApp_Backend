@@ -6,22 +6,46 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "audio_books")
 public class AudioBook {
-
-
-    private Integer id;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue
-    public Integer getId() {
+    private Long id;
+    @Transient
+    private Boolean purchased;
+
+    private String testType;
+    private String title;
+    private String pic;
+    private Double price;
+    private String introAudio;
+    private Timestamp addedOn;
+    private Long addedBy;
+    private Long updatedBy;
+    private Long instId;
+    private Boolean isActive;
+    private Timestamp time;
+    private Timestamp updatedOn;
+    private Double discountedPrice;
+    private String enrollStudent;
+
+
+    @ManyToOne
+    Institute institute;
+
+    public Institute getInstitute() {
+        return institute;
+    }
+
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    @Transient
-    Boolean purchased;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Boolean getPurchased() {
         return purchased;
@@ -30,29 +54,13 @@ public class AudioBook {
     public void setPurchased(Boolean purchased) {
         this.purchased = purchased;
     }
-
-    private String test_type;
-    private String title;
-    private String pic;
-    private String price;
-    private String teachers_name;
-    private String intro_audio;
-    private Timestamp added_on;
-    private Integer added_by;
-    private Integer updated_by;
-    private Integer inst_id;
-    private Integer is_active;
-    private Timestamp time;
-    private Timestamp updated_on;
-    private String discount_price;
-    private String enroll_student;
-
-    public String getTest_type() {
-        return test_type;
+    @Column(name = "test_type")
+    public String getTestType() {
+        return testType;
     }
 
-    public void setTest_type(String test_type) {
-        this.test_type = test_type;
+    public void setTestType(String testType) {
+        this.testType = testType;
     }
 
     public String getTitle() {
@@ -71,68 +79,68 @@ public class AudioBook {
         this.pic = pic;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public String getTeachers_name() {
-        return teachers_name;
+
+
+    @Column(name = "intro_audio")
+    public String getIntroAudio() {
+        return introAudio;
     }
 
-    public void setTeachers_name(String teachers_name) {
-        this.teachers_name = teachers_name;
+    public void setIntroAudio(String introAudio) {
+        this.introAudio = introAudio;
     }
 
-    public String getIntro_audio() {
-        return intro_audio;
+    @Column(name = "added_on")
+    public Timestamp getAddedOn() {
+        return addedOn;
     }
 
-    public void setIntro_audio(String intro_audio) {
-        this.intro_audio = intro_audio;
+    public void setAddedOn(Timestamp addedOn) {
+        this.addedOn = addedOn;
     }
 
-    public Timestamp getAdded_on() {
-        return added_on;
+    @Column(name = "added_by")
+    public Long getAddedBy() {
+        return addedBy;
     }
 
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
+    public void setAddedBy(Long addedBy) {
+        this.addedBy = addedBy;
     }
 
-    public Integer getAdded_by() {
-        return added_by;
+    @Column(name = "updated_by")
+    public Long getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setAdded_by(Integer added_by) {
-        this.added_by = added_by;
+    public void setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
-    public Integer getUpdated_by() {
-        return updated_by;
+
+    public Long getInstId() {
+        return instId;
     }
 
-    public void setUpdated_by(Integer updated_by) {
-        this.updated_by = updated_by;
+    public void setInstId(Long instId) {
+        this.instId = instId;
     }
 
-    public Integer getInst_id() {
-        return inst_id;
+    @Column(name = "is_active")
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setInst_id(Integer inst_id) {
-        this.inst_id = inst_id;
-    }
-
-    public Integer getIs_active() {
-        return is_active;
-    }
-
-    public void setIs_active(Integer is_active) {
-        this.is_active = is_active;
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public Timestamp getTime() {
@@ -143,27 +151,31 @@ public class AudioBook {
         this.time = time;
     }
 
-    public Timestamp getUpdated_on() {
-        return updated_on;
+    @Column(name = "updated_on")
+    public Timestamp getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    public void setUpdatedOn(Timestamp updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public String getDiscount_price() {
-        return discount_price;
+    @Column(name = "discounted_price")
+    public Double getDiscountedPrice() {
+        return discountedPrice;
     }
 
-    public void setDiscount_price(String discount_price) {
-        this.discount_price = discount_price;
+    public void setDiscountedPrice(Double discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 
-    public String getEnroll_student() {
-        return enroll_student;
+    @Column(name = "enroll_student")
+    public String getEnrollStudent() {
+        return enrollStudent;
     }
 
-    public void setEnroll_student(String enroll_student) {
-        this.enroll_student = enroll_student;
+    public void setEnrollStudent(String enrollStudent) {
+        this.enrollStudent = enrollStudent;
     }
+
 }

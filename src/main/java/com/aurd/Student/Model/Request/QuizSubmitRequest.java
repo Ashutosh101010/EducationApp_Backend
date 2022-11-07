@@ -1,12 +1,11 @@
 package com.aurd.Student.Model.Request;
 
-import com.aurd.Student.Model.Entity.Quiz_Question_Model;
-import com.aurd.Student.Model.Entity.Quiz_Submit_Model;
+import com.aurd.Student.Model.Entity.QuizSubmit;
 
 import java.util.ArrayList;
 
 public class QuizSubmitRequest {
-    ArrayList<Quiz_Submit_Model> arrayList = new ArrayList();
+    ArrayList<QuizSubmit> arrayList = new ArrayList();
 //    ArrayList arrayList = new ArrayList();
     String time;
     Long quizId; //series id in practisetestseries
@@ -54,11 +53,11 @@ public class QuizSubmitRequest {
         this.time = time;
     }
 
-    public ArrayList<Quiz_Submit_Model> getArrayList() {
+    public ArrayList<QuizSubmit> getArrayList() {
         return arrayList;
     }
 
-    public void setArrayList(ArrayList<Quiz_Submit_Model> arrayList) {
+    public void setArrayList(ArrayList<QuizSubmit> arrayList) {
         this.arrayList = arrayList;
     }
 }

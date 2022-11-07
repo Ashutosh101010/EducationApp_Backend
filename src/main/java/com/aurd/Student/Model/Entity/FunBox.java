@@ -1,28 +1,43 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "fun_box")
 public class FunBox {
 
+
+    @Id
+    @GeneratedValue
     private Long id;
+
     private Timestamp timestamp;
     private String media;
     private String type;
-     private Integer inst_id;
+
+    @Column(name = "inst_id" )
+     private Long instId;
 
 
-    public Integer getInst_id() {
-        return inst_id;
+    @ManyToOne
+   
+    Institute institute;
+
+    public Institute getInstitute() {
+        return institute;
     }
 
-    public void setInst_id(Integer inst_id) {
-        this.inst_id = inst_id;
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Timestamp getTimestamp() {
@@ -49,15 +64,11 @@ public class FunBox {
         this.type = type;
     }
 
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
+    public Long getInstId() {
+        return instId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setInstId(Long instId) {
+        this.instId = instId;
     }
-
-
 }

@@ -4,30 +4,14 @@ import java.sql.Timestamp;
 
 public class AddNotesRequest
 {
-    String title;
-    String note;
-    long stud_id;
-    long inst_id;
-    Long vid_id;
-    Timestamp added_on;
-    Timestamp updated_on;
+    private String title;
+    private String note;
+    private Long studId;
+    private Long instId;
+    private Long vidId;
+//    private Timestamp addedOn;
+//    private Timestamp updatedOn;
 
-
-    public Timestamp getUpdated_on() {
-        return updated_on;
-    }
-
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
-    }
-
-    public Timestamp getAdded_on() {
-        return added_on;
-    }
-
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
-    }
 
     public String getTitle() {
         return title;
@@ -45,27 +29,43 @@ public class AddNotesRequest
         this.note = note;
     }
 
-    public long getStud_id() {
-        return stud_id;
+    public Long getStudId() {
+        return studId;
     }
 
-    public void setStud_id(long stud_id) {
-        this.stud_id = stud_id;
+    public void setStudId(Long studId) {
+        this.studId = studId;
     }
 
-    public long getInst_id() {
-        return inst_id;
+    public Long getInstId() {
+        return instId;
     }
 
-    public void setInst_id(long inst_id) {
-        this.inst_id = inst_id;
+    public void setInstId(Long instId) {
+        this.instId = instId;
     }
 
-    public Long getVid_id() {
-        return vid_id;
+    public Long getVidId() {
+        return vidId;
     }
 
-    public void setVid_id(Long vid_id) {
-        this.vid_id = vid_id;
+    public void setVidId(Long vidId) {
+        this.vidId = vidId;
     }
+
+//    public Timestamp getAddedOn() {
+//        return addedOn;
+//    }
+//
+//    public void setAddedOn(Timestamp addedOn) {
+//        this.addedOn = addedOn;
+//    }
+//
+//    public Timestamp getUpdatedOn() {
+//        return updatedOn;
+//    }
+//
+//    public void setUpdatedOn(Timestamp updatedOn) {
+//        this.updatedOn = updatedOn;
+//    }
 }

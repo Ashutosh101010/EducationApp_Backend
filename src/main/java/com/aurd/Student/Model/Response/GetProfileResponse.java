@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.StudentModel;
+
+import com.aurd.Student.Model.Entity.Student;
 
 import java.util.ArrayList;
 
@@ -10,16 +11,15 @@ public class GetProfileResponse {
     int errorCode;
     boolean status;
 
-    StudentModel studentModel=new StudentModel();
+    Student studentModel;
 
-    public StudentModel getStudentModel() {
-        return studentModel;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public void setStudentModel(StudentModel studentModel) {
-        this.studentModel = studentModel;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
-
 
     public String getMessage() {
         return message;
@@ -45,11 +45,12 @@ public class GetProfileResponse {
         this.status = status;
     }
 
-    public void setProfile(StudentModel studentModel) {
-        this.studentModel=studentModel;
+    public Student getStudentModel() {
+        return studentModel;
     }
 
-
-
+    public void setStudentModel(Student studentModel) {
+        this.studentModel = studentModel;
+    }
 }
 

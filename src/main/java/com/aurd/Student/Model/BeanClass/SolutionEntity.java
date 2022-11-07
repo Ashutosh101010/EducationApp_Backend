@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.BeanClass;
 
-import com.aurd.Student.Model.Entity.Question_Option_Model;
+
+
+import com.aurd.Student.Model.Entity.QuestionOption;
 
 import java.util.ArrayList;
 
@@ -9,7 +11,7 @@ public class SolutionEntity {
     String myAnswer;
     String answer;
     String description;
-    ArrayList<Question_Option_Model> options = new ArrayList<>();
+    ArrayList<QuestionOption> options = new ArrayList<>();
     int markForReview =0;
     int skipped = 0;
     String subject;
@@ -46,11 +48,11 @@ public class SolutionEntity {
         this.description = description;
     }
 
-    public ArrayList<Question_Option_Model> getOptions() {
+    public ArrayList<QuestionOption> getOptions() {
         return options;
     }
 
-    public void setOptions(ArrayList<Question_Option_Model> options) {
+    public void setOptions(ArrayList<QuestionOption> options) {
         this.options = options;
     }
 

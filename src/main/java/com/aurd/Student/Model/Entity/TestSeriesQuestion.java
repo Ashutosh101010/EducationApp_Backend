@@ -14,89 +14,61 @@ import java.sql.Timestamp;
     @Table(name = "quiz_question_master_for_series")
     public class TestSeriesQuestion {
 
+
         @Id
-
-        @Column(name = "question_id",nullable = false)
-        @PrimaryKeyJoinColumn
-        private  long question_id;
-
+        @GeneratedValue
+        private Long id;
         @Column(name = "question_type",nullable = false)
-        @NotBlank
-        private String question_type;
-
-        @Column(name = "question",nullable = false)
-        @NotBlank
+        private String questionType;
         private  String question;
 
-        @Column(name = "marks",nullable = false)
-        private  long marks;
+        private  Integer marks;
 
-        @Column(name = "answer",nullable = false)
-        @NotBlank
-        @Max(1001)
         private String answer;
 
         @Column(name = "ans_description",nullable = true)
-        @Nullable
-        private String ans_description;
+        private String ansDescription;
 
-        @Column(name = "pic",nullable = true)
-        @Nullable
-        private  String pic;
+
 
         @Column(name = "added_on",nullable = false)
-        private Timestamp added_on;
+        private Timestamp addedOn;
 
         @Column(name = "added_by",nullable = false)
-        private long added_by;
+        private long addedBy;
 
         @Column(name = "updated_by",nullable = false)
-        private long updated_by;
+        private Long updatedBy;
 
         @Column(name = "inst_id",nullable = false)
-        private long inst_id;
+        private Long instId;
 
         @Column(name = "subject_id",nullable = true)
-        private  Long subject_id;
+        private  Long subjectId;
 
 
         @ManyToOne
         @JoinColumn(name="subject_id",insertable = false,updatable = false)
         @NotFound(action = NotFoundAction.IGNORE)
-        SubjectModel subjectModel;
+        Subject subject;
 
-        private String question_with_images;
+        @Column(name = "question_with_images")
+        private String questionWithImages;
 
-        public String getQuestion_with_images() {
-            return question_with_images;
+        public Long getId() {
+            return id;
         }
 
-        public void setQuestion_with_images(String question_with_images) {
-            this.question_with_images = question_with_images;
+        public void setId(Long id) {
+            this.id = id;
         }
 
-        public SubjectModel getSubjectModel() {
-            return subjectModel;
+        public String getQuestionType() {
+            return questionType;
         }
 
-        public void setSubjectModel(SubjectModel subjectModel) {
-            this.subjectModel = subjectModel;
-        }
-
-        public long getQuestion_id() {
-            return question_id;
-        }
-
-        public void setQuestion_id(long question_id) {
-            this.question_id = question_id;
-        }
-
-        public String getQuestion_type() {
-            return question_type;
-        }
-
-        public void setQuestion_type(String question_type) {
-            this.question_type = question_type;
+        public void setQuestionType(String questionType) {
+            this.questionType = questionType;
         }
 
         public String getQuestion() {
@@ -107,11 +79,11 @@ import java.sql.Timestamp;
             this.question = question;
         }
 
-        public long getMarks() {
+        public Integer getMarks() {
             return marks;
         }
 
-        public void setMarks(long marks) {
+        public void setMarks(Integer marks) {
             this.marks = marks;
         }
 
@@ -123,60 +95,68 @@ import java.sql.Timestamp;
             this.answer = answer;
         }
 
-        public String getAns_description() {
-            return ans_description;
+        public String getAnsDescription() {
+            return ansDescription;
         }
 
-        public void setAns_description(String ans_description) {
-            this.ans_description = ans_description;
+        public void setAnsDescription(String ansDescription) {
+            this.ansDescription = ansDescription;
         }
 
-        public String getPic() {
-            return pic;
+        public Timestamp getAddedOn() {
+            return addedOn;
         }
 
-        public void setPic(String pic) {
-            this.pic = pic;
+        public void setAddedOn(Timestamp addedOn) {
+            this.addedOn = addedOn;
         }
 
-        public Timestamp getAdded_on() {
-            return added_on;
+        public long getAddedBy() {
+            return addedBy;
         }
 
-        public void setAdded_on(Timestamp added_on) {
-            this.added_on = added_on;
+        public void setAddedBy(long addedBy) {
+            this.addedBy = addedBy;
         }
 
-        public long getAdded_by() {
-            return added_by;
+        public Long getUpdatedBy() {
+            return updatedBy;
         }
 
-        public void setAdded_by(long added_by) {
-            this.added_by = added_by;
+        public void setUpdatedBy(Long updatedBy) {
+            this.updatedBy = updatedBy;
         }
 
-        public long getUpdated_by() {
-            return updated_by;
+        public Long getInstId() {
+            return instId;
         }
 
-        public void setUpdated_by(long updated_by) {
-            this.updated_by = updated_by;
+        public void setInstId(Long instId) {
+            this.instId = instId;
         }
 
-        public long getInst_id() {
-            return inst_id;
+        public Long getSubjectId() {
+            return subjectId;
         }
 
-        public void setInst_id(long inst_id) {
-            this.inst_id = inst_id;
+        public void setSubjectId(Long subjectId) {
+            this.subjectId = subjectId;
         }
 
-        public Long getSubject_id() {
-            return subject_id;
+        public Subject getSubject() {
+            return subject;
         }
 
-        public void setSubject_id(Long subject_id) {
-            this.subject_id = subject_id;
+        public void setSubject(Subject subject) {
+            this.subject = subject;
+        }
+
+        public String getQuestionWithImages() {
+            return questionWithImages;
+        }
+
+        public void setQuestionWithImages(String questionWithImages) {
+            this.questionWithImages = questionWithImages;
         }
     }
 

@@ -1,6 +1,7 @@
 package com.aurd.Student.Repository;
 
-import com.aurd.Student.Model.Entity.KeyNotesModel;
+import com.aurd.Student.Model.Entity.KeyNotes;
+
 import com.aurd.Student.Model.Request.AddKeyNotes;
 import com.google.gson.Gson;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -12,9 +13,9 @@ import java.util.Calendar;
 
 @ApplicationScoped
 
-public class AddKeyNotesRepository implements PanacheRepository<KeyNotesModel> {
+public class AddKeyNotesRepository implements PanacheRepository<KeyNotes> {
 
-
+//
 
 
     public boolean addKeyNotesRequest(AddKeyNotes request) {

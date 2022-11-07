@@ -1,7 +1,7 @@
 package com.aurd.Student.Repository;
 
-import com.aurd.Student.Model.Entity.StudentPostModel;
-import com.aurd.Student.Model.Entity.Blog_Comment_Model;
+import com.aurd.Student.Model.Entity.StudentPost;
+
 import com.aurd.Student.Model.Request.AddStudentPostRequest;
 import com.aurd.Student.Model.Request.GetStudentBlogCommentRequest;
 import com.aurd.Student.Model.Request.GetStudentPostRequest;
@@ -14,30 +14,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @ApplicationScoped
-public class StudentPostRepository implements PanacheRepository<StudentPostModel> {
-
-    public void addStudentPost(StudentPostModel model) {
-        System.out.println("Repository Class Call");
-
-        System.out.println(new Gson().toJson(model));
-      try{
-          persist(model);
-      }catch (Exception e){
-          System.out.println(e);
-      }
-    }
-
-    public ArrayList getStudentPosts(GetStudentPostRequest request){
-
-        ArrayList<StudentPostModel> arrayList = (ArrayList<StudentPostModel>)
-                list("added_by =?1 and inst_id =?2",
-                request.getStud_id(),request.getInst_id());
-
-        return  arrayList;
-
-
-
-    }
-
+public class StudentPostRepository implements PanacheRepository<StudentPost> {
+//
+//    public void addStudentPost(StudentPostModel model) {
+//        System.out.println("Repository Class Call");
+//
+//        System.out.println(new Gson().toJson(model));
+//      try{
+//          persist(model);
+//      }catch (Exception e){
+//          System.out.println(e);
+//      }
+//    }
+//
+//    public ArrayList getStudentPosts(GetStudentPostRequest request){
+//
+//        ArrayList<StudentPostModel> arrayList = (ArrayList<StudentPostModel>)
+//                list("added_by =?1 and inst_id =?2",
+//                request.getStud_id(),request.getInst_id());
+//
+//        return  arrayList;
+//
+//
+//
+//    }
+//
 
 }

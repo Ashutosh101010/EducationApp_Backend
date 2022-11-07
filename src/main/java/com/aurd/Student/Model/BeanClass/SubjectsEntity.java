@@ -1,6 +1,7 @@
 package com.aurd.Student.Model.BeanClass;
 
-import com.aurd.Student.Model.Entity.SubSubjectModel;
+
+import com.aurd.Student.Model.Entity.SubSubject;
 
 import java.util.ArrayList;
 
@@ -10,14 +11,14 @@ public class SubjectsEntity {
 
 
 
-    private ArrayList<SubSubjectModel> subSubjectList = new ArrayList();
+    private ArrayList<SubSubject> subSubjectList = new ArrayList();
 
 
-    public ArrayList<SubSubjectModel> getSubSubjectList() {
+    public ArrayList<SubSubject> getSubSubjectList() {
         return subSubjectList;
     }
 
-    public void setSubSubjectList(ArrayList<SubSubjectModel> subSubjectList) {
+    public void setSubSubjectList(ArrayList<SubSubject> subSubjectList) {
         this.subSubjectList = subSubjectList;
     }
 

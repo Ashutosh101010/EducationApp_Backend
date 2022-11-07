@@ -5,33 +5,41 @@ import javax.persistence.*;
 @Entity
 @Table(name = "digital_world_media")
 public class DigitalWorldMedia {
+    @Id
+    @GeneratedValue
     private Long id;
+
     @Column(name = "folder_id")
     private Long folderId;
 
     private String media;
     private String type;
-    private Long inst_id;
+
+    @Column(name = "inst_id")
+    private Long instId;
+
     private String name;
 
-    public String getName() {
-        return name;
+    @ManyToOne
+   
+    Institute institute;
+
+    public Institute getInstitute() {
+        return institute;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
     }
 
-    public Long getInst_id() {
-        return inst_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setInst_id(Long inst_id) {
-        this.inst_id = inst_id;
+    public Long getId() {
+        return id;
     }
 
-
-    @Column(name = "folder_id")
     public Long getFolderId() {
         return folderId;
     }
@@ -56,13 +64,19 @@ public class DigitalWorldMedia {
         this.type = type;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getInstId() {
+        return instId;
     }
 
-    @Id
-    @GeneratedValue
-    public Long getId() {
-        return id;
+    public void setInstId(Long instId) {
+        this.instId = instId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

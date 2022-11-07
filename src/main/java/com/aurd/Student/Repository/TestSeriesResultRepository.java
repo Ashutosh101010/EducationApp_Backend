@@ -1,6 +1,5 @@
 package com.aurd.Student.Repository;
 
-import com.aurd.Student.Model.Entity.SaveResultModel;
 import com.aurd.Student.Model.Entity.TestSeriesResult;
 import com.aurd.Student.Model.Request.GetQuizResultRequest;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;

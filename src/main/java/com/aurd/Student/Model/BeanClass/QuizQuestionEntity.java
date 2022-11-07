@@ -1,6 +1,8 @@
 package com.aurd.Student.Model.BeanClass;
 
-import com.aurd.Student.Model.Entity.Question_Option_Model;
+
+
+import com.aurd.Student.Model.Entity.QuestionOption;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -65,7 +67,7 @@ public class QuizQuestionEntity {
         this.option_discription = option_discription;
     }
 
-    public ArrayList<Question_Option_Model> getOptions() {
+    public ArrayList<QuestionOption> getOptions() {
         return options;
     }
 

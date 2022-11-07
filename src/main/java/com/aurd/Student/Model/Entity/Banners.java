@@ -1,46 +1,44 @@
 package com.aurd.Student.Model.Entity;
 
+import org.checkerframework.checker.units.qual.C;
+
 import javax.persistence.*;
 
 @Entity(name = "banners")
 public class Banners {
 
     @Id
-    @PrimaryKeyJoinColumn
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "banner",nullable = false)
+    @GeneratedValue
+    private Long id;
     private String banner;
-
-    @Column(name = "inst_id",nullable = false)
-    private long inst_id;
+    @Column(name = "inst_id")
+    private Long instId;
 
     private String type;
-    private Integer type_id;
+    @Column(name = "type_id")
+    private Long typeId;
 
-    public String getType() {
-        return type;
+
+
+    @ManyToOne
+   
+    Institute institute;
+
+    public Institute getInstitute() {
+        return institute;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setInstitute(Institute institute) {
+        this.institute = institute;
     }
 
-    public Integer getType_id() {
-        return type_id;
-    }
-
-    public void setType_id(Integer type_id) {
-        this.type_id = type_id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+
+    public Long getId() {
+        return id;
     }
 
     public String getBanner() {
@@ -51,11 +49,29 @@ public class Banners {
         this.banner = banner;
     }
 
-    public long getInst_id() {
-        return inst_id;
+
+    public Long getInstId() {
+        return instId;
     }
 
-    public void setInst_id(long inst_id) {
-        this.inst_id = inst_id;
+    public void setInstId(Long instId) {
+        this.instId = instId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
+    public Long getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Long typeId) {
+        this.typeId = typeId;
     }
 }

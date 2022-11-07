@@ -1,9 +1,6 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -11,22 +8,30 @@ import java.sql.Timestamp;
 public class BooksMedia {
 
 
-    private Integer id;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Id
     @GeneratedValue
-    public Integer getId() {
-        return id;
+    private Long id;
+    private String media;
+    @Column(name = "created_on")
+    private Timestamp createdOn;
+    @Column(name = "updated_on")
+    private Timestamp updatedOn;
+    @Column(name = "book_id")
+    private Long bookId;
+
+
+    @ManyToOne
+    @JoinColumn(name = "book_id",insertable = false,updatable = false)
+    Book book;
+
+    public Book getBook() {
+        return book;
     }
 
-    private String media;
-    private Timestamp created_on;
-    private Timestamp updated_on;
-    private Integer book_id;
+    public void setBook(Book book) {
+        this.book = book;
+    }
 
     public String getMedia() {
         return media;
@@ -36,27 +41,35 @@ public class BooksMedia {
         this.media = media;
     }
 
-    public Timestamp getCreated_on() {
-        return created_on;
+    public Timestamp getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
     }
 
-    public Timestamp getUpdated_on() {
-        return updated_on;
+    public Timestamp getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    public void setUpdatedOn(Timestamp updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public Integer getBook_id() {
-        return book_id;
+    public Long getBookId() {
+        return bookId;
     }
 
-    public void setBook_id(Integer book_id) {
-        this.book_id = book_id;
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

@@ -1,7 +1,7 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.BeanClass.QuizQuestionEntity;
-import com.aurd.Student.Model.Entity.PractiseTestSeriesModel;
+import com.aurd.Student.Model.Entity.TestSeries;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +11,13 @@ public class GetQuestionResponse {
     int errorCode;
     boolean status;
     ArrayList<QuizQuestionEntity> arrayList = new ArrayList();
-    List<PractiseTestSeriesModel> sectionList;
+    List<TestSeries> sectionList;
 
-    public List<PractiseTestSeriesModel> getSectionList() {
+    public List<TestSeries> getSectionList() {
         return sectionList;
     }
 
-    public void setSectionList(List<PractiseTestSeriesModel> sectionList) {
+    public void setSectionList(List<TestSeries> sectionList) {
         this.sectionList = sectionList;
     }
 

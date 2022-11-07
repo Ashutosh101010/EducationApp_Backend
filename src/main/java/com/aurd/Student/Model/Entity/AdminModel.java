@@ -5,19 +5,20 @@ import javax.persistence.*;
 @Entity
 @Table(name = "admins")
 public class AdminModel {
+
+    private Long id;
+
+    private String name;
+    private String profile;
+    private String username;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    String name;
-    String profile;
-    String username;
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

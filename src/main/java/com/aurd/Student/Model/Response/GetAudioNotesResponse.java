@@ -1,7 +1,6 @@
 package com.aurd.Student.Model.Response;
 
 import com.aurd.Student.Model.Entity.Audio;
-import com.aurd.Student.Model.Entity.VideoModel;
 
 import java.util.ArrayList;
 

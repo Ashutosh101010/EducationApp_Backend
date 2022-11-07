@@ -3,10 +3,6 @@ package com.aurd.Student.Model.Response;
 import com.aurd.Student.Model.BeanClass.BookMarkEntity;
 import com.aurd.Student.Model.BeanClass.CurrentAffairEntity;
 import com.aurd.Student.Model.BeanClass.StudentPostEntity;
-import com.aurd.Student.Model.Entity.BookMarkModel;
-import com.aurd.Student.Model.Entity.CurrentAffairModel;
-import com.aurd.Student.Model.Entity.StudentModel;
-import com.aurd.Student.Model.Entity.StudentPostModel;
 
 import java.util.ArrayList;
 

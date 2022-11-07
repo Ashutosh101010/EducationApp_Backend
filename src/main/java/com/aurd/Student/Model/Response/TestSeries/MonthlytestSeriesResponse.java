@@ -1,14 +1,13 @@
 package com.aurd.Student.Model.Response.TestSeries;
 
-import com.aurd.Student.Model.Entity.QuizModel;
-
+import com.aurd.Student.Model.Entity.Quiz;
 import java.util.ArrayList;
 
 public class MonthlytestSeriesResponse {
     String message;
     int errorCode;
     boolean status;
-    ArrayList<QuizModel> testList = new ArrayList<>();
+    ArrayList<Quiz> testList = new ArrayList<>();
 
     public String getMessage() {
         return message;
@@ -34,11 +33,11 @@ public class MonthlytestSeriesResponse {
         this.status = status;
     }
 
-    public ArrayList<QuizModel> getTestList() {
+    public ArrayList<Quiz> getTestList() {
         return testList;
     }
 
-    public void setTestList(ArrayList<QuizModel> testList) {
+    public void setTestList(ArrayList<Quiz> testList) {
         this.testList = testList;
     }
 }

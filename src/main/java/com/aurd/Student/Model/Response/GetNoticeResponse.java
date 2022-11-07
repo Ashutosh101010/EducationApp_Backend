@@ -1,5 +1,5 @@
 package com.aurd.Student.Model.Response;
-import com.aurd.Student.Model.Entity.NoticeModel;
+import com.aurd.Student.Model.Entity.Notice;
 import java.util.ArrayList;
 
 public class GetNoticeResponse {
@@ -7,7 +7,7 @@ public class GetNoticeResponse {
     String message;
     boolean status;
     int errorCode;
-    ArrayList<NoticeModel> notice = new ArrayList();
+    ArrayList<Notice> notice = new ArrayList();
 
     public String getMessage() {
         return message;
@@ -33,11 +33,11 @@ public class GetNoticeResponse {
         this.errorCode = errorCode;
     }
 
-    public ArrayList<NoticeModel> getNotice() {
-        return notice;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public void setNotice(ArrayList<NoticeModel> notice) {
-        this.notice = notice;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
     }
 }

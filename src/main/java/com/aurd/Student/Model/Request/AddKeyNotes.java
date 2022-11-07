@@ -5,14 +5,15 @@ import java.sql.Timestamp;
 
 public class AddKeyNotes {
 
-    String title;
-    int inst_id;
-    int student_id;
-    String student_name;
-    int live_class_id;
-    String category;
-    String description;
-    Timestamp added_on;
+    private String title;
+    private Long instId;
+    private Long studentId;
+    private String studentName;
+    private Long liveClassId;
+    private String category;
+    private String description;
+    private Timestamp addedOn;
+
 
     public String getTitle() {
         return title;
@@ -22,36 +23,36 @@ public class AddKeyNotes {
         this.title = title;
     }
 
-    public int getInst_id() {
-        return inst_id;
+    public Long getInstId() {
+        return instId;
     }
 
-    public void setInst_id(int inst_id) {
-        this.inst_id = inst_id;
+    public void setInstId(Long instId) {
+        this.instId = instId;
     }
 
-    public int getStudent_id() {
-        return student_id;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setStudent_id(int student_id) {
-        this.student_id = student_id;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
-    public String getStudent_name() {
-        return student_name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setStudent_name(String student_name) {
-        this.student_name = student_name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public int getLive_class_id() {
-        return live_class_id;
+    public Long getLiveClassId() {
+        return liveClassId;
     }
 
-    public void setLive_class_id(int live_class_id) {
-        this.live_class_id = live_class_id;
+    public void setLiveClassId(Long liveClassId) {
+        this.liveClassId = liveClassId;
     }
 
     public String getCategory() {
@@ -60,7 +61,6 @@ public class AddKeyNotes {
 
     public void setCategory(String category) {
         this.category = category;
-
     }
 
     public String getDescription() {
@@ -71,11 +71,11 @@ public class AddKeyNotes {
         this.description = description;
     }
 
-    public Timestamp getAdded_on() {
-        return added_on;
+    public Timestamp getAddedOn() {
+        return addedOn;
     }
 
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
+    public void setAddedOn(Timestamp addedOn) {
+        this.addedOn = addedOn;
     }
 }

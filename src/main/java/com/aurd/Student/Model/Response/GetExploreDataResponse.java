@@ -13,13 +13,37 @@ public class GetExploreDataResponse {
     ArrayList<CurrentAffairEntity> currentAffairArrayList =new ArrayList<>();
     ArrayList<StudentPostEntity> postList = new ArrayList<>();
     ArrayList<NotesEntity> notesList = new ArrayList<>();
-    ArrayList<QuizModel> quizList = new ArrayList<>();
-    ArrayList<VideoModel> videoModels=new ArrayList<>();
-    ArrayList<QuizModel>practiseList = new ArrayList<>();
+    ArrayList<Quiz> quizList = new ArrayList<>();
+    ArrayList<Video> videoModels=new ArrayList<>();
+    ArrayList<Quiz>practiseList = new ArrayList<>();
     String message;
     int errorCode;
     boolean status;
 
+
+    public ArrayList<Quiz> getQuizList() {
+        return quizList;
+    }
+
+    public void setQuizList(ArrayList<Quiz> quizList) {
+        this.quizList = quizList;
+    }
+
+    public ArrayList<Video> getVideoModels() {
+        return videoModels;
+    }
+
+    public void setVideoModels(ArrayList<Video> videoModels) {
+        this.videoModels = videoModels;
+    }
+
+    public ArrayList<Quiz> getPractiseList() {
+        return practiseList;
+    }
+
+    public void setPractiseList(ArrayList<Quiz> practiseList) {
+        this.practiseList = practiseList;
+    }
 
     public ArrayList<NotesEntity> getNotesList() {
         return notesList;
@@ -29,13 +53,6 @@ public class GetExploreDataResponse {
         this.notesList = notesList;
     }
 
-    public ArrayList<QuizModel> getQuizList() {
-        return quizList;
-    }
-
-    public void setQuizList(ArrayList<QuizModel> quizList) {
-        this.quizList = quizList;
-    }
 
     public ArrayList<BlogEntity> getBlogList() {
         return blogList;
@@ -88,19 +105,5 @@ public class GetExploreDataResponse {
     }
 
 
-    public ArrayList<VideoModel> getVideoModels() {
-        return videoModels;
-    }
 
-    public void setVideoModels(ArrayList<VideoModel> videoModels) {
-        this.videoModels = videoModels;
-    }
-
-    public ArrayList<QuizModel> getPractiseList() {
-        return practiseList;
-    }
-
-    public void setPractiseList(ArrayList<QuizModel> practiseList) {
-        this.practiseList = practiseList;
-    }
 }

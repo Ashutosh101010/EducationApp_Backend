@@ -1,55 +1,71 @@
 package com.aurd.Student.Model.Entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.checkerframework.checker.units.qual.C;
+
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "purchase_books")
 public class PurchaseBook {
-    private Integer id;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Id
     @GeneratedValue
-    public Integer getId() {
-        return id;
-    }
+    private Long id;
 
-    private Integer booksid;
-    private Integer stud_id;
+
+    @Column(name = "book_id")
+    private Long bookid;
+
+    @Column(name = "stud_id")
+    private Long studId;
     private String phone;
-    private Long purchase_amount;
-    private Long total_amount;
-    private Long discounted_amount;
+
+    @Column(name = "purchase_amount")
+    private Integer purchaseAmount;
+
+    @Column(name = "total_amount")
+    private Integer totalAmount;
+
+    @Column(name = "discounted_amount")
+    private Long discountedAmount;
     private String method;
     private String details;
     private String address;
+
+    @Column(name = "delivery_status")
     private String delivery_status;
-    private String trans_id;
+
+    @Column(name = "trans_id")
+    private String transId;
+
+
     private Timestamp timestamp;
 
 
-    public Integer getBooksid() {
-        return booksid;
+    public Long getId() {
+        return id;
     }
 
-    public void setBooksid(Integer booksid) {
-        this.booksid = booksid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Integer getStud_id() {
-        return stud_id;
+    public Long getBookid() {
+        return bookid;
     }
 
-    public void setStud_id(Integer stud_id) {
-        this.stud_id = stud_id;
+    public void setBookid(Long bookid) {
+        this.bookid = bookid;
+    }
+
+    public Long getStudId() {
+        return studId;
+    }
+
+    public void setStudId(Long studId) {
+        this.studId = studId;
     }
 
     public String getPhone() {
@@ -60,28 +76,28 @@ public class PurchaseBook {
         this.phone = phone;
     }
 
-    public Long getPurchase_amount() {
-        return purchase_amount;
+    public Integer getPurchaseAmount() {
+        return purchaseAmount;
     }
 
-    public void setPurchase_amount(Long purchase_amount) {
-        this.purchase_amount = purchase_amount;
+    public void setPurchaseAmount(Integer purchaseAmount) {
+        this.purchaseAmount = purchaseAmount;
     }
 
-    public Long getTotal_amount() {
-        return total_amount;
+    public Integer getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotal_amount(Long total_amount) {
-        this.total_amount = total_amount;
+    public void setTotalAmount(Integer totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public Long getDiscounted_amount() {
-        return discounted_amount;
+    public Long getDiscountedAmount() {
+        return discountedAmount;
     }
 
-    public void setDiscounted_amount(Long discounted_amount) {
-        this.discounted_amount = discounted_amount;
+    public void setDiscountedAmount(Long discountedAmount) {
+        this.discountedAmount = discountedAmount;
     }
 
     public String getMethod() {
@@ -116,12 +132,12 @@ public class PurchaseBook {
         this.delivery_status = delivery_status;
     }
 
-    public String getTrans_id() {
-        return trans_id;
+    public String getTransId() {
+        return transId;
     }
 
-    public void setTrans_id(String trans_id) {
-        this.trans_id = trans_id;
+    public void setTransId(String transId) {
+        this.transId = transId;
     }
 
     public Timestamp getTimestamp() {

@@ -1,6 +1,6 @@
 package com.aurd.Student.Model.BeanClass;
 
-import com.aurd.Student.Model.Entity.RunningBatchesModel;
+
 
 import java.util.ArrayList;
 

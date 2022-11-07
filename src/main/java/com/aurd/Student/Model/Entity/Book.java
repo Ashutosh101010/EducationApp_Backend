@@ -1,5 +1,7 @@
 package com.aurd.Student.Model.Entity;
 
+import org.checkerframework.checker.units.qual.C;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
@@ -9,55 +11,35 @@ import java.util.List;
 public class Book {
 
 
-    private Integer id;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue
-    public Integer getId() {
-        return id;
-    }
+    private Long id;
 
-
-    private String test_type;
+    private String testType;
     private String title;
     private String price;
-    private String teachers_name;
-    private String sample_pdf;
-    private Timestamp added_on;
-    private Integer added_by;
-    private Integer updated_by;
-    private Integer inst_id;
-    private Integer is_active;
+    private String samplePdf;
+    private Timestamp addedOn;
+    private Long addedBy;
+    private Long updatedBy;
+    private Long instId;
+    private Boolean isActive;
     private Timestamp time;
-    private Timestamp updated_on;
-    private String discount_price;
-    private String enroll_student;
-    private String discounted_price;
-
-    @OneToMany
-    private List<BooksMedia> media;
+    private Timestamp updatedOn;
+    private Double discountedrice;
 
 
-    @OneToMany(mappedBy = "book_id")
-    public List<BooksMedia> getMedia() {
-        return media;
+    @ManyToOne
+   
+    Institute institute;
+
+    @Column(name = "test_type")
+    public String getTestType() {
+        return testType;
     }
 
-
-    public void setMedia(List<BooksMedia> media) {
-        this.media = media;
-    }
-
-    public String getTest_type() {
-        return test_type;
-    }
-
-    public void setTest_type(String test_type) {
-        this.test_type = test_type;
+    public void setTestType(String testType) {
+        this.testType = testType;
     }
 
     public String getTitle() {
@@ -76,60 +58,58 @@ public class Book {
         this.price = price;
     }
 
-    public String getTeachers_name() {
-        return teachers_name;
+    @Column(name = "sample_pdf")
+    public String getSamplePdf() {
+        return samplePdf;
     }
 
-    public void setTeachers_name(String teachers_name) {
-        this.teachers_name = teachers_name;
+    public void setSamplePdf(String samplePdf) {
+        this.samplePdf = samplePdf;
     }
 
-    public String getSample_pdf() {
-        return sample_pdf;
+    @Column(name = "added_on")
+    public Timestamp getAddedOn() {
+        return addedOn;
     }
 
-    public void setSample_pdf(String sample_pdf) {
-        this.sample_pdf = sample_pdf;
+    public void setAddedOn(Timestamp addedOn) {
+        this.addedOn = addedOn;
     }
 
-    public Timestamp getAdded_on() {
-        return added_on;
+    @Column(name = "added_by")
+    public Long getAddedBy() {
+        return addedBy;
     }
 
-    public void setAdded_on(Timestamp added_on) {
-        this.added_on = added_on;
+    public void setAddedBy(Long addedBy) {
+        this.addedBy = addedBy;
     }
 
-    public Integer getAdded_by() {
-        return added_by;
+    @Column(name = "updated_by")
+    public Long getUpdatedBy() {
+        return updatedBy;
     }
 
-    public void setAdded_by(Integer added_by) {
-        this.added_by = added_by;
+    public void setUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
-    public Integer getUpdated_by() {
-        return updated_by;
+    @Column(name = "inst_id")
+    public Long getInstId() {
+        return instId;
     }
 
-    public void setUpdated_by(Integer updated_by) {
-        this.updated_by = updated_by;
+    public void setInstId(Long instId) {
+        this.instId = instId;
     }
 
-    public Integer getInst_id() {
-        return inst_id;
+    public Boolean getActive() {
+        return isActive;
     }
 
-    public void setInst_id(Integer inst_id) {
-        this.inst_id = inst_id;
-    }
-
-    public Integer getIs_active() {
-        return is_active;
-    }
-
-    public void setIs_active(Integer is_active) {
-        this.is_active = is_active;
+    @Column(name = "is_active")
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     public Timestamp getTime() {
@@ -140,35 +120,43 @@ public class Book {
         this.time = time;
     }
 
-    public Timestamp getUpdated_on() {
-        return updated_on;
+    @Column(name = "updated_on")
+    public Timestamp getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    public void setUpdatedOn(Timestamp updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public String getDiscount_price() {
-        return discount_price;
+    @Column(name = "discounted_price")
+    public Double getDiscountedrice() {
+        return discountedrice;
     }
 
-    public void setDiscount_price(String discount_price) {
-        this.discount_price = discount_price;
+    public void setDiscountedrice(Double discountedrice) {
+        this.discountedrice = discountedrice;
     }
 
-    public String getEnroll_student() {
-        return enroll_student;
+    @OneToMany
+    private List<BooksMedia> media;
+
+
+    @OneToMany(mappedBy = "book_id")
+    public List<BooksMedia> getMedia() {
+        return media;
     }
 
-    public void setEnroll_student(String enroll_student) {
-        this.enroll_student = enroll_student;
+
+    public void setMedia(List<BooksMedia> media) {
+        this.media = media;
     }
 
-    public String getDiscounted_price() {
-        return discounted_price;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setDiscounted_price(String discounted_price) {
-        this.discounted_price = discounted_price;
+    public Long getId() {
+        return id;
     }
 }

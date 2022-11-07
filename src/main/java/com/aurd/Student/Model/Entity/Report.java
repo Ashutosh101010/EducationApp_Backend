@@ -1,48 +1,38 @@
 package com.aurd.Student.Model.Entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.checkerframework.checker.units.qual.C;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "report")
 
 public class Report {
-    private Long id;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Id
     @GeneratedValue
+    private Long id;
+
+
+    @Column(name = "quiz_type")
+    private String quizType;
+    private String feedback;
+
+    @Column(name = "ques_id")
+    private Long quesId;
+
+    @Column(name = "quiz_id")
+    private Long quizId;
+
+    @Column(name = "test_name")
+    private String testName;
+
     public Long getId() {
         return id;
     }
 
-    private String quizType;
-    private String feedback;
-    private Long quesId;
-
-    private Long quizId;
-    private String testName;
-
-    public String getTestName() {
-        return testName;
-    }
-
-    public void setTestName(String testName) {
-        this.testName = testName;
-    }
-
-    public Long getQuizId() {
-        return quizId;
-    }
-
-    public void setQuizId(Long quizId) {
-        this.quizId = quizId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getQuizType() {
@@ -67,5 +57,21 @@ public class Report {
 
     public void setQuesId(Long quesId) {
         this.quesId = quesId;
+    }
+
+    public Long getQuizId() {
+        return quizId;
+    }
+
+    public void setQuizId(Long quizId) {
+        this.quizId = quizId;
+    }
+
+    public String getTestName() {
+        return testName;
+    }
+
+    public void setTestName(String testName) {
+        this.testName = testName;
     }
 }

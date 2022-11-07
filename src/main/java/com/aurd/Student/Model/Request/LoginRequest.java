@@ -1,18 +1,10 @@
 package com.aurd.Student.Model.Request;
 
 public class LoginRequest {
-    String password;
-    String contact;
+    private String password;
+    private String contact;
 
-    int inst_id;
-
-    public int getInst_id() {
-        return inst_id;
-    }
-
-    public void setInst_id(int inst_id) {
-        this.inst_id = inst_id;
-    }
+    private Long instId;
 
     public String getPassword() {
         return password;
@@ -28,5 +20,13 @@ public class LoginRequest {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    public Long getInstId() {
+        return instId;
+    }
+
+    public void setInstId(Long instId) {
+        this.instId = instId;
     }
 }

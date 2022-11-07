@@ -1,19 +1,20 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.QuizModel;
+
+import com.aurd.Student.Model.Entity.Quiz;
 
 public class GetQuizDetailResponse {
 
-    QuizModel quizModel;
+    Quiz quizModel;
     String message;
     int errorCode;
     boolean status;
 
-    public QuizModel getQuizModel() {
+    public Quiz getQuizModel() {
         return quizModel;
     }
 
-    public void setQuizModel(QuizModel quizModel) {
+    public void setQuizModel(Quiz quizModel) {
         this.quizModel = quizModel;
     }
 

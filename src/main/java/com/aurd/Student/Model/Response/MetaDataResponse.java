@@ -1,7 +1,8 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.CityModel;
-import com.aurd.Student.Model.Entity.StateModel;
+import com.aurd.Student.Model.Entity.City;
+import com.aurd.Student.Model.Entity.State;
+
 
 import java.util.ArrayList;
 
@@ -9,8 +10,8 @@ public class MetaDataResponse {
     String message;
     boolean status;
     int errorCode;
-    ArrayList<StateModel> stateList = new ArrayList<>();
-    ArrayList<CityModel> cityList = new ArrayList<>();
+    ArrayList<State> stateList = new ArrayList<>();
+    ArrayList<City> cityList = new ArrayList<>();
 
 
 
@@ -48,19 +49,19 @@ public class MetaDataResponse {
         this.errorCode = errorCode;
     }
 
-    public ArrayList<StateModel> getStateList() {
+    public ArrayList<State> getStateList() {
         return stateList;
     }
 
-    public void setStateList(ArrayList<StateModel> stateList) {
+    public void setStateList(ArrayList<State> stateList) {
         this.stateList = stateList;
     }
 
-    public ArrayList<CityModel> getCityList() {
+    public ArrayList<City> getCityList() {
         return cityList;
     }
 
-    public void setCityList(ArrayList<CityModel> cityList) {
+    public void setCityList(ArrayList<City> cityList) {
         this.cityList = cityList;
     }
 }

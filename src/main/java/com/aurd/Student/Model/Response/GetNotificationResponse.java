@@ -11,7 +11,7 @@ public class GetNotificationResponse {
     String message;
     int errorCode;
     boolean status;
-    ArrayList<NotificationModel> notifications = new ArrayList<>();
+    ArrayList<Notification> notifications = new ArrayList<>();
 
 
 
@@ -39,11 +39,11 @@ public class GetNotificationResponse {
         this.status = status;
     }
 
-    public ArrayList<NotificationModel> getNotifications() {
+    public ArrayList<Notification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(ArrayList<NotificationModel> notifications) {
+    public void setNotifications(ArrayList<Notification> notifications) {
         this.notifications = notifications;
     }
 }

@@ -1,21 +1,21 @@
 package com.aurd.Student.Model.Response;
 
-import com.aurd.Student.Model.Entity.VideoModel;
+import com.aurd.Student.Model.Entity.Video;
 
 import java.util.ArrayList;
 
 public class GetVideoLectureResponse {
 
-    ArrayList<VideoModel> videoList = new ArrayList<>();
+    ArrayList<Video> videoList = new ArrayList<>();
     int errorCode;
     boolean status;
     String message;
 
-    public ArrayList<VideoModel> getVideoList() {
+    public ArrayList<Video> getVideoList() {
         return videoList;
     }
 
-    public void setVideoList(ArrayList<VideoModel> videoList) {
+    public void setVideoList(ArrayList<Video> videoList) {
         this.videoList = videoList;
     }
 

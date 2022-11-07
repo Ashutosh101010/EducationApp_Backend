@@ -1,40 +1,30 @@
 package com.aurd.Student.Model.Entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "audio_books_media")
 public class AudioBookMedia {
-    private Integer id;
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     @Id
     @GeneratedValue
-    public Integer getId() {
-        return id;
-    }
+    private Long id;
 
     private String name;
     private String media;
-    private Timestamp created_on;
-    private Timestamp updated_on;
-    private Integer audio_book_id;
-    private Integer s_no;
+    private Timestamp createdOn;
+    private Timestamp updatedOn;
+    private Long audioBookId;
+    private Long sNo;
 
-    public Integer getS_no() {
-        return s_no;
-    }
 
-    public void setS_no(Integer s_no) {
-        this.s_no = s_no;
-    }
+//    @ManyToOne
+//    private AudioBook audioBook;
+
+
+    @ManyToOne
+    Institute institute;
 
     public String getName() {
         return name;
@@ -52,27 +42,54 @@ public class AudioBookMedia {
         this.media = media;
     }
 
-    public Timestamp getCreated_on() {
-        return created_on;
+    @Column(name = "created_on")
+    public Timestamp getCreatedOn() {
+        return createdOn;
     }
 
-    public void setCreated_on(Timestamp created_on) {
-        this.created_on = created_on;
+    public void setCreatedOn(Timestamp createdOn) {
+        this.createdOn = createdOn;
     }
 
-    public Timestamp getUpdated_on() {
-        return updated_on;
+    @Column(name = "updated_on")
+    public Timestamp getUpdatedOn() {
+        return updatedOn;
     }
 
-    public void setUpdated_on(Timestamp updated_on) {
-        this.updated_on = updated_on;
+    public void setUpdatedOn(Timestamp updatedOn) {
+        this.updatedOn = updatedOn;
     }
 
-    public Integer getAudio_book_id() {
-        return audio_book_id;
+    public Long getAudioBookId() {
+        return audioBookId;
     }
 
-    public void setAudio_book_id(Integer audio_book_id) {
-        this.audio_book_id = audio_book_id;
+    public void setAudioBookId(Long audioBookId) {
+        this.audioBookId = audioBookId;
+    }
+
+    @Column(name = "s_no")
+    public Long getsNo() {
+        return sNo;
+    }
+
+    public void setsNo(Long sNo) {
+        this.sNo = sNo;
+    }
+
+//    public AudioBook getAudioBook() {
+//        return audioBook;
+//    }
+//
+//    public void setAudioBook(AudioBook audioBook) {
+//        this.audioBook = audioBook;
+//    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
