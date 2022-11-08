@@ -86,17 +86,17 @@ public class GetCourseDetailController {
 
 
         Integer instId = Math.toIntExact(entity.getInst_id());
-        Long count= notesRepository.count("course_id=?1 and inst_id=?2 ",String.valueOf(entity.getId()),
+        Long count= notesRepository.count("course_id=?1 and inst_id=?2 ",entity.getId(),
                 instId );
         return count.intValue();
     }
 
     Long getVideoCount(CourseEntity entity){
-        Integer courseId = Math.toIntExact(entity.getId());
+
         Integer instId = Math.toIntExact(entity.getInst_id());
 
         Long count = videoLectureRepository.count
-                ("course_id=?1 and inst_id=?2",courseId,instId);
+                ("course_id=?1 and inst_id=?2",entity.getId(),instId);
         return  count;
     }
 
