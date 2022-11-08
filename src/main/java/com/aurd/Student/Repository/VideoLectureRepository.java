@@ -53,7 +53,7 @@ Integer val = Math.toIntExact(request.getInstID());
         Query query=getEntityManager().createQuery("select VideoModel from VideoModel VideoModel left join CourseModel CourseModel on CourseModel.id=VideoModel.course_id  where VideoModel.inst_id=:instId and VideoModel.course_id=:courseId and CourseModel.course_active=:active and VideoModel.fee_type=:type");
         query.setParameter("instId",request.getInstId().intValue());
         query.setParameter("courseId",request.getCourseId().longValue());
-        query.setParameter("active",0);
+        query.setParameter("active",1);
         query.setParameter("type","Free");
 
         return query.getResultList();
