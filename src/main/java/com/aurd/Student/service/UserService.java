@@ -3,19 +3,18 @@ package com.aurd.Student.service;
 import com.aurd.Student.Constant.Enums;
 import com.aurd.Student.Constant.ErrorCode;
 import com.aurd.Student.Constant.ErrorDescription;
+import com.aurd.Student.Constant.ResponseMessage;
 import com.aurd.Student.Model.Entity.Session;
 import com.aurd.Student.Model.Entity.Student;
 import com.aurd.Student.Model.Entity.StudentNotes;
+import com.aurd.Student.Model.Request.AddKeyNotesRequest;
 import com.aurd.Student.Model.Request.AddNotesRequest;
 import com.aurd.Student.Model.Request.LoginRequest;
 import com.aurd.Student.Model.Request.SaveUnsaveBookMarkRequest;
 import com.aurd.Student.Model.Response.GeneralResponse;
 import com.aurd.Student.Model.Response.LoginResponse;
 import com.aurd.Student.Model.Response.SaveUnsaveBookmarkResponse;
-import com.aurd.Student.Repository.BookMarkRepository;
-import com.aurd.Student.Repository.SessionRepository;
-import com.aurd.Student.Repository.StudentNotesRepository;
-import com.aurd.Student.Repository.StudentRepository;
+import com.aurd.Student.Repository.*;
 
 
 import javax.enterprise.context.ApplicationScoped;
@@ -35,6 +34,10 @@ public class UserService {
 
     @Inject
     StudentNotesRepository studentNotesRepository;
+
+    @Inject
+    KeyNotesRepository keyNotesRepository;
+
     public LoginResponse studentLogin(LoginRequest request,LoginResponse response)
     {
         Student student=studentRepository.fetchStudent(request.getContact(),request.getInstId());
@@ -75,8 +78,23 @@ public class UserService {
         return response;
     }
 
-    public GeneralResponse addNote(AddNotesRequest request)
+    public GeneralResponse addNote(AddNotesRequest request,GeneralResponse response)
     {
-        studentNotesRepository.
+        studentNotesRepository.addStudentNotes(request);
+        response.setStatus(true);
+        response.setErrorDescription(ErrorDescription.ERROR_DESCRIPTION_SUCCESS);
+        response.setErrorCode(ErrorCode.ERROR_CODE_SUCCESS);
+        response.setMessage(ResponseMessage.MESSAGE_STUDENT_NOTE_ADDED_SUCCESS);
+        return response;
+    }
+
+    public GeneralResponse addKeyNote(AddKeyNotesRequest request, GeneralResponse response)
+    {
+        keyNotesRepository.addKeyNote(request);
+        response.setStatus(true);
+        response.setErrorDescription(ErrorDescription.ERROR_DESCRIPTION_SUCCESS);
+        response.setErrorCode(ErrorCode.ERROR_CODE_SUCCESS);
+        response.setMessage(ResponseMessage.MESSAGE_STUDENT_NOTE_ADDED_SUCCESS);
+        return response;
     }
 }

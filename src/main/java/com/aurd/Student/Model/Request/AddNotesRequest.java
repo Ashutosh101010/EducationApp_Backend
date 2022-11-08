@@ -9,8 +9,7 @@ public class AddNotesRequest
     private Long studId;
     private Long instId;
     private Long vidId;
-//    private Timestamp addedOn;
-//    private Timestamp updatedOn;
+
 
 
     public String getTitle() {

@@ -13,50 +13,23 @@ public class KeyNotes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-
     private String title;
-
-    @Column(name="student_id" , nullable = false)
+    @Column(name = "student_id", nullable = false)
     private Long studentId;
-
-
-    @Column(name="inst_id", nullable = false)
+    @Column(name = "inst_id", nullable = false)
     private Long instId;
-
-    @Column(name="live_class_id", nullable = false)
+    @Column(name = "live_class_id", nullable = false)
     private Long liveClassId;
-
-
-
-    private  String description;
-
-    private  String category;
-
-    @Column(name = "added_on",nullable = false)
-    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private String description;
+    private String category;
+    @Column(name = "added_on", nullable = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp addedOn;
-
-    @Column(name = "subject_id",nullable = false)
-    private Long subjectId;
-
-    @Column(name = "course_id",nullable = false)
-    private Long courseId;
-
     @ManyToOne
-    @JoinColumn(name = "course_id",insertable = false,updatable = false)
-    Course course;
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id",insertable = false,updatable = false)
-    Subject subject;
-
-    @ManyToOne
-    @JoinColumn(name = "live_class_id",insertable = false,updatable = false)
+    @JoinColumn(name = "live_class_id", insertable = false, updatable = false)
     LiveClass liveClass;
-
     @ManyToOne
-    @JoinColumn(name = "student_id",insertable = false,updatable = false)
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     Student student;
 
     public void setStudentId(Long studentId) {
@@ -124,37 +97,6 @@ public class KeyNotes {
         this.addedOn = addedOn;
     }
 
-    public Long getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public void setSubject(Subject subject) {
-        this.subject = subject;
-    }
 
     public LiveClass getLiveClass() {
         return liveClass;

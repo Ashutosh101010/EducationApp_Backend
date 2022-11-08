@@ -11,6 +11,7 @@ import com.aurd.security.Security;
 import com.aurd.security.ValidatedToken;
 import org.jboss.resteasy.reactive.RestHeader;
 
+
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
@@ -35,14 +36,13 @@ public class AddNotesController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public GeneralResponse addStudentNotes(@RestHeader String token, AddNotesRequest request){
+    public GeneralResponse addStudentNotes(@RestHeader("X-Auth") String token, AddNotesRequest request) {
         GeneralResponse response = new GeneralResponse();
 
-                ArrayList<String> rolesAllowed=new ArrayList<>();
+        ArrayList<String> rolesAllowed = new ArrayList<>();
         rolesAllowed.add(Enums.userTpe.student.name());
 
-        if(token==null || token.isEmpty())
-        {
+        if (token == null || token.isEmpty()) {
             response.setErrorCode(ErrorCode.ERROR_CODE_UNAUTHORIZED_ACCESS);
             response.setErrorDescription(ErrorDescription.ERROR_DESCRIPTION_UNAUTHORIZED_ACCESS);
             response.setStatus(false);
@@ -50,8 +50,7 @@ public class AddNotesController {
         }
 
         //////////
-        if(request.getStudId()==null || request.getVidId()==null || request.getInstId()==null || request.getNote()==null )
-        {
+        if (request.getStudId() == null || request.getVidId() == null || request.getInstId() == null || request.getNote() == null) {
             response.setErrorCode(ErrorCode.ERROR_CODE_INVALID_REQUEST);
             response.setErrorDescription(ErrorDescription.ERROR_DESCRIPTION_INVALID_REQUEST);
             response.setStatus(false);
@@ -59,9 +58,8 @@ public class AddNotesController {
         }
 
 ///////
-        ValidatedToken validatedToken= security.validateToken(token,rolesAllowed);
-        if(!validatedToken.isValid())
-        {
+        ValidatedToken validatedToken = security.validateToken(token, rolesAllowed);
+        if (!validatedToken.isValid()) {
             response.setStatus(false);
             response.setErrorCode(validatedToken.getValidInvalidCode());
             response.setErrorDescription(validatedToken.getValidDescription());
@@ -69,24 +67,9 @@ public class AddNotesController {
         }
 
 
-        response= userService.addNote(request);
-        boolean value= repository.addStudentNotes(request);
-        if(value){
-            response.seterrorCode(0);
-            response.setStatus(true);
-            response.setMessage("Notes Added");
-        }else{
-            response.seterrorCode(1);
-            response.setStatus(false);
-            response.setMessage("Notes Not Added");
-        }
-
-        return  response;
-
+        return userService.addNote(request, response);
 
     }
-
-
 
 
 }

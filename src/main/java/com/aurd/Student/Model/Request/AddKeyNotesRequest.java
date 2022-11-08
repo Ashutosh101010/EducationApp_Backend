@@ -3,16 +3,14 @@ package com.aurd.Student.Model.Request;
 
 import java.sql.Timestamp;
 
-public class AddKeyNotes {
+public class AddKeyNotesRequest {
 
     private String title;
     private Long instId;
-    private Long studentId;
-    private String studentName;
+    private Long studId;
     private Long liveClassId;
     private String category;
     private String description;
-    private Timestamp addedOn;
 
 
     public String getTitle() {
@@ -31,20 +29,12 @@ public class AddKeyNotes {
         this.instId = instId;
     }
 
-    public Long getStudentId() {
-        return studentId;
+    public Long getStudId() {
+        return studId;
     }
 
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
+    public void setStudId(Long studId) {
+        this.studId = studId;
     }
 
     public Long getLiveClassId() {
@@ -71,11 +61,4 @@ public class AddKeyNotes {
         this.description = description;
     }
 
-    public Timestamp getAddedOn() {
-        return addedOn;
-    }
-
-    public void setAddedOn(Timestamp addedOn) {
-        this.addedOn = addedOn;
-    }
 }
