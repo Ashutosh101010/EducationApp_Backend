@@ -142,14 +142,14 @@ public class GetIndexController {
                 query=indexRepository.getEntityManager().createQuery("select Index_Model from Index_Model " +
                         "Index_Model where Index_Model.inst_id=:instId and Index_Model.created_on>=:startDate and Index_Model.created_on<=:endDate order by Index_Model.id desc ");
                 query.setParameter("instId",request.getInst_id());
-                query.setParameter("startDate",new Timestamp(new Date(startDate).getTime()));
+                query.setParameter("startDate",new Date(startDate));
                 query.setParameter("endDate",new Date(endDate));
 
             }
 
 
 
-           query.setFirstResult(request.getPage());
+           query.setFirstResult(request.getPage()*request.getPageCount());
            query.setMaxResults(request.getPageCount());
 
            indexList=query.getResultList();
@@ -540,7 +540,7 @@ public class GetIndexController {
         entity.setSubject(subjectModel.getSubject());
 
         CourseModel courseModel = coursesRepository.find("id",
-                Long.parseLong(notesModel.getCourse_id())).firstResult();
+                notesModel.getCourse_id()).firstResult();
         entity.setCourse(courseModel.getCourse());
 
         if(model.getAdded_by().equals("employee")){
@@ -714,7 +714,7 @@ public class GetIndexController {
                    videoModel.getCourse_id().longValue()).firstResult();
               entity.setCourse(courseModel.getCourse());
 
-              entity.setCourse_id(videoModel.getCourse_id());
+              entity.setCourse_id(videoModel.getCourse_id().intValue());
        }
 
       StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),videoModel.getCourse_id()).firstResult();

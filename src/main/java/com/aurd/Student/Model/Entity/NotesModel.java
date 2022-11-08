@@ -52,7 +52,7 @@ public class NotesModel {
     private  Integer subject_id;
 
     @Column(name = "course_id",nullable = true)
-    private  String course_id;
+    private  Long course_id;
 
     @Column(name = "sub_subject_id",nullable = true)
     private  String sub_subject_id;
@@ -78,11 +78,11 @@ public class NotesModel {
         this.subject_id = subject_id;
     }
 
-    public String getCourse_id() {
+    public Long getCourse_id() {
         return course_id;
     }
 
-    public void setCourse_id(String course_id) {
+    public void setCourse_id(Long course_id) {
         this.course_id = course_id;
     }
 

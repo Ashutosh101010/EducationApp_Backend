@@ -361,7 +361,7 @@ public class GetTodaysUpdateController {
 
            entity.setSubject(subjectModel.getSubject());
 
-           CourseModel courseModel = coursesRepository.find("id",Long.parseLong(notesModel.getCourse_id())).firstResult();
+           CourseModel courseModel = coursesRepository.find("id",notesModel.getCourse_id()).firstResult();
            entity.setCourse(courseModel.getCourse());
 
 //           SubSubjectModel subSubjectModel = subSubject_repository.find("id",

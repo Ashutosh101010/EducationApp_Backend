@@ -3,15 +3,33 @@ package com.aurd.Student.Model.Request;
 public class GetBlogRequest {
     long inst_id;
     String  date;
-    String lastId;
+//    String lastId;
+    Integer page;
+    Integer pageCount;
 
-    public String getLastId() {
-        return lastId;
+    public Integer getPageCount() {
+        return pageCount;
     }
 
-    public void setLastId(String lastId) {
-        this.lastId = lastId;
+    public void setPageCount(Integer pageCount) {
+        this.pageCount = pageCount;
     }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+//
+//    public String getLastId() {
+//        return lastId;
+//    }
+//
+//    public void setLastId(String lastId) {
+//        this.lastId = lastId;
+//    }
 
     public String getDate() {
         return date;

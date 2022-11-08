@@ -1,11 +1,14 @@
 package com.aurd.Student.Repository;
 
 import com.aurd.Student.Model.Entity.VideoModel;
+import com.aurd.Student.Model.Request.GetFreeStudyMaterialRequest;
 import com.aurd.Student.Model.Request.GetVideoLectureRequest;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.persistence.Query;
 import java.util.ArrayList;
+import java.util.List;
 
 @ApplicationScoped
 public class VideoLectureRepository implements PanacheRepository <VideoModel>{
@@ -41,6 +44,20 @@ Integer val = Math.toIntExact(request.getInstID());
 
         }
         return  arrayList;
+    }
+
+
+    public List<VideoModel> getFreeVideos(GetFreeStudyMaterialRequest request)
+
+    {
+        Query query=getEntityManager().createQuery("select VideoModel from VideoModel VideoModel left join CourseModel CourseModel on CourseModel.id=VideoModel.course_id  where VideoModel.inst_id=:instId and VideoModel.course_id=:courseId and CourseModel.course_active=:active and VideoModel.fee_type=:type");
+        query.setParameter("instId",request.getInstId().intValue());
+        query.setParameter("courseId",request.getCourseId().longValue());
+        query.setParameter("active",0);
+        query.setParameter("type","Free");
+
+        return query.getResultList();
+
     }
 
 }
