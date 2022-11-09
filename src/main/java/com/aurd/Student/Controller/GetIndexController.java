@@ -717,7 +717,7 @@ public class GetIndexController {
               entity.setCourse_id(videoModel.getCourse_id().intValue());
        }
 
-      StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),videoModel.getCourse_id()).firstResult();
+      StudentCourseModel scModel = studentCourseRepository.find("UserId=?1 and courseId=?2",Long.valueOf(request.getStudId()),videoModel.getCourse_id().intValue()).firstResult();
        if(scModel!=null){
            entity.setPurchased(true);
        }else{
