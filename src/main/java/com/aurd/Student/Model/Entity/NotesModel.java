@@ -62,6 +62,32 @@ public class NotesModel {
 
 
 
+    @ManyToOne
+    @JoinColumn(name = "course_id",insertable = false,updatable = false)
+    private CourseModel courseModel;
+
+
+
+
+
+    public CourseModel getCourseModel() {
+        return courseModel;
+    }
+
+    public void setCourseModel(CourseModel courseModel) {
+        this.courseModel = courseModel;
+    }
+
+    private String user_type;
+
+    public String getUser_type() {
+        return user_type;
+    }
+
+    public void setUser_type(String user_type) {
+        this.user_type = user_type;
+    }
+
     public String getFee_type() {
         return fee_type;
     }

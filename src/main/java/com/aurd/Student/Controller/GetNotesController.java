@@ -51,10 +51,6 @@ public class GetNotesController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-
-
-    @Transactional
-
     public GetNotesResponse getNotes(GetNotesRequest request){
 
         GetNotesResponse getNotesResponse = new GetNotesResponse();

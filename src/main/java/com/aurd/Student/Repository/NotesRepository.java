@@ -35,7 +35,7 @@ public class NotesRepository implements PanacheRepository<NotesModel>
     public List<NotesModel> getFreeNotes(GetFreeStudyMaterialRequest request)
 
     {
-        Query query=getEntityManager().createQuery("select NotesModel from NotesModel NotesModel left join CourseModel CourseModel on  CourseModel.id=NotesModel.course_id where NotesModel.inst_id=:instId and NotesModel.course_id=:courseId  and CourseModel.course_active=:active and NotesModel.fee_type=:type");
+        Query query=getEntityManager().createQuery("select NotesModel from NotesModel NotesModel inner join CourseModel CourseModel on  CourseModel.id=NotesModel.course_id where NotesModel.inst_id=:instId and NotesModel.course_id=:courseId  and CourseModel.course_active=:active and NotesModel.fee_type=:type ");
         query.setParameter("instId",request.getInstId().intValue());
         query.setParameter("courseId",request.getCourseId().longValue());
         query.setParameter("active",1);

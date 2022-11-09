@@ -1,5 +1,6 @@
 package com.aurd.Student.Model.Response;
 
+import com.aurd.Student.Model.BeanClass.NotesEntity;
 import com.aurd.Student.Model.Entity.NotesModel;
 import com.aurd.Student.Model.Entity.VideoModel;
 
@@ -8,7 +9,7 @@ import java.util.List;
 public class GetFreeStudyMaterialResponse {
 
     private List<VideoModel> videos;
-    private List<NotesModel> notes;
+    private List<NotesEntity> notes;
 
     String message;
     int errorCode;
@@ -23,11 +24,11 @@ public class GetFreeStudyMaterialResponse {
         this.videos = videos;
     }
 
-    public List<NotesModel> getNotes() {
+    public List<NotesEntity> getNotes() {
         return notes;
     }
 
-    public void setNotes(List<NotesModel> notes) {
+    public void setNotes(List<NotesEntity> notes) {
         this.notes = notes;
     }
 
