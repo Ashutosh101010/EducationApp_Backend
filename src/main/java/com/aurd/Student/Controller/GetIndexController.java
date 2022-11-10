@@ -664,7 +664,7 @@ public class GetIndexController {
 //
 //            });
 
-            postModel.setType("post");
+            postModel.setType("doubt");
 
         });
 
