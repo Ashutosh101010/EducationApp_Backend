@@ -17,7 +17,7 @@ public class Banners {
     private long inst_id;
 
     private String type;
-    private Integer type_id;
+    private String type_id;
 
     public String getType() {
         return type;
@@ -27,11 +27,11 @@ public class Banners {
         this.type = type;
     }
 
-    public Integer getType_id() {
+    public String getType_id() {
         return type_id;
     }
 
-    public void setType_id(Integer type_id) {
+    public void setType_id(String type_id) {
         this.type_id = type_id;
     }
 

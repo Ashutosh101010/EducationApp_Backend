@@ -112,6 +112,15 @@ public class QuizModel {
     @Column(name = "test_end",nullable = true)
     private String test_end;
 
+    String discount_price;
+
+    public String getDiscount_price() {
+        return discount_price;
+    }
+
+    public void setDiscount_price(String discount_price) {
+        this.discount_price = discount_price;
+    }
 
     @Transient
     boolean testSeriesPurchased;

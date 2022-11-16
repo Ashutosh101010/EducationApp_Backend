@@ -37,6 +37,15 @@ public class QuizEntity
     private  Long timestamp;
 
     private String test_type;
+    private Double coursePrice;
+
+    public Double getCoursePrice() {
+        return coursePrice;
+    }
+
+    public void setCoursePrice(Double coursePrice) {
+        this.coursePrice = coursePrice;
+    }
 
     public String getTest_type() {
         return test_type;

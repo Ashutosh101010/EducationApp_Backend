@@ -1,10 +1,12 @@
 package com.aurd.Student.Controller;
 
 import com.aurd.Student.Model.BeanClass.QuizEntity;
+import com.aurd.Student.Model.Entity.CourseModel;
 import com.aurd.Student.Model.Entity.QuizModel;
 import com.aurd.Student.Model.Entity.StudentCourseModel;
 import com.aurd.Student.Model.Request.GetQuizRequest;
 import com.aurd.Student.Model.Response.GetQuizResponse;
+import com.aurd.Student.Repository.CoursesRepository;
 import com.aurd.Student.Repository.QuizRepository;
 import com.aurd.Student.Repository.ResultRepository;
 import com.aurd.Student.Repository.StudentCourseRepository;
@@ -33,6 +35,9 @@ public class GetAllPractiseTestController {
 
     @Inject
     StudentCourseRepository studentCourseRepository;
+
+    @Inject
+    CoursesRepository coursesRepository;
 
 
     @POST
@@ -92,6 +97,13 @@ public class GetAllPractiseTestController {
             quizList.add(quizEntity);
         });
 
+quizList.forEach(quizEntity -> {
+  CourseModel courseModel=  coursesRepository.getCourseDetails(quizEntity.getInst_id().longValue(),quizEntity.getCourse_id().longValue());
+    if(courseModel!=null)
+    {
+        quizEntity.setCoursePrice(courseModel.getFee());
+    }
+});
 
         GetQuizResponse getQuizResponse = new GetQuizResponse();
         getQuizResponse.setArrayList(quizList);
