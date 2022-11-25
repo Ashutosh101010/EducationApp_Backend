@@ -35,7 +35,7 @@ public class NoticeModel {
     @NotBlank
     private Timestamp updated_on;
 
-    private 
+
 
     public int getId() {
         return id;
